@@ -97,42 +97,6 @@ function AboutService(configService) {
 }
 'use strict';
 
-{
-
-   angular.module("placenames.authorities", []).directive('placenamesAuthorities', [function () {
-      return {
-         restrict: 'EA',
-         templateUrl: "placenames/authorities/authorities.html",
-         bindToController: {
-            authorities: "=",
-            update: "&"
-         },
-         controller: function controller() {
-            console.log(this.authorities);
-         },
-         controllerAs: "pa"
-      };
-   }]).directive('placenamesAuthoritiesPills', [function () {
-      return {
-         restrict: 'EA',
-         template: '<span class="pn-authorities-pills" placenames-pills pills="pap.authorities" class="pn-feature-pills" update="pap.update()"></span>',
-         bindToController: {
-            authorities: "=",
-            update: "&"
-         },
-         controller: function controller() {},
-         controllerAs: "pap"
-      };
-   }]).filter('pnUnselectedFacets', [function () {
-      return function (facets) {
-         return !facets ? [] : facets.filter(function (facet) {
-            return !facet.selected;
-         });
-      };
-   }]);
-}
-'use strict';
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 {
@@ -272,6 +236,90 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          };
       }();
    }
+}
+'use strict';
+
+{
+
+   angular.module("placenames.authorities", []).directive('placenamesAuthorities', [function () {
+      return {
+         restrict: 'EA',
+         templateUrl: "placenames/authorities/authorities.html",
+         bindToController: {
+            authorities: "=",
+            update: "&"
+         },
+         controller: function controller() {
+            console.log(this.authorities);
+         },
+         controllerAs: "pa"
+      };
+   }]).directive('placenamesAuthoritiesPills', [function () {
+      return {
+         restrict: 'EA',
+         template: '<span class="pn-authorities-pills" placenames-pills pills="pap.authorities" class="pn-feature-pills" update="pap.update()"></span>',
+         bindToController: {
+            authorities: "=",
+            update: "&"
+         },
+         controller: function controller() {},
+         controllerAs: "pap"
+      };
+   }]).filter('pnUnselectedFacets', [function () {
+      return function (facets) {
+         return !facets ? [] : facets.filter(function (facet) {
+            return !facet.selected;
+         });
+      };
+   }]);
+}
+'use strict';
+
+{
+   angular.module('placenames.autoscroll', []).directive('autoScroll', ['$timeout', '$rootScope', function ($timeout, $rootScope) {
+      return {
+         scope: {
+            trigger: "@",
+            y: "@",
+            height: "@"
+         },
+         link: function link(scope, element, attrs) {
+            var timeout, oldBottom, startHeight;
+
+            if (scope.height) {
+               startHeight = +scope.height;
+            } else {
+               startHeight = 100;
+            }
+            oldBottom = startHeight;
+
+            element.on("scroll", function (event) {
+               var scrollHeight = element.scrollTop(),
+                   target = element.find(attrs.autoScroll),
+                   totalHeight = target.height(),
+                   scrollWindow = element.height(),
+                   scrollBottom,
+                   up;
+
+               if (scrollWindow >= totalHeight) {
+                  return;
+               }
+               scrollBottom = totalHeight - scrollHeight - scrollWindow;
+               up = oldBottom < scrollBottom;
+               oldBottom = scrollBottom;
+               if (scrollBottom < startHeight && !up) {
+                  // Add some debounce
+                  if (timeout) {
+                     $timeout.cancel(timeout);
+                  }
+                  timeout = $timeout(function () {
+                     $rootScope.$broadcast(scope.trigger);
+                  }, 30);
+               }
+            });
+         }
+      };
+   }]);
 }
 'use strict';
 
@@ -440,83 +488,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		}
 	}]);
 }
-'use strict';
-
-{
-   angular.module('placenames.autoscroll', []).directive('autoScroll', ['$timeout', '$rootScope', function ($timeout, $rootScope) {
-      return {
-         scope: {
-            trigger: "@",
-            y: "@",
-            height: "@"
-         },
-         link: function link(scope, element, attrs) {
-            var timeout, oldBottom, startHeight;
-
-            if (scope.height) {
-               startHeight = +scope.height;
-            } else {
-               startHeight = 100;
-            }
-            oldBottom = startHeight;
-
-            element.on("scroll", function (event) {
-               var scrollHeight = element.scrollTop(),
-                   target = element.find(attrs.autoScroll),
-                   totalHeight = target.height(),
-                   scrollWindow = element.height(),
-                   scrollBottom,
-                   up;
-
-               if (scrollWindow >= totalHeight) {
-                  return;
-               }
-               scrollBottom = totalHeight - scrollHeight - scrollWindow;
-               up = oldBottom < scrollBottom;
-               oldBottom = scrollBottom;
-               if (scrollBottom < startHeight && !up) {
-                  // Add some debounce
-                  if (timeout) {
-                     $timeout.cancel(timeout);
-                  }
-                  timeout = $timeout(function () {
-                     $rootScope.$broadcast(scope.trigger);
-                  }, 30);
-               }
-            });
-         }
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module("placenames.classifications", []).directive('placenamesClassifications', [function () {
-      return {
-         restrict: 'EA',
-         templateUrl: "placenames/classifications/classifications.html",
-         bindToController: {
-            classifications: "=",
-            update: "&"
-         },
-         controller: function controller() {
-            console.log(this.classifications);
-         },
-         controllerAs: "pc"
-      };
-   }]).directive('placenamesClassificationsPills', [function () {
-      return {
-         restrict: 'EA',
-         template: '<span placenames-pills class="pn-classifications-pills" pills="pcp.classifications" class="pn-feature-pills" update="pcp.update()"></span>',
-         bindToController: {
-            classifications: "=",
-            update: "&"
-         },
-         controller: function controller() {},
-         controllerAs: "pcp"
-      };
-   }]);
-}
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -667,7 +638,7 @@ var SolrTransformer = function () {
             });
          } else {
             this.layer = L.markerClusterGroup({
-               disableClusteringAtZoom: 16
+               disableClusteringAtZoom: 15
             });
             var params = Object.assign({}, response.responseHeader.params);
             params.rows = count;
@@ -691,6 +662,35 @@ var SolrTransformer = function () {
       };
 
       return service;
+   }]);
+}
+'use strict';
+
+{
+   angular.module("placenames.classifications", []).directive('placenamesClassifications', [function () {
+      return {
+         restrict: 'EA',
+         templateUrl: "placenames/classifications/classifications.html",
+         bindToController: {
+            classifications: "=",
+            update: "&"
+         },
+         controller: function controller() {
+            console.log(this.classifications);
+         },
+         controllerAs: "pc"
+      };
+   }]).directive('placenamesClassificationsPills', [function () {
+      return {
+         restrict: 'EA',
+         template: '<span placenames-pills class="pn-classifications-pills" pills="pcp.classifications" class="pn-feature-pills" update="pcp.update()"></span>',
+         bindToController: {
+            classifications: "=",
+            update: "&"
+         },
+         controller: function controller() {},
+         controllerAs: "pcp"
+      };
    }]);
 }
 "use strict";
@@ -1267,24 +1267,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]);
 }
-"use strict";
-
-{
-
-   angular.module("placenames.plot", []).directive("placenamesPlot", ['$log', function ($log) {
-      return {
-         restrict: "AE",
-         scope: {
-            line: "="
-         },
-         link: function link(scope, element, attrs, ctrl) {
-            scope.$watch("line", function (newValue, oldValue) {
-               $log.info(newValue);
-            });
-         }
-      };
-   }]);
-}
 'use strict';
 
 (function (angular) {
@@ -1308,6 +1290,24 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]);
 })(angular);
+"use strict";
+
+{
+
+   angular.module("placenames.plot", []).directive("placenamesPlot", ['$log', function ($log) {
+      return {
+         restrict: "AE",
+         scope: {
+            line: "="
+         },
+         link: function link(scope, element, attrs, ctrl) {
+            scope.$watch("line", function (newValue, oldValue) {
+               $log.info(newValue);
+            });
+         }
+      };
+   }]);
+}
 'use strict';
 
 {
