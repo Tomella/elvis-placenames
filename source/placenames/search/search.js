@@ -368,7 +368,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
          "facet.heatmap": "location",
          facet: true,
          "facet.field": ["featureCode", "classification", "authority"],
-         rows: 15,
+         rows: 50,
          wt: "json"
       };
    }
