@@ -16,7 +16,7 @@ bower update
 
 # Copy static content to Apache
 if [ ! -d /var/www/placenames ]; then
-  mkdir -p /var/www/placenames;
+  sudo mkdir -p /var/www/placenames;
 fi
 sudo cp -rf dist/* /var/www/placenames
 
