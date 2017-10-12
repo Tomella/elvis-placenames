@@ -47,6 +47,7 @@
       'placenames.extent',
       'placenames.header',
       'placenames.maps',
+      'placenames.navigation',
       'placenames.panes',
       'placenames.popover',
       'placenames.proxy',
