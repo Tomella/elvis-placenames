@@ -1,0 +1,12 @@
+.pn-classifications-pills span.btn-primary {
+   background-color: green;
+}
+
+
+.pn-classifications-swathe {
+   display: inline-block;
+   background-color: green;
+   width: 14px;
+   height: 14px;
+   border: solid 1px black;
+}

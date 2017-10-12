@@ -1,0 +1,54 @@
+<div class="pn-search-container">
+   <placenames-results ng-if="state.searched" data="state"></placenames-results>
+   <div style="float:clear" ng-show="!state.searched">
+      <h4 style="font-size:12">Search by map location, partial name match or feature type</h4>
+      <div class="search-text">
+         <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="names1">Filter:</span>
+
+            <input type="text" ng-model="state.filter" placeholder="Match by feature name..." ng-model-options="{ debounce: 300}"
+                  typeahead-on-select="select($item, $model, $label)" typeahead-template-url="placenames/search/typeahead.html"
+                  class="form-control" typeahead-min-length="0" uib-typeahead="doc as doc.name for doc in loadDocs(state.filter)"
+                  typeahead-loading="loadingLocations" typeahead-no-results="noResults" placenames-clear>
+
+            <span class="input-group-btn">
+            <button class="btn btn-primary" type="button" ng-click="search()" ng-disabled="!state.persist.data || !state.filtered.response.numFound">Search</button>
+         </span>
+         </div>
+      </div>
+      <div class="clearfix">
+         <div>
+            <strong style="float:right">Found {{state.filtered.response.numFound | number:0}} features</strong>
+            <placenames-featuretypes-pills ng-if="state.featureCodes.length" features="state.featureCodes" update="update()"></placenames-featuretypes-pills>
+            <placenames-classifications-pills ng-if="state.classifications.length" classifications="state.classifications" update="update()"></placenames-classifications-pills>
+            <placenames-authorities-pills ng-if="state.authorities.length" authorities="state.authorities" update="update()"></placenames-authorities-pills>
+         </div>
+      </div>
+      <uib-accordion close-others="oneAtATime">
+         <div uib-accordion-group class="panel-default" is-open="status.open">
+            <uib-accordion-heading>
+               <span class="pn-featuretypes-swathe"></span>
+               Filter by feature type...
+               <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+            </uib-accordion-heading>
+            <placenames-featuretypes ng-if="status.open" types="state.featureCodes" update="update()"></placenames-featuretypes>
+         </div>
+         <div uib-accordion-group class="panel-default" is-open="status.classOpen">
+            <uib-accordion-heading>
+               <span class="pn-classifications-swathe"></span>
+               Filter by classification...
+               <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.classOpen, 'glyphicon-chevron-right': !status.classOpen}"></i>
+            </uib-accordion-heading>
+            <placenames-classifications classifications="state.classifications" update="update()" ng-if="status.classOpen"></placenames-classifications>
+         </div>
+         <div uib-accordion-group class="panel-default" is-open="status.authOpen">
+            <uib-accordion-heading>
+               <span class="pn-authorities-swathe"></span>
+               Filter by authority...
+               <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.authOpen, 'glyphicon-chevron-right': !status.authOpen}"></i>
+            </uib-accordion-heading>
+            <placenames-authorities authorities="state.authorities" update="update()" ng-if="status.authOpen"></placenames-authorities>
+         </div>
+      </uib-accordion>
+   </div>
+</div>

@@ -1,0 +1,10 @@
+<div ng-repeat="item in pc.classifications | placenamesUnselectedFacets" class="row">
+   <div class="col-md-12 ellipsis" title='Across all authorities there are a total of {{item.total | number}} features classed as "{{item.name}}"'>
+      <button type="checkbox" class="btn btn-primary btn-sm" ng-click="item.selected = -1;pc.update()"
+         ng-model="item.selected" style="padding:0px 4px; margin: 1px;background-color: green;">Add</button>
+      <span>
+         <a target="_blank" href="http://www.google.com/search?q={{key}}">{{item.name}}</a>
+         ({{(item.count | number) + (item.count || item.count == 0?' of ':'')}}{{item.total | number}})
+      </span>
+   </div>
+</div>

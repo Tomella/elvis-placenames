@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en-us" id="ng-app" ng-app="PlacenamesApp">
+
+<head>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <title>Place Names</title>
+   <meta charset="utf-8">
+   <link rel="icon" type="image/png" href="resources/img/SiteFavIcon.png" />
+
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="author" content="Geoscience Australia">
+   <meta name="version" content="BUILD-VERSION">
+
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin="" />
+   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.css" rel="stylesheet" />
+   <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.1.0/dist/MarkerCluster.Default.css" rel="stylesheet"
+   />
+   <link href="placenames/resources/css/ga.css" rel="stylesheet" />
+   <link href="placenames/resources/css/app.header.footer.css?v=VERSION_NO" rel="stylesheet" />
+   <link href="placenames/resources/css/mars.css?v=VERSION_NO" rel="stylesheet" />
+
+   <link href="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.css" rel="stylesheet" />
+
+   <link href="placenames/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+   <link href="placenames/bower_components/leaflet-draw/dist/leaflet.draw.css" rel="stylesheet" />
+   <link href="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-locationfilter/locationfilter.css"
+      rel="stylesheet" />
+   <link href="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-measurecontrol/leaflet.measurecontrol.css"
+      rel="stylesheet" />
+   <link href="placenames/bower_components/ga-explorer-map-components/dist/ga-explorer-map.css" rel="stylesheet" />
+
+   <link href="placenames/bower_components/bg-splitter/css/style.css" rel="stylesheet" />
+
+   <link href="placenames/assets/placenames.css?v=4" rel="stylesheet" />
+
+
+   <script>
+      (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+         (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+         m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+      ga('create', 'UA-1501753-1', 'ga.gov.au');
+
+      ga('send', 'pageview');
+
+   </script>
+
+   <body ng-controller="RootCtrl as root">
+
+      <!-- BEGIN: Sticky Header -->
+      <div placenames-header style="z-index:1" class="navbar navbar-default navbar-fixed-top" heading="'Place Names'" headingtitle="'Place Names'"
+         breadcrumbs="[{name:'Place Names', title: 'Reload Place Names', url: '.'}]" helptitle="'Get help about Place Names'"
+         helpalttext="'Get help about Place Names'">
+      </div>
+      <!-- END: Sticky Header -->
+
+
+      <!-- Messages go here. They are fixed to the tab bar. -->
+
+      <!-- BEGIN: Page Content -->
+      <div explorer-messages class="marsMessages noPrint"></div>
+      <placenames-toolbar></placenames-toolbar>
+
+      <side-panel-left style="z-index: 2"></side-panel-left>
+
+      <side-panel-right-oppose>
+         <placenames-panes data="root.data" default-item="select"></placenames-panes>
+      </side-panel-right-oppose>
+
+      <side-panel-right style="z-index: 2"></side-panel-right>
+
+      <div path-elevation-plot class="noPrint elevationFixedBottom"></div>
+      <mars-pan-to></mars-pan-to>
+
+      <div placenames-review></div>
+      <div placenames-splash class="noPrint"></div>
+      <div explorer-flash class="noPrint"></div>
+
+      <!-- END: Page Content -->
+      <placenames-clusters></placenames-clusters>
+      <placenames-mapevents placenames-bounds></placenames-mapevents>
+      <!-- BEGIN: Sticky Footer -->
+      <div page-footer style="z-index:5; " class="noPrint"></div>
+      <!-- END: Sticky Footer -->
+
+      <script src="//maps.google.com/maps/api/js?client=gme-geoscienceaustralia&v=3&language=en&libraries=places"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+      <!--[if IE 9 ]>    <script src="assets/placeholder/placeholders.jquery.min.js"></script> <![endif]-->
+
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+         crossorigin="anonymous"></script>
+      <script src="placenames/bower_components/leaflet/dist/leaflet.js" ></script>
+      <script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
+      <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+      <style>
+         /* A work around for an annoying little white box on my Google tiles. */
+
+         .leaflet-google-layer img {
+            transform: scale(1.005);
+         }
+      </style>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-route.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-aria.min.js"></script>
+      <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.js" charset="utf-8"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
+      <script src="placenames/bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
+
+      <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster-src.js"></script>
+      <script src="placenames/bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
+      <script src="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-locationfilter/locationfilter.js"></script>
+      <script src="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-plotter/leaflet-plotter.js"></script>
+      <script src="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-measurecontrol/leaflet.measurecontrol.js"></script>
+
+      <script src="placenames/bower_components/ga-explorer-map-components/dist/ga-explorer-map.js"></script>
+      <script src="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.js"></script>
+
+      <!-- These are the "placenames" specific includes of modules -->
+      <script src="placenames/assets/placenames.js?v=4"></script>
+
+   </body>
+
+</html>

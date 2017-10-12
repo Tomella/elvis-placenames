@@ -1,0 +1,8 @@
+<span class="btn btn-primary btn-xs pn-pill" ng-repeat="type in pp.pills | placenamesSelectedFacets" tooltip-append-to-body="true" tooltip-placement="left" uib-tooltip="{{type.name}}">
+   <span style="max-width:100px;display:inline-block;" class="ellipsis">{{type.name}}</span>
+   <span style="max-width:100px;display:inline-block;" class="ellipsis"> ({{type.count?type.count:0 | number}})
+      <a ng-click="pp.clear(type)" href="javascript:void(0)">
+         <i class="fa fa-close fa-xs" style="color: white"></i>
+      </a>
+   </span>
+</span>

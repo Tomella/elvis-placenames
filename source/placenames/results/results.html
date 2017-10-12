@@ -1,0 +1,26 @@
+<div class="panel panel-default pn-container" ng-if="pr.data.searched" common-scroller more="pr.more()" ng-if="pr.data.searched">
+   <div class="panel-heading" style="min-height:25px">
+      <a href="#" ng-click="pr.clear()" uib-tooltip="Clear results and return to search" tooltip-placement="right">
+         <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+      </a>
+      <span ng-if="pr.data.searched.item">
+         Showing selected feature
+      </span>
+      <span ng-if="!pr.data.searched.item">
+         Matched {{pr.data.searched.data.response.numFound | number}} features, showing {{pr.data.searched.data.response.docs.length | number}} features
+         <a href"javascript:void()" ng-click="pr.download()" ng-show="pr.data.searched.data.response.docs.length" uib-tooltip="Download listed features in ESRI JSON format" tooltip-placement="bottom">
+            <i class="fa fa-download"></i>
+         </a>
+      </span>
+      <a href"javascript:void()" ng-if="!pr.data.searched.item" ng-click="pr.more()" tooltip-placement="top"  class="pull-right"
+               uib-tooltip="Scroll to the bottom of results or click here to load more matching features">
+         [Load more...]
+      </a>
+   </div>
+   <div class="panel-heading">
+      <placenames-results-item ng-if="pr.data.searched.item" item="pr.data.searched.item"></placenames-results-item>
+      <div class="pn-results-list" ng-if="!pr.data.searched.item" ng-repeat="doc in pr.data.searched.data.response.docs">
+         <placenames-results-item item="doc"></placenames-results-item>
+      </div>
+   </div>
+</div>

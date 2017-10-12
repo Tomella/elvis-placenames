@@ -1,0 +1,11 @@
+.pn-authorities-pills span.btn-primary {
+   background-color: red;
+}
+
+.pn-authorities-swathe {
+   display: inline-block;
+   background-color: red;
+   width: 14px;
+   height: 14px;
+   border: solid 1px black;
+}

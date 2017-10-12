@@ -1,0 +1,12 @@
+#!/bin/bash
+# Run once as root as they are globally installed
+# sudo bash
+curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
+yum -y install nodejs
+yum install -y gcc-c++ make
+yum install -y httpd24
+yum install -y git
+npm install -g forever
+npm install -g bower
+chkconfig httpd on
+service httpd start

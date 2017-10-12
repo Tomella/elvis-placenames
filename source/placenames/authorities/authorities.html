@@ -1,0 +1,10 @@
+<div ng-repeat="item in pa.authorities | pnUnselectedFacets" class="row">
+   <div class="col-md-12 ellipsis" title='Jurisdiction: {{item.jurisdiction}}'>
+      <button type="checkbox" class="btn btn-primary btn-sm" ng-click="item.selected = -1;pa.update()"
+            ng-model="item.selected" style="padding:0px 4px; margin: 1px;background-color: red;">Add</button>
+      <span>
+         <a target="_blank" href="http://www.google.com/search?q={{item.name}}">{{item.name}}</a>
+         ({{(item.count | number) + (item.count || item.count == 0?' of ':'')}}{{item.total | number}})
+      </span>
+   </div>
+</div>

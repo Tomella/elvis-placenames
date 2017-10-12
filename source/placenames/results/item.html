@@ -1,0 +1,128 @@
+<div>
+<div class="container-fluid">
+   <div class="row">
+      <div class="col-md-12 pn-header" >
+         <button type="button" class="undecorated" ng-click="vm.showPan(vm.item)"
+                tooltip-append-to-body="true" title="Zoom to location and mark." tooltip-placement="left" uib-tooltip="Zoom to location and mark">
+            <i class="fa fa-lg fa-flag-o"></i>
+         </button>
+         <span><a ng-href="{{vm.item | placenamesGoogleLink}}" target="_google"
+            title="View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.">{{vm.item.name}}</a></span>
+         <span class="pull-right">Record ID: {{vm.item.recordId}}</span>
+      </div>
+   </div>
+</div>
+<div ng-if="!vm.feature" style="padding:20px 10px 130px;">
+   <i class="fa-spinner fa-spin fa fa-lf"></i>Loading full data&hellip;
+</div>
+<div class="container-fluid" ng-if="vm.feature">
+   <div class="row" ng-if="vm.feature.attributes.Variant_Name">
+      <div class="col-md-4">Variant Name</div>
+      <div class="col-md-8">{{vm.feature.attributes.Variant_Name | placenamesSplitBar}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes">
+      <div class="col-md-4">State</div>
+      <div class="col-md-8">{{vm.feature.attributes.State}}</div>
+   </div>
+   <div class="row">
+      <div class="col-md-4">Feature Type</div>
+      <div class="col-md-8">{{vm.item.featureCode | placenamesFeature}}</div>
+   </div>
+   <div class="row">
+      <div class="col-md-4">Classification</div>
+      <div class="col-md-8">{{vm.item.classification}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes">
+      <div class="col-md-4">CGDN</div>
+      <div class="col-md-8">{{vm.feature.attributes.CGDN}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes">
+      <div class="col-md-4">Concise Gazetteer</div>
+      <div class="col-md-8">{{vm.feature.attributes.Concise_gaz}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes.Map_100K">
+      <div class="col-md-4">1:100K Map Index</div>
+      <div class="col-md-8"><span class="pn-numeric">{{vm.feature.attributes.Map_100K}}</span></div>
+   </div>
+   <div class="row">
+      <div class="col-md-4">Authority</div>
+      <div class="col-md-8">{{vm.item.authority}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes">
+      <div class="col-md-4">Status Description</div>
+      <div class="col-md-8">{{vm.feature.attributes.Status_desc}}</div>
+   </div>
+   <div class="row" ng-if="vm.feature.attributes.Lat_minutes">
+      <div class="col-md-4">Latitude</div>
+      <div class="col-md-4">
+         <span class="pn-numeric">
+            {{vm.feature.attributes.Lat_degrees}}&deg;
+            {{vm.feature.attributes.Lat_minutes}}&prime;
+            {{vm.feature.attributes.Lat_seconds}}&Prime;
+         </span>
+      </div>
+      <div class="col-md-4">
+         <span class="pn-numeric">
+            {{vm.feature.attributes.Latitude}}&deg;
+         </span>
+      </div>
+   </div>
+
+   <div class="row" ng-if="!vm.feature.noData && !vm.feature.attributes.Lat_minutes">
+      <div class="col-md-4">Latitude</div>
+      <div class="col-md-8">
+         <span class="pn-numeric">
+            {{vm.feature.attributes.Latitude}}&deg;
+         </span>
+      </div>
+   </div>
+
+   <div class="row" ng-if="vm.feature.noData ">
+      <div class="col-md-4">Latitude</div>
+      <div class="col-md-8">
+         <span class="pn-numeric">
+            {{vm.item.location | itemLongitude}}&deg;
+         </span>
+      </div>
+   </div>
+
+   <div class="row" ng-if="vm.feature.noData ">
+      <div class="col-md-4">Latitude</div>
+      <div class="col-md-8">
+         <span class="pn-numeric">
+            {{vm.item.location | itemLatitude}}&deg;
+         </span>
+      </div>
+   </div>
+
+   <div class="row" ng-if="vm.feature.attributes.Long_minutes">
+      <div class="col-md-4">Longitude</div>
+      <div class="col-md-4"><span class="pn-numeric">
+         {{vm.feature.attributes.Long_degrees}}&deg;
+         {{vm.feature.attributes.Long_minutes}}&prime;
+         {{vm.feature.attributes.Long_seconds}}&Prime;
+         </span>
+      </div>
+      <div class="col-md-4">
+         <span class="pn-numeric">
+         {{vm.feature.attributes.Longitude}}&deg;</span></div>
+   </div>
+
+   <div class="row" ng-if="!vm.feature.noData && !vm.feature.attributes.Long_minutes">
+      <div class="col-md-4">Longitude</div>
+      <div class="col-md-8">
+         <span class="pn-numeric">
+         {{vm.feature.attributes.Longitude}}&deg;</span></div>
+   </div>
+   <div class="row pn-item-footer" ng-if="vm.feature.attributes">
+      <div class="col-md-12">Download as:
+         <span class="pull-right">
+            [<a href"javascript:void()" ng-click="vm.download('wfs')">WFS Get Feature</a>]
+         </span>
+      </div>
+   </div>
+   <div class="row pn-item-footer" ng-if="vm.feature.noData">
+      <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+      We found no further metadata for this dataset. At a future time further metadata may be available.
+   </div>
+</div>
