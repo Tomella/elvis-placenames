@@ -13,12 +13,17 @@ cd /home/ec2-user/elvis-placenames
 # WARNING At this time it is a private repository so you need a valid key in ~/.ssh/xx_rsa (or whatever you want to call it)
 git pull
 bower update
+
 # Copy static content to Apache
+if [ ! -d /var/www/placenames ]; then
+  mkdir -p /var/www/placenames;
+fi
 sudo cp -rf dist/* /var/www/placenames
 
 ## Consider these behaviours for future capability like node services
 # Update any proxies that might have changed
-sudo cp -f code-deploy/placenames_httpd.conf /etc/httpd/conf.d
+
+sudo cp -f deployment/placenames_httpd.conf /etc/httpd/conf.d
 
 # Pick up any new rules
 sudo service httpd restart
