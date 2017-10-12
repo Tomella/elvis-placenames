@@ -110,9 +110,14 @@ class SolrTransformer {
             if (this.layer) {
                this.map.removeLayer(this.layer);
             }
-            this.layer = L.markerClusterGroup();
+
 
             if (count > 2000) {
+               this.layer = L.markerClusterGroup({
+                  showCoverageOnHover: false,
+                  zoomToBoundsOnClick: false,
+                  singleMarkerMode: true
+               });
 
                let data = response.facet_counts.facet_heatmaps[this.config.countField];
                let worker = new SolrTransformer(data);
@@ -129,6 +134,9 @@ class SolrTransformer {
                   }
                });
             } else {
+               this.layer = L.markerClusterGroup({
+                  disableClusteringAtZoom: 16
+               });
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;
 

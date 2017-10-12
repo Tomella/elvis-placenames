@@ -1,5 +1,5 @@
 {
-	angular.module('placenames.header', [])
+	angular.module('placenames.header', ['placenames.themes'])
 
 		.controller('headerController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
 

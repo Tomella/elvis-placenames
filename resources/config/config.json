@@ -2,11 +2,11 @@
    "map":{
    	  "name" : "main",
       "options":{
-      	 "maxBounds" : [[-48, 106],[-6, 159]],
-         "center":[-28, 140],
-         "minZoom":4,
-         "maxZoom":16,
-         "zoom":4
+      	 "maxBounds" : [[-85, 106],[-6, 159]],
+         "center":[-38, 140],
+         "minZoom":3,
+         "maxZoom":14,
+         "zoom":3
       },
       "position":{
          "bounds":[
@@ -23,13 +23,12 @@
             "type":["TileLayer"],
             "key":"topography",
             "parameters":[
-                "http://services.ga.gov.au/gis/rest/services/NationalMap_Colour_Topographic_Base_World_WM/MapServer/tile/{z}/{y}/{x}",
+                "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {
-                   "layers": "Image",
-                   "format": "image/png",
-                   "transparent": true,
+                   "minZoom:": 8,
+                   "maxZoom": 18,
                    "switch": "topography",
-                   "opacity": 1
+                   "attribution": "Map data © <a target='_blank' href='http://openstreetmap.org'>OpenStreetMap</a> contributors"
                 }
             ],
             "addLayerControl":false,
