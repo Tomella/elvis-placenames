@@ -16,17 +16,6 @@
             };
          })
 
-         .filter('placenamesFeature', ['configService', function (configService) {
-            var features;
-            configService.getConfig("featureCodes").then(featureCodes => {
-               features = featureCodes;
-            });
-            return function (str) {
-               var response = features? features[str]: str;
-               return response ? response : str;
-            };
-         }])
-
          .filter("placenamesGoogleLink", function() {
             var template = "https://www.google.com.au/maps/place/${name}/@${lat},${lng},14z";
             return function(what) {

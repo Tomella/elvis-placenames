@@ -1,0 +1,15 @@
+<div>
+   <div ng-repeat="category in categories | orderBy: 'name'" ng-attr-title="{{category.definition}}">
+      <input type="checkbox" ng-model="category.selected">
+      <span title="[Group: {{category.parent.name}}], {{category.definition}}">{{category.name}}</span>
+      <button class="undecorated" ng-click="category.showChildren = !category.showChildren">
+         <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!category.showChildren, 'fa-minus-square-o': category.showChildren}"></i>
+      </button>
+      <div ng-show="category.showChildren" style="padding-left: 8px; border-bottom: solid 1px lightgray">
+         <div>[Group: {{category.parent.name}}]
+         <div ng-if="category.definition">{{category.definition}}</div>
+         It includes the following feature types:
+         <placenames-category-children features="category.features"></placenames-category-children>
+      </div>
+   </div>
+</div>

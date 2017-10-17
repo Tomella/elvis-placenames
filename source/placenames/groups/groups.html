@@ -1,0 +1,15 @@
+<div>
+   <div ng-repeat="group in data.groups">
+      <input type="checkbox" ng-model="group.selected"><span title="{{group.definition}}">{{group.name}}
+      <button class="undecorated" ng-click="group.showChildren = !group.showChildren">
+         <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!group.showChildren, 'fa-minus-square-o': group.showChildren}"></i>
+      </button>
+      <div ng-show="group.showChildren" style="padding-left:8px">
+         {{group.definition}}<br/><br/>
+         This group is made up of the following categories and feature types:
+         <div ng-repeat="category in group.categories" style="padding-left:8px">
+            <placenames-group-children category="category"></placenames-group-children>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,2382 @@
+{
+   "ADMINISTRATION": {
+      "name": "ADMINISTRATION",
+      "definition": "Contains the legislative, regulatory, political and general administrative entities.",
+      "ADMINISTRATIVE AREA": {
+         "name": "ADMINISTRATIVE AREA",
+         "definition": "Places with officially defined boundaries for governance purposes",
+         "features": [
+            {
+               "name": "AGRICULTURAL AREA",
+               "definition": "Area defined for agrigultural purposes"
+            },
+            {
+               "name": "CATCHMENT MANAGEMENT",
+               "definition": "An administrative bounded area proclaimed for water catchment protection"
+            },
+            {
+               "name": "CENSUS DISTRICT",
+               "definition": "A division of land for the purpose of counting the population",
+               "source": "PSMA"
+            },
+            {
+               "name": "CONTINENT"
+            },
+            {
+               "name": "COUNTY",
+               "definition": "A subdivision of Australia into land units",
+               "source": "PSMA"
+            },
+            {
+               "name": "ANTARCTIC SPECIALLY MANAGED AREAS",
+               "definition": "Areas intended to facilitate cooperation between nations operating in close proximity to each other, with a view to minimising environmental impacts. ASMAs may contain zones where various restrictions and permits might apply, and activities within ASMAs are governed by a code of conduct.",
+               "source": "AAD"
+            },
+            {
+               "name": "HUNDRED",
+               "definition": "A subdivision of the COUNTIES into land units (GNR) in SA/WA which is a PARISH in other jurisdictions.",
+               "includedTerms": "WA/ SA"
+            },
+            {
+               "name": "LOCAL GOVERNMENT AREA",
+               "definition": "A municipal council",
+               "source": "GNR",
+               "includedTerms": "LGA, municipality"
+            },
+            {
+               "name": "LOCALITY",
+               "definition": "An administrative bounded area distinguished for its community and/or landscape characteristics: in metropolitan areas it is commonly referred to as a ÔÇÿsuburbÔÇÖ; it provides an official reference point for addressing purposes",
+               "source": "VMADMIN",
+               "includedTerms": "suburb, bounded locality, division"
+            },
+            {
+               "name": "MINING CENTRE",
+               "definition": "ASK WA to define - 364",
+               "source": "PSMA",
+               "examples": "e.g."
+            },
+            {
+               "name": "PARISH",
+               "definition": "A subdivision of the COUNTIES into land units (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "PASTORAL DISTRICT",
+               "definition": "A classification of land to assist in the administration of pastoral runs. ",
+               "examples": "Eg QLD"
+            },
+            {
+               "name": "STATE BORDER",
+               "definition": "A division between federal jurisdictions",
+               "source": "VMLITE",
+               "examples": "e.g. Black Allen line and White Wade line, Sheaffe Line, "
+            },
+            {
+               "name": "STATE/ TERRITORY",
+               "definition": "Extent of land under the jurisdiction of a sovereign state",
+               "examples": "e.g. Australian Antarctic Terriory, Territory of Heard Island and McDonald Islands, Victoria, Northern Territory"
+            },
+            {
+               "name": "TOWN SITE",
+               "definition": "An original crown subdivision of land within a PARISH or HUNDRED which has officially recognised and gazetted boundaries.??",
+               "source": "GNR"
+            }
+         ]
+      },
+      "PROTECTED AREA": {
+         "name": "PROTECTED AREA",
+         "definition": "Places with a legislated boundary for land management purposes",
+         "features": [
+            {
+               "name": "COASTAL RESERVE",
+               "source": "PSMA"
+            },
+            {
+               "name": "CONSERVATION PARK",
+               "definition": "An area of land which is protected to ensure the cultural heritage and natural features are safeguarded. (excludes National Parks)",
+               "source": "PSMA",
+               "includedTerms": "includes BioSphere Reserve"
+            },
+            {
+               "name": "INDIGENOUS PROTECTED AREA",
+               "definition": "An Indigenous Protected Area (IPA) is an area of Indigenous-owned land or sea where Traditional Owners have entered into an agreement with the Australian Government to promote biodiversity and cultural resource conservation.",
+               "source": "PSMA",
+               "examples": "there are about 90 across Australia 50 declared e.g."
+            },
+            {
+               "name": "MARINE PARK",
+               "definition": "MARINE PARK OR AQUATIC RESERVE",
+               "source": "NEW"
+            },
+            {
+               "name": "NATIONAL PARK",
+               "definition": "A tract of land set apart, as by a state or nation, to be preserved in its natural state for the benefit of the public - Marine Parks held separately",
+               "source": "GNR",
+               "includedTerms": "Includes Wilderness Park or Area, Karst Conservation"
+            },
+            {
+               "name": "ANTARCTIC SPECIALLY PROTECTED AREAS",
+               "definition": "Areas set aside to protect outstanding environmental, scientific, historic, aesthetic or wilderness values, any combination of those values, or ongoing or planned scientific research. ",
+               "includedTerms": "AAD"
+            },
+            {
+               "name": "STATE FOREST",
+               "definition": "an area of protected forest under a Forest Act (either reserved or State Forest )",
+               "source": "GNR",
+               "includedTerms": "FOREST RESERVE, TIMBER, RESERVE"
+            }
+         ]
+      },
+      "REGION": {
+         "name": "REGION",
+         "definition": "Places with recognised charecteristics that may not have defined boundaries",
+         "features": [
+            {
+               "name": "ANTARCTIC LAND",
+               "definition": "Large continental area defined by natural boundaries, or partly by natural boundaries and partly by boundaries of political convenience. The term was formally used by explorers for newly discovered lengths of coastline, cf. coast. Outside the area covered by this work the term may be synonymous with territory. The use of land does not refer to the ground, rather it is a generic part of a toponym.",
+               "source": "AAD"
+            },
+            {
+               "name": "TOURIST REGION",
+               "examples": "Region See DB def. cultarl or tourist purposesWine regions, cultural regions"
+            }
+         ]
+      },
+      "POPULATED PLACE": {
+         "name": "POPULATED PLACE",
+         "definition": "Places relating to population entities, both current and historical",
+         "features": [
+            {
+               "name": "NEIGHBOURHOOD",
+               "definition": "Does not have officially recognised and registered boundaries hence an unbounded locality: for this reason a neighbourhood name cannot be used for addressing purposes (GNR)",
+               "source": "PSMA",
+               "includedTerms": "unbounded locality, "
+            },
+            {
+               "name": "OUTCAMP",
+               "definition": "Small Abopriginal  community outside of the main community",
+               "includedTerms": "aboriginal location, homelands"
+            },
+            {
+               "name": "POPULATION CENTRE",
+               "definition": "A significant place where there is permanent human habitation, infrastructure and services. ",
+               "includedTerms": "City, Town, Township, Village"
+            },
+            {
+               "name": "SETTLEMENT",
+               "definition": "A small rural community, typically outside a larger urban area.",
+               "examples": "e.g Antarctic Station, research station "
+            }
+         ]
+      }
+   },
+   "CULTURE": {
+      "name": "CULTURE",
+      "definition": "Places that support activities and interactions of the community",
+      "ACCOMMODATION": {
+         "name": "ACCOMMODATION",
+         "definition": "Places primarily used for short term accommodation",
+         "features": [
+            {
+               "name": "CARAVAN PARK",
+               "definition": "A bounded area in which caravans are, or can be, parked, or where caravan type accommodation can be obtained; domestic facilities may be provided (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "CAMP GROUND",
+               "definition": "An area where a CAMP has been established or where it would be suitable to establish one; an area, often provided with amenities, where it is permitted to set up a camp (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Camp site, Camp"
+            }
+         ]
+      },
+      "AGRICULTURE": {
+         "name": "AGRICULTURE",
+         "definition": "Places where agricultural activities are undertaken",
+         "features": [
+            {
+               "name": "AQUACULTURE",
+               "source": "PSMA"
+            },
+            {
+               "name": "DAIRY",
+               "source": "PSMA"
+            },
+            {
+               "name": "FARM",
+               "definition": "A tract of land devoted for agricultural or horticultural purposes (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Special purpose farm, Research establishment, Agriculture establishment",
+               "examples": "Add Paddock, Field"
+            },
+            {
+               "name": "PLANTATION",
+               "definition": "A large quantity of trees that have been planted, commercial in nature",
+               "source": "PSMA"
+            },
+            {
+               "name": "STOCKYARD",
+               "definition": "An enclosure forming a pen for livestock ",
+               "source": "PSMA",
+               "includedTerms": "Yard(s)"
+            },
+            {
+               "name": "VINEYARD",
+               "definition": "A plantation of grapevines, for producing grapes for winemaking, etc. (GNR)",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "BUSINESS": {
+         "name": "BUSINESS",
+         "definition": "Place  where the major activity is of a commercial nature.",
+         "features": [
+            {
+               "name": "CINEMA",
+               "source": "PSMA",
+               "includedTerms": "Drive in theatre"
+            },
+            {
+               "name": "ENTERTAINMENT CENTRE",
+               "definition": "CONFERENCE OR EXHIBITION CENTRE OR ENTERTAINMENT CENTRE",
+               "source": "PSMA"
+            },
+            {
+               "name": "GREYHOUND RACETRACK",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "HARNESS RACETRACK",
+               "definition": "HARNESS OR TROTTING TRACK",
+               "source": "VMFOI"
+            },
+            {
+               "name": "MARKET",
+               "definition": "An open space or covered building(s) in which provisions are exposed for sale (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "MOTOR TRACK",
+               "definition": "RACETRACK",
+               "source": "PSMA",
+               "includedTerms": "Auto track"
+            },
+            {
+               "name": "POST OFFICE",
+               "definition": "A facility to enables the distribution of mail",
+               "source": "PSMA"
+            },
+            {
+               "name": "RACECOURSE",
+               "definition": "A piece of ground on which horse races are held for public entertainment; any place where horse races are held (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Horse Racetrack"
+            },
+            {
+               "name": "SHOPPING CENTRE",
+               "definition": "Typically a named area/property or group of retail businesses with their own infrastructure such as carparks.  E.g chadstone, westfield complex",
+               "source": "PSMA",
+               "includedTerms": "includes Mall"
+            }
+         ]
+      },
+      "COMMUNITY FACILITY": {
+         "name": "COMMUNITY FACILITY",
+         "definition": "Place to support specific public activities",
+         "features": [
+            {
+               "name": "AMPHITHEATRE",
+               "definition": "An open-air venue for public events (GNR)",
+               "source": "VMFEAT",
+               "examples": "New definition?  yeah it needs more definition, a circular or oval area of ground around which rows of seats are arranged on a steep slope - this term is not to include sports grounds or stadiums"
+            },
+            {
+               "name": "ARBORETUM",
+               "definition": "A garden devoted to trees",
+               "source": "PSMA"
+            },
+            {
+               "name": "ART GALLERY",
+               "definition": "An area or facility which displays art works",
+               "source": "PSMA"
+            },
+            {
+               "name": "BOTANIC GARDENS",
+               "definition": "A park or reserve which contains specialised collections of plants",
+               "source": "GNR"
+            },
+            {
+               "name": "CEMETERY",
+               "definition": "An operational place/area for burying the dead",
+               "source": "PSMA",
+               "includedTerms": "burial site, historic cemeteries should be held as historic sites"
+            },
+            {
+               "name": "COMMUNITY CENTRE",
+               "source": "PSMA",
+               "includedTerms": "includes community home, multicultural centre"
+            },
+            {
+               "name": "COMMUNITY GARDENS",
+               "definition": "A piece of land which is managed and encourages members of the community to cultivate primarily for the production of food and to contribute to sustainability."
+            },
+            {
+               "name": "CONSERVATORY",
+               "definition": "a public building with a glass roof and walls and used for growing delicate plants:",
+               "source": "PSMA"
+            },
+            {
+               "name": "GROUP CAMP",
+               "source": "PSMA"
+            },
+            {
+               "name": "HALL",
+               "definition": "A building where people may gather",
+               "source": "PSMA"
+            },
+            {
+               "name": "LIBRARY",
+               "definition": "A place in which literary materials, such as books, periodicals, newspapers, pamphlets, prints, records, and tapes, are kept for reading, reference, or lending.",
+               "source": "PSMA"
+            },
+            {
+               "name": "MUSEUM",
+               "definition": "An institution that cares for (conserves) a collection of artifacts and other objects of scientific, artistic, cultural, or historical importance and makes them available for public viewing",
+               "source": "PSMA"
+            },
+            {
+               "name": "PARK",
+               "definition": "An area of land often with recreational and other facilities which is set aside for public use (GNR)",
+               "source": "NEW",
+               "includedTerms": "City Square, Forecourt, Common, Rec Reserve, Local Park,"
+            },
+            {
+               "name": "PICNIC SITE",
+               "definition": "PICNIC SITE OR AREA (PSMA) A tract of land reserved for day picnic purposes, sometimes with constructed fireplaces and other facilities (GNR)",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "ROTUNDA",
+               "source": "VMFEAT",
+               "includedTerms": "includes pavilion, band stand"
+            },
+            {
+               "name": "SHOWGROUND",
+               "definition": "A tract of land with pavilion(s) and arena(s) for exhibition and display of livestock and produce (GNR)",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "COMMUNITY LIVING": {
+         "name": "COMMUNITY LIVING",
+         "definition": "Places that provide medium to long term accommodation in a structured environment",
+         "features": [
+            {
+               "name": "COMMUNE",
+               "includedTerms": "Commune"
+            },
+            {
+               "name": "RETIREMENT VILLAGE",
+               "source": "PSMA",
+               "includedTerms": "includes retirement complex, retirement estate"
+            }
+         ]
+      },
+      "INDUSTRY": {
+         "name": "INDUSTRY",
+         "definition": "Place where the major activity is of a manufacturing or processing nature",
+         "features": [
+            {
+               "name": "ABATTOIR",
+               "definition": "a slaughterhouse",
+               "source": "PSMA"
+            },
+            {
+               "name": "BREWERY",
+               "definition": "An establishment for brewing beer, ale, etc.",
+               "source": "PSMA"
+            },
+            {
+               "name": "BRICKWORKS",
+               "definition": "A place where bricks are made (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "CEMENT PLANT",
+               "source": "PSMA"
+            },
+            {
+               "name": "DISTILLERY",
+               "definition": "A place where spirits are manufactured",
+               "source": "PSMA"
+            },
+            {
+               "name": "MILL/TIMBER OPERATIONS",
+               "source": "VMFEAT",
+               "includedTerms": "includes Mill, Paper Mill and Sawmill"
+            },
+            {
+               "name": "STEEL WORKS"
+            },
+            {
+               "name": "SUGAR REFINERY",
+               "definition": "A refinery to convert sugar cane and sugar beets into crystallized sugar and sugar syrups",
+               "source": "PSMA"
+            },
+            {
+               "name": "TANNERY",
+               "definition": "A building where hides and skins are processed into leather",
+               "source": "GNR"
+            },
+            {
+               "name": "WINERY",
+               "includedTerms": "includes Cellar"
+            }
+         ]
+      },
+      "LANDMARK": {
+         "name": "LANDMARK",
+         "definition": "Place that is a recognised entity by the community for specific identification purposes.",
+         "features": [
+            {
+               "name": "CAIRN",
+               "definition": "A pyramidal heap of stones to mark a SUMMIT, TRACK, boundary, historical event, or a memorial to a person (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "CORNER",
+               "definition": "A place where two boundaries or ROADS meet; a region; a remote place",
+               "source": "GNR"
+            },
+            {
+               "name": "FENCE",
+               "definition": "Fence",
+               "examples": "E.g. The Dog Fence"
+            },
+            {
+               "name": "HISTORIC SITE",
+               "definition": "SITE OF CULTURAL OR HISTORIC SIGNIFICANCE",
+               "source": "PSMA",
+               "includedTerms": "ruin"
+            },
+            {
+               "name": "HOMESTEAD",
+               "definition": "A main residence on a horticultural or agricultural farm",
+               "source": "PSMA"
+            },
+            {
+               "name": "HUT",
+               "source": "PSMA"
+            },
+            {
+               "name": "JUNCTION",
+               "definition": "A place where RIVERS, ROADS or RAILWAYS intersect",
+               "source": "PSMA",
+               "includedTerms": "Road Bend. Road corner"
+            },
+            {
+               "name": "LEVEE",
+               "definition": "Levee",
+               "examples": "E.g. St George Levee??"
+            },
+            {
+               "name": "LOOKOUT",
+               "definition": "An observation or viewing point often a man-made structure",
+               "source": "PSMA",
+               "includedTerms": "viewing platform"
+            },
+            {
+               "name": "MONUMENT",
+               "definition": "Anything by which the memory of persons or things are preserved; anything that serves as a memorial to a person, event, or of past times (GNR)",
+               "source": "PSMA",
+               "includedTerms": "includes shrine, fountain, Tree"
+            },
+            {
+               "name": "OUTSTATION",
+               "definition": "Accomodation outside of the main homestead complex  within a pastoral property",
+               "source": "GNR",
+               "includedTerms": "Aboriginal outstation"
+            },
+            {
+               "name": "SHIP WRECK",
+               "definition": "The ruined remains of a stranded or sunken vessel which has been rendered useless (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Wreck"
+            },
+            {
+               "name": "SURVEY MARKER",
+               "source": "PSMA",
+               "includedTerms": "Named Trig Point, survey obelisk, pillar, survey monument, cairns, Obelisk etc "
+            }
+         ]
+      },
+      "PLACE OF WORSHIP": {
+         "name": "PLACE OF WORSHIP",
+         "definition": "Place used for spirtual observation or cermonial purposes",
+         "features": [
+            {
+               "name": "ABBEY",
+               "definition": "A building or buildings occupied by monks or nuns under an abbot or abbess includes convent and monastery",
+               "source": "GNR",
+               "includedTerms": "term recognises both monastries and convents and to ensure unique feature subtypes has been removed"
+            },
+            {
+               "name": "CHAPEL",
+               "definition": "A place of worship connected with and subsidiary to a CHURCH; a place of worship other than a CHURCH or cathedral, especially in public institutions",
+               "source": "GNR"
+            },
+            {
+               "name": "CHURCH",
+               "definition": "A building used for religious worship (GNR)",
+               "source": "PSMA",
+               "includedTerms": "includes all christian dominations"
+            },
+            {
+               "name": "GURDWARA (SIKH)",
+               "definition": "Sikh place of worship",
+               "source": "PSMA"
+            },
+            {
+               "name": "MISSION",
+               "definition": "An establishment administered by a religious community for the spiritual and social welfare of others",
+               "source": "GNR"
+            },
+            {
+               "name": "MONASTERY",
+               "definition": "A religious residence for monks (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "MONDIR (HINDU)",
+               "definition": "Hindu place of worship",
+               "source": "GNR"
+            },
+            {
+               "name": "MOSQUE",
+               "source": "PSMA"
+            },
+            {
+               "name": "SYNAGOGUE",
+               "source": "PSMA"
+            },
+            {
+               "name": "VIHARA (BUDDHIST)",
+               "definition": "Buddhist place of worship",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "RECREATION": {
+         "name": "RECREATION",
+         "definition": "Place where the major activity is of a sporting nature",
+         "features": [
+            {
+               "name": "ATHLETIC FIELD",
+               "definition": "ATHLETIC FIELD OR TRACK",
+               "source": "PSMA"
+            },
+            {
+               "name": "BASEBALL FIELD",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "BASKETBALL COURT",
+               "source": "PSMA"
+            },
+            {
+               "name": "BMX TRACK",
+               "source": "PSMA"
+            },
+            {
+               "name": "BOATING CLUB",
+               "source": "PSMA"
+            },
+            {
+               "name": "BOWLING GREEN",
+               "source": "PSMA"
+            },
+            {
+               "name": "CROQUET GREEN",
+               "source": "PSMA"
+            },
+            {
+               "name": "EQUESTRIAN CENTRE",
+               "source": "GNR"
+            },
+            {
+               "name": "FIRING RANGE",
+               "source": "VMFEAT",
+               "includedTerms": "Rifle range"
+            },
+            {
+               "name": "GOLF COURSE",
+               "definition": "A ground or course over which golf is played (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Golf Driving Range"
+            },
+            {
+               "name": "GRANDSTAND",
+               "source": "PSMA"
+            },
+            {
+               "name": "HOCKEY GROUND",
+               "source": "PSMA"
+            },
+            {
+               "name": "NETBALL COURT",
+               "source": "PSMA"
+            },
+            {
+               "name": "SPORTS COMPLEX",
+               "definition": "Area containing multiple recreation facilities",
+               "source": "PSMA",
+               "examples": "E.g. Sporting grounds, facilities"
+            },
+            {
+               "name": "SPORT FACILITY",
+               "definition": "a place, amenity, or piece of equipment related to sport provided for a particular purpose.",
+               "includedTerms": "Sport Centre, Sports Stadium, Fitness Centre"
+            },
+            {
+               "name": "SPORTSGROUND",
+               "definition": "SPORTSGROUND OR FIELD, PLAYING FIELD MULTIPLE SPORTS, OVAL"
+            },
+            {
+               "name": "PLAYGROUND",
+               "source": "PSMA"
+            },
+            {
+               "name": "ROWING COURSE",
+               "source": "PSMA"
+            },
+            {
+               "name": "SKATE PARK",
+               "source": "PSMA"
+            },
+            {
+               "name": "SURFING SPOT"
+            },
+            {
+               "name": "SWIMMING POOL",
+               "source": "PSMA",
+               "includedTerms": "includes aquatic centre, Baths, enclosure"
+            },
+            {
+               "name": "TENNIS COURT",
+               "source": "PSMA"
+            },
+            {
+               "name": "TRAINING TRACK",
+               "definition": "not a racetrack",
+               "source": "PSMA"
+            },
+            {
+               "name": "VELODROME",
+               "definition": "An arena with a suitably banked track for cycle races (GNR)",
+               "source": "VMFEAT"
+            }
+         ]
+      },
+      "TOURISM": {
+         "name": "TOURISM",
+         "definition": "Place where the major activity is perigination",
+         "features": [
+            {
+               "name": "AQUARIUM",
+               "definition": "A facility for the public display of aquatic species",
+               "source": "PSMA"
+            },
+            {
+               "name": "TOURIST ATTRACTION",
+               "definition": "TOURIST ATTRACTION OR SITE",
+               "source": "PSMA",
+               "includedTerms": "theme park, amusement centre, "
+            },
+            {
+               "name": "ZOO",
+               "definition": "An establishment which maintains a collection of wild animals, typically in a park or gardens, for study, conservation, or display to the public.",
+               "source": "PSMA",
+               "includedTerms": "Wildlife sanctuary, zoological garden"
+            }
+         ]
+      }
+   },
+   "HYDROLOGY": {
+      "name": "HYDROLOGY",
+      "definition": "Natural or man-made places which relate to the surface and underground water or marine environments",
+      "WATERBODY": {
+         "name": "WATERBODY",
+         "definition": "Natural or constructed places where a body of water may be available",
+         "features": [
+            {
+               "name": "ANCHORAGE",
+               "definition": "A natural area in which vessels anchor or may anchor",
+               "source": "GNR",
+               "includedTerms": "Roadstead, natural harbours, haven",
+               "examples": "E.g. QLD example"
+            },
+            {
+               "name": "BAY",
+               "definition": "(a) An open, curving indentation made by the SEA or a LAKE (b) A body of water partly surrounded by land generally smaller than a GULF and larger than a COVE.(GNR)",
+               "source": "VMFEAT",
+               "includedTerms": "Cove",
+               "examples": "E.g. The Big Bight in Mallacoota"
+            },
+            {
+               "name": "ENTRANCE",
+               "definition": "A passageway into enclosed waters (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "FJORD"
+            },
+            {
+               "name": "GULF",
+               "definition": "An indentation in the sea or coast similar to a Bay, but either larger or with a greater curviture",
+               "includedTerms": "BIGHT",
+               "examples": "E.g. Great Australian Bight"
+            },
+            {
+               "name": "INLET",
+               "definition": " A small indentation in a waterline usually tapering towards its head",
+               "source": "GNR",
+               "includedTerms": "ARM,"
+            },
+            {
+               "name": "PASSAGE",
+               "definition": "A navigable route, specifically one through REEFS ,ISLANDS, LANDS or shallow waters ",
+               "source": "new",
+               "includedTerms": "Strait, Rip, Narrows"
+            },
+            {
+               "name": "SEA",
+               "definition": "One of the smaller divisions of the OCEANS, especially if partly enclosed by land (GNR)",
+               "source": "VMFEAT",
+               "includedTerms": "Ocean"
+            },
+            {
+               "name": "SOUND",
+               "definition": "A named body of water, sometimes located in another body of water",
+               "examples": "E.g. Capel Sound (Port Phillip) - through shallow water"
+            },
+            {
+               "name": "AQUIFIER",
+               "definition": "An underground waterbody.",
+               "includedTerms": "artisian basin "
+            },
+            {
+               "name": "DAM",
+               "definition": "A small structure in generally undrained areas, built to contain water for stock purposes",
+               "source": "GNR",
+               "includedTerms": "farm dam, farm bank, catch"
+            },
+            {
+               "name": "LAGOON",
+               "definition": "An enclosed area of shallow  salt or brackish water which is partly or completely  seperated from the SEA."
+            },
+            {
+               "name": "LAKE",
+               "definition": "A body of fresh or salt water, natural or artificial, enclosed or nearly enclosed by land; it may or may not have in and outflowing water (either permanent, intermittent or largely dry)",
+               "source": "GNR",
+               "includedTerms": "includes backwash, back water, billabong, oxbow, fresh water lagoon,"
+            },
+            {
+               "name": "RESERVOIR",
+               "definition": "An artificial LAKE for the storage, regulation and control of water for domestic or other use",
+               "source": "GNR"
+            },
+            {
+               "name": "WETLAND",
+               "definition": "Areas inundated or saturated by surface or groundwater at a frequency and duration sufficient to support vegetation typical of SWAMPS, MARSHES, bogs, etc.",
+               "source": "GNR",
+               "includedTerms": "Swamp, Marsh, Salt marsh, Morass"
+            }
+         ]
+      },
+      "WATER INFRASTRUCTURE": {
+         "name": "WATER INFRASTRUCTURE",
+         "definition": "Places that indicate constructed features associated with  water",
+         "features": [
+            {
+               "name": "BOAT RAMP",
+               "definition": "ALSO KNOWN AS LANDING/BOAT RAMP OR BOAT LAUNCH",
+               "source": "VMHYDRO",
+               "includedTerms": "launching ramp"
+            },
+            {
+               "name": "BREAKWATER",
+               "definition": "An artificial structure capable of checking the force of waves, thereby reducing erosion or sheltering vessels from rough seas  (GNR)",
+               "source": "PSMA",
+               "includedTerms": "sea wall, mole"
+            },
+            {
+               "name": "DAM WALL",
+               "definition": "A large man-made structure of earth, masonry, etc. built across a STREAM to impound water for any purpose",
+               "source": "new"
+            },
+            {
+               "name": "GROYNE",
+               "definition": "A low artificial wall-like structure constructed of timber, stone, concrete or steel, usually extending roughly perpendicular to the SHORELINE and designed to protect the SHORE from erosion or to trap sand",
+               "source": "GNR"
+            },
+            {
+               "name": "HARBOUR",
+               "definition": "An artificially improved body of water providing protection for vessels, and generally ANCHORAGE and docking facilities",
+               "source": "GNR",
+               "examples": "E.g. QLD example Inconsistencies with Anchorage. What do the hyrdrographics hold. Speak with Anne if she is till there. Let DB know."
+            },
+            {
+               "name": "JETTY",
+               "definition": "A structure of stone or timber projecting into water, often private use and significantly smaller than a pier",
+               "source": "GNR"
+            },
+            {
+               "name": "LANDING PLACE",
+               "definition": "A place where boats receive or discharge passengers, freight,"
+            },
+            {
+               "name": "LOCK",
+               "definition": "A stretch of water in a RIVER or CANAL enclosed by gates fitted with sluices to enable craft to be raised from one water level to another"
+            },
+            {
+               "name": "PUMPING STATION",
+               "definition": "A pumping station to support water flows",
+               "source": "PSMA"
+            },
+            {
+               "name": "WATER PIPELINE",
+               "source": "new"
+            },
+            {
+               "name": "WATER TREATMENT",
+               "definition": "A facility for the processes of making water more acceptable to end-user",
+               "source": "PSMA"
+            },
+            {
+               "name": "WEIR",
+               "definition": "A low barrier across a STREAM over which the water is allowed to flow steadily, although it raises the water level; it is also used to measure the flow and control the depth of water impounded,",
+               "source": "GNR",
+               "includedTerms": "includes Spillway, barrage - separate saline from fresh water"
+            }
+         ]
+      },
+      "WATER POINT": {
+         "name": "WATER POINT",
+         "definition": "Natural or constructed places where water may be available",
+         "features": [
+            {
+               "name": "BORE",
+               "definition": "A deep veritcal hole of a small diameter made to obtain water or to ascertain the nature of the underlaying strata",
+               "includedTerms": "artisian well "
+            },
+            {
+               "name": "SOAK",
+               "definition": "Damp or swampy spots around the base of granite ROCKS or in otherwise dry watercourse"
+            },
+            {
+               "name": "SPRING",
+               "definition": "A flow of water issuing naturally out of the ground, either continuously or intermittently (GNR)",
+               "source": "VMHYDRO",
+               "includedTerms": "mineral spring, Pool spring, Hot spring"
+            },
+            {
+               "name": "WATERHOLE",
+               "definition": "A small body of still or standing water, permanent or temporary, often in the bed of an intermittent RIVER or STREAM, and sometimes SPRING fed, chiefly one of natural formation. included terms POOL, POND",
+               "source": "GNR",
+               "includedTerms": "pool, pond"
+            },
+            {
+               "name": "WATER TANK",
+               "source": "VIC_INACTIVE",
+               "includedTerms": "Water Tower, elevated water tank"
+            }
+         ]
+      },
+      "WATERWAY": {
+         "name": "WATERWAY",
+         "definition": "Natural or contructed places that are assoctaed with the movement of water",
+         "features": [
+            {
+               "name": "BEND",
+               "definition": "A curve in the course of a STREAM",
+               "includedTerms": "meander, Loop"
+            },
+            {
+               "name": "CANAL",
+               "definition": "MAN MADE FEATURE ALSO USED FOR TRANSPORT"
+            },
+            {
+               "name": "CHANNEL",
+               "definition": "A man made watercourse used for irrigation. Can be open or closed",
+               "includedTerms": "Includes Aqueduct,"
+            },
+            {
+               "name": "DRAIN",
+               "definition": "An artificially constructed\nWATERCOURSE\ndesigned for the purpose of removing surplus water from the land surface.  Can be open or closed",
+               "source": "GNR",
+               "includedTerms": "Includes  Culvert, Bore drain"
+            },
+            {
+               "name": "ESTUARY",
+               "definition": "(a) The portion of a RIVER where tidal effects are evident and where fresh water and sea water mix (b) The widening out lower portion of a tidal RIVER",
+               "source": "GNR",
+               "examples": "E.g. Swan River Estuary"
+            },
+            {
+               "name": "RAPIDS",
+               "definition": "Portions of a STREAM with accelerated current where it descends rapidly without a break in the slope of the bed sufficient to form a WATERFALL",
+               "source": "GNR"
+            },
+            {
+               "name": "REACH",
+               "definition": "A straight portion of WATERCOURSE  from one BEND to another"
+            },
+            {
+               "name": "WATERCOURSE",
+               "definition": "A course of running water (either permanent, intermittent or largely dry); ",
+               "source": "VIC_INACTIVE",
+               "includedTerms": "includes Anabranch, Brook, creek, river, gully, Stream, Run, Rivulet"
+            },
+            {
+               "name": "WATERFALL",
+               "definition": "A sudden descent of water over a step in the bed of a STREAM. ",
+               "source": "VMHYDRO",
+               "includedTerms": "fall, falls, cascade,cataract"
+            }
+         ]
+      }
+   },
+   "TERRAIN": {
+      "name": "TERRAIN",
+      "definition": "Places that reflect the physical attributes of the land surface",
+      "LANDFORM": {
+         "name": "LANDFORM",
+         "definition": "A natural feature of the earths surface",
+         "features": [
+            {
+               "name": "TIDAL FLAT",
+               "definition": "A large area of nearly level land, usually of mud, covered at high water and attached to the SHORE",
+               "source": "GNR"
+            },
+            {
+               "name": "NUNATAK",
+               "definition": "A small mountain, rocky crag or outcrop projecting from a glacier, ice shelf or snowfield.",
+               "source": "AAD",
+               "examples": "E.g. AAD to provide"
+            },
+            {
+               "name": "BANK",
+               "definition": "The sloping ground along the edge of water"
+            },
+            {
+               "name": "BAR",
+               "definition": "A BAR of sand, coral, mud formed in a SEA or RIVER, exposed at low tide and formed by the action of the tides or currents (GNR)",
+               "source": "PSMA",
+               "includedTerms": "SANDBANK, Sandbar, Cay",
+               "examples": "E.g. real world examples needed"
+            },
+            {
+               "name": "BEACH",
+               "definition": "A sloping shore along water that is periodically washed by waves or tides and is usually covered in sand or gravel.",
+               "includedTerms": "Shore"
+            },
+            {
+               "name": "BLOWHOLE",
+               "definition": "A hole near the seashore that has been formed in the roof of a CAVE, and through which air and possibly water are forced by the rising tide",
+               "source": "GNR"
+            },
+            {
+               "name": "CAPE",
+               "definition": "A area of land projecting into a body of water, may contain a point (s), or HEAD",
+               "source": "GNR",
+               "includedTerms": "head, Headland"
+            },
+            {
+               "name": "CAVE",
+               "definition": "A hollowed-out chamber in the Earth, or in the side of a CLIFF or HILL; especially a larger natural cavity in the earth with an opening to the surface (GNR)",
+               "source": "PSMA",
+               "includedTerms": "cavern, grotto, lava tube"
+            },
+            {
+               "name": "CLIFF",
+               "definition": "A perpendicular or steep face of ROCK of considerable height either inland or along the COAST (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Jump ups, bluff, breakaway, rockface, crag, precipice, buttress"
+            },
+            {
+               "name": "COAST",
+               "definition": "Boundary between land and sea, applied in place-names to lengths of coastline determined partly by the history of their discovery and partly by convenient demarcation points",
+               "source": "AAD",
+               "includedTerms": "Coastline, Foreshore"
+            },
+            {
+               "name": "CRATER",
+               "definition": "(a) A funnel-shaped hollow at the top of the cone of a volcano (b) A hollow caused by the fall of a meteorite on to the Earth's surface (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "DEPRESSION",
+               "definition": "Any hollow or relatively sunken area, on land",
+               "includedTerms": "Basin",
+               "examples": "Natural amputhreater, Donga"
+            },
+            {
+               "name": "DESERT",
+               "definition": "An almost barren tract of land in which the precipitation is so scant or spasmodic that it will not adequately support vegetation",
+               "source": "GNR"
+            },
+            {
+               "name": "DUNE",
+               "definition": " a mound or ridge of drifted sand, occurring on the sea coast, near inland water bodies and in deserts ",
+               "source": "new",
+               "examples": "Sandhills"
+            },
+            {
+               "name": "ESCARPMENT",
+               "definition": "The steep slope terminating a Plateau or any level or upland surface",
+               "includedTerms": "Scarp",
+               "examples": "Eg Carson Escarpment, WA"
+            },
+            {
+               "name": "GORGE",
+               "definition": "A valley which is more then usually deep and narrow, with step walls.",
+               "source": "PSMA",
+               "includedTerms": "RAVINE, CHASM, Canyon",
+               "examples": "Eg Werribee Gorge, VIC"
+            },
+            {
+               "name": "HILL",
+               "definition": " A small portion of the Earth's surface elevated above its surroundings: in general, an feature is not considered a MOUNTAIN unless its ELEVATION, from foot to SUMMIT, is well over 300m, but the distinction is arbitrary (PSMA()",
+               "source": "PSMA",
+               "includedTerms": "KNOLL, KNOB, MESA, SUGARLOAF, TOR (PSMA). Butte, Hillock"
+            },
+            {
+               "name": "ISLAND",
+               "definition": "a tract of land completely surrounded by water",
+               "source": "VMLITE",
+               "includedTerms": "Offshore rock(s), Atoll, Isle, Islet, Clumps, Skerry"
+            },
+            {
+               "name": "ISLAND GROUP",
+               "definition": "A group of Islands often with a common name which covers the group. The Islands may have their own individual names.  The island group can any combination of rocks, reefs, islets and islands names.",
+               "includedTerms": "ARCHIPELAGO"
+            },
+            {
+               "name": "ISTHMUS",
+               "definition": "A narrow portion of land enclosed on each side by water and connecting two larger bodies of land",
+               "includedTerms": "Neck."
+            },
+            {
+               "name": "LEDGE"
+            },
+            {
+               "name": "MORAINE",
+               "definition": "A mound, ridge, or other distinct accumulation of unsorted, unstratified glacial drift, predominantly till, deposited primarily by direct action of glacier ice, in a variety of topographic landforms that are independent of control by the surface on which the drift lies.",
+               "source": "AAD"
+            },
+            {
+               "name": "MOUNTAIN",
+               "definition": "A natural ELEVATION of the Earth's surface rising more or less abruptly from the surrounding level, and attaining an altitude which, relative to adjacent ELEVATIONs, is impressive or notable. In general the ELEVATION of a mountain is more then 300m from foot to summit, but this distinction is arbitary.",
+               "source": "PSMA"
+            },
+            {
+               "name": "PAN",
+               "definition": "A small depression, intermitently containing water, in which  may sometimes hold depsoits, typically clay or salt. ",
+               "includedTerms": "Clay/Salt Pan"
+            },
+            {
+               "name": "PASS",
+               "definition": "A break or GAP in a MOUNTAIN RANGE permitting easier passage from one side to the other",
+               "source": "PSMA",
+               "includedTerms": "gap, col, saddle"
+            },
+            {
+               "name": "PEAK",
+               "definition": "A high point of a mountain or a ridge",
+               "source": "GNR",
+               "includedTerms": "Summit(s), PINNACLE, NEEDLE, PILLAR Rock column,  Heights, Aiguilles"
+            },
+            {
+               "name": "PENINSULA",
+               "definition": "An area of land almost surrounded by water and significantly larger than a CAPE",
+               "source": "PSMA",
+               "includedTerms": "Promontory",
+               "examples": "Wilsons Promontroy, Mornington Peninsula"
+            },
+            {
+               "name": "PLAIN",
+               "definition": "A relatively level area within a region of greater relief; a small area without relief (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Includes Flat, Downs, Prairie, volcanic / lava plain, Clearing"
+            },
+            {
+               "name": "PLATEAU",
+               "definition": "An elevated tract of comparatively flat or level land (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Tableland, Platform"
+            },
+            {
+               "name": "POINT",
+               "definition": "The extreme end of a CAPE or a Peninsula or the outer end of any land protruding into the water, usually less prominent than a CAPE",
+               "source": "GNR",
+               "examples": "E.g. rafe to organise pic showing point, cape and penisula relationship"
+            },
+            {
+               "name": "POCKET",
+               "definition": "An area of land encompassed by the meander of a river.",
+               "source": "QLD",
+               "examples": "E.g. Priors Pocket"
+            },
+            {
+               "name": "RANGE",
+               "definition": "A series or line of MOUNTAIN or HILLS with or without PEAKS in which the crests are relatively narrow",
+               "source": "GNR",
+               "includedTerms": "Hills, Mountain range, Mountains"
+            },
+            {
+               "name": "RIDGE",
+               "definition": " A long and narrow stretch of elevated ground, either isolated or located in a RANGE (GNR)",
+               "source": "PSMA",
+               "includedTerms": "SPUR"
+            },
+            {
+               "name": "ROCK",
+               "definition": "A prominent or isolated outcrop of stone:",
+               "source": "new",
+               "includedTerms": "OUTCROP, BOULDER, Stack, Castle, Monolith"
+            },
+            {
+               "name": "ROCKHOLE",
+               "definition": "A HOLE erroded in Rock. Not a waterhole, often used as water storage",
+               "includedTerms": "Gnamma Hole, Native Well, sink hole, runaway hole."
+            },
+            {
+               "name": "SLOPE",
+               "definition": "A gradient on the side or end of an elevated relief feature.",
+               "includedTerms": "gradiants, ski slopes, Hillside, Toboggan run",
+               "examples": "E.g. WA to provide "
+            },
+            {
+               "name": "BENCH",
+               "definition": "Usually applied to a high-level rock feature, similar to a terrace. ",
+               "includedTerms": "terrace, tiers, ",
+               "examples": "AAD"
+            },
+            {
+               "name": "CIRQUE",
+               "definition": "A deep rounded hollow on a mountain side formed by glacial action and usually occupied by a remnant glacier or neve.",
+               "examples": "E.g. AAD"
+            },
+            {
+               "name": "SPIT",
+               "definition": "A narrow strip of land projecting into a body of water from the Coast",
+               "source": "GNR",
+               "includedTerms": "sandspit"
+            },
+            {
+               "name": "VALLEY",
+               "definition": "A long narrow depression in the Earth's surface, usually with a fairly regular downward slope (GNR)",
+               "source": "PSMA",
+               "includedTerms": "DALE, DELL, VALE (PSMA) , Glen"
+            }
+         ]
+      },
+      "UNDER ICE": {
+         "name": "UNDER ICE",
+         "definition": "A natural feature of the earths surface under water",
+         "features": [
+            {
+               "name": "SUBGLACIAL BASIN",
+               "definition": "Subglacial: a term meaning 'beneath the ice'. Basin: a very large depression occupied by sea water, ie. an ocean basin."
+            },
+            {
+               "name": "SUBGLACIAL MOUNT",
+               "definition": "Subglacial: a term meaning 'benearth the ice'. Mountain: A mass of land considerably higher than its surroundings and of greater altitude than a hill."
+            },
+            {
+               "name": "SUBGLACIAL TRENCH",
+               "definition": "Subglacial: a term meaning 'benearth the ice'. Trench: A deep, or elongated trough, in a floor of the ocean."
+            }
+         ]
+      },
+      "UNDERSEA": {
+         "name": "UNDERSEA",
+         "definition": "A natural feature of the earths surface under water",
+         "features": [
+            {
+               "name": "ABYSSAL PLAIN (MARINE)",
+               "definition": "An extensive, flat or gently sloping region, usually found at depths greater than 4000 m. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "APRON (MARINE)",
+               "definition": "A gently dipping SLOPE, with a smooth surface, commonly found around groups of islands and SEAMOUNTS. ",
+               "source": "SCUFN",
+               "includedTerms": "Archipelagic Apron"
+            },
+            {
+               "name": "BANK (MARINE)",
+               "definition": "An ELEVATION of the seafloor at depths generally less than 200 m, but sufficient for safe surface navigation commonly found on the continental shelf or near an island. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "BASIN (MARINE)",
+               "definition": "A depression more or less equidimensional in plan and of variable extent. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "CALDERA (MARINE)",
+               "definition": "A roughly circular, cauldron-like depression generally characterized by steep sides and formed by collapse, or partial collapse, during or following a volcanic eruption. ",
+               "source": "SCUFN",
+               "includedTerms": "??"
+            },
+            {
+               "name": "CANYON (MARINE)",
+               "definition": "An elongated, narrow, steep-sided depression that generally deepens down-slope. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "CONTINENTAL MARGIN (MARINE)",
+               "definition": "The zone, generally consisting of SHELF, SLOPE and CONTINENTAL RISE, separating the continent from the deep seafloor or ABYSSAL PLAIN. Occasionally a TRENCH may be present in place of a CONTINENTAL RISE. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "DEEP (MARINE)",
+               "definition": "A localized depression within the confines of a larger feature, such as a TROUGH, BASIN or TRENCH. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "ESCARPMENT (MARINE)",
+               "definition": "An elongated, characteristically linear, steep SLOPE separating horizontal or gently sloping areas of the sea floor. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "FAN (MARINE)",
+               "definition": "A relatively smooth depositional feature continuously deepening away from a sediment source commonly located at the lower termination of a CANYON or canyon system. ",
+               "source": "SCUFN",
+               "includedTerms": "Cone"
+            },
+            {
+               "name": "FRACTURE ZONE (MARINE)",
+               "definition": "A long narrow zone of irregular topography formed by the movement of tectonic plates associated with an offset of a spreading ridge axis, characterized by steep-sided and/or asymmetrical RIDGES, TROUGHS or ESCARPMENTS. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "GAP (MARINE)",
+               "definition": "A narrow break in a RIDGE, RISE or other ELEVATION. Also called PASSAGE. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "GUYOT (MARINE)",
+               "definition": "A SEAMOUNT with a comparatively smooth flat top. ",
+               "source": "SCUFN",
+               "includedTerms": "Tablemount"
+            },
+            {
+               "name": "HILL (MARINE)",
+               "definition": "A distinct ELEVATION generally of irregular shape, less than 1000m above the surrounding relief as measured from the deepest isobath that surrounds most of the feature. ",
+               "source": "SCUFN",
+               "includedTerms": "Abyssal Hill"
+            },
+            {
+               "name": "HOLE (MARINE)",
+               "definition": "A depression of limited extent with all sides rising steeply from a relatively flat bottom. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "KNOLL (MARINE)",
+               "definition": "A distinct ELEVATION with a rounded profile less than 1000m above the surrounding relief as measured from the deepest isobath that surrounds most of the feature. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "LEVEE (MARINE)",
+               "definition": "A depositional embankment bordering a CANYON, VALLEY or SEA CHANNEL.",
+               "source": "SCUFN"
+            },
+            {
+               "name": "MOAT (MARINE)",
+               "definition": "An annular or partially annular depression commonly located at the base of SEAMOUNTS, islands and other isolated ELEVATIONs. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "MOUND (MARINE)",
+               "definition": "A distinct ELEVATION with a rounded profile generally less than 500m above the surrounding relief as measured from the deepest isobath that surrounds most of the feature, commonly formed by the expulsion of fluids or by coral reef development, sedimentation and (bio)erosion. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "MUD VOLCANO (MARINE)",
+               "definition": "A MOUND or cone-shaped ELEVATION formed by the expulsion of non-magmatic liquids and gasses. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "PASSAGE (MARINE)",
+               "definition": "A narrow break in a RIDGE, RISE or other ELEVATION. Also called GAP. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "PEAK (MARINE)",
+               "definition": "A conical or pointed ELEVATION at the summit of a larger feature. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "PINNACLE (MARINE)",
+               "definition": "A spire-shaped pillar either isolated or at the summit of a larger feature. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "PLATEAU (MARINE)",
+               "definition": "A large, relatively flat ELEVATION that is higher than the surrounding relief with one or more relatively steep sides. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "PROVINCE (MARINE)",
+               "definition": "A geographically distinct region with a number of shared physiographic characteristics that contrast with those in the surrounding areas. This term should be modified with the generic term that best describes the majority of features in the region (e.g., Seamount in ÔÇ£Baja California Seamount ProvinceÔÇØ). ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "REEF (MARINE)",
+               "definition": "A shallow ELEVATION composed of consolidated material that may constitute a hazard to surface navigation. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "RIDGE (MARINE)",
+               "definition": "An elongated ELEVATION of varying complexity, size and gradient. ",
+               "source": "SCUFN",
+               "includedTerms": "Mid-Ocean Ridge"
+            },
+            {
+               "name": "RIFT (MARINE)",
+               "definition": "An elongated depression bounded by two or more faults formed as a breach or split between two bodies that were once joined. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "RISE (MARINE)",
+               "definition": "A broad ELEVATION that generally rises gently and smoothly from the surrounding relief. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SADDLE (MARINE)",
+               "definition": "A broad pass or col in a RIDGE, RISE or other ELEVATION. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SALT DOME (MARINE)",
+               "definition": "A distinct ELEVATION, often with a rounded profile, one km or more in diameter that is the geomorphologic expression of a diapir formed by vertical intrusion of salt. Commonly found in a PROVINCE of similar features. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SAND RIDGE (MARINE)",
+               "definition": "An elongated feature of unconsolidated sediment of limited vertical relief and sometimes crescent shaped. Commonly found in a PROVINCE of similar features. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SEA CHANNEL (MARINE)",
+               "definition": "An elongated, meandering depression, usually occurring on a gently sloping plain or FAN. ",
+               "source": "SCUFN",
+               "includedTerms": "Channel"
+            },
+            {
+               "name": "SEAMOUNT (MARINE)",
+               "definition": "A distinct generally equidimensional ELEVATION greater than 1000m above the surrounding relief as measured from the deepest isobath that surrounds most of the feature. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SEAMOUNT CHAIN (MARINE)",
+               "definition": "A linear or arcuate alignment of discrete SEAMOUNTS. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SHELF (MARINE)",
+               "definition": "The flat or gently sloping region adjacent to a continent or around an island that extends from the low water line to a depth, generally about 200m, where there is a marked increase in downward slope. ",
+               "source": "SCUFN",
+               "includedTerms": "Borderland, Continental Shelf, Shelf Break, Shelf Edge"
+            },
+            {
+               "name": "SHOAL (MARINE)",
+               "definition": "A shallow ELEVATION composed of unconsolidated material that may constitute a hazard to surface navigation. ",
+               "source": "SCUFN",
+               "includedTerms": "Shallows, Patches"
+            },
+            {
+               "name": "SILL (MARINE)",
+               "definition": "A relatively shallow barrier between BASINS that may inhibit water movement. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "SLOPE (MARINE)",
+               "definition": "The sloping region that deepens from a SHELF to the point where there is a general decrease in gradient. ",
+               "source": "SCUFN",
+               "includedTerms": "Archipelagic Apron, Continental Rise, Scarp"
+            },
+            {
+               "name": "SPUR (MARINE)",
+               "definition": "A subordinate RIDGE protruding from a larger feature. ",
+               "source": "SCUFN",
+               "includedTerms": "Promontory"
+            },
+            {
+               "name": "TERRACE (MARINE)",
+               "definition": "A flat or gently sloping region, generally long and narrow, bounded along one edge by a steeper descending slope and along the other by a steeper ascending slope. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "TRENCH (MARINE)",
+               "definition": "A long, deep, asymmetrical depression with relatively steep sides, that is associated with subduction. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "TROUGH (MARINE)",
+               "definition": "A long depression generally wide and flat bottomed with symmetrical and parallel sides. ",
+               "source": "SCUFN"
+            },
+            {
+               "name": "VALLEY (MARINE)",
+               "definition": "An elongated depression that generally widens and deepens down-slope. Also called SEA VALLEY or SUBMARINE VALLEY.",
+               "source": "SCUFN",
+               "includedTerms": "Median Valley, Sea Valley, Submarine Valley"
+            }
+         ]
+      }
+   },
+   "LANDCOVER": {
+      "name": "LANDCOVER",
+      "definition": "Places that are charcterised by the physical covering on the surface of the earth.",
+      "VEGETATION": {
+         "name": "VEGETATION",
+         "definition": "Places named as a result of the naturaly occuring flora",
+         "features": [
+            {
+               "name": "FOREST",
+               "includedTerms": "Wood, Thicket, Copse, Brushwood, Glade, Grove"
+            },
+            {
+               "name": "GRASSLAND"
+            },
+            {
+               "name": "SCRUB",
+               "includedTerms": "Heath"
+            }
+         ]
+      },
+      "ICE FEATURE": {
+         "name": "ICE FEATURE",
+         "definition": "Places named as a result of the weather conditions",
+         "features": [
+            {
+               "name": "DOME",
+               "definition": "A rounded and gently sloping elevation in the surface of an inland ice sheet. Ice domes do not have precisely defined margins and may cover very large areas - more than 100,000km sq, for example.",
+               "source": "AAD",
+               "includedTerms": "ICE DOME"
+            },
+            {
+               "name": "ICE FIELD",
+               "definition": "Flat glaciated area, underlying topography is not completely levelled out"
+            },
+            {
+               "name": "GLACIER",
+               "definition": "A mass of snow and ice continuously moving from higher to lower ground or, if afloat, continuously spreading.",
+               "source": "AAD"
+            },
+            {
+               "name": "ICE RISE",
+               "source": "AAD"
+            },
+            {
+               "name": "ICE SHELF",
+               "definition": "A floating ice sheet of considerable thickness attached to a coast. Ice shelves are usually of great horizontal extent and have a level or gently undulating surface. They are nourished by the accumulation of snow and often by seaward extension of land glaciers. Limited areas may be aground. The seaward edge is termed an ice front.",
+               "source": "AAD"
+            },
+            {
+               "name": "ICE STREAM"
+            },
+            {
+               "name": "ICEFALL",
+               "definition": "The portion of a glacier at a point of steep descent, segmented by many transverse crevasses into separate blocks.",
+               "source": "AAD"
+            },
+            {
+               "name": "MASSIF",
+               "definition": "Compact group of mountain heights, which may be partly or almost entirely ice-covered.",
+               "source": "AAD"
+            },
+            {
+               "name": "NEVE",
+               "definition": "The crystalline or granular snow on the upper part of a glacier, which has not yet been compressed into ice; a field or bed of frozen snow.",
+               "source": "AAD"
+            },
+            {
+               "name": "TONGUE"
+            },
+            {
+               "name": "WALL"
+            }
+         ]
+      }
+   },
+   "MINING": {
+      "name": "MINING",
+      "definition": "Place that reflect the adminstration extraction and processing of minerals, rock, gas and oil.",
+      "EXTRACTION": {
+         "name": "EXTRACTION",
+         "definition": "an excavation in the earth for the extraction of materials",
+         "features": [
+            {
+               "name": "ABANDONED MINE",
+               "definition": "desc",
+               "source": "PSMA"
+            },
+            {
+               "name": "ABANDONED QUARRY",
+               "source": "PSMA"
+            },
+            {
+               "name": "ADIT",
+               "definition": "An entrance to a mine",
+               "source": "PSMA"
+            },
+            {
+               "name": "GAS/OIL PLATFORM",
+               "definition": "An oil/gas platform, offshore platform, or (colloquially) oil rig is a large structure with facilities to drill wells, to extract and process oil and natural gas",
+               "source": "PSMA",
+               "includedTerms": "offshore platform, oil rig"
+            },
+            {
+               "name": "MINE (OPEN CUT)",
+               "definition": "A place or area from which commercial minerals are removed from the Earth ",
+               "source": "PSMA"
+            },
+            {
+               "name": "MINE (UNDERGROUND)",
+               "definition": "A place or area from which commercial minerals are removed from the Earth ",
+               "includedTerms": "Shaft"
+            },
+            {
+               "name": "OIL / GAS WELL"
+            },
+            {
+               "name": "QUARRY",
+               "definition": "A place where soli, stone or rock is extracted (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Clay pit, pit"
+            }
+         ]
+      },
+      "MINERAL FIELD": {
+         "name": "MINERAL FIELD",
+         "definition": null,
+         "features": [
+            {
+               "name": "COAL FIELD"
+            },
+            {
+               "name": "GAS/OIL FIELD",
+               "definition": "A area in which natural gas occurs in quantities worthy of exploitation",
+               "source": "GNR"
+            },
+            {
+               "name": "GOLD FIELD",
+               "definition": "An area gold is, or was removed from the Earth",
+               "source": "GNR"
+            },
+            {
+               "name": "OPALFIELD",
+               "definition": "An area where opals is, or was, removed from the Earth",
+               "source": "GNR"
+            }
+         ]
+      },
+      "PROCESSING": {
+         "name": "PROCESSING",
+         "definition": null,
+         "features": [
+            {
+               "name": "ALUMINA REFINERY",
+               "source": "PSMA"
+            },
+            {
+               "name": "BATTERY",
+               "definition": "A stone crushing works for ore extraction, as used on gold fields",
+               "source": "PSMA"
+            },
+            {
+               "name": "GOLD REFINERY",
+               "source": "PSMA"
+            },
+            {
+               "name": "IRON ORE PROCESSOR",
+               "definition": "An iron ore processing plant",
+               "source": "PSMA"
+            },
+            {
+               "name": "MINERAL SAND PROCESSING PLANT",
+               "source": "PSMA"
+            },
+            {
+               "name": "NICKEL REFINERY",
+               "source": "PSMA"
+            },
+            {
+               "name": "OIL REFINERY",
+               "definition": "A refinery to convert crude oil from the oil terminals and delivered to the gas plants (processing)",
+               "source": "PSMA"
+            },
+            {
+               "name": "SMELTER",
+               "definition": "An industrial plant for smelting"
+            }
+         ]
+      }
+   },
+   "SOCIETY": {
+      "name": "SOCIETY",
+      "definition": "Places that support the provision of support services to the community",
+      "CARE": {
+         "name": "CARE",
+         "definition": "not a hospital",
+         "features": [
+            {
+               "name": "AGED CARE",
+               "definition": "A facility that supports the care of the eldery",
+               "source": "PSMA",
+               "includedTerms": "Private and public"
+            },
+            {
+               "name": "CHILD CARE",
+               "definition": "Caters for babies from 0.5 months up to 3 years",
+               "source": "PSMA",
+               "includedTerms": "creche, nursery, play group"
+            },
+            {
+               "name": "DISABILITY SUPPORT",
+               "source": "PSMA",
+               "includedTerms": "disabled support"
+            }
+         ]
+      },
+      "DEFENCE": {
+         "name": "DEFENCE",
+         "definition": "A place for preparation for defence of the country",
+         "features": [
+            {
+               "name": "AIR FORCE BASE",
+               "definition": "A facility used by the Air Force for the operation and/or training of  personnel and their aircraft",
+               "source": "PSMA"
+            },
+            {
+               "name": "ARMY BASE",
+               "definition": "A facility used by the army for the operation and/or training of  personnel and their vehicles",
+               "source": "PSMA"
+            },
+            {
+               "name": "BARRACKS",
+               "definition": "A building or buildings used for the lodgement or residence of soldiers (GNR)",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "BOMBING RANGE",
+               "definition": "A tract of land on which the military conducts bombing practice",
+               "source": "GNR",
+               "includedTerms": "Rocket Range"
+            },
+            {
+               "name": "DEFENCE SITE",
+               "includedTerms": "Defence Training Area"
+            },
+            {
+               "name": "NAVAL BASE",
+               "definition": "A facility used by the seaman for the operation and/or training of  personnel and their vessels",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "EDUCATION": {
+         "name": "EDUCATION",
+         "definition": null,
+         "features": [
+            {
+               "name": "EDUCATION COMPLEX",
+               "definition": "education area containing multiple types of education centres",
+               "source": "PSMA"
+            },
+            {
+               "name": "FURTHER EDUCATION",
+               "definition": "Post secondary education excluding UNIVERSITY and TAFEs",
+               "source": "PSMA",
+               "includedTerms": "academy, business colleges,specilised schools"
+            },
+            {
+               "name": "KINDERGARTEN",
+               "definition": "post childcare 3-5 years",
+               "source": "PSMA",
+               "includedTerms": "preschool"
+            },
+            {
+               "name": "PRIMARY AND SECONDARY SCHOOL",
+               "definition": "A COMBINED PRIMARY AND SECONDARY SCHOOL",
+               "source": "PSMA"
+            },
+            {
+               "name": "PRIMARY SCHOOL",
+               "definition": "An education facility that caters for 5- 12 year olds, private and public",
+               "source": "PSMA"
+            },
+            {
+               "name": "SCHOOL CAMP",
+               "definition": "A facility administered by an education centre",
+               "source": "PSMA"
+            },
+            {
+               "name": "SECONDARY SCHOOL",
+               "definition": "An education facility that caters for 12- 18 year olds, private and public",
+               "source": "PSMA",
+               "includedTerms": "High school, College"
+            },
+            {
+               "name": "SPECIAL SCHOOL",
+               "definition": "An educational facility that caters for those with learning disabilities",
+               "source": "PSMA"
+            },
+            {
+               "name": "TERTIARY INSTITUTION",
+               "definition": "Post secondary (TAFEs) education excluding University.",
+               "source": "PSMA",
+               "includedTerms": "TAFE"
+            },
+            {
+               "name": "UNIVERSITY",
+               "definition": "An educational institution for both instruction and examination in the higher branches of knowledge with the power to confer degrees (GNR)",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "EMERGENCY": {
+         "name": "EMERGENCY",
+         "definition": "A place for governance of emergency services",
+         "features": [
+            {
+               "name": "AMBULANCE STATION",
+               "definition": "A structure or other area set aside for storage ofambulance vehicles and medical equipment (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "COAST GUARD",
+               "source": "VMFEAT",
+               "includedTerms": "includes marine rescue"
+            },
+            {
+               "name": "EMERGENCY COMPLEX",
+               "definition": "EMERGENCY COMPLEX OR EMERGENCY SERVICES AGENCY -  emergency faciltiy area containing multiple types of emergency facilty each may have its own name",
+               "source": "PSMA"
+            },
+            {
+               "name": "EMERGENCY CONTROL CENTRE",
+               "definition": "A facility to coordinate multiple agencies",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "FIRE LOOKOUT",
+               "definition": "FIRE TOWER OR OBSERVATION TOWER",
+               "source": "PSMA"
+            },
+            {
+               "name": "FIRE STATION",
+               "source": "PSMA",
+               "includedTerms": "includes ALL types of fire stations. Eg urban, rural, forest industry"
+            },
+            {
+               "name": "LIFESAVING CLUB",
+               "definition": "A patrol and response service for those that in dificulty in the water",
+               "source": "PSMA"
+            },
+            {
+               "name": "NEIGHBOURHOOD SAFER PLACE",
+               "definition": "AN AREA OR PREMISES THAT MAY, AS A LAST RESORT, PROVIDE SOME SANCTUARY FROM THE LIFE THREATENING EFFECTS OF A BUSHFIRE (I.E. DIRECT FLAME CONTACT OR RADIANT HEAT).",
+               "source": "PSMA"
+            },
+            {
+               "name": "POLICE STATION",
+               "definition": "An office of the local police force; it may or may not have associated lock-up (gnr)",
+               "source": "PSMA"
+            },
+            {
+               "name": "REFUGE",
+               "definition": "Aa purpose built or modified fire proof building. VIC",
+               "source": "PSMA",
+               "includedTerms": "CFR"
+            },
+            {
+               "name": "SES FACILITY",
+               "definition": "STATE EMERGENCY SERVICES FACILITY"
+            }
+         ]
+      },
+      "HEALTH": {
+         "name": "HEALTH",
+         "definition": "a building for treatment of people",
+         "features": [
+            {
+               "name": "BUSH NURSING HOSPITAL",
+               "definition": "A hospital that operates primarily in the rural areas",
+               "source": "PSMA"
+            },
+            {
+               "name": "SPECIALISED HOSPITAL",
+               "definition": "A hospital specifically for the care of a specific group or part of the body ",
+               "includedTerms": "Childrens Hospital, Womens Hospital, Ear and Eye Hospital, Dental, etc"
+            },
+            {
+               "name": "COMMUNITY HEALTH CENTRE",
+               "definition": "A health facility that caters for the community, urban and rural",
+               "source": "PSMA",
+               "includedTerms": "bush nursing centre, but not MCH (Maternal Child Health Centre)"
+            },
+            {
+               "name": "DAY PROCEDURE CENTRE",
+               "source": "PSMA",
+               "includedTerms": "day surgery centre"
+            },
+            {
+               "name": "GENERAL HOSPITAL",
+               "definition": "An institution in which the sick or injured persons are given medical or surgical treatment",
+               "source": "PSMA"
+            },
+            {
+               "name": "GENERAL HOSPITAL (EMERGENCY)",
+               "definition": "A general hospital with 24hour emergency service",
+               "source": "PSMA"
+            },
+            {
+               "name": "HOSPITAL COMPLEX",
+               "definition": "An area containing multiple hospitals ",
+               "source": "PSMA"
+            },
+            {
+               "name": "MATERNAL AND CHILD HEALTH CENTRE",
+               "definition": "A health facility that caters for the maternal and child health needs of a community",
+               "source": "PSMA"
+            },
+            {
+               "name": "MEDICAL CENTRE",
+               "definition": "A doctors surgery",
+               "source": "PSMA",
+               "includedTerms": "Includes Doctors surgery"
+            }
+         ]
+      },
+      "LEGAL": {
+         "name": "LEGAL",
+         "definition": "A place for governance of services",
+         "features": [
+            {
+               "name": "DIPLOMATIC MISSION",
+               "definition": "OFFICE OF A COUNTRY'S DIPLOMATIC REPRESENTATIVES ",
+               "source": "PSMA",
+               "includedTerms": "Includes High Commission, Consulate, Embassy"
+            },
+            {
+               "name": "LAW COURT",
+               "source": "VMFEAT",
+               "includedTerms": "Includes COURT, Magistrates Court, COURT HOUSE Supreme Court, High Court OR TRIBUNAL"
+            },
+            {
+               "name": "PRISON",
+               "definition": "A building where persons are legally committed, while awaiting trial or punishment (GNR)",
+               "source": "PSMA",
+               "includedTerms": "Includes Gaol, Remand or Detention centre, rehabilitation centre"
+            }
+         ]
+      }
+   },
+   "TRANSPORT": {
+      "name": "TRANSPORT",
+      "definition": "Places associated with the movement of people, goods,freight and cargo",
+      "AIR": {
+         "name": "AIR",
+         "definition": "an area for air traffic and support infrastructure",
+         "features": [
+            {
+               "name": "LANDING AREA",
+               "definition": "For the operation of aircraft, may be public or private.",
+               "source": "GNR",
+               "includedTerms": "Airfield, Airstrip, Runway, landing ground"
+            },
+            {
+               "name": "AIRPORT",
+               "definition": "Regulated A landing and taking off area for civil aircraft, usually equipped with runways and aircraft maintenance and passenger facilities (GNR)",
+               "source": "PSMA",
+               "includedTerms": "includes aerodrome",
+               "examples": "FOR Discussion refer to CASA, they use Aerodrome"
+            },
+            {
+               "name": "HANGAR",
+               "source": "PSMA"
+            },
+            {
+               "name": "HELIPAD",
+               "definition": "A place for helicopters to land and take-off, like 'runway' is to 'airport'",
+               "source": "VMTRANS"
+            },
+            {
+               "name": "HELIPORT",
+               "definition": "HELIPAD  OR HELIPORT, like 'airport' is to 'runway'",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "RAIL": {
+         "name": "RAIL",
+         "definition": "the course of a transport mode",
+         "features": [
+            {
+               "name": "CABLEWAY",
+               "definition": "CHAIRLIFT OR CABLECAR",
+               "source": "PSMA",
+               "includedTerms": "T-Bar, Poma Gondala, Chair lift"
+            },
+            {
+               "name": "CABLEWAY TERMINAL",
+               "source": "PSMA"
+            },
+            {
+               "name": "RAIL CUTTING"
+            },
+            {
+               "name": "LIGHT RAIL",
+               "definition": "A track or set of tracks of iron or steel rails used for the passage of light rail",
+               "source": "new",
+               "includedTerms": "tram line, tramway"
+            },
+            {
+               "name": "LIGHT RAIL STATION",
+               "definition": "a place where passengers are exchanged between vehicles or between transport modes",
+               "source": "new",
+               "includedTerms": "tram station, tram stop"
+            },
+            {
+               "name": "RAIL BRIDGE",
+               "source": "PSMA"
+            },
+            {
+               "name": "RAIL STATION",
+               "definition": "a place where passengers are exchanged between vehicles or between transport modes",
+               "source": "PSMA"
+            },
+            {
+               "name": "RAIL TUNNEL",
+               "source": "PSMA",
+               "includedTerms": "light rail tunnel, tram tunnel"
+            },
+            {
+               "name": "RAIL YARD",
+               "definition": "an area of railway tracks and sidings for storage and maintenance of trains",
+               "includedTerms": "marshalling yard, railway yard"
+            },
+            {
+               "name": "RAILWAY",
+               "definition": "A track or set of tracks of iron or steel rails used for the passage of trains",
+               "source": "PSMA"
+            },
+            {
+               "name": "SIDING",
+               "definition": "A short branch off a RAILWAY track, often connected at both ends to the mainline track, and used for shunting or for loading, unloading, and storing goods trucks (GNR)",
+               "source": "PSMA",
+               "includedTerms": "rail sidings"
+            }
+         ]
+      },
+      "ROAD": {
+         "name": "ROAD",
+         "definition": "the course of a transport mode",
+         "features": [
+            {
+               "name": "BUS DEPOT",
+               "definition": "an area for storage and maintenance of buses",
+               "source": "PSMA"
+            },
+            {
+               "name": "BUS ROUTE",
+               "definition": "The set route taken by a bus service",
+               "source": "PSMA",
+               "includedTerms": "Busway???"
+            },
+            {
+               "name": "BUS STOP",
+               "definition": "a designated place where buses stop for passengers to board or alight",
+               "source": "PSMA"
+            },
+            {
+               "name": "CAR PARK",
+               "definition": "Where vechiles are parked"
+            },
+            {
+               "name": "CAUSEWAY",
+               "definition": "a structure that facilitates the crossing of road, railway or watercourse over under or through another feature",
+               "source": "GNR"
+            },
+            {
+               "name": "ROAD CUTTING",
+               "definition": "an excavation in the earths surface to create a thoroughfare for a road, railway or watercourse",
+               "source": "icsm"
+            },
+            {
+               "name": "FORD",
+               "definition": "A solid way, the shallow part of a RIVER or other body of water which may  be crossed by vehicle or by wading",
+               "source": "GNR",
+               "includedTerms": "Crossing"
+            },
+            {
+               "name": "GATE",
+               "definition": "a structure used to regulate movement associated with road or rail",
+               "source": "VMTRANS"
+            },
+            {
+               "name": "REST AREA",
+               "definition": "An area at the side of a road or highway for vehicles to stop away from traffic; with toilet and possibly picnic facilities (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "ROAD BRIDGE",
+               "source": "new",
+               "includedTerms": "includes flyover, overpass"
+            },
+            {
+               "name": "ROAD TUNNEL",
+               "source": "new",
+               "includedTerms": "includes underpass"
+            },
+            {
+               "name": "ROUNDABOUT",
+               "definition": "a structure that facilitates the crossing of multiple roads",
+               "source": "VMTRANS"
+            },
+            {
+               "name": "TAXI RANK",
+               "definition": "a designated place where taxis stop for passengers to board or alight",
+               "source": "PSMA"
+            },
+            {
+               "name": "TOLL",
+               "definition": "a structure used to regulate movement associated with road or rail",
+               "source": "new",
+               "includedTerms": "Turnpike"
+            },
+            {
+               "name": "TOURIST ROUTE",
+               "includedTerms": "Tourist Way, Drive etc"
+            },
+            {
+               "name": "WEIGHBRIDGE",
+               "definition": "a structure used to regulate movement associated with road or rail",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "TRAIL": {
+         "name": "TRAIL",
+         "definition": "a defined path, route or track that often traverses natural areas",
+         "features": [
+            {
+               "name": "BICYCLE TRACK",
+               "definition": "A trail designed for bicycle traffic in the main. This is not a shared roadway with vehicular traffic. Main use is cyclying.",
+               "source": "new"
+            },
+            {
+               "name": "CYCLE CROSSING",
+               "definition": "a structure that facilitates the crossing of road, railway or watercourse over under or through another feature",
+               "source": "new"
+            },
+            {
+               "name": "FIREBREAK",
+               "definition": "FIREBREAK OR FIREGUARD (PSMA) A strip of ploughed or cleared land made to check the spread of fire (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "FOOT TUNNEL",
+               "source": "new",
+               "includedTerms": "includes subway"
+            },
+            {
+               "name": "FOOTBRIDGE",
+               "source": "PSMA"
+            },
+            {
+               "name": "HORSE RIDING TRAIL",
+               "definition": "A trail designed for horse riding traffic in the main.",
+               "source": "new",
+               "includedTerms": "Bridle path"
+            },
+            {
+               "name": "MOUNTAIN BIKE TRACK",
+               "definition": "A trail designed for mountain bike traffic in the main.",
+               "source": "new"
+            },
+            {
+               "name": "MULTIUSE TRAIL",
+               "definition": "A pathway designed for shared use access, being walking ans bicycle traffic and may also include horse riding or skiing or may be any combination of multiple use. Main uses cycling and walking.",
+               "source": "new"
+            },
+            {
+               "name": "SKI TRAIL",
+               "definition": "A trail designed for downhill or cross country in the main.",
+               "source": "new"
+            },
+            {
+               "name": "STOCK ROUTE"
+            },
+            {
+               "name": "WALKING TRACK",
+               "definition": "A trail designed for foot traffic in the main. This is not a shared roadway with vehicular traffic. Main use is walking.",
+               "source": "PSMA"
+            }
+         ]
+      },
+      "WATER": {
+         "name": "WATER",
+         "definition": null,
+         "features": [
+            {
+               "name": "BEACON",
+               "definition": "A prominent, man made structure to guide vessels, vehicles or aircraft",
+               "source": "PSMA",
+               "includedTerms": "BUOY, Navigation bouy, Light"
+            },
+            {
+               "name": "CARGO TERMINAL"
+            },
+            {
+               "name": "CONTAINER TERMINAL"
+            },
+            {
+               "name": "CONTROL TOWER",
+               "definition": "Air and shipping control towers",
+               "includedTerms": "port control tower/harbour control tower"
+            },
+            {
+               "name": "DOCK",
+               "definition": "a structure where a vessel is constructed or repaired ICSM",
+               "source": "GNR",
+               "includedTerms": "Dry dock, wet dock"
+            },
+            {
+               "name": "FERRY ROUTE",
+               "definition": "The set route taken by a ferry service",
+               "source": "PSMA"
+            },
+            {
+               "name": "FERRY STATION",
+               "definition": "a designated place where ferries stop for passengers to board or alight",
+               "source": "NEW",
+               "includedTerms": "Passenger Terminal"
+            },
+            {
+               "name": "LIGHTHOUSE",
+               "definition": "A distinctive structure on or off the COAST, exhibiting a major LIGHT designed to serve as an aid to navigation (GNR)",
+               "source": "PSMA"
+            },
+            {
+               "name": "MARINA",
+               "definition": "An area provided with berthing and shore facilities (including toilets, water and rubbish disposal) particularly for yachts and other pleasure craft",
+               "includedTerms": "Quay, Key"
+            },
+            {
+               "name": "PIER",
+               "definition": "A long narrow structure extending into the water to afford a berthing place for vessels; to serve as a pleasure promenade (GNR)",
+               "source": "VIC_INACTIVE"
+            },
+            {
+               "name": "PORT",
+               "definition": "A place provided with terminal and transfer facilities for loading and discharging cargo or passengers, usually located in a HARBOUR (gnr)",
+               "source": "VIC_INACTIVE"
+            },
+            {
+               "name": "WHARF",
+               "definition": "A platform, contiguous to and more or less parallel with the SHORELINE, alongside of which ships may be secured for loading or unloading cargo or passengers",
+               "source": "HY_WATER_STRUCT_LINE"
+            }
+         ]
+      }
+   },
+   "UTILITIES": {
+      "name": "UTILITIES",
+      "definition": "Places relating to the provision of information and functional services in the community.",
+      "COMMUNICATION": {
+         "name": "COMMUNICATION",
+         "definition": "a recognised cultural site of some importance",
+         "features": [
+            {
+               "name": "COMMUNICATION TOWER",
+               "definition": "A structure that supports communication devices",
+               "includedTerms": "radio tower, television tower, broadcasting tower"
+            },
+            {
+               "name": "RADIO COMMUNICATION FACILITY",
+               "definition": "An antenna for the transmission of sound by radio waves to a widely dispersed audience through radio receivers",
+               "source": "PSMA",
+               "includedTerms": "Radio broadcasting facility"
+            },
+            {
+               "name": "RADIO STATION",
+               "definition": "A facility to operate the transmission of radio broadcasts",
+               "source": "PSMA"
+            },
+            {
+               "name": "TELEPHONE EXCHANGE",
+               "definition": "A facility to establish telecommunication connections.",
+               "source": "GNR",
+               "includedTerms": "Telegraph Office, Telephone office"
+            },
+            {
+               "name": "TELEVISION COMMUNICATION FACILITY",
+               "definition": "An antenna for transmission of sound and images by radio waves to a widely dispersed audience through television receivers",
+               "source": "GNR",
+               "includedTerms": "Television broadcasting facility"
+            },
+            {
+               "name": "TELEVISION STATION",
+               "definition": "A facility to operate the transmission of television broadcasts",
+               "source": "PSMA"
+            },
+            {
+               "name": "FIBER OPTIC CABLE",
+               "definition": "A wire used for the distribution of digital communications",
+               "source": "NEW"
+            }
+         ]
+      },
+      "ENERGY": {
+         "name": "ENERGY",
+         "definition": "A facility for the generation/transmission of electric power",
+         "features": [
+            {
+               "name": "BIOMASS POWER STATION",
+               "definition": "A process plant that creates power from waste from sugar cane, municipal solid waste, landfill methane or other forms of biomass.",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "COAL POWER STATION",
+               "definition": "A process plant that creates power from coal",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "POWER DISTRIBUTION",
+               "definition": "A wire used for the distribution of electricity",
+               "source": "PSMA"
+            },
+            {
+               "name": "GAS PIPELINE",
+               "definition": "A pipeline used for gas transmission",
+               "source": "new"
+            },
+            {
+               "name": "GAS PLANT",
+               "definition": "A gas/oil processing/conditioning plant include ",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "GAS POWER STATION",
+               "definition": "A process plant that creates power from gas",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "GEO THERMAL POWER STATION",
+               "definition": "A process plant that creates power from steam extracted from hot underground rocks",
+               "source": "PSMA"
+            },
+            {
+               "name": "HYDRO POWER STATION",
+               "definition": "A process plant that creates power from the energy provided by difference in water level upstream and downstream",
+               "source": "PSMA"
+            },
+            {
+               "name": "OIL PIPELINE",
+               "definition": "A pipeline used for oil transmission",
+               "source": "new"
+            },
+            {
+               "name": "POWER SUB STATION",
+               "definition": "A facility whose primary purpose is to convert incoming sub-transmission voltages to high voltage distribution voltages -usually owned by the distribution company",
+               "source": "PSMA",
+               "includedTerms": "zone substations, power substations"
+            },
+            {
+               "name": "POWER SUB TRANSMISSION",
+               "definition": "A wire used for the transmission of electricity usually < 66KV",
+               "source": "PSMA"
+            },
+            {
+               "name": "POWER TERMINAL STATION",
+               "definition": "A facility whose primary purpose is to convert incoming transmission voltages to voltages suitable for distribution networks-usually owned by the transmission company",
+               "source": "PSMA",
+               "includedTerms": "power terminal"
+            },
+            {
+               "name": "POWER TRANSMISSION",
+               "definition": "A wire used for the transmission of electricity usually > 66KV",
+               "source": "PSMA"
+            },
+            {
+               "name": "SOLAR POWER STATION",
+               "definition": "A process plant that creates power either directly in solar cells, or in a concentrating solar power plant by focusing the light to run a heat engine",
+               "source": "PSMA"
+            },
+            {
+               "name": "WIND FARM",
+               "definition": "Consists of a group of individual wind turbines which are connected to the electric power transmission network.",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "WIND TURBINE",
+               "definition": "A  turbine used to generate electricity in areas with strong, steady winds, sometimes offshore",
+               "source": "VMFEAT"
+            }
+         ]
+      },
+      "OBSERVATION": {
+         "name": "OBSERVATION",
+         "definition": null,
+         "features": [
+            {
+               "name": "OBSERVATORY"
+            },
+            {
+               "name": "WEATHER STATION",
+               "definition": "A weather station",
+               "includedTerms": "Automatic Weather Station,  Meterlogical Station"
+            }
+         ]
+      },
+      "WASTE": {
+         "name": "WASTE",
+         "definition": "an area for disposal of various types of material",
+         "features": [
+            {
+               "name": "LANDFILL",
+               "source": "VMFEAT"
+            },
+            {
+               "name": "LIQUID WASTE DISPOSAL SITE",
+               "source": "PSMA"
+            },
+            {
+               "name": "SCRAP YARD",
+               "source": "PSMA"
+            },
+            {
+               "name": "SEWAGE TREATMENT PLANT",
+               "definition": "A facility for the process of removing contaminants from wastewater",
+               "source": "PSMA"
+            },
+            {
+               "name": "SEWER PIPELINE",
+               "definition": "A pipeline used for sewer transmission",
+               "source": "new"
+            },
+            {
+               "name": "TRANSFER STATION",
+               "source": "PSMA",
+               "includedTerms": "INCLUDES RECYCLING DEPOT, COMPOSTING FACILITY"
+            }
+         ]
+      }
+   }
+}

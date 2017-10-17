@@ -1,6 +1,6 @@
-# Elvis Bathy #
+# Elvis Placenames #
 
-Exposing bathymetry data gathered from the Bathy search.
+Exposing placenames or gazetteer data gathered from the various jurisdictions.
 
 ### What is this repository for? ###
 
@@ -11,7 +11,7 @@ Exposing bathymetry data gathered from the Bathy search.
 ### How do I get set up? ###
 
 * git clone <this_repository>
-* cd elvis-bathy
+* cd elvis-placenames
 * npm install
 * bower install
 * node server
@@ -32,8 +32,9 @@ Exposing bathymetry data gathered from the Bathy search.
 
 ### How do I deploy to AWS? ###
 
-First thing is get yourself a Linux AMI virtual machine. This thing takes hardly any resources and has been designed to
-have a small footprint and minimal resource usage. I didn't create the instances but this is what I would think needs doing:
+First thing is get yourself a Linux AMI virtual machine. This thing works in conjunction with the gazetteer project which is a Solr installation
+that harvests data from the placenames postgis database while this has a small footprint and minimal resource usage it is expected that it will
+be codeployed with the gazeteer project. I didn't create the instances but this is what I would think needs doing:
 
 * Create a `t2.micro` instance
 * Allocate a public IP to it: [Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html?icmpid=docs_ec2_console)
@@ -54,24 +55,12 @@ Seeing as you do not have git installed yet it is pretty simple to
 
 It should chug along for a few seconds and then all you need to deploy the app is ready to go. Now download the code.
 
-#### Are you protecting the app with basic authentication? ###
-If so you need to set it up. All the work is done in the `load_app_dependencies`. Read the file and run the code as needed.
-
-```
-> git clone git@bitbucket.org:Tomella/elvis-mh370.git
-> cd elvis-mh370
-> bash deployment/deploy_bathy
-```
-That's it. It should be running like a dream.
-
-Navigate to your host via your favourite browser and it should be up and running. If you did add security with basic authentication then you will know what username and password to provide to gain access.
-
 ### Future deployments. ###
 It is simply follow the last steps.
 Log into your Linux vm and:
 ```
-> cd elvis-mh370
-> bash deployment/deploy_bathy
+> cd elvis-placenames
+> bash deployment/deploy_placenames
 ```
 
 It will pull the latest code base in and deploy. It's up to you to manage versioning and the like so take care.

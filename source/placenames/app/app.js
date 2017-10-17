@@ -42,9 +42,10 @@
 
       'placenames.about',
       'placenames.bounds',
-      'placenames.classifications',
       'placenames.clusters',
+      'placenames.contributors',
       'placenames.extent',
+      'placenames.filters',
       'placenames.header',
       'placenames.maps',
       'placenames.navigation',

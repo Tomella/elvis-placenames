@@ -21,10 +21,6 @@
                this.download = function (type) {
                   placenamesItemService[type](this);
                };
-
-               placenamesResultsService.load(this.item.recordId).then(data => {
-                  this.feature = data.features[0];
-               });
             },
             controllerAs: "vm"
          };
@@ -32,10 +28,6 @@
 
       .factory('placenamesItemService', ['$http', 'configService', function ($http, configService) {
          var service = {
-            esri(vm) {
-               var blob = new Blob([JSON.stringify(vm.feature, null, 3)], { type: "application/json;charset=utf-8" });
-               saveAs(blob, "gazetteer-esri-feature-" + vm.item.recordId + ".json");
-            },
 
             wfs(vm) {
                configService.getConfig("results").then(({wfsTemplate}) => {

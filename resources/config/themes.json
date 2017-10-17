@@ -17,7 +17,7 @@
          "title": "Cultural and physical features and their associated spatial identifiers, location and extent.",
          "description": "Place Names are the names of cultural and physical features and their associated spatial identifiers, location and extent. Place Names constitute the most commonly used spatial references and can be approved, unapproved, commonly used or historical.",
          "className": "altthemes-sign",
-         "url": "placenames.html",
+         "url": "/",
          "keys": ["sign"]
       },
       {
@@ -85,7 +85,7 @@
          "title": "Positioning.",
          "description": "Positioning.",
          "className": "altthemes-crosshair",
-         "url": "positioning.html",
+         "url": "http://elevation.geospeedster.com/positioning.html",
          "keys": ["satellite", "position", "shore"]
       }
    ]

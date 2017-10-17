@@ -1,0 +1,7 @@
+
+<div style="padding-left:10px">
+   - <span ng-attr-title="{{category.definition}}">{{category.name}}</span>
+   <div ng-repeat="feature in category.features | orderBy:'name'" style="padding-left:10px">
+      - <span ng-attr-title="{{feature.definition}}">{{feature.name}}</span>
+   </div>
+</div>

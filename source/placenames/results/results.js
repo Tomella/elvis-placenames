@@ -77,15 +77,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
          });
       },
 
-      downloadOld(ids) {
-         this.config.then(config => {
-            proxy.get(config.esriTemplate.replace("${id}", ids.join(","))).then(data => {
-               var blob = new Blob([JSON.stringify(data, null, 3)], { type: "application/json;charset=utf-8" });
-               saveAs(blob, "gazetteer-esri-features-" + Date.now() + ".json");
-            });
-         });
-      },
-
       download(ids) {
          this.config.then(config => {
             proxy.get(config.esriTemplate.replace("${id}", ids.join(","))).then(data => {
@@ -107,23 +98,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       get config() {
          return configService.getConfig().then(config => {
             return config.results;
-         });
-      },
-
-      load(id) {
-         return this.config.then(({ esriTemplate }) => {
-            return $http.get(esriTemplate.replace("${id}", id), { cache: true }).then(response => {
-               console.log("argghhh1! " + response.status);
-               return response.data;
-            },
-               () => {
-                  // No data is a valid response.
-                  return {
-                     features: [{
-                        noData: true
-                     }]
-                  };
-               });
          });
       },
 

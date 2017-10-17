@@ -1,0 +1,13 @@
+<div>
+      <div ng-repeat="feature in features | orderBy: 'name'" title="{{feature.definition}}">
+         <input type="checkbox" ng-model="feature.selected">
+         <span title="[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}">{{feature.name}}</span>
+         <button class="undecorated" ng-click="feature.showChildren = !feature.showChildren">
+            <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!feature.showChildren, 'fa-minus-square-o': feature.showChildren}"></i>
+         </button>
+         <div ng-show="feature.showChildren" style="padding-left: 8px; border-bottom: solid 1px lightgray">
+            <div ng-if="feature.definition">{{feature.definition}}</div>
+            [Group/Category: {{feature.parent.parent.name}}/{{feature.parent.name}}]
+         </div>
+      </div>
+   </div>

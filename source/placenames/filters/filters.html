@@ -1,0 +1,33 @@
+<uib-accordion>
+   <div uib-accordion-group class="panel-default" is-open="status.groupOpen">
+      <uib-accordion-heading>
+         Filter by group...
+         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.groupOpen, 'glyphicon-chevron-right': !status.groupOpen}"></i>
+      </uib-accordion-heading>
+      <placenames-groups ng-show="status.groupOpen" ></placenames-groups>
+   </div>
+   <div uib-accordion-group class="panel-default" is-open="status.catOpen">
+      <uib-accordion-heading>
+         Filter by category...
+         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.catOpen, 'glyphicon-chevron-right': !status.catOpen}"></i>
+      </uib-accordion-heading>
+      <placenames-categories ng-show="status.catOpen" ></placenames-categories>
+   </div>
+   <div uib-accordion-group class="panel-default" is-open="status.featureOpen">
+      <uib-accordion-heading>
+         Filter by feature...
+         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.featureOpen, 'glyphicon-chevron-right': !status.featureOopen}"></i>
+      </uib-accordion-heading>
+      <placenames-features ng-show="status.featureOpen" ></placenames-features>
+   </div>
+</uib-accordion>
+<uib-accordion close-others="oneAtATime">
+   <div uib-accordion-group class="panel-default" is-open="status.authOpen">
+      <uib-accordion-heading>
+         Filter by authority...
+         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.authOpen, 'glyphicon-chevron-right': !status.authOpen}"></i>
+      </uib-accordion-heading>
+      <placenames-authorities authorities="state.authorities" update="update()" ng-show="status.authOpen"></placenames-authorities>
+   </div>
+</uib-accordion>
+

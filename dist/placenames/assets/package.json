@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.13.3",
     "express-http-proxy": "^0.9.1",
+    "pg": "^7.3.0",
     "request": "^2.74.0",
     "wiredep": "^3.0.1",
     "x2js": "^2.0.1",

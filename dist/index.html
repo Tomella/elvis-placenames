@@ -53,7 +53,8 @@
    <body ng-controller="RootCtrl as root">
 
       <!-- BEGIN: Sticky Header -->
-      <div placenames-header style="z-index:1" class="navbar navbar-default navbar-fixed-top" heading="'Place Names'" headingtitle="'Place Names'"
+      <div placenames-header style="z-index:1" class="navbar navbar-default navbar-fixed-top"
+         heading="'Place Names - Foundation Spatial Data'" headingtitle="'Place Names'" current="'sign'"
          breadcrumbs="[{name:'Place Names', title: 'Reload Place Names', url: '.'}]" helptitle="'Get help about Place Names'"
          helpalttext="'Get help about Place Names'">
       </div>
@@ -69,7 +70,7 @@
       <side-panel-left style="z-index: 2"></side-panel-left>
 
       <side-panel-right-oppose>
-         <placenames-panes data="root.data" default-item="select"></placenames-panes>
+         <placenames-panes data="root.data" default-item="none"></placenames-panes>
       </side-panel-right-oppose>
 
       <side-panel-right style="z-index: 2"></side-panel-right>
@@ -83,6 +84,7 @@
 
       <!-- END: Page Content -->
       <placenames-clusters></placenames-clusters>
+      <div placenames-contributors style="z-index:3"></div>
       <placenames-mapevents placenames-bounds></placenames-mapevents>
       <!-- BEGIN: Sticky Footer -->
       <div page-footer style="z-index:5; " class="noPrint"></div>

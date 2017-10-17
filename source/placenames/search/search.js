@@ -1,5 +1,5 @@
 {
-   angular.module("placenames.search", ['placenames.facets', 'placenames.featuretypes', 'placenames.authorities'])
+   angular.module("placenames.search", ['placenames.filters', 'placenames.authorities'])
 
       .directive('placenamesClear', ['placenamesSearchService', function (placenamesSearchService) {
          return {
@@ -35,14 +35,26 @@
          };
       }])
 
-      .directive("placenamesSearch", ['$timeout', 'placenamesFacetsService', 'placenamesSearchService',
-         function ($timeout, placenamesFacetsService, placenamesSearchService) {
+      .directive("placenamesQuickSearch", ['$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
+         function ($timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
+            return {
+               templateUrl: 'placenames/search/quicksearch.html',
+               restrict: 'AE',
+               link: function (scope) {
+                  scope.state = placenamesSearchService.data;
+               }
+            }
+         }
+      ])
+
+      .directive("placenamesSearch", ['$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
+         function ($timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
             return {
                templateUrl: 'placenames/search/search.html',
                restrict: 'AE',
                link: function (scope) {
                   scope.state = placenamesSearchService.data;
-                  scope.status = { classOpen: false };
+                  scope.status = {};
 
                   scope.$watch("state.searched", function (newVal, oldVal) {
                      if (!newVal && oldVal) {
@@ -80,28 +92,46 @@
                      });
                   };
 
-                  scope.$watch("status.classOpen", function (load) {
-                     if (load && !scope.classifications) {
-                        scope.classifications = true;
-                        placenamesFacetsService.getClassifications().then(classifications => {
-                           scope.state.classifications = classifications;
-                        });
+                  scope.$watch("status.groupOpen", function (load) {
+                     if (load) {
+                        scope.state.filterBy = "group";
+                        if(!scope.group) {
+                           scope.group = true;
+                           groupsService.getGroups().then(groups => {
+                              scope.state.groups = groups;
+                           });
+                        }
                      }
                   });
 
-                  scope.$watch("status.open", function (load) {
-                     if (load && !scope.featureCodes) {
-                        scope.featureCodes = true;
-                        placenamesFacetsService.getFeatureCodes().then(featureCodes => {
-                           scope.state.featureCodes = featureCodes;
-                        });
+                  scope.$watch("status.catOpen", function (load) {
+                     if (load) {
+                        scope.state.filterBy = "category";
+                        if(!scope.categories) {
+                           scope.features = true;
+                           groupsFiltersService.getCategories().then(categories => {
+                              scope.state.categories = categories;
+                           });
+                        }
+                     }
+                  });
+
+                  scope.$watch("status.featureOpen", function (load) {
+                     if (load) {
+                        scope.state.filterBy = "feature";
+                           if(!scope.features) {
+                              scope.features = true;
+                              groupsFiltersService.getFeatures().then(features => {
+                              scope.state.features = features;
+                           });
+                        }
                      }
                   });
 
                   scope.$watch("status.authOpen", function (load) {
                      if (load && !scope.authorities) {
                         scope.authorities = true;
-                        placenamesFacetsService.getAuthorities().then(authorities => {
+                        placenamesFiltersService.getAuthorities().then(authorities => {
                            scope.state.authorities = authorities;
                         });
                      }
@@ -155,8 +185,8 @@
                });
                buffer += "<br/>";
             }
-            buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Classification: " +
-               model.classification + "</div>";
+            buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Category: " +
+               model.category + "</div>";
 
             return buffer;
          };
@@ -171,8 +201,9 @@
 function SearchService($http, $rootScope, $timeout, configService, mapService) {
    var data = {
       searched: null, // Search results
-      featureCodes: [],
-      classifications: [],
+      groups: [],
+      features: [],
+      categories: [],
       authorities: []
    };
    var mapListeners = [];
@@ -250,7 +281,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
       var timeout;
       var facets = {
          facet: true,
-         "facet.field": "featureCode"
+         "facet.field": "feature"
       };
 
       map.on('resize moveend viewreset', function () {
@@ -278,9 +309,10 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
    function createParams() {
       return mapService.getMap().then(map => {
-         var types = data.featureCodes;
+         var groups = data.groups;
+         var types = data.features;
          var features = types.filter(type => type.selected);
-         var classes = data.classifications.filter(item => item.selected);
+         var categories = data.categories.filter(item => item.selected);
          var params = baseParameters();
          var filterIsObject = typeof data.filter === "object";
          var q = filterIsObject ? data.filter.name : data.filter;
@@ -292,12 +324,23 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
          params.q = q ? '"' + q.toLowerCase() + '"' : "*:*";
 
          var qs = [];
-         features.forEach(feature => {
-            qs.push("featureCode:" + feature.code);
-         });
-         classes.forEach(clazz => {
-            qs.push('classification:"' + clazz.name + '"');
-         });
+
+         switch(data.filterBy) {
+            case "group":
+               groups.forEach(group => {
+                  qs.push('group:"' + group.name + '"');
+               });
+               break;
+            case "feature":
+               features.forEach(feature => {
+                  qs.push('feature:"' + feature.name + '"');
+               });
+               break;
+            case "category":
+               categories.forEach(category => {
+                  qs.push('category:"' + category.name + '"');
+               });
+         }
 
          data.authorities.filter(auth => auth.selected).forEach(auth => {
             qs.push('authority:' + auth.code);
@@ -367,7 +410,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
          "facet.heatmap.format": "ints2D",
          "facet.heatmap": "location",
          facet: true,
-         "facet.field": ["featureCode", "classification", "authority"],
+         "facet.field": ["feature", "category", "authority"],
          rows: 50,
          wt: "json"
       };
