@@ -1,7 +1,5 @@
 <div class="search-text">
    <div class="input-group input-group-sm">
-      <span class="input-group-addon" id="names1">Filter:</span>
-
       <input type="text" ng-model="state.filter" placeholder="Match by feature name..." ng-model-options="{ debounce: 300}"
          typeahead-on-select="select($item, $model, $label)"
          typeahead-template-url="placenames/search/typeahead.html" class="form-control" typeahead-min-length="0"

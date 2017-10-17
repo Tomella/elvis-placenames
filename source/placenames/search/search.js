@@ -42,6 +42,17 @@
                restrict: 'AE',
                link: function (scope) {
                   scope.state = placenamesSearchService.data;
+
+                  scope.loadDocs = function () {
+                     return placenamesSearchService.filtered().then(fetched => {
+                        return fetched.response.docs;
+                     });
+                  };
+
+                  scope.search = function search(item) {
+                     placenamesSearchService.search(item);
+                  };
+
                }
             }
          }
@@ -73,10 +84,6 @@
                      }
                   };
 
-                  scope.search = function search(item) {
-                     placenamesSearchService.search(item);
-                  };
-
                   scope.select = function (item) {
                      scope.search(item);
                   };
@@ -84,12 +91,6 @@
                   scope.deselect = function (facet) {
                      facet.selected = false;
                      placenamesSearchService.filtered();
-                  };
-
-                  scope.loadDocs = function () {
-                     return placenamesSearchService.filtered().then(fetched => {
-                        return fetched.response.docs;
-                     });
                   };
 
                   scope.$watch("status.groupOpen", function (load) {
