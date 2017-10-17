@@ -186,8 +186,8 @@
                });
                buffer += "<br/>";
             }
-            buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Category: " +
-               model.category + "</div>";
+            buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Feature type: " +
+               model.feature + "</div>";
 
             return buffer;
          };
