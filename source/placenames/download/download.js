@@ -11,17 +11,21 @@
                console.log("data download", scope.data);
                scope.processing = placenamesDownloadService.data;
 
+               scope.$watch("processing.filename", testFilename);
+
                scope.submit = function () {
                   placenamesDownloadService.submit(scope.data.params);
                }
-            }
-         }
-      }])
 
-      .directive("placenamesDownloadShow", [function () {
-         return {
-            template: '<a href"javascript:void()" ng-click="pr.download()" ng-show="pr.data.searched.data.response.docs.length" '
-            + 'uib-tooltip="Download listed features in ESRI JSON format" tooltip-placement="bottom"><i class="fa fa-download"></i></a>'
+               testFilename();
+
+               function testFilename(value) {
+                  if(scope.processing.filename && scope.processing.filename.length > 16) {
+                     scope.processing.filename = scope.processing.filename.substr(0, 16);
+                  }
+                  scope.processing.validFilename = !scope.processing.filename || scope.processing.filename.match(/^[a-zA-Z0-9\_\-]+$/);
+               }
+            }
          }
       }])
 
@@ -32,9 +36,10 @@
             data: {
                show: false,
                email: null,
+               validFilename: false,
 
                get valid() {
-                  return this.validEmail;
+                  return this.percentComplete === 100;
                },
 
                get validEmail() {
@@ -50,14 +55,14 @@
                },
 
                get percentComplete() {
-                  return (this.validEmail ? 100 / 3 : 0) +
-                     (this.validProjection ? 100 / 3 : 0) + (this.validFormat ? 100 / 3 : 0);
+                  return (this.validEmail ? 25 : 0) + (this.validFilename ? 25 : 0) +
+                     (this.validProjection ? 25 : 0) + (this.validFormat ? 25 : 0);
                }
             },
 
             submit: function ({ fq, q }) {
                let postData = {
-                  file_name: "output_filename",
+                  file_name: this.data.fileName ? this.data.fileName : "output_filename",
                   file_format_vector: this.data.outFormat.code,
                   coord_sys: this.data.outCoordSys.code,
                   email_address: this.data.email,
@@ -118,7 +123,7 @@
                   return true;
                }
 
-               let {xMax, xMin, yMax, yMin} = item.extent;
+               let { xMax, xMin, yMax, yMin } = item.extent;
                return extent.intersects([[yMin, xMin], [yMax, xMax]]);
             });
          };
