@@ -120,7 +120,7 @@
                         scope.state.filterBy = "category";
                         if (!scope.categories) {
                            scope.features = true;
-                           groupsFiltersService.getCategories().then(categories => {
+                           groupsService.getCategories().then(categories => {
                               scope.state.categories = categories;
                            });
                         }
@@ -132,7 +132,7 @@
                         scope.state.filterBy = "feature";
                         if (!scope.features) {
                            scope.features = true;
-                           groupsFiltersService.getFeatures().then(features => {
+                           groupsService.getFeatures().then(features => {
                               scope.state.features = features;
                            });
                         }

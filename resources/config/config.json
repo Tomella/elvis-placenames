@@ -52,7 +52,8 @@
       "attribution": "Copyright of the Gazetteer data resides with the relevant State, Territory and Commonwealth Government agencies."
    },
    "groups": {
-      "referenceDataLocation": "placenames/resources/config/groupCatalogFeatures.json"
+      "referenceDataLocation": "placenames/resources/config/groupCatalogFeatures.json",
+      "referenceDataCountsUrl": "select?facet=true&facet.field=group&facet.field=feature&facet.field=category&facet.field=authority&q=*:*&wt=json&rows=0"
    },
    "layerSwitch": {
       "extentUrl": "icsm/resources/data/NSWExtentGeoJSON.json",
@@ -61,7 +62,7 @@
    },
 
    "download": {
-      "serviceUrl": "https://elvis20161a-ga.fmecloud.com/fmejobsubmitter/fsdf_placenames/Placenames_ClipZipShip_Master.fmw?opt_showresult=false&opt_servicemode=sync",
+      "serviceUrl": "https://elvis20161a-ga.fmecloud.com/fmejobsubmitter/fsdf_placenames/Placenames_ClipZipShip_Master.fmw?opt_responseformat=json&opt_showresult=true&opt_servicemode=sync&opt_requesteremail=tomella1@gmail.com",
       "outFormat": [
          {
             "value": "Bentley MicroStation Design V8",

@@ -303,6 +303,32 @@ input.ng-valid.ng-touched {
   height: 14px;
   border: solid 1px black;
 }
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
+}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -381,31 +407,84 @@ img.elvis-logo {
   right: 7px;
   bottom: 15px;
 }
-.product-invalid {
-  color: red;
-  opacity: 0.6;
+.placenamesTabs {
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  z-index: 1;
 }
 
-.product-valid {
-  color: green;
+.placenamesTabsOpen {
+  right: 30px;
 }
 
-.download-control {
-  display: block;
+.panesMapContainer {
+  z-index: 0;
   width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: 100%;
 }
 
-.download-control::placeholder {
-  color: #ccc;
+.placenamesPanesRow {
+  height: 100%;
+  margin-right: 0;
+}
+
+.placenamesPanesCol {
+  height: 100%;
+}
+
+.paneTabsMain {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  padding-top: 8px;
+  right: 0px;
+  background: #FFF;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.panesTabsContainer {
+  position: absolute;
+  width: 9999px;
+  z-index: inherit;
+  /* keeps ie happy for mousemove events */
+  background: rgba(255, 255, 255, 0);
+}
+
+.paneRotateTabs {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 100%;
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -sand-transform: rotate(90deg);
+  transform-origin: bottom right;
+  -webkit-transform-origin: bottom right;
+  -ms-transform-origin: bottom right;
+  display: block;
+}
+
+.paneTabItem {
+  float: right;
+  padding: 5px 15px 0px 15px;
+  border: 1px solid #999;
+  background: #FFF;
+  cursor: pointer;
+  height: 30px;
+}
+
+.panesTabContentItem {
+  background: #FFF;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .nav-icons {
   margin-top: 7px !important;
@@ -677,84 +756,36 @@ img.elvis-logo {
   color: #fff;
   background-color: #777;
 }
-.placenamesTabs {
-  position: absolute;
-  top: 60px;
-  right: 30px;
-  z-index: 1;
+@media print {
+@page {
+    size: landscape;
 }
 
-.placenamesTabsOpen {
-  right: 30px;
-}
+  .noPrint {
+    display: none;
+  }
 
-.panesMapContainer {
-  z-index: 0;
-  width: 100%;
-  height: 100%;
-}
+  .printOnly {
+    display: inline !important;
+  }
 
-.placenamesPanesRow {
-  height: 100%;
-  margin-right: 0;
-}
+  .contentContainer {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    left: 0px !important;
+  }
 
-.placenamesPanesCol {
-  height: 100%;
-}
+  .panel-inner-container {
+    display: none !important;
+  }
 
-.paneTabsMain {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  padding-top: 8px;
-  right: 0px;
-  background: #FFF;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
+  .leaflet-control-mouseposition {
+    display: none !important;
+  }
 
-.panesTabsContainer {
-  position: absolute;
-  width: 9999px;
-  z-index: inherit;
-  /* keeps ie happy for mousemove events */
-  background: rgba(255, 255, 255, 0);
-}
-
-.paneRotateTabs {
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 100%;
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -o-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  -sand-transform: rotate(90deg);
-  transform-origin: bottom right;
-  -webkit-transform-origin: bottom right;
-  -ms-transform-origin: bottom right;
-  display: block;
-}
-
-.paneTabItem {
-  float: right;
-  padding: 5px 15px 0px 15px;
-  border: 1px solid #999;
-  background: #FFF;
-  cursor: pointer;
-  height: 30px;
-}
-
-.panesTabContentItem {
-  background: #FFF;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  .leaflet-control-attribution {
+    display: none !important;
+  }
 }
 .placenames-popover {
   z-index: 1060;
@@ -793,37 +824,6 @@ img.elvis-logo {
   border-top-width: 0;
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
-}
-@media print {
-@page {
-    size: landscape;
-}
-
-  .noPrint {
-    display: none;
-  }
-
-  .printOnly {
-    display: inline !important;
-  }
-
-  .contentContainer {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    left: 0px !important;
-  }
-
-  .panel-inner-container {
-    display: none !important;
-  }
-
-  .leaflet-control-mouseposition {
-    display: none !important;
-  }
-
-  .leaflet-control-attribution {
-    display: none !important;
-  }
 }
 .quickSearch {
   width: 33em;
