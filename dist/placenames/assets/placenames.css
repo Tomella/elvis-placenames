@@ -57,17 +57,6 @@
   font-weight: bold;
   padding-bottom: 5px;
 }
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
-
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
-}
 body {
   overflow-y: hidden;
 }
@@ -302,6 +291,17 @@ input.ng-valid.ng-touched {
   position: fixed;
   left: 60px;
   top: 125px;
+}
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
+  display: inline-block;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
 }
 .contributors {
   margin: 2px;
@@ -819,7 +819,7 @@ img.elvis-logo {
   z-index: 4;
   top: 125px;
   left: 40em;
-  padding: 8.px;
+  padding: 8px;
 }
 .pn-container {
   overflow-y: auto;

@@ -11,7 +11,7 @@
 
    .directive('placenamesFilteredSummary', [function() {
       return {
-         link: function(scope) {
+         scope: {
             state: "="
          },
          templateUrl: "placenames/quicksearch/filteredsummary.html"
