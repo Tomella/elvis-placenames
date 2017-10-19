@@ -1,14 +1,1 @@
-<div class="pn-search-container">
-   <placenames-results ng-if="state.searched" data="state"></placenames-results>
-   <div style="float:clear" ng-show="!state.searched">
-      <h4 style="font-size:12">Search by map location, partial name match or feature type</h4>
-      <placenames-quick-search></placenames-quick-search>
-      <div class="clearfix">
-         <div>
-            <strong style="float:right">Found {{state.filtered.response.numFound | number:0}} features</strong>
-         </div>
-      </div>
-      <placenames-filters></placenames-filters>
-
-   </div>
-</div>
+<placenames-results data="state"></placenames-results>

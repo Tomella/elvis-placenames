@@ -14,23 +14,25 @@
 </div>
 <div class="container-fluid">
    <div class="row">
-      <div class="col-md-4">Authority</div>
+      <div class="col-md-4"  title="An authority can be a state department or other statutory authority">Authority</div>
       <div class="col-md-8">{{vm.item.authority}}</div>
    </div>
    <div class="row">
-      <div class="col-md-4">Feature Type</div>
+      <div class="col-md-4" title="Features belong to a category and categories belong to a group">Feature Type</div>
       <div class="col-md-8">{{vm.item.feature}}</div>
    </div>
-   <div class="row">
+   <div class="row" title="Features belong to a category and categories belong to a group">
       <div class="col-md-4">Category</div>
       <div class="col-md-8">{{vm.item.category}}</div>
    </div>
-   <div class="row">
+   <div class="row" title="Features belong to a category and categories belong to a group">
       <div class="col-md-4">Group</div>
       <div class="col-md-8">{{vm.item.group}}</div>
    </div>
-
-
+   <div class="row">
+      <div class="col-md-4">Supply Date</div>
+      <div class="col-md-8" title="Date format is dd/mm/yyyy">{{vm.item.supplyDate | formatDate}}</div>
+   </div>
    <div class="row">
       <div class="col-md-4">Lat / Lng</div>
       <div class="col-md-8">

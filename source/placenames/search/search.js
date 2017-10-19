@@ -35,8 +35,8 @@
          };
       }])
 
-      .directive("placenamesQuickSearch", ['$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
-         function ($timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
+      .directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
+         function ($rootScope, $timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
             return {
                templateUrl: 'placenames/search/quicksearch.html',
                restrict: 'AE',
@@ -49,8 +49,18 @@
                      });
                   };
 
+                  scope.clear = function () {
+                     scope.state.searched = null;
+                     $timeout(() => {
+                        $rootScope.$broadcast("clear.button.fired");
+                     }, 10);
+                  };
+
                   scope.search = function search(item) {
                      placenamesSearchService.search(item);
+                     $timeout(() => {
+                        $rootScope.$broadcast("search.button.fired");
+                     }, 100);
                   };
 
                }
@@ -96,7 +106,7 @@
                   scope.$watch("status.groupOpen", function (load) {
                      if (load) {
                         scope.state.filterBy = "group";
-                        if(!scope.group) {
+                        if (!scope.group) {
                            scope.group = true;
                            groupsService.getGroups().then(groups => {
                               scope.state.groups = groups;
@@ -108,7 +118,7 @@
                   scope.$watch("status.catOpen", function (load) {
                      if (load) {
                         scope.state.filterBy = "category";
-                        if(!scope.categories) {
+                        if (!scope.categories) {
                            scope.features = true;
                            groupsFiltersService.getCategories().then(categories => {
                               scope.state.categories = categories;
@@ -120,9 +130,9 @@
                   scope.$watch("status.featureOpen", function (load) {
                      if (load) {
                         scope.state.filterBy = "feature";
-                           if(!scope.features) {
-                              scope.features = true;
-                              groupsFiltersService.getFeatures().then(features => {
+                        if (!scope.features) {
+                           scope.features = true;
+                           groupsFiltersService.getFeatures().then(features => {
                               scope.state.features = features;
                            });
                         }
@@ -248,6 +258,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
             params,
             data: response
          };
+         return mapService.getMap().then(map => data.persist.bounds = map.getBounds());
       },
 
       searched() {
@@ -301,9 +312,10 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
    function filtered() {
       return createParams().then(params => {
          return run(params).then(data => {
-            service.persist(params, data);
-            $rootScope.$broadcast('pn.search.complete', data);
-            return data;
+            service.persist(params, data).then(function() {
+               $rootScope.$broadcast('pn.search.complete', data);
+               return data;
+            });
          });
       });
    }
@@ -326,7 +338,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
          var qs = [];
 
-         switch(data.filterBy) {
+         switch (data.filterBy) {
             case "group":
                groups.forEach(group => {
                   qs.push('group:"' + group.name + '"');

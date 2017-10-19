@@ -57,6 +57,17 @@
   font-weight: bold;
   padding-bottom: 5px;
 }
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
+  display: inline-block;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
+}
 body {
   overflow-y: hidden;
 }
@@ -285,16 +296,12 @@ input.ng-valid.ng-touched {
 .lgaContainer .row {
   font-size: 110%;
 }
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
 
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
+.placenames-quicksearch {
+  opacity: 0.9;
+  position: fixed;
+  left: 60px;
+  top: 125px;
 }
 .contributors {
   margin: 2px;
@@ -373,6 +380,14 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
+}
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
 }
 .nav-icons {
   margin-top: 7px !important;
@@ -655,13 +670,6 @@ img.elvis-logo {
   right: 30px;
 }
 
-.panesSearch {
-  width: 32em;
-  position: absolute;
-  left: 57px;
-  top: 13px;
-}
-
 .panesMapContainer {
   z-index: 0;
   width: 100%;
@@ -799,6 +807,20 @@ img.elvis-logo {
     display: none !important;
   }
 }
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  background-color: white;
+  opacity: 0.7;
+  border-radius: 3px;
+  position: fixed;
+  z-index: 4;
+  top: 125px;
+  left: 40em;
+  padding: 8.px;
+}
 .pn-container {
   overflow-y: auto;
   position: absolute;
@@ -826,7 +848,8 @@ img.elvis-logo {
 
 .pn-header {
   font-weight: bold;
-  border-bottom: 1px solid lightgray;
+  background-color: #eaeaea;
+  padding: 3px;
 }
 
 .pn-results-list {

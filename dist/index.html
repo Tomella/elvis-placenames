@@ -84,8 +84,13 @@
 
       <!-- END: Page Content -->
       <placenames-clusters></placenames-clusters>
+      <div placenames-quicksearch class="placenames-quicksearch"></div>
+      <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
       <div placenames-contributors style="z-index:3"></div>
       <placenames-mapevents placenames-bounds></placenames-mapevents>
+      <panel-open-on-event panel-id="search" panel-width="540px" event-name="search.button.fired"></panel-open-on-event>
+      <panel-close-on-event event-name="clear.button.fired"></panel-open-on-event>
+
       <!-- BEGIN: Sticky Footer -->
       <div page-footer style="z-index:5; " class="noPrint"></div>
       <!-- END: Sticky Footer -->

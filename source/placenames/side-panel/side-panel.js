@@ -21,7 +21,7 @@
                state.active = null;
                state.width = 0;
             } else {
-              state.active = value;
+               state.active = value;
             }
             return !response;
          }
@@ -54,8 +54,8 @@
             restrict: 'E',
             transclude: true,
             template: '<div class="contentContainer" ng-attr-style="right:{{right.width}}">' +
-                        '<ng-transclude></ng-transclude>' +
-                     '</div>',
+            '<ng-transclude></ng-transclude>' +
+            '</div>',
             link: function (scope) {
                scope.right = panelSideFactory.state.right;
             }
@@ -71,7 +71,7 @@
                scope.right = panelSideFactory.state.right;
 
                scope.closePanel = function () {
-                  panelSideFactory.setRight({name:null, width: 0});
+                  panelSideFactory.setRight({ name: null, width: 0 });
                };
             }
          };
@@ -102,6 +102,68 @@
                      name: scope.panelId
                   });
                }
+            }
+         };
+      }])
+
+      .directive('panelOpenOnEvent', ["$rootScope", "panelSideFactory", function ($rootScope, panelSideFactory) {
+         return {
+            restrict: 'E',
+            scope: {
+               panelWidth: "@",
+               eventName: "@",
+               panelId: "@",
+               side: "@?"
+            },
+            link: function (scope) {
+               if (!scope.side) {
+                  scope.side = "right";
+               }
+               $rootScope.$on(scope.eventName, (event, data) => {
+                  let state = panelSideFactory.state[scope.side];
+                  if(state && !state.active) {
+                     let params = {
+                        width: scope.panelWidth,
+                        name: scope.panelId
+                     };
+
+                     if(scope.side === "right") {
+                        panelSideFactory.setRight(params);
+                     } else {
+                        panelSideFactory.setLeft(params);
+                     }
+                  }
+               });
+            }
+         };
+      }])
+
+
+      .directive('panelCloseOnEvent', ["$rootScope", "panelSideFactory", function ($rootScope, panelSideFactory) {
+         return {
+            restrict: 'E',
+            scope: {
+               eventName: "@",
+               side: "@?"
+            },
+            link: function (scope) {
+               if (!scope.side) {
+                  scope.side = "right";
+               }
+               $rootScope.$on(scope.eventName, (event, data) => {
+                  let state = panelSideFactory.state[scope.side];
+                  if(state && state.active) {
+                     let params = {
+                        name: null
+                     };
+
+                     if(scope.side === "right") {
+                        panelSideFactory.setRight(params);
+                     } else {
+                        panelSideFactory.setLeft(params);
+                     }
+                  }
+               });
             }
          };
       }])

@@ -1,5 +1,23 @@
 {
-   angular.module("placenames.results", ['placenames.results.item', 'placenames.scroll'])
+   angular.module("placenames.results", ['placenames.results.item', 'placenames.scroll', 'placenames.download'])
+
+      .directive("placenamesResultsSummary", [function () {
+         return {
+            templateUrl: "placenames/results/summary.html",
+            scope: {
+               state: "="
+            }
+         }
+      }])
+
+      .directive("placenamesResultsDownload", [function () {
+         return {
+            template: "<placenames-download data='data'></placenames-download>",
+            scope: {
+               data: "="
+            }
+         }
+      }])
 
       .directive("placenamesResults", ['placenamesResultsService', function (placenamesResultsService) {
          return {
@@ -17,6 +35,10 @@
                   placenamesResultsService.moreDocs(this.data.persist);
                };
 
+               this.clear = function () {
+                  placenamesResultsService.clear(this.data);
+               };
+
                this.download = function () {
                   placenamesResultsService.download(this.data.persist.data.response.docs.map(doc => doc.id));
                };
@@ -32,6 +54,16 @@
       }])
 
       .factory("placenamesResultsService", ResultsService)
+
+      .filter("formatDate", function () {
+         return function (dateStr) {
+            if (!dateStr) {
+               return dateStr;
+            }
+            let date = new Date(dateStr);
+            return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+         };
+      })
 
       .filter("resultsHasSomeData", function () {
          return function (list) {
@@ -56,6 +88,13 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
             }
             return details;
          });
+      },
+
+      clear(data) {
+         data.searched = null;
+         $timeout(() => {
+            $rootScope.$broadcast("clear.button.fired");
+         }, 10);
       },
 
       show(what) {
@@ -102,8 +141,12 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       },
 
       moreDocs(persist) {
-         var response = persist.data.response;
-         var start = response.docs.length;
+         if (!persist) {
+            return;
+         }
+
+         let response = persist.data.response;
+         let start = response.docs.length;
          if (start >= response.numFound) {
             return;
          }

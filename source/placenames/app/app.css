@@ -222,3 +222,10 @@ input.ng-valid.ng-touched {
 .lgaContainer .row {
    font-size: 110%;
 }
+
+.placenames-quicksearch {
+   opacity: 0.9;
+   position: fixed;
+   left: 60px;
+   top: 125px;
+}

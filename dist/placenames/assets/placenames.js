@@ -115,7 +115,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
    RootCtrl.$invoke = ['configService', 'mapService'];
 
-   angular.module("PlacenamesApp", ['explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.projects', 'explorer.version', 'exp.ui.templates', 'explorer.map.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngRoute', 'ngSanitize', 'page.footer', 'geo.baselayer.control', 'geo.draw', 'geo.map', 'geo.maphelper', 'geo.measure', 'placenames.about', 'placenames.bounds', 'placenames.clusters', 'placenames.contributors', 'placenames.extent', 'placenames.filters', 'placenames.header', 'placenames.maps', 'placenames.navigation', 'placenames.panes', 'placenames.popover', 'placenames.proxy', 'placenames.reset', "placenames.results", "placenames.search", "placenames.side-panel", 'placenames.splash', 'placenames.templates', 'placenames.toolbar', 'placenames.utils'])
+   angular.module("PlacenamesApp", ['explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.projects', 'explorer.version', 'exp.ui.templates', 'explorer.map.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngRoute', 'ngSanitize', 'page.footer', 'geo.baselayer.control', 'geo.draw', 'geo.map', 'geo.maphelper', 'geo.measure', 'placenames.about', 'placenames.bounds', 'placenames.clusters', 'placenames.contributors', 'placenames.download', 'placenames.extent', 'placenames.filters', 'placenames.header', 'placenames.maps', 'placenames.navigation', 'placenames.panes', 'placenames.popover', 'placenames.proxy', 'placenames.quicksearch', 'placenames.reset', "placenames.results", "placenames.search", "placenames.side-panel", 'placenames.splash', 'placenames.templates', 'placenames.toolbar', 'placenames.utils'])
 
    // Set up all the service providers here.
    .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider', function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
@@ -479,114 +479,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 }
 "use strict";
 
-{
-   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', function (groupsService) {
-      return {
-         templateUrl: "placenames/categories/categories.html",
-         link: function link(scope) {
-            groupsService.getCategories().then(function (categories) {
-               return scope.categories = categories;
-            });
-         }
-      };
-   }]).directive("placenamesCategoryChildren", [function () {
-      return {
-         templateUrl: "placenames/categories/features.html",
-         scope: {
-            features: "="
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-   var ContributorsService = function ContributorsService($http) {
-      var state = {
-         show: false,
-         ingroup: false,
-         stick: false
-      };
-
-      $http.get("placenames/resources/config/contributors.json").then(function (response) {
-         state.orgs = response.data;
-      });
-
-      return {
-         getState: function getState() {
-            return state;
-         }
-      };
-   };
-
-   angular.module('placenames.contributors', []).directive("placenamesContributors", ["$interval", "contributorsService", function ($interval, contributorsService) {
-      return {
-         templateUrl: "placenames/contributors/contributors.html",
-         scope: {},
-         link: function link(scope, element) {
-            var timer = void 0;
-
-            scope.contributors = contributorsService.getState();
-
-            scope.over = function () {
-               $interval.cancel(timer);
-               scope.contributors.ingroup = true;
-            };
-
-            scope.out = function () {
-               timer = $interval(function () {
-                  scope.contributors.ingroup = false;
-               }, 1000);
-            };
-
-            scope.unstick = function () {
-               scope.contributors.ingroup = scope.contributors.show = scope.contributors.stick = false;
-               element.find("a").blur();
-            };
-         }
-      };
-   }]).directive("placenamesContributorsLink", ["$interval", "contributorsService", function ($interval, contributorsService) {
-      return {
-         restrict: "AE",
-         templateUrl: "placenames/contributors/show.html",
-         scope: {},
-         link: function link(scope) {
-            var timer = void 0;
-            scope.contributors = contributorsService.getState();
-            scope.over = function () {
-               $interval.cancel(timer);
-               scope.contributors.show = true;
-            };
-
-            scope.toggleStick = function () {
-               scope.contributors.stick = !scope.contributors.stick;
-               if (!scope.contributors.stick) {
-                  scope.contributors.show = scope.contributors.ingroup = false;
-               }
-            };
-
-            scope.out = function () {
-               timer = $interval(function () {
-                  scope.contributors.show = false;
-               }, 700);
-            };
-         }
-      };
-   }]).factory("contributorsService", ContributorsService).filter("activeContributors", function () {
-      return function (contributors) {
-         if (!contributors) {
-            return [];
-         }
-         return contributors.filter(function (contributor) {
-            return contributor.enabled;
-         });
-      };
-   });
-
-   ContributorsService.$inject = ["$http"];
-}
-"use strict";
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -764,16 +656,239 @@ var SolrTransformer = function () {
 "use strict";
 
 {
-   angular.module("placenames.feature", []).directive("placenamesFeatures", ['groupsService', function (groupsService) {
+   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', function (groupsService) {
       return {
-         templateUrl: "placenames/features/features.html",
+         templateUrl: "placenames/categories/categories.html",
          link: function link(scope) {
-            groupsService.getFeatures().then(function (features) {
-               return scope.features = features;
+            groupsService.getCategories().then(function (categories) {
+               return scope.categories = categories;
             });
          }
       };
+   }]).directive("placenamesCategoryChildren", [function () {
+      return {
+         templateUrl: "placenames/categories/features.html",
+         scope: {
+            features: "="
+         }
+      };
    }]);
+}
+"use strict";
+
+{
+   var ContributorsService = function ContributorsService($http) {
+      var state = {
+         show: false,
+         ingroup: false,
+         stick: false
+      };
+
+      $http.get("placenames/resources/config/contributors.json").then(function (response) {
+         state.orgs = response.data;
+      });
+
+      return {
+         getState: function getState() {
+            return state;
+         }
+      };
+   };
+
+   angular.module('placenames.contributors', []).directive("placenamesContributors", ["$interval", "contributorsService", function ($interval, contributorsService) {
+      return {
+         templateUrl: "placenames/contributors/contributors.html",
+         scope: {},
+         link: function link(scope, element) {
+            var timer = void 0;
+
+            scope.contributors = contributorsService.getState();
+
+            scope.over = function () {
+               $interval.cancel(timer);
+               scope.contributors.ingroup = true;
+            };
+
+            scope.out = function () {
+               timer = $interval(function () {
+                  scope.contributors.ingroup = false;
+               }, 1000);
+            };
+
+            scope.unstick = function () {
+               scope.contributors.ingroup = scope.contributors.show = scope.contributors.stick = false;
+               element.find("a").blur();
+            };
+         }
+      };
+   }]).directive("placenamesContributorsLink", ["$interval", "contributorsService", function ($interval, contributorsService) {
+      return {
+         restrict: "AE",
+         templateUrl: "placenames/contributors/show.html",
+         scope: {},
+         link: function link(scope) {
+            var timer = void 0;
+            scope.contributors = contributorsService.getState();
+            scope.over = function () {
+               $interval.cancel(timer);
+               scope.contributors.show = true;
+            };
+
+            scope.toggleStick = function () {
+               scope.contributors.stick = !scope.contributors.stick;
+               if (!scope.contributors.stick) {
+                  scope.contributors.show = scope.contributors.ingroup = false;
+               }
+            };
+
+            scope.out = function () {
+               timer = $interval(function () {
+                  scope.contributors.show = false;
+               }, 700);
+            };
+         }
+      };
+   }]).factory("contributorsService", ContributorsService).filter("activeContributors", function () {
+      return function (contributors) {
+         if (!contributors) {
+            return [];
+         }
+         return contributors.filter(function (contributor) {
+            return contributor.enabled;
+         });
+      };
+   });
+
+   ContributorsService.$inject = ["$http"];
+}
+"use strict";
+
+{
+   angular.module("placenames.download", []).directive("placenamesDownload", ["placenamesDownloadService", function (placenamesDownloadService) {
+      return {
+         templateUrl: "placenames/download/download.html",
+         scope: {
+            data: "="
+         },
+         link: function link(scope) {
+            console.log("data download", scope.data);
+            scope.processing = placenamesDownloadService.data;
+
+            scope.submit = function () {
+               placenamesDownloadService.submit(scope.data.params);
+            };
+         }
+      };
+   }]).directive("placenamesDownloadShow", [function () {
+      return {
+         template: '<a href"javascript:void()" ng-click="pr.download()" ng-show="pr.data.searched.data.response.docs.length" ' + 'uib-tooltip="Download listed features in ESRI JSON format" tooltip-placement="bottom"><i class="fa fa-download"></i></a>'
+      };
+   }]).factory("placenamesDownloadService", ["$http", "configService", "storageService", function ($http, configService, storageService) {
+      var EMAIL_KEY = "download_email";
+
+      var service = {
+         data: {
+            show: false,
+            email: null,
+
+            get valid() {
+               return this.validEmail;
+            },
+
+            get validEmail() {
+               return this.email;
+            },
+
+            get validProjection() {
+               return this.outCoordSys;
+            },
+
+            get validFormat() {
+               return this.outFormat;
+            },
+
+            get percentComplete() {
+               return (this.validEmail ? 100 / 3 : 0) + (this.validProjection ? 100 / 3 : 0) + (this.validFormat ? 100 / 3 : 0);
+            }
+         },
+
+         submit: function submit(_ref) {
+            var fq = _ref.fq,
+                q = _ref.q;
+
+            var postData = {
+               file_name: "output_filename",
+               file_format_vector: this.data.outFormat.code,
+               coord_sys: this.data.outCoordSys.code,
+               email_address: this.data.email,
+               params: {
+                  q: q,
+                  fq: fq
+               }
+            };
+
+            this.setEmail(this.data.email);
+            if (this.data.fileName) {
+               postData.file_name = this.data.fileName;
+            }
+
+            return $http({
+               url: this.data.config.serviceUrl,
+               method: 'POST',
+               //assign content-type as undefined, the browser
+               //will assign the correct boundary for us
+               //prevents serializing payload.  don't do it.
+               headers: {
+                  "Content-Type": "application/json"
+               },
+               data: postData
+            });
+            console.log("Downloading", postData);
+         },
+
+         setEmail: function setEmail(email) {
+            storageService.setItem(EMAIL_KEY, email);
+         },
+
+         getEmail: function getEmail() {
+            return storageService.getItem(EMAIL_KEY).then(function (value) {
+               service.data.email = value;
+               return value;
+            });
+         }
+      };
+
+      configService.getConfig("download").then(function (config) {
+         return service.data.config = config;
+      });
+      service.getEmail().then(function (email) {
+         return service.data.email = email;
+      });
+
+      return service;
+   }]).filter("productIntersect", function () {
+      return function intersecting(collection, extent) {
+         // The extent may have missing numbers so we don't restrict at that point.
+         if (!extent || !collection) {
+            return collection;
+         }
+
+         return collection.filter(function (item) {
+            // We know these have valid numbers if it exists
+            if (!item.extent) {
+               return true;
+            }
+
+            var _item$extent = item.extent,
+                xMax = _item$extent.xMax,
+                xMin = _item$extent.xMin,
+                yMax = _item$extent.yMax,
+                yMin = _item$extent.yMin;
+
+            return extent.intersects([[yMin, xMin], [yMax, xMax]]);
+         });
+      };
+   });
 }
 "use strict";
 
@@ -836,6 +951,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]).factory("extentService", ExtentService);
 }
+"use strict";
+
+{
+   angular.module("placenames.feature", []).directive("placenamesFeatures", ['groupsService', function (groupsService) {
+      return {
+         templateUrl: "placenames/features/features.html",
+         link: function link(scope) {
+            groupsService.getFeatures().then(function (features) {
+               return scope.features = features;
+            });
+         }
+      };
+   }]);
+}
 'use strict';
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -848,7 +977,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
    var categories = [];
    var featureCodes = [];
 
-   angular.module('placenames.filters', ['placenames.groups', "placenames.pills"]).directive('placenamesFilters', ['placenamesFiltersService', function (placenamesFiltersService) {
+   angular.module('placenames.filters', ['placenames.groups']).directive('placenamesFilters', ['placenamesFiltersService', function (placenamesFiltersService) {
       return {
          templateUrl: "placenames/filters/filters.html"
       };
@@ -1351,29 +1480,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]);
 }
-'use strict';
-
-(function (angular) {
-   'use strict';
-
-   angular.module("placenames.pills", []).directive('placenamesPills', [function () {
-      return {
-         restrict: 'EA',
-         templateUrl: "placenames/pills/pills.html",
-         bindToController: {
-            pills: "=",
-            update: "&"
-         },
-         controller: function controller() {
-            this.clear = function (item) {
-               item.selected = false;
-               this.update();
-            };
-         },
-         controllerAs: "pp"
-      };
-   }]);
-})(angular);
 "use strict";
 
 {
@@ -1391,6 +1497,40 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          }
       };
    }]);
+}
+"use strict";
+
+{
+   angular.module("placenames.proxy", []).provider("proxy", function () {
+
+      this.$get = ['$http', '$q', function ($http, $q) {
+         var base = "proxy/";
+
+         this.setProxyBase = function (newBase) {
+            base = newBase;
+         };
+
+         return {
+            get: function get(url, options) {
+               return this._method("get", url, options);
+            },
+
+            post: function post(url, options) {
+               return this._method("post", url, options);
+            },
+
+            put: function put(url, options) {
+               return this._method("put", url, options);
+            },
+
+            _method: function _method(method, url, options) {
+               return $http[method](base + url, options).then(function (response) {
+                  return response.data;
+               });
+            }
+         };
+      }];
+   });
 }
 'use strict';
 
@@ -1432,79 +1572,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 "use strict";
 
 {
-   angular.module("placenames.proxy", []).provider("proxy", function () {
-
-      this.$get = ['$http', '$q', function ($http, $q) {
-         var base = "proxy/";
-
-         this.setProxyBase = function (newBase) {
-            base = newBase;
-         };
-
-         return {
-            get: function get(url, options) {
-               return this._method("get", url, options);
-            },
-
-            post: function post(url, options) {
-               return this._method("post", url, options);
-            },
-
-            put: function put(url, options) {
-               return this._method("put", url, options);
-            },
-
-            _method: function _method(method, url, options) {
-               return $http[method](base + url, options).then(function (response) {
-                  return response.data;
-               });
-            }
-         };
-      }];
-   });
-}
-'use strict';
-
-{
-   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
+   angular.module("placenames.quicksearch", []).directive('placenamesQuicksearch', [function () {
       return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'placenames/reset/reset.html',
-         controller: ['$scope', function ($scope) {
-            $scope.reset = function () {
-               $window.location.reload();
-            };
-         }]
+         link: function link(scope) {},
+         templateUrl: "placenames/quicksearch/quicksearch.html"
       };
-   });
-}
-"use strict";
-
-{
-
-   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
+   }]).directive('placenamesFilteredSummary', [function () {
       return {
-         scope: {
-            more: "&",
-            buffer: "=?"
+         link: function link(scope) {
+            state: "=";
          },
-         link: function link(scope, element, attrs) {
-            var fetching;
-            if (!scope.buffer) scope.buffer = 100;
-
-            element.on("scroll", function (event) {
-               var target = event.currentTarget;
-               $timeout.cancel(fetching);
-               fetching = $timeout(bouncer, 120);
-
-               function bouncer() {
-                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
-                     scope.more();
-                  }
-               }
-            });
-         }
+         templateUrl: "placenames/quicksearch/filteredsummary.html"
       };
    }]);
 }
@@ -1562,7 +1640,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 {
-   angular.module("placenames.results", ['placenames.results.item', 'placenames.scroll']).directive("placenamesResults", ['placenamesResultsService', function (placenamesResultsService) {
+   angular.module("placenames.results", ['placenames.results.item', 'placenames.scroll', 'placenames.download']).directive("placenamesResultsSummary", [function () {
+      return {
+         templateUrl: "placenames/results/summary.html",
+         scope: {
+            state: "="
+         }
+      };
+   }]).directive("placenamesResultsDownload", [function () {
+      return {
+         template: "<placenames-download data='data'></placenames-download>",
+         scope: {
+            data: "="
+         }
+      };
+   }]).directive("placenamesResults", ['placenamesResultsService', function (placenamesResultsService) {
       return {
          templateUrl: 'placenames/results/results.html',
          restrict: "AE",
@@ -1576,6 +1668,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
             this.more = function () {
                placenamesResultsService.moreDocs(this.data.persist);
+            };
+
+            this.clear = function () {
+               placenamesResultsService.clear(this.data);
             };
 
             this.download = function () {
@@ -1592,7 +1688,15 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             placenamesResultsService.moreDocs(scope.pr.data.persist);
          }
       };
-   }]).factory("placenamesResultsService", ResultsService).filter("resultsHasSomeData", function () {
+   }]).factory("placenamesResultsService", ResultsService).filter("formatDate", function () {
+      return function (dateStr) {
+         if (!dateStr) {
+            return dateStr;
+         }
+         var date = new Date(dateStr);
+         return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+      };
+   }).filter("resultsHasSomeData", function () {
       return function (list) {
          return list.some(function (item) {
             return item;
@@ -1617,6 +1721,12 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
             }
             return details;
          });
+      },
+      clear: function clear(data) {
+         data.searched = null;
+         $timeout(function () {
+            $rootScope.$broadcast("clear.button.fired");
+         }, 10);
       },
       show: function show(what) {
          return this.hide().then(function (map) {
@@ -1658,6 +1768,10 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       },
 
       moreDocs: function moreDocs(persist) {
+         if (!persist) {
+            return;
+         }
+
          var response = persist.data.response;
          var start = response.docs.length;
          if (start >= response.numFound) {
@@ -1676,6 +1790,22 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
    };
 
    return service;
+}
+'use strict';
+
+{
+   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'placenames/reset/reset.html',
+         controller: ['$scope', function ($scope) {
+            $scope.reset = function () {
+               $window.location.reload();
+            };
+         }]
+      };
+   });
 }
 'use strict';
 
@@ -1712,7 +1842,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             };
          }
       };
-   }]).directive("placenamesQuickSearch", ['$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService', function ($timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
+   }]).directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService', function ($rootScope, $timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
       return {
          templateUrl: 'placenames/search/quicksearch.html',
          restrict: 'AE',
@@ -1725,8 +1855,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                });
             };
 
+            scope.clear = function () {
+               scope.state.searched = null;
+               $timeout(function () {
+                  $rootScope.$broadcast("clear.button.fired");
+               }, 10);
+            };
+
             scope.search = function search(item) {
                placenamesSearchService.search(item);
+               $timeout(function () {
+                  $rootScope.$broadcast("search.button.fired");
+               }, 100);
             };
          }
       };
@@ -1908,6 +2048,9 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
             params: params,
             data: response
          };
+         return mapService.getMap().then(function (map) {
+            return data.persist.bounds = map.getBounds();
+         });
       },
       searched: function searched() {
          data.searched = data.persist;
@@ -1955,9 +2098,10 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
    function _filtered() {
       return createParams().then(function (params) {
          return run(params).then(function (data) {
-            service.persist(params, data);
-            $rootScope.$broadcast('pn.search.complete', data);
-            return data;
+            service.persist(params, data).then(function () {
+               $rootScope.$broadcast('pn.search.complete', data);
+               return data;
+            });
          });
       });
    }
@@ -2070,115 +2214,31 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
    return service;
 }
-'use strict';
+"use strict";
 
 {
-   angular.module("placenames.side-panel", []).factory('panelSideFactory', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
-      var state = {
-         left: {
-            active: null,
-            width: 0
-         },
 
-         right: {
-            active: null,
-            width: 0
-         }
-      };
-
-      function setSide(state, value) {
-         var response = state.active;
-
-         if (response === value) {
-            state.active = null;
-            state.width = 0;
-         } else {
-            state.active = value;
-         }
-         return !response;
-      }
-
+   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
       return {
-         state: state,
-         setLeft: function setLeft(value) {
-            var result = setSide(state.left, value);
-            if (result) {
-               state.left.width = 320; // We have a hard coded width at the moment we will probably refactor to parameterize it.
-            }
-            return result;
-         },
-
-         setRight: function setRight(data) {
-            state.right.width = data.width;
-            var response = setSide(state.right, data.name);
-            $rootScope.$broadcast('side.panel.change', {
-               side: "right",
-               data: state.right,
-               width: data.width
-            });
-            return response;
-         }
-      };
-   }]).directive('sidePanelRightOppose', ["panelSideFactory", function (panelSideFactory) {
-      return {
-         restrict: 'E',
-         transclude: true,
-         template: '<div class="contentContainer" ng-attr-style="right:{{right.width}}">' + '<ng-transclude></ng-transclude>' + '</div>',
-         link: function link(scope) {
-            scope.right = panelSideFactory.state.right;
-         }
-      };
-   }]).directive('sidePanelRight', ["panelSideFactory", function (panelSideFactory) {
-      return {
-         restrict: 'E',
-         transclude: true,
-         templateUrl: 'placenames/side-panel/side-panel-right.html',
-         link: function link(scope) {
-            scope.right = panelSideFactory.state.right;
-
-            scope.closePanel = function () {
-               panelSideFactory.setRight({ name: null, width: 0 });
-            };
-         }
-      };
-   }]).directive('panelTrigger', ["panelSideFactory", function (panelSideFactory) {
-      return {
-         restrict: 'E',
-         transclude: true,
-         templateUrl: 'placenames/side-panel/trigger.html',
          scope: {
-            default: "@?",
-            panelWidth: "@",
-            name: "@",
-            iconClass: "@",
-            panelId: "@"
+            more: "&",
+            buffer: "=?"
          },
-         link: function link(scope) {
-            scope.toggle = function () {
-               panelSideFactory.setRight({
-                  width: scope.panelWidth,
-                  name: scope.panelId
-               });
-            };
-            if (scope.default) {
-               panelSideFactory.setRight({
-                  width: scope.panelWidth,
-                  name: scope.panelId
-               });
-            }
-         }
-      };
-   }]).directive('sidePanelLeft', ['panelSideFactory', function (panelSideFactory) {
-      return {
-         restrict: 'E',
-         transclude: true,
-         templateUrl: 'placenames/side-panel/side-panel-left.html',
-         link: function link(scope) {
-            scope.left = panelSideFactory.state.left;
+         link: function link(scope, element, attrs) {
+            var fetching;
+            if (!scope.buffer) scope.buffer = 100;
 
-            scope.closeLeft = function () {
-               panelSideFactory.setLeft(null);
-            };
+            element.on("scroll", function (event) {
+               var target = event.currentTarget;
+               $timeout.cancel(fetching);
+               fetching = $timeout(bouncer, 120);
+
+               function bouncer() {
+                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
+                     scope.more();
+                  }
+               }
+            });
          }
       };
    }]);
@@ -2300,6 +2360,176 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
       };
    }]);
 }
+'use strict';
+
+{
+   angular.module("placenames.side-panel", []).factory('panelSideFactory', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
+      var state = {
+         left: {
+            active: null,
+            width: 0
+         },
+
+         right: {
+            active: null,
+            width: 0
+         }
+      };
+
+      function setSide(state, value) {
+         var response = state.active;
+
+         if (response === value) {
+            state.active = null;
+            state.width = 0;
+         } else {
+            state.active = value;
+         }
+         return !response;
+      }
+
+      return {
+         state: state,
+         setLeft: function setLeft(value) {
+            var result = setSide(state.left, value);
+            if (result) {
+               state.left.width = 320; // We have a hard coded width at the moment we will probably refactor to parameterize it.
+            }
+            return result;
+         },
+
+         setRight: function setRight(data) {
+            state.right.width = data.width;
+            var response = setSide(state.right, data.name);
+            $rootScope.$broadcast('side.panel.change', {
+               side: "right",
+               data: state.right,
+               width: data.width
+            });
+            return response;
+         }
+      };
+   }]).directive('sidePanelRightOppose', ["panelSideFactory", function (panelSideFactory) {
+      return {
+         restrict: 'E',
+         transclude: true,
+         template: '<div class="contentContainer" ng-attr-style="right:{{right.width}}">' + '<ng-transclude></ng-transclude>' + '</div>',
+         link: function link(scope) {
+            scope.right = panelSideFactory.state.right;
+         }
+      };
+   }]).directive('sidePanelRight', ["panelSideFactory", function (panelSideFactory) {
+      return {
+         restrict: 'E',
+         transclude: true,
+         templateUrl: 'placenames/side-panel/side-panel-right.html',
+         link: function link(scope) {
+            scope.right = panelSideFactory.state.right;
+
+            scope.closePanel = function () {
+               panelSideFactory.setRight({ name: null, width: 0 });
+            };
+         }
+      };
+   }]).directive('panelTrigger', ["panelSideFactory", function (panelSideFactory) {
+      return {
+         restrict: 'E',
+         transclude: true,
+         templateUrl: 'placenames/side-panel/trigger.html',
+         scope: {
+            default: "@?",
+            panelWidth: "@",
+            name: "@",
+            iconClass: "@",
+            panelId: "@"
+         },
+         link: function link(scope) {
+            scope.toggle = function () {
+               panelSideFactory.setRight({
+                  width: scope.panelWidth,
+                  name: scope.panelId
+               });
+            };
+            if (scope.default) {
+               panelSideFactory.setRight({
+                  width: scope.panelWidth,
+                  name: scope.panelId
+               });
+            }
+         }
+      };
+   }]).directive('panelOpenOnEvent', ["$rootScope", "panelSideFactory", function ($rootScope, panelSideFactory) {
+      return {
+         restrict: 'E',
+         scope: {
+            panelWidth: "@",
+            eventName: "@",
+            panelId: "@",
+            side: "@?"
+         },
+         link: function link(scope) {
+            if (!scope.side) {
+               scope.side = "right";
+            }
+            $rootScope.$on(scope.eventName, function (event, data) {
+               var state = panelSideFactory.state[scope.side];
+               if (state && !state.active) {
+                  var params = {
+                     width: scope.panelWidth,
+                     name: scope.panelId
+                  };
+
+                  if (scope.side === "right") {
+                     panelSideFactory.setRight(params);
+                  } else {
+                     panelSideFactory.setLeft(params);
+                  }
+               }
+            });
+         }
+      };
+   }]).directive('panelCloseOnEvent', ["$rootScope", "panelSideFactory", function ($rootScope, panelSideFactory) {
+      return {
+         restrict: 'E',
+         scope: {
+            eventName: "@",
+            side: "@?"
+         },
+         link: function link(scope) {
+            if (!scope.side) {
+               scope.side = "right";
+            }
+            $rootScope.$on(scope.eventName, function (event, data) {
+               var state = panelSideFactory.state[scope.side];
+               if (state && state.active) {
+                  var params = {
+                     name: null
+                  };
+
+                  if (scope.side === "right") {
+                     panelSideFactory.setRight(params);
+                  } else {
+                     panelSideFactory.setLeft(params);
+                  }
+               }
+            });
+         }
+      };
+   }]).directive('sidePanelLeft', ['panelSideFactory', function (panelSideFactory) {
+      return {
+         restrict: 'E',
+         transclude: true,
+         templateUrl: 'placenames/side-panel/side-panel-left.html',
+         link: function link(scope) {
+            scope.left = panelSideFactory.state.left;
+
+            scope.closeLeft = function () {
+               panelSideFactory.setLeft(null);
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -2344,29 +2574,6 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
             }
             return $q.when(item);
          }
-      };
-   }]);
-}
-"use strict";
-
-{
-
-   angular.module("placenames.toolbar", []).directive("placenamesToolbar", [function () {
-      return {
-         templateUrl: "placenames/toolbar/toolbar.html",
-         controller: 'toolbarLinksCtrl',
-         transclude: true
-      };
-   }]).controller("toolbarLinksCtrl", ["$scope", "configService", function ($scope, configService) {
-
-      var self = this;
-      configService.getConfig().then(function (config) {
-         self.links = config.toolbarLinks;
-      });
-
-      $scope.item = "";
-      $scope.toggleItem = function (item) {
-         $scope.item = $scope.item === item ? "" : item;
       };
    }]);
 }
@@ -2467,6 +2674,29 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
 {
 
+   angular.module("placenames.toolbar", []).directive("placenamesToolbar", [function () {
+      return {
+         templateUrl: "placenames/toolbar/toolbar.html",
+         controller: 'toolbarLinksCtrl',
+         transclude: true
+      };
+   }]).controller("toolbarLinksCtrl", ["$scope", "configService", function ($scope, configService) {
+
+      var self = this;
+      configService.getConfig().then(function (config) {
+         self.links = config.toolbarLinks;
+      });
+
+      $scope.item = "";
+      $scope.toggleItem = function (item) {
+         $scope.item = $scope.item === item ? "" : item;
+      };
+   }]);
+}
+"use strict";
+
+{
+
    angular.module("placenames.restrict.pan", []).directive("restrictPan", ['mapService', function (mapService) {
       return {
          restrict: "AE",
@@ -2532,26 +2762,29 @@ $templateCache.put("placenames/categories/categories.html","<div>\r\n   <div ng-
 $templateCache.put("placenames/categories/features.html","<div>\n   <div ng-repeat=\"feature in features\" style=\"padding-left:10px\" title=\"{{feature.definition}}\">\n      - {{feature.name}}\n   </div>\n</div>");
 $templateCache.put("placenames/contributors/contributors.html","<span class=\"contributors\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" style=\"z-index:1500\"\r\n      ng-class=\"(contributors.show || contributors.ingroup || contributors.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated contributors-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div ng-repeat=\"contributor in contributors.orgs | activeContributors\" style=\"text-align:cnter\">\r\n      <a ng-href=\"{{contributor.href}}\" name=\"contributors{{$index}}\" title=\"{{contributor.title}}\" target=\"_blank\">\r\n         <img ng-src=\"{{contributor.image}}\" alt=\"{{contributor.title}}\" class=\"elvis-logo\" ng-class=\"contributor.class\"></img>\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("placenames/contributors/show.html","<a ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" class=\"contributors-link\" title=\"Click to lock/unlock contributors list.\"\r\n      ng-click=\"toggleStick()\" href=\"#contributors0\">Contributors</a>");
-$templateCache.put("placenames/features/features.html","<div>\r\n      <div ng-repeat=\"feature in features | orderBy: \'name\'\" title=\"{{feature.definition}}\">\r\n         <input type=\"checkbox\" ng-model=\"feature.selected\">\r\n         <span title=\"[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}\">{{feature.name}}</span>\r\n         <button class=\"undecorated\" ng-click=\"feature.showChildren = !feature.showChildren\">\r\n            <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!feature.showChildren, \'fa-minus-square-o\': feature.showChildren}\"></i>\r\n         </button>\r\n         <div ng-show=\"feature.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n            <div ng-if=\"feature.definition\">{{feature.definition}}</div>\r\n            [Group/Category: {{feature.parent.parent.name}}/{{feature.parent.name}}]\r\n         </div>\r\n      </div>\r\n   </div>");
+$templateCache.put("placenames/download/download.html","\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutCoordSys\">\r\n            Coordinate System\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outCoordSys\" ng-options=\"opt.value for opt in processing.config.outCoordSys | productIntersect : data.bounds\"></select>\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Output Format\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outFormat\" ng-options=\"opt.value for opt in processing.config.outFormat\"></select>\r\n      </div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"input-group\">\r\n         <span class=\"input-group-addon\" id=\"nedf-email\">Email</span>\r\n         <input required=\"required\" type=\"email\" ng-model=\"processing.email\" class=\"form-control\" placeholder=\"Email address to send download link\">\r\n      </div>\r\n   </div>\r\n\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <div class=\"progress\">\r\n            <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{{processing.percentComplete}}\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: {{processing.percentComplete}}%;\">\r\n                <span class=\"sr-only\"></span>\r\n            </div>\r\n         </div>\r\n      </div>\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid coordinate system for area.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-file-video-o fa-2x\" ng-class=\"{\'product-valid\': processing.validProjection, \'product-invalid\': !processing.validProjection}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid download format.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-files-o fa-2x\" ng-class=\"{\'product-valid\': processing.validFormat, \'product-invalid\': !processing.validFormat}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Provide an email address.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-envelope fa-2x\" ng-class=\"{\'product-valid\': processing.validEmail, \'product-invalid\': !processing.validEmail}\"></i>\r\n         </span>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n         <button class=\"btn btn-primary pull-right\" ng-disabled=\"!processing.valid\" ng-click=\"submit()\">Submit</button>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("placenames/extent/extent.html","<div class=\"row\" style=\"border-top: 1px solid gray; padding-top:5px\">\r\n	<div class=\"col-md-5\">\r\n		<div class=\"form-inline\">\r\n			<label>\r\n				<input id=\"extentEnable\" type=\"checkbox\" ng-model=\"parameters.fromMap\" ng-click=\"change()\"></input> \r\n				Restrict area to map\r\n			</label>\r\n		</div>\r\n	</div>\r\n	 \r\n	<div class=\"col-md-7\" ng-show=\"parameters.fromMap\">\r\n		<div class=\"container-fluid\">\r\n			<div class=\"row\">\r\n				<div class=\"col-md-offset-3 col-md-8\">\r\n					<strong>Y Max:</strong> \r\n					<span>{{parameters.yMax | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n			<div class=\"row\">\r\n				<div class=\"col-md-6\">\r\n					<strong>X Min:</strong>\r\n					<span>{{parameters.xMin | number : 4}}</span> \r\n				</div>\r\n				<div class=\"col-md-6\">\r\n					<strong>X Max:</strong>\r\n					<span>{{parameters.xMax | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n			<div class=\"row\">\r\n				<div class=\"col-md-offset-3 col-md-8\">\r\n					<strong>Y Min:</strong>\r\n					<span>{{parameters.yMin | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
+$templateCache.put("placenames/features/features.html","<div>\r\n      <div ng-repeat=\"feature in features | orderBy: \'name\'\" title=\"{{feature.definition}}\">\r\n         <input type=\"checkbox\" ng-model=\"feature.selected\">\r\n         <span title=\"[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}\">{{feature.name}}</span>\r\n         <button class=\"undecorated\" ng-click=\"feature.showChildren = !feature.showChildren\">\r\n            <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!feature.showChildren, \'fa-minus-square-o\': feature.showChildren}\"></i>\r\n         </button>\r\n         <div ng-show=\"feature.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n            <div ng-if=\"feature.definition\">{{feature.definition}}</div>\r\n            [Group/Category: {{feature.parent.parent.name}}/{{feature.parent.name}}]\r\n         </div>\r\n      </div>\r\n   </div>");
 $templateCache.put("placenames/filters/filters.html","<uib-accordion>\r\n   <div uib-accordion-group class=\"panel-default\" is-open=\"status.groupOpen\">\r\n      <uib-accordion-heading>\r\n         Filter by group...\r\n         <i class=\"pull-right glyphicon\" ng-class=\"{\'glyphicon-chevron-down\': status.groupOpen, \'glyphicon-chevron-right\': !status.groupOpen}\"></i>\r\n      </uib-accordion-heading>\r\n      <placenames-groups ng-show=\"status.groupOpen\" ></placenames-groups>\r\n   </div>\r\n   <div uib-accordion-group class=\"panel-default\" is-open=\"status.catOpen\">\r\n      <uib-accordion-heading>\r\n         Filter by category...\r\n         <i class=\"pull-right glyphicon\" ng-class=\"{\'glyphicon-chevron-down\': status.catOpen, \'glyphicon-chevron-right\': !status.catOpen}\"></i>\r\n      </uib-accordion-heading>\r\n      <placenames-categories ng-show=\"status.catOpen\" ></placenames-categories>\r\n   </div>\r\n   <div uib-accordion-group class=\"panel-default\" is-open=\"status.featureOpen\">\r\n      <uib-accordion-heading>\r\n         Filter by feature...\r\n         <i class=\"pull-right glyphicon\" ng-class=\"{\'glyphicon-chevron-down\': status.featureOpen, \'glyphicon-chevron-right\': !status.featureOopen}\"></i>\r\n      </uib-accordion-heading>\r\n      <placenames-features ng-show=\"status.featureOpen\" ></placenames-features>\r\n   </div>\r\n</uib-accordion>\r\n<uib-accordion close-others=\"oneAtATime\">\r\n   <div uib-accordion-group class=\"panel-default\" is-open=\"status.authOpen\">\r\n      <uib-accordion-heading>\r\n         Filter by authority...\r\n         <i class=\"pull-right glyphicon\" ng-class=\"{\'glyphicon-chevron-down\': status.authOpen, \'glyphicon-chevron-right\': !status.authOpen}\"></i>\r\n      </uib-accordion-heading>\r\n      <placenames-authorities authorities=\"state.authorities\" update=\"update()\" ng-show=\"status.authOpen\"></placenames-authorities>\r\n   </div>\r\n</uib-accordion>\r\n\r\n");
 $templateCache.put("placenames/groups/category.html","\r\n<div style=\"padding-left:10px\">\r\n   - <span ng-attr-title=\"{{category.definition}}\">{{category.name}}</span>\r\n   <div ng-repeat=\"feature in category.features | orderBy:\'name\'\" style=\"padding-left:10px\">\r\n      - <span ng-attr-title=\"{{feature.definition}}\">{{feature.name}}</span>\r\n   </div>\r\n</div>\r\n");
 $templateCache.put("placenames/groups/groups.html","<div>\r\n   <div ng-repeat=\"group in data.groups\">\r\n      <input type=\"checkbox\" ng-model=\"group.selected\"><span title=\"{{group.definition}}\">{{group.name}}\r\n      <button class=\"undecorated\" ng-click=\"group.showChildren = !group.showChildren\">\r\n         <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!group.showChildren, \'fa-minus-square-o\': group.showChildren}\"></i>\r\n      </button>\r\n      <div ng-show=\"group.showChildren\" style=\"padding-left:8px\">\r\n         {{group.definition}}<br/><br/>\r\n         This group is made up of the following categories and feature types:\r\n         <div ng-repeat=\"category in group.categories\" style=\"padding-left:8px\">\r\n            <placenames-group-children category=\"category\"></placenames-group-children>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("placenames/header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n   <div class=\"navbar-header\">\r\n\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n         <span class=\"sr-only\">Toggle navigation</span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n      </button>\r\n\r\n      <a href=\"/\" class=\"appTitle visible-xs\">\r\n         <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n      </a>\r\n   </div>\r\n   <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n         <li class=\"hidden-xs\">\r\n            <a href=\"/\">\r\n               <h1 class=\"applicationTitle\">{{heading}}</h1>\r\n            </a>\r\n         </li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n         <li role=\"menuitem\" style=\"padding-right:10px;position: relative;top: -3px;\">\r\n            <span class=\"altthemes-container\">\r\n               <span>\r\n                  <a title=\"Location INformation Knowledge platform (LINK)\" href=\"http://fsdf.org.au/\" target=\"_blank\">\r\n                     <img alt=\"FSDF\" src=\"placenames/resources/img/FSDFimagev4.0.png\" style=\"height: 66px\">\r\n                  </a>\r\n               </span>\r\n            </span>\r\n         </li>\r\n         <li placenames-navigation role=\"menuitem\" current=\"current\" style=\"padding-right:10px\"></li>\r\n         <li mars-version-display role=\"menuitem\"></li>\r\n         <li style=\"width:10px\"></li>\r\n      </ul>\r\n   </div>\r\n   <!--/.nav-collapse -->\r\n</div>\r\n<div class=\"contributorsLink\" style=\"position: absolute; right:7px; bottom:15px\">\r\n   <placenames-contributors-link></placenames-contributors-link>\r\n</div>\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n   <div class=\"col-md-12\">\r\n      <div class=\"strap-blue\">\r\n      </div>\r\n      <div class=\"strap-white\">\r\n      </div>\r\n      <div class=\"strap-red\">\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("placenames/maps/maps.html","<div  ng-controller=\"MapsCtrl as maps\">\r\n	<div style=\"position:relative;padding:5px;padding-left:10px;\" >\r\n		<div class=\"panel panel-default\" style=\"padding:5px;\" >\r\n			<div class=\"panel-heading\">\r\n				<h3 class=\"panel-title\">Layers</h3>\r\n			</div>\r\n			<div class=\"panel-body\">\r\n				<div class=\"container-fluid\">\r\n					<div class=\"row\" ng-repeat=\"layer in layersTab.layers\" \r\n							style=\"padding:7px;padding-left:10px;position:relative\" ng-class-even=\"\'even\'\" ng-class-odd=\"\'odd\'\">\r\n						<div style=\"position:relative;left:6px;\">\r\n							<a href=\"{{layer.metadata}}\" target=\"_blank\" \r\n									class=\"featureLink\" title=\'View metadata related to \"{{layer.name}}\". (Opens new window.)\'>\r\n								{{layer.name}}\r\n							</a>\r\n							<div class=\"pull-right\" style=\"width:270px;\" tooltip=\"Show on map. {{layer.help}}\">\r\n								<span style=\"padding-left:10px;width:240px;\" class=\"pull-left\"><explorer-layer-slider layer=\"layer.layer\"></explorer-layer-slider></span>\r\n								<button style=\"padding:2px 8px 2px 2px;\" type=\"button\" class=\"undecorated featureLink pull-right\" href=\"javascript:;\" \r\n										ng-click=\"maps.toggleLayer(layer)\" >\r\n									<i class=\"fa\" ng-class=\"{\'fa-eye-slash\':(!layer.displayed), \'fa-eye active\':layer.displayed}\"></i>\r\n								</button>\r\n							</div>						\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
 $templateCache.put("placenames/navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
-$templateCache.put("placenames/panes/panes.html","<div class=\"mapContainer\" class=\"col-md-12\" style=\"padding-right:0\">\r\n   <div class=\"panesMapContainer\" geo-map configuration=\"data.map\"></div>\r\n   <div class=\"panesSearch\" placenames-quick-search style=\"opacity:0.9\"></div>\r\n   <div class=\"base-layer-controller\">\r\n    	<div geo-draw data=\"data.map.drawOptions\" line-event=\"elevation.plot.data\" rectangle-event=\"bounds.drawn\"></div>\r\n   </div>\r\n   <restrict-pan bounds=\"data.map.position.bounds\"></restrict-pan>\r\n</div>");
-$templateCache.put("placenames/pills/pills.html","<span class=\"btn btn-primary btn-xs pn-pill\" ng-repeat=\"type in pp.pills | placenamesSelectedFacets\" tooltip-append-to-body=\"true\" tooltip-placement=\"left\" uib-tooltip=\"{{type.name}}\">\r\n   <span style=\"max-width:100px;display:inline-block;\" class=\"ellipsis\">{{type.name}}</span>\r\n   <span style=\"max-width:100px;display:inline-block;\" class=\"ellipsis\"> ({{type.count?type.count:0 | number}})\r\n      <a ng-click=\"pp.clear(type)\" href=\"javascript:void(0)\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");
+$templateCache.put("placenames/panes/panes.html","<div class=\"mapContainer\" class=\"col-md-12\" style=\"padding-right:0\">\r\n   <div class=\"panesMapContainer\" geo-map configuration=\"data.map\"></div>\r\n   <div class=\"base-layer-controller\">\r\n    	<div geo-draw data=\"data.map.drawOptions\" line-event=\"elevation.plot.data\" rectangle-event=\"bounds.drawn\"></div>\r\n   </div>\r\n   <restrict-pan bounds=\"data.map.position.bounds\"></restrict-pan>\r\n</div>");
 $templateCache.put("placenames/popover/popover.html","<div class=\"placenames-popover {{direction}}\" ng-class=\"containerClass\" ng-show=\"show\">\r\n  <div class=\"arrow\"></div>\r\n  <div class=\"placenames-popover-inner\" ng-transclude></div>\r\n</div>");
+$templateCache.put("placenames/quicksearch/filteredsummary.html","<div>Matched {{state.filtered.response.numFound | number}}</div>");
+$templateCache.put("placenames/quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search style=\"opacity:0.9\"></div>\r\n");
+$templateCache.put("placenames/results/item.html","<div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-12 pn-header\" >\r\n         <button type=\"button\" class=\"undecorated\" ng-click=\"vm.showPan(vm.item)\"\r\n                tooltip-append-to-body=\"true\" title=\"Zoom to location and mark.\" tooltip-placement=\"left\" uib-tooltip=\"Zoom to location and mark\">\r\n            <i class=\"fa fa-lg fa-flag-o\"></i>\r\n         </button>\r\n         <span><a ng-href=\"{{vm.item | placenamesGoogleLink}}\" target=\"_google\"\r\n            title=\"View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.\">{{vm.item.name}}</a></span>\r\n         <span class=\"pull-right\">Record ID: {{vm.item.recordId}}</span>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\"  title=\"An authority can be a state department or other statutory authority\">Authority</div>\r\n      <div class=\"col-md-8\">{{vm.item.authority}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\" title=\"Features belong to a category and categories belong to a group\">Feature Type</div>\r\n      <div class=\"col-md-8\">{{vm.item.feature}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Category</div>\r\n      <div class=\"col-md-8\">{{vm.item.category}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Group</div>\r\n      <div class=\"col-md-8\">{{vm.item.group}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Supply Date</div>\r\n      <div class=\"col-md-8\" title=\"Date format is dd/mm/yyyy\">{{vm.item.supplyDate | formatDate}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Lat / Lng</div>\r\n      <div class=\"col-md-8\">\r\n         <span class=\"pn-numeric\">\r\n            {{vm.item.location | itemLatitude}}&deg; / {{vm.item.location | itemLongitude}}&deg;\r\n         </span>\r\n      </div>\r\n   </div>\r\n\r\n</div>");
+$templateCache.put("placenames/results/results.html","<div class=\"panel panel-default pn-container\" ng-if=\"pr.data.searched\" common-scroller buffer=\"200\" more=\"pr.more()\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span ng-if=\"pr.data.searched.item\">\r\n         Showing selected feature\r\n      </span>\r\n      <span ng-if=\"!pr.data.searched.item\">\r\n         Matched {{pr.data.searched.data.response.numFound | number}} features<span ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\">, showing {{pr.data.searched.data.response.docs.length\r\n         | number}}</span>\r\n         <a href \"javascript:void()\" ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\" ng-click=\"pr.more()\" tooltip-placement=\"bottom\" uib-tooltip=\"Scroll to the bottom of results or click here to load more matching features\">\r\n            [Load more]\r\n         </a>\r\n      </span>\r\n      <span class=\"pull-right\">\r\n         <a href \"javascript:void()\" ng-if=\"!pr.data.searched.item\" ng-click=\"pr.showDownload = !pr.showDownload\" tooltip-placement=\"bottom\"\r\n            uib-tooltip=\"Package up for download all your search results...\">\r\n            [\r\n            <span ng-if=\"!pr.showDownload\">Download...</span>\r\n            <span ng-if=\"pr.showDownload\">Hide download details</span>]\r\n         </a>\r\n         <a href \"javascript:void()\" ng-if=\"!pr.data.searched.item\" ng-click=\"pr.clear()\" tooltip-placement=\"bottom\" uib-tooltip=\"Clear search results and search again\">\r\n            [Clear results]\r\n         </a>\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-heading\">\r\n      <placenames-results-item ng-if=\"pr.data.searched.item\" item=\"pr.data.searched.item\"></placenames-results-item>\r\n      <placenames-results-download data=\"pr.data.searched\" ng-if=\"!pr.data.searched.item && pr.showDownload\"></placenames-results-download>\r\n      <div class=\"pn-results-list\" ng-if=\"!pr.data.searched.item\" ng-repeat=\"doc in pr.data.searched.data.response.docs\">\r\n         <placenames-results-item item=\"doc\"></placenames-results-item>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"panel panel-default pn-container\" ng-if=\"!pr.data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span>\r\n         No search results to show. Please conduct a search.\r\n      </span>\r\n   </div>\r\n</div>");
+$templateCache.put("placenames/results/summary.html","<span class=\"placenamesSearchSummary\"\r\n      ng-if=\"state.searched.data.response.numFound\">(Found {{state.searched.data.response.numFound | number}} features)</span>");
 $templateCache.put("placenames/reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
-$templateCache.put("placenames/results/item.html","<div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-12 pn-header\" >\r\n         <button type=\"button\" class=\"undecorated\" ng-click=\"vm.showPan(vm.item)\"\r\n                tooltip-append-to-body=\"true\" title=\"Zoom to location and mark.\" tooltip-placement=\"left\" uib-tooltip=\"Zoom to location and mark\">\r\n            <i class=\"fa fa-lg fa-flag-o\"></i>\r\n         </button>\r\n         <span><a ng-href=\"{{vm.item | placenamesGoogleLink}}\" target=\"_google\"\r\n            title=\"View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.\">{{vm.item.name}}</a></span>\r\n         <span class=\"pull-right\">Record ID: {{vm.item.recordId}}</span>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Authority</div>\r\n      <div class=\"col-md-8\">{{vm.item.authority}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Feature Type</div>\r\n      <div class=\"col-md-8\">{{vm.item.feature}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Category</div>\r\n      <div class=\"col-md-8\">{{vm.item.category}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Group</div>\r\n      <div class=\"col-md-8\">{{vm.item.group}}</div>\r\n   </div>\r\n\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Lat / Lng</div>\r\n      <div class=\"col-md-8\">\r\n         <span class=\"pn-numeric\">\r\n            {{vm.item.location | itemLatitude}}&deg; / {{vm.item.location | itemLongitude}}&deg;\r\n         </span>\r\n      </div>\r\n   </div>\r\n\r\n</div>");
-$templateCache.put("placenames/results/results.html","<div class=\"panel panel-default pn-container\" ng-if=\"pr.data.searched\" common-scroller more=\"pr.more()\" ng-if=\"pr.data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span ng-if=\"pr.data.searched.item\">\r\n         Showing selected feature\r\n      </span>\r\n      <span ng-if=\"!pr.data.searched.item\">\r\n         Matched {{pr.data.searched.data.response.numFound | number}} features, showing {{pr.data.searched.data.response.docs.length | number}} features\r\n         <a href\"javascript:void()\" ng-click=\"pr.download()\" ng-show=\"pr.data.searched.data.response.docs.length\" uib-tooltip=\"Download listed features in ESRI JSON format\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-download\"></i>\r\n         </a>\r\n      </span>\r\n      <span class=\"pull-right\">\r\n         <a href\"javascript:void()\" ng-if=\"!pr.data.searched.item\" ng-click=\"pr.more()\" tooltip-placement=\"bottom\"\r\n               uib-tooltip=\"Scroll to the bottom of results or click here to load more matching features\">\r\n            [Load more...]\r\n         </a>\r\n         <a href=\"#\" ng-click=\"pr.clear()\" uib-tooltip=\"Clear results and return to search\" tooltip-placement=\"left\">\r\n            <i class=\"fa fa-times-rectangle-o fa-lg\" aria-hidden=\"true\"></i>\r\n         </a>\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-heading\">\r\n      <placenames-results-item ng-if=\"pr.data.searched.item\" item=\"pr.data.searched.item\"></placenames-results-item>\r\n      <div class=\"pn-results-list\" ng-if=\"!pr.data.searched.item\" ng-repeat=\"doc in pr.data.searched.data.response.docs\">\r\n         <placenames-results-item item=\"doc\"></placenames-results-item>\r\n      </div>\r\n   </div>\r\n</div>");
-$templateCache.put("placenames/search/quicksearch.html","<div class=\"search-text\">\r\n   <div class=\"input-group input-group-sm\">\r\n      <input type=\"text\" ng-model=\"state.filter\" placeholder=\"Match by feature name...\" ng-model-options=\"{ debounce: 300}\"\r\n         typeahead-on-select=\"select($item, $model, $label)\"\r\n         typeahead-template-url=\"placenames/search/typeahead.html\" class=\"form-control\" typeahead-min-length=\"0\"\r\n         uib-typeahead=\"doc as doc.name for doc in loadDocs(state.filter)\"\r\n         typeahead-loading=\"loadingLocations\" typeahead-no-results=\"noResults\" placenames-clear>\r\n\r\n      <span class=\"input-group-btn\">\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"search()\" ng-disabled=\"!state.persist.data || !state.filtered.response.numFound\">Search</button>\r\n      </span>\r\n   </div>\r\n</div>");
-$templateCache.put("placenames/search/search.html","<div class=\"pn-search-container\">\r\n   <placenames-results ng-if=\"state.searched\" data=\"state\"></placenames-results>\r\n   <div style=\"float:clear\" ng-show=\"!state.searched\">\r\n      <h4 style=\"font-size:12\">Search by map location, partial name match or feature type</h4>\r\n      <placenames-quick-search></placenames-quick-search>\r\n      <div class=\"clearfix\">\r\n         <div>\r\n            <strong style=\"float:right\">Found {{state.filtered.response.numFound | number:0}} features</strong>\r\n         </div>\r\n      </div>\r\n      <placenames-filters></placenames-filters>\r\n\r\n   </div>\r\n</div>");
+$templateCache.put("placenames/search/quicksearch.html","<div class=\"search-text\">\r\n   <div class=\"input-group input-group-sm\">\r\n      <input type=\"text\" ng-model=\"state.filter\" placeholder=\"Match by feature name...\" ng-model-options=\"{ debounce: 300}\" typeahead-on-select=\"select($item, $model, $label)\"\r\n         ng-disabled=\"state.searched\" typeahead-template-url=\"placenames/search/typeahead.html\" class=\"form-control\" typeahead-min-length=\"0\"\r\n         uib-typeahead=\"doc as doc.name for doc in loadDocs(state.filter)\" typeahead-loading=\"loadingLocations\" typeahead-no-results=\"noResults\"\r\n         placenames-clear>\r\n\r\n      <span class=\"input-group-btn\">\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"search()\" ng-disabled=\"state.searched\">Search</button>\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"showFilters = !showFilters\" ng-disabled=\"state.searched\" title=\"SHow/hide filters such as authority, group, category and feature type\">Filters...</button>\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"clear()\" ng-show=\"state.searched\">Clear Search Results</button>\r\n      </span>\r\n   </div>\r\n</div>\r\n<div class=\"filters\" ng-show=\"showFilters\" style=\"background-color: white; opacity:0.9\">Showing filters</div>");
+$templateCache.put("placenames/search/search.html","<placenames-results data=\"state\"></placenames-results>\r\n");
 $templateCache.put("placenames/search/typeahead.html","<a placenames-options ng-mouseenter=\"enter()\" ng-mouseleave=\"leave()\"  tooltip-append-to-body=\"true\"\r\n               tooltip-placement=\"bottom\" uib-tooltip-html=\"match.model | placenamesTooltip\">\r\n   <span ng-bind-html=\"match.model.name | uibTypeaheadHighlight:query\"></span>\r\n   (<span ng-bind-html=\"match.model.recordId\"></span>)\r\n</a>");
+$templateCache.put("placenames/splash/splash.html","<div class=\"modal-header\">\r\n   <h3 class=\"modal-title splash\">Place Names</h3>\r\n</div>\r\n<div class=\"modal-body\" id=\"accept\" ng-form exp-enter=\"accept()\" placenames-splash-modal style=\"width: 100%; margin-left: auto; margin-right: auto;\">\r\n	<div style=\"border-bottom:1px solid gray\">\r\n		<p>\r\n			Users can download the place names data which is licensed under Creative Commons.\r\n		</p>\r\n		<p>\r\n			Data can be downloaded from the portal at <strong>no charge</strong> and there is no limit to how many requests you can place (please check the file size before you download your results).\r\n		</p>\r\n		<p>\r\n			If you need datasets in full, please contact <a href=\"clientservices@ga.gov.au\">clientservices@ga.gov.au</a>.\r\n		</p>\r\n		<p>\r\n			<a href=\"http://opentopo.sdsc.edu/gridsphere/gridsphere?cid=contributeframeportlet&gs_action=listTools\" target=\"_blank\">Click here for Free GIS Tools.</a>\r\n		</p>\r\n\r\n		<div style=\"padding:30px; padding-top:0; padding-bottom:40px; width:100%\">\r\n			<div class=\"pull-right\">\r\n			  	<button type=\"button\" class=\"btn btn-primary\" ng-model=\"seenSplash\" ng-focus ng-click=\"accept()\">Continue</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div ng-show=\"messages.length > 0\" class=\"container\" style=\"width:100%; max-height:250px; overflow-y:auto\">\r\n		<div class=\"row\" ng-class-even=\"\'grayline\'\" style=\"font-weight:bold\">\r\n			<div class=\"col-sm-12\" ><h3>News</h3></div>\r\n		</div>\r\n\r\n		<div class=\"row\"ng-class-even=\"\'grayline\'\" style=\"max-height:400px;overflow:auto\" ng-repeat=\"message in messages | sortNotes\">\r\n			<div class=\"col-sm-12\">\r\n				<h4>{{message.title}} <span class=\"pull-right\" style=\"font-size:70%\">Created: {{message.creationDate | date : \"dd/MM/yyyy\"}}</span></h4>\r\n				<div ng-bind-html=\"message.description\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
 $templateCache.put("placenames/side-panel/side-panel-left.html","<div class=\"cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left\" style=\"width: {{left.width}}px;\" ng-class=\"{\'cbp-spmenu-open\': left.active}\">\r\n    <a href=\"\" title=\"Close panel\" ng-click=\"closeLeft()\" style=\"z-index: 1200\">\r\n        <span class=\"glyphicon glyphicon-chevron-left pull-right\"></span>\r\n    </a>\r\n    <div ng-show=\"left.active === \'legend\'\" class=\"left-side-menu-container\">\r\n        <legend url=\"\'img/AustralianTopogaphyLegend.png\'\" title=\"\'Map Legend\'\"></legend>\r\n    </div>\r\n</div>");
 $templateCache.put("placenames/side-panel/side-panel-right.html","<div class=\"cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right noPrint\" ng-attr-style=\"width:{{right.width}}\" ng-class=\"{\'cbp-spmenu-open\': right.active}\">\r\n    <a href=\"\" title=\"Close panel\" ng-click=\"closePanel()\" style=\"z-index: 1200\">\r\n        <span class=\"glyphicon glyphicon-chevron-right pull-left\"></span>\r\n    </a>\r\n    <div ng-show=\"right.active === \'search\'\" class=\"right-side-menu-container\">\r\n        <div class=\"panesTabContentItem\" placenames-search ></div>\r\n    </div>\r\n    <div ng-if=\"right.active === \'glossary\'\" class=\"right-side-menu-container\">\r\n        <div class=\"panesTabContentItem\" placenames-glossary></div>\r\n    </div>\r\n    <div ng-show=\"right.active === \'help\'\" class=\"right-side-menu-container\">\r\n        <div class=\"panesTabContentItem\" placenames-help></div>\r\n    </div>\r\n</div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
-$templateCache.put("placenames/side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");
-$templateCache.put("placenames/splash/splash.html","<div class=\"modal-header\">\r\n   <h3 class=\"modal-title splash\">Place Names</h3>\r\n</div>\r\n<div class=\"modal-body\" id=\"accept\" ng-form exp-enter=\"accept()\" placenames-splash-modal style=\"width: 100%; margin-left: auto; margin-right: auto;\">\r\n	<div style=\"border-bottom:1px solid gray\">\r\n		<p>\r\n			Users can download the place names data over the Indian Ocean which is licensed under Creative Commons.\r\n		</p>\r\n		<p>\r\n			Data can be downloaded from the portal at <strong>no charge</strong> and there is no limit to how many requests you can place (please check the file size before you download your results).\r\n		</p>\r\n		<p>\r\n			If you need datasets in full, please contact <a href=\"clientservices@ga.gov.au\">clientservices@ga.gov.au</a>.\r\n		</p>\r\n		<p>\r\n			<a href=\"http://opentopo.sdsc.edu/gridsphere/gridsphere?cid=contributeframeportlet&gs_action=listTools\" target=\"_blank\">Click here for Free GIS Tools.</a>\r\n		</p>\r\n\r\n		<div style=\"padding:30px; padding-top:0; padding-bottom:40px; width:100%\">\r\n			<div class=\"pull-right\">\r\n			  	<button type=\"button\" class=\"btn btn-primary\" ng-model=\"seenSplash\" ng-focus ng-click=\"accept()\">Continue</button>\r\n			</div>\r\n		</div>\r\n	</div>\r\n	<div ng-show=\"messages.length > 0\" class=\"container\" style=\"width:100%; max-height:250px; overflow-y:auto\">\r\n		<div class=\"row\" ng-class-even=\"\'grayline\'\" style=\"font-weight:bold\">\r\n			<div class=\"col-sm-12\" ><h3>News</h3></div>\r\n		</div>\r\n\r\n		<div class=\"row\"ng-class-even=\"\'grayline\'\" style=\"max-height:400px;overflow:auto\" ng-repeat=\"message in messages | sortNotes\">\r\n			<div class=\"col-sm-12\">\r\n				<h4>{{message.title}} <span class=\"pull-right\" style=\"font-size:70%\">Created: {{message.creationDate | date : \"dd/MM/yyyy\"}}</span></h4>\r\n				<div ng-bind-html=\"message.description\"></div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
-$templateCache.put("placenames/toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\"></ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Advanced Search\" icon-class=\"fa-search\" default=\"false\"></panel-trigger>\r\n                </li>\r\n                <li reset-page></li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");
-$templateCache.put("placenames/themes/themes.html","<div class=\"dropdown themesdropdown\">\r\n   <button class=\"btn btn-default dropdown-toggle themescurrent\" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\r\n     Theme\r\n     <span class=\"caret\"></span>\r\n   </button>\r\n   <ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\r\n     <li ng-repeat=\"item in themes\">\r\n        <a href=\"#\" title=\"{{item.title}}\" ng-href=\"{{item.url}}\" class=\"themesItemCompact\">\r\n          <span class=\"icsm-icon\" ng-class=\"item.className\"></span>\r\n          <strong style=\"vertical-align:top;font-size:110%\">{{item.label}}</strong>\r\n        </a>\r\n     </li>\r\n   </ul>\r\n </div>");}]);
+$templateCache.put("placenames/side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <ng-transclude></ng-transclude>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");
+$templateCache.put("placenames/themes/themes.html","<div class=\"dropdown themesdropdown\">\r\n   <button class=\"btn btn-default dropdown-toggle themescurrent\" type=\"button\" id=\"dropdownMenu1\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"true\">\r\n     Theme\r\n     <span class=\"caret\"></span>\r\n   </button>\r\n   <ul class=\"dropdown-menu\" aria-labelledby=\"dropdownMenu1\">\r\n     <li ng-repeat=\"item in themes\">\r\n        <a href=\"#\" title=\"{{item.title}}\" ng-href=\"{{item.url}}\" class=\"themesItemCompact\">\r\n          <span class=\"icsm-icon\" ng-class=\"item.className\"></span>\r\n          <strong style=\"vertical-align:top;font-size:110%\">{{item.label}}</strong>\r\n        </a>\r\n     </li>\r\n   </ul>\r\n </div>");
+$templateCache.put("placenames/toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\"></ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Search Results\" icon-class=\"fa-list\">\r\n                        <placenames-results-summary state=\"state\"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li reset-page></li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");}]);

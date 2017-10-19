@@ -25,7 +25,8 @@
 
 .pn-header {
    font-weight: bold;
-   border-bottom: 1px solid lightgray;
+   background-color: #eaeaea;
+   padding: 3px;
 }
 
 .pn-results-list {

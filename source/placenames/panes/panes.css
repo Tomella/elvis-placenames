@@ -9,13 +9,6 @@
 	right:30px;
 }
 
-.panesSearch {
-   width:32em;
-   position: absolute;
-   left: 57px;
-   top: 13px;
-}
-
 .panesMapContainer {
 	z-index:0;
 	width:100%;

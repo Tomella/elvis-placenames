@@ -1,0 +1,8 @@
+.product-invalid {
+   color: red;
+   opacity:0.6;
+}
+
+.product-valid {
+   color: green;
+}

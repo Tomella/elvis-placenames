@@ -6,7 +6,7 @@
    const categories = [];
    const featureCodes = [];
 
-   angular.module('placenames.filters', ['placenames.groups', "placenames.pills"])
+   angular.module('placenames.filters', ['placenames.groups'])
 
    .directive('placenamesFilters', ['placenamesFiltersService', function(placenamesFiltersService) {
       return {

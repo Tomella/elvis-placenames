@@ -1,6 +1,4 @@
-(function (angular) {
-   'use strict';
-
+{
    angular.module("placenames.pills", [])
 
 
@@ -22,4 +20,4 @@
          };
       }]);
 
-})(angular);
+}
