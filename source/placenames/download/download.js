@@ -1,7 +1,7 @@
 {
    angular.module("placenames.download", [])
 
-      .directive("placenamesDownload", ["placenamesDownloadService", function (placenamesDownloadService) {
+      .directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", function (flashService, messageService, placenamesDownloadService) {
          return {
             templateUrl: "placenames/download/download.html",
             scope: {
@@ -14,7 +14,18 @@
                scope.$watch("processing.filename", testFilename);
 
                scope.submit = function () {
-                  placenamesDownloadService.submit(scope.data.params);
+                  let flasher = flashService.add("Submitting your job for processing", null, true);
+                  placenamesDownloadService.submit(scope.data.params).then(({data}) => {
+                     flasher.remove();
+                     if (data.serviceResponse.statusInfo.status === "success") {
+                        messageService.success("Your job has successfuly been queued for processing.");
+                     } else {
+                        messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
+                     }
+                  }).catch(() => {
+                     flasher.remove();
+                     messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
+                  });
                }
 
                testFilename();
