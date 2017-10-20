@@ -73,7 +73,7 @@
 
             submit: function ({ fq, q }) {
                let postData = {
-                  file_name: this.data.fileName ? this.data.fileName : "output_filename",
+                  file_name: this.data.filename ? this.data.filename : "output_filename",
                   file_format_vector: this.data.outFormat.code,
                   coord_sys: this.data.outCoordSys.code,
                   email_address: this.data.email,
