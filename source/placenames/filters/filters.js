@@ -10,7 +10,17 @@
 
    .directive('placenamesFilters', ['placenamesFiltersService', function(placenamesFiltersService) {
       return {
-         templateUrl: "placenames/filters/filters.html"
+         templateUrl: "placenames/filters/filters.html",
+         scope: {
+            status: "=",
+            state: "="
+         },
+         link: function(scope) {
+            scope.$watch("status.groupOpen", function(value) {
+               let status = scope.status;
+
+            })
+         }
       };
    }])
 

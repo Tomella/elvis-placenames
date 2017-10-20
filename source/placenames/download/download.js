@@ -15,6 +15,11 @@
 
                scope.submit = function () {
                   let flasher = flashService.add("Submitting your job for processing", null, true);
+                  if (scope.processing.outFormat.restrictCoordSys) {
+                     scope.processing.outCoordSys = scope.processing.config.outCoordSys.find(coord => coord.code === scope.processing.outFormat.restrictCoordSys);
+                     messageService.warn(scope.processing.outFormat.restrictMessage);
+                  }
+
                   placenamesDownloadService.submit(scope.data.params).then(({data}) => {
                      flasher.remove();
                      if (data.serviceResponse.statusInfo.status === "success") {

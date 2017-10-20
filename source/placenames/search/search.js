@@ -296,7 +296,10 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
          "facet.field": "feature"
       };
 
-      map.on('resize moveend viewreset', function () {
+      map.on('resize moveend viewreset', update);
+      $rootScope.$on("filters.changed")
+
+      function update() {
          $timeout.cancel(timeout);
          if (!data.searched) {
             timeout = $timeout(function () {
@@ -306,7 +309,7 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
                listener();
             });
          }
-      });
+      }
    });
 
    function filtered() {
@@ -322,10 +325,6 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
    function createParams() {
       return mapService.getMap().then(map => {
-         var groups = data.groups;
-         var types = data.features;
-         var features = types.filter(type => type.selected);
-         var categories = data.categories.filter(item => item.selected);
          var params = baseParameters();
          var filterIsObject = typeof data.filter === "object";
          var q = filterIsObject ? data.filter.name : data.filter;
@@ -340,17 +339,17 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
          switch (data.filterBy) {
             case "group":
-               groups.forEach(group => {
+               data.groups.groups.filter(group => group.selected).forEach(group => {
                   qs.push('group:"' + group.name + '"');
                });
                break;
             case "feature":
-               features.forEach(feature => {
+               data.groups.features.filter(feature => feature.selected).forEach(feature => {
                   qs.push('feature:"' + feature.name + '"');
                });
                break;
             case "category":
-               categories.forEach(category => {
+               data.groups.categories.filter(category => category.selected).forEach(category => {
                   qs.push('category:"' + category.name + '"');
                });
          }

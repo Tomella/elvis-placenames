@@ -74,7 +74,9 @@
          },
          {
             "value": "Google KML",
-            "code": "OGCKML"
+            "code": "OGCKML",
+            "restrictCoordSys": "LL-WGS84",
+            "restrictMessage": "We can only deliver Google KML in WGS84 Lat/Longs (EPSG:4326)"
          },
          {
             "value": "CSV (pipe delimited )",

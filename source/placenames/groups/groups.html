@@ -1,6 +1,6 @@
 <div>
    <div ng-repeat="group in data.groups">
-      <input type="checkbox" ng-model="group.selected"><span title="{{group.definition}}">{{group.name}}
+      <input type="checkbox" ng-model="group.selected" ng-change="change()"><span title="{{group.definition}}">{{group.name}} ({{group.total | number}})
       <button class="undecorated" ng-click="group.showChildren = !group.showChildren">
          <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!group.showChildren, 'fa-minus-square-o': group.showChildren}"></i>
       </button>

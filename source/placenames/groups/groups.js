@@ -12,6 +12,10 @@
                groupsService.getGroups().then(data => {
                   scope.data = data;
                });
+
+               scope.change = function() {
+
+               }
             }
          }
       }])
