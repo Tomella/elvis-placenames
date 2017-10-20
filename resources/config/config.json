@@ -88,10 +88,6 @@
          {
             "code": "FILEGDB",
             "value": "Esri Geodatabase"
-         },
-         {
-            "code": "NGRID",
-            "value": "MapInfo Vertical Mapper Grid (NGrid)"
          }
       ],
       "outCoordSys": [
