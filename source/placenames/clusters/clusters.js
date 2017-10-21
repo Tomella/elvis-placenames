@@ -135,7 +135,7 @@ class SolrTransformer {
                });
             } else {
                this.layer = L.markerClusterGroup({
-                  disableClusteringAtZoom: count > 1000 ? 12 : 8
+                  disableClusteringAtZoom: count > 600 ? 12 : 4
                });
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;

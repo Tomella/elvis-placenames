@@ -223,9 +223,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       search(item) {
          if (item) {
-            data.persist.item = item;
+            select(item.recordId).then(() => this.searched());
+         } else {
+            this.searched();
          }
-         this.searched();
       },
 
       persist(params, response) {
@@ -286,6 +287,19 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       }
    });
 
+   // We replace the search parameters like filters with a unique record ID.
+   function select(recordId) {
+      return createParams().then(params => {
+         params.q = "recordId:" + recordId;
+         return run(params).then(response => {
+            return service.persist(params, response).then(function () {
+               $rootScope.$broadcast('pn.search.complete', response);
+               return response;
+            });
+         });
+      });
+   }
+
    function filtered() {
       return createParams().then(params => {
          return run(params).then(response => {
@@ -308,7 +322,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             params.fq = getBounds(map);
             params["facet.heatmap.geom"] = getHeatmapBounds(map);
             params.sort = getSort(map);
-            params.q = q ? '"' + q.toLowerCase() + '"' : "*:*";
+            params.q = q ? '*' + q.toLowerCase() : "*:*";
 
             var qs = [];
             var qas = [];

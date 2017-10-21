@@ -4,8 +4,8 @@
 
    angular.module("placenames.results.item", [])
 
-      .directive("placenamesResultsItem", ['placenamesItemService', 'placenamesResultsService',
-            function (placenamesItemService, placenamesResultsService) {
+      .directive("placenamesResultsItem", ['placenamesItemService', 'placenamesResultsService', 'placenamesSearchService',
+            function (placenamesItemService, placenamesResultsService, placenamesSearchService) {
 
          return {
             templateUrl: "placenames/results/item.html",
@@ -20,6 +20,19 @@
 
                this.download = function (type) {
                   placenamesItemService[type](this);
+               };
+
+
+               this.leave = function () {
+                  placenamesSearchService.hide();
+               };
+
+               this.enter = function () {
+                  placenamesSearchService.show(this.item);
+               };
+
+               this.$destroy = function () {
+                  placenamesSearchService.hide();
                };
             },
             controllerAs: "vm"
