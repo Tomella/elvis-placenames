@@ -1,11 +1,11 @@
 {
    const createCategories = (target) => {
-      target.categories = Object.keys(target.groups)
-   }
+      target.categories = Object.keys(target.groups);
+   };
 
    angular.module("placenames.groups", ["placenames.feature", "placenames.categories"])
 
-      .directive("placenamesGroups", ['groupsService', function (groupsService) {
+      .directive("placenamesGroups", ['groupsService', "placenamesSearchService", function (groupsService, placenamesSearchService) {
          return {
             templateUrl: "placenames/groups/groups.html",
             link: function (scope) {
@@ -13,11 +13,12 @@
                   scope.data = data;
                });
 
-               scope.change = function() {
-
-               }
+               scope.change = function () {
+                  console.log("Update groups");
+                  placenamesSearchService.filtered();
+               };
             }
-         }
+         };
       }])
 
       .directive("placenamesGroupChildren", ['groupsService', function (groupsService) {
@@ -26,7 +27,7 @@
             scope: {
                category: "="
             }
-         }
+         };
       }])
 
       .factory("groupsService", ["$http", "$q", "$rootScope", "configService", "mapService",
@@ -35,16 +36,30 @@
             let service = {};
             service.getGroups = function () {
                if (service.config) {
+                  service.promise = null;
                   return $q.when(service.config);
                }
 
-               return service.getCounts().then(count => {
-                  return configService.getConfig("groups").then(function (config) {
+               if (service.promise) {
+                  return service.promise;
+               }
+
+               service.promise = service.getCounts().then(count => {
+                  return configService.getConfig().then(function (all) {
+                     // Merge the groups
+                     let config = all.groups;
                      service.config = config;
+
                      return $http.get(config.referenceDataLocation).then(({ data }) => {
                         config.data = data;
                         config.categories = [];
                         config.features = [];
+                        config.authorities = all.authorities;
+
+                        config.authorities.forEach(authority => {
+                           let total = count.authority[authority.code];
+                           authority.total = total ? total : 0;
+                        });
 
                         config.groups = Object.keys(data).filter(key => !(key === 'name' || key === 'definition')).map(key => {
                            let response = {
@@ -72,7 +87,8 @@
                            });
                            return response;
                         });
-                        // After thought: Why bother with any that have zero counts? Filter them out.
+                        // After thought: Why bother with any that have zero counts? Filter them out now.
+                        config.authorities = config.authorities.filter(authority => authority.total);
                         config.groups = config.groups.filter(group => group.total);
                         config.categories = config.categories.filter(category => category.total);
                         config.features = config.features.filter(feature => feature.total);
@@ -81,11 +97,23 @@
                      });
                   });
                });
+
+               return service.promise;
             };
 
             service.getCategories = function () {
                return service.getGroups().then(() => {
                   return service.config.categories;
+               });
+            };
+
+            service.getAll = function() {
+               return service.getGroups().then(() => service.config);
+            };
+
+            service.getAuthorities = function () {
+               return service.getGroups().then(() => {
+                  return service.config.authorities;
                });
             };
 
@@ -103,11 +131,12 @@
                      let response = {
                         feature: {},
                         category: {},
-                        group: {}
+                        group: {},
+                        authority: {}
                      };
                      let lastElement;
 
-                     ["feature", "category", "group"].forEach(key => {
+                     ["feature", "category", "group", "authority"].forEach(key => {
 
                         counts[key].forEach((value, index) => {
                            if (index % 2) {
@@ -120,7 +149,7 @@
                      return response;
                   });
                });
-            }
+            };
 
             return service;
          }]);

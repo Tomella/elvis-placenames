@@ -1,27 +1,17 @@
 {
-
    angular.module("placenames.authorities", [])
 
-      .directive('placenamesAuthorities', [function () {
+      .directive('placenamesAuthorities', ["groupsService", "placenamesSearchService", function (groupsService, placenamesSearchService) {
          return {
 				restrict: 'EA',
             templateUrl: "placenames/authorities/authorities.html",
-            bindToController: {
-               authorities: "=",
-               update: "&"
-            },
-            controller: function () {
-               console.log(this.authorities);
-            },
-            controllerAs: "pa"
+            link: function (scope) {
+               groupsService.getAuthorities().then(authorities => scope.authorities = authorities);
+               scope.change = function(item) {
+                  console.log("Update authorities");
+                  placenamesSearchService.filtered();
+               };
+            }
          };
-      }])
-
-      .filter('pnUnselectedFacets', [function () {
-         return function (facets) {
-            return !facets ? [] : facets.filter(facet => !facet.selected);
-         };
-      }])
-;
-
+      }]);
 }

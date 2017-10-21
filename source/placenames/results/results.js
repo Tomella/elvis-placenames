@@ -7,7 +7,7 @@
             scope: {
                state: "="
             }
-         }
+         };
       }])
 
       .directive("placenamesResultsDownload", [function () {
@@ -16,7 +16,7 @@
             scope: {
                data: "="
             }
-         }
+         };
       }])
 
       .directive("placenamesResults", ['placenamesResultsService', function (placenamesResultsService) {

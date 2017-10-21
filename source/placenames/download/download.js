@@ -8,7 +8,6 @@
                data: "="
             },
             link: function (scope) {
-               console.log("data download", scope.data);
                scope.processing = placenamesDownloadService.data;
 
                scope.$watch("processing.filename", testFilename);
@@ -31,7 +30,7 @@
                      flasher.remove();
                      messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
                   });
-               }
+               };
 
                testFilename();
 
@@ -42,7 +41,7 @@
                   scope.processing.validFilename = !scope.processing.filename || scope.processing.filename.match(/^[a-zA-Z0-9\_\-]+$/);
                }
             }
-         }
+         };
       }])
 
       .factory("placenamesDownloadService", ["$http", "configService", "storageService", function ($http, configService, storageService) {
@@ -104,7 +103,6 @@
                   },
                   data: postData
                });
-               console.log("Downloading", postData);
             },
 
             setEmail: function (email) {

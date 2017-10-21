@@ -35,8 +35,8 @@
          };
       }])
 
-      .directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
-         function ($rootScope, $timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
+      .directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'placenamesSearchService',
+         function ($rootScope, $timeout, groupsService, placenamesSearchService) {
             return {
                templateUrl: 'placenames/search/quicksearch.html',
                restrict: 'AE',
@@ -62,14 +62,13 @@
                         $rootScope.$broadcast("search.button.fired");
                      }, 100);
                   };
-
                }
-            }
+            };
          }
       ])
 
-      .directive("placenamesSearch", ['$timeout', 'groupsService', 'placenamesFiltersService', 'placenamesSearchService',
-         function ($timeout, groupsService, placenamesFiltersService, placenamesSearchService) {
+      .directive("placenamesSearch", ['$timeout', 'groupsService', 'placenamesSearchService',
+         function ($timeout, groupsService, placenamesSearchService) {
             return {
                templateUrl: 'placenames/search/search.html',
                restrict: 'AE',
@@ -105,46 +104,25 @@
 
                   scope.$watch("status.groupOpen", function (load) {
                      if (load) {
+                        console.log("Update filter", load);
                         scope.state.filterBy = "group";
-                        if (!scope.group) {
-                           scope.group = true;
-                           groupsService.getGroups().then(groups => {
-                              scope.state.groups = groups;
-                           });
-                        }
+                        placenamesSearchService.filtered();
                      }
                   });
 
                   scope.$watch("status.catOpen", function (load) {
                      if (load) {
+                        console.log("Update filter", load);
                         scope.state.filterBy = "category";
-                        if (!scope.categories) {
-                           scope.features = true;
-                           groupsService.getCategories().then(categories => {
-                              scope.state.categories = categories;
-                           });
-                        }
+                        placenamesSearchService.filtered();
                      }
                   });
 
                   scope.$watch("status.featureOpen", function (load) {
                      if (load) {
+                        console.log("Update filter", load);
                         scope.state.filterBy = "feature";
-                        if (!scope.features) {
-                           scope.features = true;
-                           groupsService.getFeatures().then(features => {
-                              scope.state.features = features;
-                           });
-                        }
-                     }
-                  });
-
-                  scope.$watch("status.authOpen", function (load) {
-                     if (load && !scope.authorities) {
-                        scope.authorities = true;
-                        placenamesFiltersService.getAuthorities().then(authorities => {
-                           scope.state.authorities = authorities;
-                        });
+                        placenamesSearchService.filtered();
                      }
                   });
                }
@@ -205,17 +183,12 @@
 
       .factory('placenamesSearchService', SearchService);
 
-   SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'mapService'];
+   SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'groupsService', 'mapService'];
 }
 
-
-function SearchService($http, $rootScope, $timeout, configService, mapService) {
+function SearchService($http, $rootScope, $timeout, configService, groupsService, mapService) {
    var data = {
-      searched: null, // Search results
-      groups: [],
-      features: [],
-      categories: [],
-      authorities: []
+      searched: null // Search results
    };
    var mapListeners = [];
 
@@ -223,6 +196,8 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
    var marker;
 
    var service = {
+
+
       onMapUpdate(listener) {
          mapListeners.push(listener);
       },
@@ -297,7 +272,6 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
       };
 
       map.on('resize moveend viewreset', update);
-      $rootScope.$on("filters.changed")
 
       function update() {
          $timeout.cancel(timeout);
@@ -314,10 +288,10 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
    function filtered() {
       return createParams().then(params => {
-         return run(params).then(data => {
-            service.persist(params, data).then(function() {
-               $rootScope.$broadcast('pn.search.complete', data);
-               return data;
+         return run(params).then(response => {
+            return service.persist(params, response).then(function () {
+               $rootScope.$broadcast('pn.search.complete', response);
+               return response;
             });
          });
       });
@@ -325,44 +299,51 @@ function SearchService($http, $rootScope, $timeout, configService, mapService) {
 
    function createParams() {
       return mapService.getMap().then(map => {
-         var params = baseParameters();
-         var filterIsObject = typeof data.filter === "object";
-         var q = filterIsObject ? data.filter.name : data.filter;
+         return groupsService.getAll().then(response => {
+            var params = baseParameters();
+            var filterIsObject = typeof data.filter === "object";
+            var q = filterIsObject ? data.filter.name : data.filter;
 
 
-         params.fq = getBounds(map);
-         params["facet.heatmap.geom"] = getHeatmapBounds(map);
-         params.sort = getSort(map);
-         params.q = q ? '"' + q.toLowerCase() + '"' : "*:*";
+            params.fq = getBounds(map);
+            params["facet.heatmap.geom"] = getHeatmapBounds(map);
+            params.sort = getSort(map);
+            params.q = q ? '"' + q.toLowerCase() + '"' : "*:*";
 
-         var qs = [];
+            var qs = [];
+            var qas = [];
 
-         switch (data.filterBy) {
-            case "group":
-               data.groups.groups.filter(group => group.selected).forEach(group => {
-                  qs.push('group:"' + group.name + '"');
-               });
-               break;
-            case "feature":
-               data.groups.features.filter(feature => feature.selected).forEach(feature => {
-                  qs.push('feature:"' + feature.name + '"');
-               });
-               break;
-            case "category":
-               data.groups.categories.filter(category => category.selected).forEach(category => {
-                  qs.push('category:"' + category.name + '"');
-               });
-         }
+            switch (data.filterBy) {
+               case "group":
+                  response.groups.filter(group => group.selected).forEach(group => {
+                     qs.push('group:"' + group.name + '"');
+                  });
+                  break;
+               case "feature":
+                  response.features.filter(feature => feature.selected).forEach(feature => {
+                     qs.push('feature:"' + feature.name + '"');
+                  });
+                  break;
+               case "category":
+                  response.categories.filter(category => category.selected).forEach(category => {
+                     qs.push('category:"' + category.name + '"');
+                  });
+            }
 
-         data.authorities.filter(auth => auth.selected).forEach(auth => {
-            qs.push('authority:' + auth.code);
+            response.authorities.filter(auth => auth.selected).forEach(auth => {
+               qas.push('authority:' + auth.code);
+            });
+
+            if (qas.length) {
+               params.q += ' AND (' + qas.join(" ") + ')';
+            }
+
+            if (qs.length) {
+               params.q += ' AND (' + qs.join(" ") + ')';
+            }
+
+            return params;
          });
-
-         if (qs.length) {
-            params.q += ' AND (' + qs.join(" ") + ')';
-         }
-
-         return params;
       });
    }
 

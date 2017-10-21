@@ -1,6 +1,6 @@
 <div>
    <div ng-repeat="category in categories | orderBy: 'name'" ng-attr-title="{{category.definition}}">
-      <input type="checkbox" ng-model="category.selected">
+      <input type="checkbox" ng-model="category.selected" ng-change="change()">
       <span title="[Group: {{category.parent.name}}], {{category.definition}}">{{category.name}} ({{category.total}})</span>
       <button class="undecorated" ng-click="category.showChildren = !category.showChildren">
          <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!category.showChildren, 'fa-minus-square-o': category.showChildren}"></i>

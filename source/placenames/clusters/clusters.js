@@ -43,7 +43,7 @@ class SolrTransformer {
                   this.cells.push(cell);
                });
             }
-         })
+         });
       }
    }
 
@@ -153,7 +153,7 @@ class SolrTransformer {
             }
 
             this.layer.addTo(this.map);
-         }
+         };
 
          return service;
       }]);

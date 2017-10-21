@@ -677,44 +677,6 @@ img.elvis-logo {
   color: #fff;
   background-color: #777;
 }
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
-}
-
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
-}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -825,6 +787,44 @@ img.elvis-logo {
     display: none !important;
   }
 }
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
+}
 .quickSearch {
   width: 33em;
 }
@@ -885,6 +885,24 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
+}
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
 }
 /* Side Panel */
 
@@ -983,24 +1001,6 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
-}
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
 }
 .icsm-icon {
   background: url("placenames/img/global-sprites.svg") no-repeat;

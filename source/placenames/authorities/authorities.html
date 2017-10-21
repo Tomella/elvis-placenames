@@ -1,6 +1,6 @@
-<div ng-repeat="item in pa.authorities" class="row">
+<div ng-repeat="item in authorities">
    <div class="col-md-12 ellipsis" title='Jurisdiction: {{item.jurisdiction}}, Authority name: {{item.name}}'>
-      <input type="checkbox" ng-click="pa.update()" ng-model="item.selected">
+      <input type="checkbox" ng-click="update()" ng-model="item.selected" ng-change="change()">
       <span>
          <a target="_blank" href="http://www.google.com/search?q={{item.name}}">{{item.code}}</a>
          ({{(item.count | number) + (item.count || item.count == 0?' of ':'')}}{{item.total | number}})

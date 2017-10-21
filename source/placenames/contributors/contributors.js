@@ -72,22 +72,22 @@
       });
 
    ContributorsService.$inject = ["$http"];
-   function ContributorsService($http) {
-      var state = {
-         show: false,
-         ingroup: false,
-         stick: false
-      };
+}
 
-      $http.get("placenames/resources/config/contributors.json").then(response => {
-         state.orgs = response.data;
-      });
+function ContributorsService($http) {
+   var state = {
+      show: false,
+      ingroup: false,
+      stick: false
+   };
 
-      return {
-         getState: function () {
-            return state;
-         }
-      };
-   }
+   $http.get("placenames/resources/config/contributors.json").then(response => {
+      state.orgs = response.data;
+   });
 
+   return {
+      getState: function () {
+         return state;
+      }
+   };
 }

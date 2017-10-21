@@ -1,6 +1,6 @@
 <div>
       <div ng-repeat="feature in features | orderBy: 'name'" title="{{feature.definition}}">
-         <input type="checkbox" ng-model="feature.selected">
+         <input type="checkbox" ng-model="feature.selected" ng-change="change()">
          <span title="[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}">{{feature.name}} ({{feature.total}})</span>
          <button class="undecorated" ng-click="feature.showChildren = !feature.showChildren">
             <i class="fa fa-lg" ng-class="{'fa-question-circle-o':!feature.showChildren, 'fa-minus-square-o': feature.showChildren}"></i>

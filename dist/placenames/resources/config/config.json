@@ -257,51 +257,62 @@
    "filters": {
       "referenceDataUrl": "placenames/resources/config/groupCatalogFeatures.json"
    },
-   "authorities": {
-      "AAD": {
+   "authorities": [
+      {
+         "code": "AAD",
          "jurisdiction": "Australian Government",
          "name": "Australian Antarctic Division"
       },
-      "AHO": {
+      {
+         "code": "AHO",
          "jurisdiction": "Australian Government",
          "name": "Australian Hydrographic Service"
       },
-      "GA": {
+      {
+         "code": "GA",
          "jurisdiction": "Australian Government",
          "name": "Geoscience Australia"
       },
-      "ACT": {
+      {
+         "code": "ACT",
          "jurisdiction": "Australian Capital Territory",
          "name": "ACT Planning and Land Authority"
       },
-      "NSW": {
+      {
+         "code": "NSW",
          "jurisdiction": "New South Wales",
          "name": "Geographical Names Board"
       },
-      "NT": {
+      {
+         "code": "NT",
          "jurisdiction": "Northern Territory",
          "name": "Department of Planning and Infrastructure"
       },
-      "QLD": {
+      {
+         "code": "QLD",
          "jurisdiction": "Queensland",
          "name": "Department of Natural Resources and Water"
       },
-      "SA": {
+      {
+         "code": "SA",
          "jurisdiction": "South Australia",
          "name": "Department for Transport, Energy and Infrastructure Land Services Group"
       },
-      "TAS": {
+      {
+         "code": "TAS",
          "jurisdiction": "Tasmania",
          "name": "Department of Primary Industries and Water"
       },
-      "VIC": {
+      {
+         "code": "VIC",
          "jurisdiction": "Victoria",
          "name": "Department of Sustainability and Environment"
       },
-      "WA": {
+      {
+         "code": "WA",
          "jurisdiction": "Western Australia",
          "name": "Landgate"
       }
-   },
+   ],
    "facetsQuery": "select?facet=true&facet.field=location&facet.field=feature&facet.field=authority&facet.field=category&facet.field=authority&q=*:*&rows=1&wt=json"
 }
