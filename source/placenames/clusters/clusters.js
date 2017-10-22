@@ -26,16 +26,16 @@ class SolrTransformer {
 
                   let cell = {
                      type: "Feature",
-                     properties: {},
+                     properties: {
+                        count
+                     },
                      geometry: {
                         type: "Point",
                         coordinates: []
                      }
                   },
-                     properties = cell.properties,
-                     geometry = cell.geometry;
-
-                  properties.count = count;
+                  properties = cell.properties,
+                  geometry = cell.geometry;
 
                   geometry.coordinates[0] = this.data.minX + this.dx * (columnIndex + 0.5);
                   geometry.coordinates[1] = this.data.maxY - this.dy * (rowIndex + 0.5);
@@ -129,8 +129,10 @@ class SolrTransformer {
 
                worker.cells.forEach(cell => {
                   let count = cell.properties.count;
+                  let x = cell.geometry.coordinates[1];
+                  let y = cell.geometry.coordinates[0];
                   for (let i = 0; i < count; i++) {
-                     this.layer.addLayer(L.marker([cell.geometry.coordinates[1], cell.geometry.coordinates[0]]));
+                     this.layer.addLayer(L.marker([x, y]));
                   }
                });
             } else {

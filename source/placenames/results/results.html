@@ -21,6 +21,7 @@
             [Clear results]
          </a>
       </span>
+      <placenames-search-filters ng-if="pr.data.searched"></placenames-search-filters>
    </div>
    <div class="panel-heading">
       <placenames-results-item ng-if="pr.data.searched.item" item="pr.data.searched.item"></placenames-results-item>

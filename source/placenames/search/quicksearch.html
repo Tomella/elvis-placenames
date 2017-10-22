@@ -6,8 +6,8 @@
          placenames-clear>
 
       <span class="input-group-btn">
-         <button class="btn btn-primary" type="button" ng-click="search()" ng-disabled="state.searched">Search</button>
-         <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-disabled="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
+         <button class="btn btn-primary" type="button" ng-click="search()" ng-hide="state.searched">Search</button>
+         <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
          <button class="btn btn-primary" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
       </span>
    </div>

@@ -17,6 +17,31 @@
          };
       }])
 
+      .directive('placenamesSearchFilters', ["groupsService", "placenamesSearchService", function(groupsService, placenamesSearchService) {
+         const groupMatch = {
+            group: "groups",
+            category: "categories",
+            feature: "features"
+         };
+
+         return {
+            templateUrl: "placenames/search/searchfilters.html",
+            link: function(scope) {
+               scope.data = placenamesSearchService.data;
+               groupsService.getAll().then(data => {
+                  if(scope.data.filterBy) {
+                     let type = groupMatch[scope.data.filterBy];
+                     scope.filters = data[type].filter(item => item.selected).map(item => item.name).join(", ");
+                     if(scope.filters.length) {
+                        scope.type = type;
+                     }
+                  }
+                  scope.authorities = data.authorities.filter(authority => authority.selected).map(authority => authority.code).join(", ");
+               });
+            }
+         };
+      }])
+
       .directive('placenamesOptions', ['placenamesSearchService', function (placenamesSearchService) {
          return {
             link: function (scope) {
@@ -57,6 +82,7 @@
                   };
 
                   scope.search = function search(item) {
+                     scope.showFilters = false;
                      placenamesSearchService.search(item);
                      $timeout(() => {
                         $rootScope.$broadcast("search.button.fired");
@@ -423,11 +449,11 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       };
    }
 
+   return service;
+
    function baseFacetParameters() {
       var params = baseParameters();
       params.rows = 0;
    }
-
-   return service;
 }
 

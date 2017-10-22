@@ -8,7 +8,6 @@
             link: function (scope) {
                groupsService.getAuthorities().then(authorities => scope.authorities = authorities);
                scope.change = function(item) {
-                  console.log("Update authorities");
                   placenamesSearchService.filtered();
                };
             }
