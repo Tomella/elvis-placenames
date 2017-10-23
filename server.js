@@ -181,8 +181,9 @@ app.get('/xml2js/*', function (req, res, next) {
 // as proxying via the apache proxy will intercept and route the request to the local Solr instance.
 app.get('/select', function(req, res, next) {
     var remoteUrl = req.url;
-    let wholeUrl = "http://web.geospeedster.com" +  remoteUrl;
+    // let wholeUrl = "http://web.geospeedster.com" +  remoteUrl;
     //let wholeUrl = "http://192.168.0.24:8983/solr/placenames" + remoteUrl;
+    let wholeUrl = "http://placenames.geospeedster.com" + remoteUrl;
     console.log(wholeUrl);
 
 

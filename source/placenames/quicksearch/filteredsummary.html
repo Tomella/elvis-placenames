@@ -2,4 +2,6 @@
       <div>
          Matched {{state.persist.data.response.numFound | number}}
       </div>
+      <div ng-if="type">Filtered by {{type}}: {{filters}}</div>
+      <div ng-if="authorities">For authorities: {{authorities}}</div>
 </div>
