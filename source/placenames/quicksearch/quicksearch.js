@@ -9,16 +9,22 @@
       };
    }])
 
-   .directive('placenamesFilteredSummary', ["groupsService", function(groupsService) {
+   .directive('placenamesFilteredSummary', ["placenamesSearchService", function(placenamesSearchService) {
       return {
          scope: {
             state: "="
          },
          templateUrl: "placenames/quicksearch/filteredsummary.html",
          link: function(scope) {
-            scope.filters = groupsService.getAll().then(all => scope.filters = all);
+            scope.summary = placenamesSearchService.summary;
          }
       };
+   }])
+
+   .filter("quicksummary", [function() {
+      return function(items, key) {
+         return items.map(item => item[key]).join(", ")
+      }
    }]);
 
 }

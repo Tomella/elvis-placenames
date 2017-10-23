@@ -41,6 +41,7 @@
 
 
       'placenames.about',
+      'placenames.antarctic',
       'placenames.bounds',
       'placenames.clusters',
       'placenames.contributors',

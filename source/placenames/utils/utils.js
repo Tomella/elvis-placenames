@@ -23,7 +23,6 @@
                let location = what.location.split(" ");
 
                return template
-                  .replace("${name}", what.name)
                   .replace("${lng}", location[0])
                   .replace("${lat}", location[1]);
             };

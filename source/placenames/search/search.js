@@ -27,6 +27,7 @@
          return {
             templateUrl: "placenames/search/searchfilters.html",
             link: function(scope) {
+               scope.summary = placenamesSearchService.summary;
                scope.data = placenamesSearchService.data;
                groupsService.getAll().then(data => {
                   if(scope.data.filterBy) {
@@ -216,13 +217,13 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    var data = {
       searched: null // Search results
    };
+   var summary = {};
    var mapListeners = [];
 
    var results;
    var marker;
 
    var service = {
-
 
       onMapUpdate(listener) {
          mapListeners.push(listener);
@@ -234,6 +235,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       get data() {
          return data;
+      },
+
+      get summary() {
+         return summary;
       },
 
       filtered() {
@@ -327,6 +332,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filtered() {
+      createSummary();
       return createParams().then(params => {
          return run(params).then(response => {
             return service.persist(params, response).then(function () {
@@ -334,6 +340,33 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
                return response;
             });
          });
+      });
+   }
+
+   function createSummary() {
+      return mapService.getMap().then(map => {
+         return groupsService.getAll().then(response => {
+            var filterIsObject = typeof data.filter === "object";
+            var summary = service.summary;
+            summary.filter = filterIsObject ? data.filter.name : data.filter;
+            summary.bounds = map.getBounds();
+            summary.filterBy = data.filterBy;
+            summary.authorities = response.authorities.filter(auth => auth.selected);
+
+            let current = null;
+            switch (data.filterBy) {
+               case "group":
+                  current = response.groups.filter(group => group.selected);
+                  break;
+               case "feature":
+                  current = response.features.filter(feature => feature.selected);
+                  break;
+               case "category":
+                  current = response.categories.filter(category => category.selected);
+            }
+            summary.current = current;
+         });
+
       });
    }
 
