@@ -17,7 +17,7 @@
          })
 
          .filter("placenamesGoogleLink", function() {
-            var template = "https://www.google.com.au/maps/place/${name}/@${lat},${lng},14z";
+            var template = "https://www.google.com/maps/search/?api=1&query=${lat},${lng}";
             return function(what) {
                if(!what) return "";
                let location = what.location.split(" ");
