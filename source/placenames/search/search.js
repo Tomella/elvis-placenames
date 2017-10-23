@@ -157,7 +157,7 @@
 
       .filter('placenamesDocName', [function () {
          return function (docs) {
-            return docs ? docs.map(doc => doc.name + " (" + doc.recordId + ")") : [];
+            return docs ? docs.map(doc => doc.name + " (" + doc.authorityId + ")") : [];
          };
       }])
 

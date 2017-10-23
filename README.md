@@ -8,7 +8,9 @@ Exposing placenames or gazetteer data gathered from the various jurisdictions.
 * Version 0.0.1
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
-### How do I get set up? ###
+### How do I get set up for developement? ###
+Note that this project shares services with the elevation project so the server referred to here is a simple clone from the
+fsdf-elvis project. It doesn't run under the current deployment strategy.
 
 * git clone <this_repository>
 * cd elvis-placenames
@@ -63,4 +65,5 @@ Log into your Linux vm and:
 > bash deployment/deploy_placenames
 ```
 
-It will pull the latest code base in and deploy. It's up to you to manage versioning and the like so take care.
+It will pull the latest code base in and deploy. It's up to you to manage versioning and the like so take care. Don't forget it doesn't use
+the development server in the current deployment. This project is purely static content once it is deployed.

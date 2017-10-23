@@ -3,36 +3,24 @@
 # Bootstrap the first pull from bit bucket.
 # WARNING At this time it is a private repository so you need a valid key in ~/.ssh/xx_rsa (or whatever you want to call it)
 # cd /home/ec2-user
-# git clone git@bitbucket.org:Tomella/elvis-mh370.git
+# git clone git@bitbucket.org:Tomella/elvis-placenames.git
 # bower install
 
 # Should be home already but make sure.
 cd /home/ec2-user/elvis-placenames
 
 # Update code base
-# WARNING At this time it is a private repository so you need a valid key in ~/.ssh/xx_rsa (or whatever you want to call it)
 git pull
 bower update
 
-# Copy static content to Apache
+# Copy static content to Apache. We need a virtual domain registered. See the comment block below for more context.
 if [ ! -d /var/www/placenames ]; then
   sudo mkdir -p /var/www/placenames;
 fi
 sudo cp -rf dist/* /var/www/placenames
 
 ## Consider these behaviours for future capability like node services
-# Update any proxies that might have changed
+# We used to update any proxies that might have changed here but it became unweildly so
+# we moved this into an aggregated Apache configuration projet
+# https://github.com/Tomella/apache-configuration
 
-sudo cp -f deployment/placenames_httpd.conf /etc/httpd/conf.d
-
-# Pick up any new rules
-sudo service httpd restart
-
-# Stop the application
-# sudo service fsdf stop
-# Update the service
-# sudo cp -f code-deploy/fsdf /etc/rc.d/init.d
-# Make it executable
-# sudo chmod +x /etc/rc.d/init.d/fsdf
-# Start the app, there might be new services
-# sudo service fsdf start

@@ -1,5 +1,5 @@
 <a placenames-options ng-mouseenter="enter()" ng-mouseleave="leave()"  tooltip-append-to-body="true"
                tooltip-placement="bottom" uib-tooltip-html="match.model | placenamesTooltip">
    <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span>
-   (<span ng-bind-html="match.model.recordId"></span>)
+   (<span ng-bind-html="match.model.authorityId"></span>)
 </a>
