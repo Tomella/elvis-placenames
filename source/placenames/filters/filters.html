@@ -1,7 +1,7 @@
 <uib-accordion>
    <div uib-accordion-group class="panel-default" is-open="status.groupOpen">
       <uib-accordion-heading>
-         Filter by group...
+         Filter<span ng-if="summary.filterBy==='group' && summary.current.length">ing</span> by group...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.groupOpen, 'glyphicon-chevron-right': !status.groupOpen}"></i>
       </uib-accordion-heading>
       <div style="max-height: 300px; overflow-y: auto">
@@ -10,7 +10,7 @@
    </div>
    <div uib-accordion-group class="panel-default" is-open="status.catOpen">
       <uib-accordion-heading>
-         Filter by category...
+         Filter<span ng-if="summary.filterBy==='category' && summary.current.length">ing</span> by category...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.catOpen, 'glyphicon-chevron-right': !status.catOpen}"></i>
       </uib-accordion-heading>
       <div style="max-height: 300px; overflow-y: auto">
@@ -19,7 +19,7 @@
    </div>
    <div uib-accordion-group class="panel-default" is-open="status.featureOpen">
       <uib-accordion-heading>
-         Filter by feature...
+         Filter<span ng-if="summary.filterBy==='feature' && summary.current.length">ing</span> by feature...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.featureOpen, 'glyphicon-chevron-right': !status.featureOopen}"></i>
       </uib-accordion-heading>
       <div style="max-height: 300px; overflow-y: auto">
@@ -30,7 +30,7 @@
 <uib-accordion close-others="oneAtATime">
    <div uib-accordion-group class="panel-default" is-open="status.authOpen">
       <uib-accordion-heading>
-         Filter by authority...
+         Filter<span ng-if="summary.authorities.length">ing</span> by authority...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.authOpen, 'glyphicon-chevron-right': !status.authOpen}"></i>
       </uib-accordion-heading>
       <div style="max-height: 300px; overflow-y: auto">

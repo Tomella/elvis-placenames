@@ -21,7 +21,6 @@
       'explorer.message',
       'explorer.modal',
       'explorer.persist',
-      'explorer.projects',
       'explorer.version',
 
       'exp.ui.templates',
@@ -29,7 +28,6 @@
 
       'ui.bootstrap',
       'ngAutocomplete',
-      'ngRoute',
       'ngSanitize',
       'page.footer',
 

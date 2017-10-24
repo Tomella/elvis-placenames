@@ -17,7 +17,7 @@
          };
       }])
 
-      .directive('placenamesSearchFilters', ["groupsService", "placenamesSearchService", function(groupsService, placenamesSearchService) {
+      .directive('placenamesSearchFilters', ["groupsService", "placenamesSearchService", function (groupsService, placenamesSearchService) {
          const groupMatch = {
             group: "groups",
             category: "categories",
@@ -26,14 +26,14 @@
 
          return {
             templateUrl: "placenames/search/searchfilters.html",
-            link: function(scope) {
+            link: function (scope) {
                scope.summary = placenamesSearchService.summary;
                scope.data = placenamesSearchService.data;
                groupsService.getAll().then(data => {
-                  if(scope.data.filterBy) {
+                  if (scope.data.filterBy) {
                      let type = groupMatch[scope.data.filterBy];
                      scope.filters = data[type].filter(item => item.selected).map(item => item.name).join(", ");
-                     if(scope.filters.length) {
+                     if (scope.filters.length) {
                         scope.type = type;
                      }
                   }
@@ -332,7 +332,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filtered() {
-      createSummary();
       return createParams().then(params => {
          return run(params).then(response => {
             return service.persist(params, response).then(function () {
@@ -353,7 +352,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             summary.filterBy = data.filterBy;
             summary.authorities = response.authorities.filter(auth => auth.selected);
 
-            let current = null;
+            let current = [];
             switch (data.filterBy) {
                case "group":
                   current = response.groups.filter(group => group.selected);
@@ -365,58 +364,34 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
                   current = response.categories.filter(category => category.selected);
             }
             summary.current = current;
+            return summary;
          });
-
       });
    }
 
    function createParams() {
-      return mapService.getMap().then(map => {
-         return groupsService.getAll().then(response => {
-            var params = baseParameters();
-            var filterIsObject = typeof data.filter === "object";
-            var q = filterIsObject ? data.filter.name : data.filter;
+      return createSummary().then(summary => {
+         let params = baseParameters();
+         let q = summary.filter;
+         let bounds = summary.bounds;
+
+         params.fq = getBounds(bounds);
+         params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
+         params.sort = getSort(bounds);
+         params.q = q ? '*' + q.toLowerCase() : "*:*";
 
 
-            params.fq = getBounds(map);
-            params["facet.heatmap.geom"] = getHeatmapBounds(map);
-            params.sort = getSort(map);
-            params.q = q ? '*' + q.toLowerCase() : "*:*";
+         let qs = summary.current.map(item => summary.filterBy + ':"' + item.name + '"');
+         let qas = summary.authorities.map(auth => 'authority:' + auth.code);
 
-            var qs = [];
-            var qas = [];
+         if (qas.length) {
+            params.q += ' AND (' + qas.join(" ") + ')';
+         }
 
-            switch (data.filterBy) {
-               case "group":
-                  response.groups.filter(group => group.selected).forEach(group => {
-                     qs.push('group:"' + group.name + '"');
-                  });
-                  break;
-               case "feature":
-                  response.features.filter(feature => feature.selected).forEach(feature => {
-                     qs.push('feature:"' + feature.name + '"');
-                  });
-                  break;
-               case "category":
-                  response.categories.filter(category => category.selected).forEach(category => {
-                     qs.push('category:"' + category.name + '"');
-                  });
-            }
-
-            response.authorities.filter(auth => auth.selected).forEach(auth => {
-               qas.push('authority:' + auth.code);
-            });
-
-            if (qas.length) {
-               params.q += ' AND (' + qas.join(" ") + ')';
-            }
-
-            if (qs.length) {
-               params.q += ' AND (' + qs.join(" ") + ')';
-            }
-
-            return params;
-         });
+         if (qs.length) {
+            params.q += ' AND (' + qs.join(" ") + ')';
+         }
+         return params;
       });
    }
 
@@ -441,8 +416,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       });
    }
 
-   function getSort(map) {
-      var bounds = map.getBounds();
+   function getSort(bounds) {
       var dx = (bounds.getEast() - bounds.getWest()) / 2;
       var dy = (bounds.getNorth() - bounds.getSouth()) / 2;
       return "geodist(ll," +
@@ -452,8 +426,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          ") asc";
    }
 
-   function getBounds(map) {
-      var bounds = map.getBounds();
+   function getBounds(bounds) {
       return "location:[" +
          Math.max(bounds.getSouth(), -90) + "," +
          Math.max(bounds.getWest(), -180) + " TO " +
@@ -462,8 +435,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
 
-   function getHeatmapBounds(map) {
-      var bounds = map.getBounds();
+   function getHeatmapBounds(bounds) {
       return "[" +
          Math.max(bounds.getSouth(), -90) + "," +
          Math.max(bounds.getWest(), -180) + " TO " +

@@ -8,18 +8,14 @@
 
    angular.module('placenames.filters', ['placenames.groups'])
 
-   .directive('placenamesFilters', [function() {
+   .directive('placenamesFilters', ['placenamesSearchService',  function(placenamesSearchService) {
       return {
          templateUrl: "placenames/filters/filters.html",
          scope: {
-            status: "=",
-            state: "="
+            status: "="
          },
          link: function(scope) {
-            scope.$watch("status.groupOpen", function(value) {
-               let status = scope.status;
-
-            });
+            scope.summary = placenamesSearchService.summary;
          }
       };
    }]);
