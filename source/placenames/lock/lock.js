@@ -6,6 +6,6 @@
             title: "="
          },
          template: '<i class="fa fa-lock" aria-hidden="true" ng-title="title"></i>'
-      }
+      };
    }]);
 }

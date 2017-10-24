@@ -23,8 +23,8 @@
 
    .filter("quicksummary", [function() {
       return function(items, key) {
-         return items.map(item => item[key]).join(", ")
-      }
+         return items.map(item => item[key]).join(", ");
+      };
    }]);
 
 }
