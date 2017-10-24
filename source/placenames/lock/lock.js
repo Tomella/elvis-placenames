@@ -3,9 +3,9 @@
    .directive("placenamesLock", [function() {
       return {
          scope: {
-            title: "="
+            hover: "="
          },
-         template: '<i class="fa fa-lock" aria-hidden="true" ng-title="title"></i>'
+         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
       };
    }]);
 }

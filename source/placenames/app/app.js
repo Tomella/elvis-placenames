@@ -31,16 +31,11 @@
       'ngSanitize',
       'page.footer',
 
-      'geo.baselayer.control',
-      'geo.draw',
       'geo.map',
       'geo.maphelper',
-      'geo.measure',
-
 
       'placenames.about',
       'placenames.antarctic',
-      'placenames.bounds',
       'placenames.clusters',
       'placenames.contributors',
       'placenames.download',

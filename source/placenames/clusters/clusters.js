@@ -113,11 +113,19 @@ class SolrTransformer {
 
 
             if (count > 2000) {
-               this.layer = L.markerClusterGroup({
+               let flag = count > 50000;
+               let options = {
                   showCoverageOnHover: false,
                   zoomToBoundsOnClick: false,
                   singleMarkerMode: true
-               });
+               };
+
+               if (count > 40000) {
+                  options.chunkedLoading = true;
+                  options.chunkInterval = 100;
+                  options.chunkDelay = 20;
+               }
+               this.layer = L.markerClusterGroup(options);
 
                let data = response.facet_counts.facet_heatmaps[this.config.countField];
                let worker = new SolrTransformer(data);

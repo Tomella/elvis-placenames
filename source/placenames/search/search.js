@@ -332,9 +332,13 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filtered() {
+      var t = Date.now();
       return createParams().then(params => {
+         console.log(Date.now () - t);
          return run(params).then(response => {
+            console.log(Date.now () - t);
             return service.persist(params, response).then(function () {
+               console.log(Date.now () - t);
                $rootScope.$broadcast('pn.search.complete', response);
                return response;
             });
