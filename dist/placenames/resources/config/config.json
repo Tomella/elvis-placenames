@@ -3,10 +3,10 @@
    	  "name" : "main",
       "options":{
       	 "maxBounds" : [[-85, 106],[-6, 159]],
-         "center":[-26.3, 137.6],
+         "center":[-33, 137.6],
          "minZoom":3,
          "maxZoom":14,
-         "zoom":4
+         "zoom":3
       },
       "position":{
          "bounds":[

@@ -123,9 +123,7 @@ class SolrTransformer {
                let worker = new SolrTransformer(data);
                let result = worker.getGeoJson();
 
-               let maxCount = d3.max(result.features, function (item) {
-                  return item.properties.count;
-               });
+               let maxCount = Math.max(...result.features.map(item => item.properties.count));
 
                worker.cells.forEach(cell => {
                   let count = cell.properties.count;

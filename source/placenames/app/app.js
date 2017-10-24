@@ -49,6 +49,7 @@
       'placenames.extent',
       'placenames.filters',
       'placenames.header',
+      'placenames.lock',
       'placenames.maps',
       'placenames.navigation',
       'placenames.panes',

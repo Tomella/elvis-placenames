@@ -85,7 +85,10 @@
       <placenames-clusters></placenames-clusters>
       <div placenames-quicksearch class="placenames-quicksearch"></div>
       <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
+      <div ng-if="state.searched" class="placenames-lock"><placenames-lock
+         title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></placenames-lock></div>
       <div placenames-contributors style="z-index:3"></div>
+
       <placenames-mapevents placenames-bounds></placenames-mapevents>
       <panel-open-on-event panel-id="search" panel-width="540px" event-name="search.button.fired"></panel-open-on-event>
       <panel-close-on-event event-name="clear.button.fired"></panel-close-on-event>
@@ -95,6 +98,9 @@
       <div page-footer style="z-index:5; " class="noPrint"></div>
       <!-- END: Sticky Footer -->
 
+      <script>
+         var d3 = {}; // Just to keep a script happy
+      </script>
       <script src="//maps.google.com/maps/api/js?key=AIzaSyCXzhreLhP8a0z4TZNGOHUbH1Pacz3ghPE&v=3&language=en&libraries=places"></script>
       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
       <!--[if IE 9 ]>    <script src="assets/placeholder/placeholders.jquery.min.js"></script> <![endif]-->
@@ -117,12 +123,11 @@
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-aria.min.js"></script>
       <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-messages.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.7.4/d3.js" charset="utf-8"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
 
       <script src="placenames/bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
 
-      <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster-src.js"></script>
+      <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster.js"></script>
       <script src="placenames/bower_components/leaflet-draw/dist/leaflet.draw.js"></script>
       <script src="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-locationfilter/locationfilter.js"></script>
       <script src="placenames/bower_components/ga-explorer-map-components/dist/vendor/leaflet-plotter/leaflet-plotter.js"></script>

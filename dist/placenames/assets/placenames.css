@@ -292,6 +292,18 @@ input.ng-valid.ng-touched {
   left: 60px;
   top: 125px;
 }
+
+.placenames-lock {
+  opacity: 0.7;
+  position: fixed;
+  left: 465px;
+  top: 122px;
+}
+
+.placenames-lock i.fa {
+  color: #337ab7;
+  font-size: 3em;
+}
 .pn-authorities-pills span.btn-primary {
   background-color: red;
 }
@@ -756,6 +768,37 @@ img.elvis-logo {
   color: #fff;
   background-color: #777;
 }
+@media print {
+@page {
+    size: landscape;
+}
+
+  .noPrint {
+    display: none;
+  }
+
+  .printOnly {
+    display: inline !important;
+  }
+
+  .contentContainer {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    left: 0px !important;
+  }
+
+  .panel-inner-container {
+    display: none !important;
+  }
+
+  .leaflet-control-mouseposition {
+    display: none !important;
+  }
+
+  .leaflet-control-attribution {
+    display: none !important;
+  }
+}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -794,45 +837,34 @@ img.elvis-logo {
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
 }
-@media print {
-@page {
-    size: landscape;
+.quickSearch {
+  width: 33em;
 }
 
-  .noPrint {
-    display: none;
-  }
-
-  .printOnly {
-    display: inline !important;
-  }
-
-  .contentContainer {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    left: 0px !important;
-  }
-
-  .panel-inner-container {
-    display: none !important;
-  }
-
-  .leaflet-control-mouseposition {
-    display: none !important;
-  }
-
-  .leaflet-control-attribution {
-    display: none !important;
-  }
+.placenames-filtered-summary {
+  background-color: white;
+  opacity: 0.7;
+  border-radius: 3px;
+  position: fixed;
+  z-index: 4;
+  top: 125px;
+  left: 40em;
+  padding: 8px;
 }
 .pn-container {
   overflow-y: auto;
   position: absolute;
-  top: 10px;
+  top: 20px;
   bottom: 0px;
   left: 0px;
   right: 7px;
   margin-bottom: 0;
+}
+
+.pn-results-heading {
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
 }
 
 .pn-results {
@@ -871,20 +903,6 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
-}
-.quickSearch {
-  width: 33em;
-}
-
-.placenames-filtered-summary {
-  background-color: white;
-  opacity: 0.7;
-  border-radius: 3px;
-  position: fixed;
-  z-index: 4;
-  top: 125px;
-  left: 40em;
-  padding: 8px;
 }
 .pn-features {
   max-block-size: 300px;
