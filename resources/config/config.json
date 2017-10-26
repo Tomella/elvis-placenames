@@ -314,5 +314,5 @@
          "name": "Landgate"
       }
    ],
-   "facetsQuery": "select?facet=true&facet.field=location&facet.field=feature&facet.field=authority&facet.field=category&facet.field=authority&q=*:*&rows=1&wt=json"
+   "facetsQuery": "select?facet=true&facet.field=location&facet.field=feature&facet.field=authority&facet.field=category&facet.field=group&q=*:*&rows=1&wt=json"
 }

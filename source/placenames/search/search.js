@@ -217,6 +217,14 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    var data = {
       searched: null // Search results
    };
+
+   var countsMapping = {
+      group: "groups",
+      authority: "authorities",
+      feature: "features",
+      category: "categories"
+   };
+
    var summary = {};
    var mapListeners = [];
 
@@ -324,6 +332,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          params.q = "recordId:" + recordId;
          return run(params).then(response => {
             return service.persist(params, response).then(function () {
+               decorateCounts(response.facet_counts.facet_fields);
                $rootScope.$broadcast('pn.search.complete', response);
                return response;
             });
@@ -332,19 +341,50 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filtered() {
-      var t = Date.now();
       return createParams().then(params => {
-         console.log(Date.now () - t);
          return run(params).then(response => {
-            console.log(Date.now () - t);
             return service.persist(params, response).then(function () {
-               console.log(Date.now () - t);
+               decorateCounts(response.facet_counts.facet_fields);
                $rootScope.$broadcast('pn.search.complete', response);
                return response;
             });
          });
       });
    }
+
+   function decorateCounts(facets) {
+      groupsService.getAll().then(response => {
+         let lastElement;
+         let counts = {};
+         Object.values(countsMapping).forEach(value => {
+            counts[value] = {};
+         });
+
+         Object.keys(facets).forEach(key => {
+            facets[key].forEach((value, index) => {
+               if (index % 2) {
+                  counts[countsMapping[key]][lastElement] = value;
+               } else {
+                  lastElement = value;
+               }
+            });
+         });
+
+         response.authorities.forEach(auth => {
+            auth.count = counts.authorities[auth.code];
+            auth.count = auth.count ? auth.count : 0;
+         });
+
+         ["groups", "features", "categories"].forEach(key => {
+            response[key].forEach(item => {
+               item.count = counts[key][item.name];
+               item.count = item.count ? item.count : 0;
+            });
+         });
+      console.log("TODO apply counts", response);
+      });
+   }
+
 
    function createSummary() {
       return mapService.getMap().then(map => {
@@ -452,7 +492,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          "facet.heatmap.format": "ints2D",
          "facet.heatmap": "location",
          facet: true,
-         "facet.field": ["feature", "category", "authority"],
+         "facet.field": ["feature", "category", "authority", "group"],
          rows: 50,
          wt: "json"
       };

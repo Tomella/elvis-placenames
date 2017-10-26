@@ -1,7 +1,11 @@
 <div>
-      <div>
-         Matched {{state.persist.data.response.numFound | number}}
-      </div>
-      <div ng-if="summary.current.length">Filtered by {{summary.filterBy}}: {{summary.current | quicksummary : "name" }}</div>
-      <div ng-if="summary.authorities.length">For authorities: {{summary.authorities | quicksummary : "code"}}</div>
+   <div style="font-weight:bold">
+      Matched {{state.persist.data.response.numFound | number}}
+   </div>
+   <div ng-if="summary.current.length"><span style="font-weight:bold">Filtered by {{summary.filterBy}}:</span>
+      <placenames-pill ng-repeat="item in summary.current" item="item" update="update()"></placenames-pill>
+   </div>
+   <div ng-if="summary.authorities.length"><span style="font-weight:bold">For authorities:</span>
+      <placenames-pill ng-repeat="item in summary.authorities" name="code" item="item" update="update()"></placenames-pill>
+   </div>
 </div>

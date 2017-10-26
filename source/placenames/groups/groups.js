@@ -32,7 +32,6 @@
 
       .factory("groupsService", ["$http", "$q", "$rootScope", "configService", "mapService",
          function ($http, $q, $rootScope, configService, mapService) {
-
             let service = {};
             service.getGroups = function () {
                if (service.config) {

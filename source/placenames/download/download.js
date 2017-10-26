@@ -137,8 +137,15 @@
                   return true;
                }
 
-               let { xMax, xMin, yMax, yMin } = item.extent;
-               return extent.intersects([[yMin, xMin], [yMax, xMax]]);
+               let { xMax, xMin, yMax, yMin } = item.extent,
+                  response;
+               try {
+                  response = extent.intersects([[yMin, xMin], [yMax, xMax]]);
+               } catch(e) {
+                  console.error("Couldn't test for intersects", e);
+                  return false;
+               }
+               return response;
             });
          };
       });

@@ -1,5 +1,5 @@
 {
-   angular.module("placenames.quicksearch",[])
+   angular.module("placenames.quicksearch",['placenames.pill'])
 
    .directive('placenamesQuicksearch', [function() {
       return {

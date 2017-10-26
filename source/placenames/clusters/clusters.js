@@ -122,8 +122,8 @@ class SolrTransformer {
 
                if (count > 40000) {
                   options.chunkedLoading = true;
-                  options.chunkInterval = 100;
-                  options.chunkDelay = 20;
+                  options.chunkInterval = 200;
+                  options.chunkDelay = 10;
                }
                this.layer = L.markerClusterGroup(options);
 
@@ -137,8 +137,9 @@ class SolrTransformer {
                   let count = cell.properties.count;
                   let x = cell.geometry.coordinates[1];
                   let y = cell.geometry.coordinates[0];
+                  let xy = [x,y];
                   for (let i = 0; i < count; i++) {
-                     this.layer.addLayer(L.marker([x, y]));
+                     this.layer.addLayer(L.marker(xy));
                   }
                });
             } else {
