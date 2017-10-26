@@ -1,11 +1,13 @@
-<div>
-   <div style="font-weight:bold">
+<span class="placenames-filtered-summary-child">
+   <span style="font-weight:bold; margin:5px;">
       Matched {{state.persist.data.response.numFound | number}}
-   </div>
-   <div ng-if="summary.current.length"><span style="font-weight:bold">Filtered by {{summary.filterBy}}:</span>
-      <placenames-pill ng-repeat="item in summary.current" item="item" update="update()"></placenames-pill>
-   </div>
-   <div ng-if="summary.authorities.length"><span style="font-weight:bold">For authorities:</span>
+   </span>
+   <span ng-if="summary.authorities.length">
+      <span style="font-weight:bold">| For authorities:</span>
       <placenames-pill ng-repeat="item in summary.authorities" name="code" item="item" update="update()"></placenames-pill>
-   </div>
-</div>
+   </span>
+   <span ng-if="summary.current.length">
+      <span style="font-weight:bold"> | Filtered by {{summary.filterBy}}:</span>
+      <placenames-pill ng-repeat="item in summary.current" item="item" update="update()"></placenames-pill>
+   </span>
+</span>

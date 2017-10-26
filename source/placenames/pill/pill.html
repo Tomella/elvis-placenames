@@ -1,8 +1,9 @@
 <span class="btn btn-primary pn-pill">
-   <span style="max-width:100px" class="ellipsis">
-      {{item[name]}} ({{item.count?item.count:0 | number}})
+   <span style="max-width:100px;display:inline-block" title="{{item[name]}}" class="ellipsis">{{item[name]}}</span>
+   <span class="ellipsis" style="max-width:100px;display:inline-block">
+      ({{item.count?item.count:0 | number}})
+      <a ng-click="deselect()" href="javascript:void(0)" title="Remove from filters">
+         <i class="fa fa-close fa-xs" style="color: white"></i>
+      </a>
    </span>
-   <a ng-click="deselect()" href="javascript:void(0)">
-      <i class="fa fa-close fa-xs" style="color: white"></i>
-   </a>
 </span>

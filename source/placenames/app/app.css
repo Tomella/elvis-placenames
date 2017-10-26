@@ -226,14 +226,14 @@ input.ng-valid.ng-touched {
 .placenames-quicksearch {
    opacity: 0.9;
    position: fixed;
-   left: 60px;
-   top: 125px;
+   left: 50px;
+   top: 123px;
 }
 .placenames-lock {
    opacity: 0.7;
    position: fixed;
-   left: 465px;
-   top: 122px;
+   left: 451px;
+   top: 120px;
 }
 
 .placenames-lock i.fa {

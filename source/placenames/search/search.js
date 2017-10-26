@@ -252,6 +252,9 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       filtered() {
          return filtered().then(response => {
             data.filtered = response;
+            let params = response.responseHeader.params;
+            filteredAuthorities(params);
+            filteredCurrent(params);
             return response;
          });
       },
@@ -354,37 +357,57 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function decorateCounts(facets) {
       groupsService.getAll().then(response => {
-         let lastElement;
-         let counts = {};
-         Object.values(countsMapping).forEach(value => {
-            counts[value] = {};
-         });
 
-         Object.keys(facets).forEach(key => {
-            facets[key].forEach((value, index) => {
-               if (index % 2) {
-                  counts[countsMapping[key]][lastElement] = value;
-               } else {
-                  lastElement = value;
-               }
-            });
-         });
+         summary.counts = arraysToMap(facets);
 
          response.authorities.forEach(auth => {
-            auth.count = counts.authorities[auth.code];
+            auth.count = summary.counts.authorities[auth.code];
             auth.count = auth.count ? auth.count : 0;
          });
 
          ["groups", "features", "categories"].forEach(key => {
             response[key].forEach(item => {
-               item.count = counts[key][item.name];
+               item.count = summary.counts[key][item.name];
                item.count = item.count ? item.count : 0;
             });
          });
-      console.log("TODO apply counts", response);
+         console.log("TODO apply counts", response);
       });
    }
 
+   function arrayToMap(facets) {
+      let lastElement;
+      let counts = {};
+
+      facets.forEach((value, index) => {
+         if (index % 2) {
+            counts[lastElement] = value;
+         } else {
+            lastElement = value;
+         }
+      });
+      return counts;
+   }
+
+
+   function arraysToMap(facets) {
+      let lastElement;
+      let counts = {};
+      Object.values(countsMapping).forEach(value => {
+         counts[value] = {};
+      });
+
+      Object.keys(facets).forEach(key => {
+         facets[key].forEach((value, index) => {
+            if (index % 2) {
+               counts[countsMapping[key]][lastElement] = value;
+            } else {
+               lastElement = value;
+            }
+         });
+      });
+      return counts;
+   }
 
    function createSummary() {
       return mapService.getMap().then(map => {
@@ -416,17 +439,15 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    function createParams() {
       return createSummary().then(summary => {
          let params = baseParameters();
-         let q = summary.filter;
          let bounds = summary.bounds;
 
          params.fq = getBounds(bounds);
          params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
          params.sort = getSort(bounds);
-         params.q = q ? '*' + q.toLowerCase() : "*:*";
+         params.q = createQText(summary);
 
-
-         let qs = summary.current.map(item => summary.filterBy + ':"' + item.name + '"');
-         let qas = summary.authorities.map(auth => 'authority:' + auth.code);
+         let qs = createCurrentParams();
+         let qas = createAuthorityParams();
 
          if (qas.length) {
             params.q += ' AND (' + qas.join(" ") + ')';
@@ -437,6 +458,85 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          }
          return params;
       });
+   }
+
+   function createQText(summary) {
+      let q = summary.filter;
+      return q ? '*' + q.toLowerCase() : "*:*";
+   }
+
+   function filteredAuthorities(params) {
+      return groupsService.getAuthorities().then(authorities => {
+         if (summary.authorities && summary.authorities.length) {
+            // We need get the facets as though no authorities are selected Select against Solr
+            let newParams = authBaseParameters();
+
+            let qs = createCurrentParams();
+            if (qs.length) {
+               newParams.q += ' AND (' + qs.join(" ") + ')';
+            }
+            newParams.q = createQText(summary);
+            newParams.fq = params.fq;
+
+            return request(newParams).then(data => {
+               let countMap = arrayToMap(data.facet_counts.facet_fields.authority);
+               authorities.forEach(auth => {
+                  auth.allCount = countMap[auth.code];
+               });
+
+               data.facetCounts = {};
+               console.log("auth counts", data, summary);
+               return data;
+            });
+
+         } else {
+            // Otherwise we can just use the normal counts to set the allCounts
+            authorities.forEach(auth => {
+               auth.allCount = summary.counts.authorities[auth.code];
+            });
+            return null;
+         }
+      });
+   }
+
+   function filteredCurrent(params) {
+      return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
+         if (summary.current && summary.current.length) {
+            // We need get the facets as though no filters are selected. Select against Solr
+            let newParams = typeBaseParameters(summary.filterBy);
+            newParams.q = createQText(summary);
+            let qs = createAuthorityParams();
+            if (qs.length) {
+               newParams.q += ' AND (' + qs.join(" ") + ')';
+            }
+            newParams.fq = params.fq;
+
+            return request(newParams).then(data => {
+               let countMap = arrayToMap(data.facet_counts.facet_fields[summary.filterBy]);
+               items.forEach(item => {
+                  item.allCount = countMap[item.name];
+               });
+
+               data.facetCounts = {};
+               console.log("oth counts", data, summary);
+               return data;
+            });
+         } else {
+            // Otherwise we can just decorate the counts in from the bigger query to set the all counts
+
+         }
+      });
+   }
+
+   // We assume summary is already made.
+   function createAuthorityParams() {
+      return summary.authorities.map(auth => 'authority:' + auth.code);
+   }
+
+   // We assume
+   // Current is one of group category or feature, which ever panel is open.
+   function createCurrentParams() {
+      return summary.current.map(item => summary.filterBy + ':"' + item.name + '"');
    }
 
    function run(params) {
@@ -485,6 +585,27 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          Math.max(bounds.getWest(), -180) + " TO " +
          Math.min(bounds.getNorth(), 90) + "," +
          Math.min(bounds.getEast(), 180) + "]";
+   }
+
+   function authBaseParameters() {
+      return {
+         facet: true,
+         "facet.field": ["authority"],
+         rows: 0,
+         wt: "json"
+      }
+   }
+
+   function typeBaseParameters(type) {
+      let response = {
+         facet: true,
+         rows: 0,
+         wt: "json"
+      };
+      if (type) {
+         response["facet.field"] = [type];
+      }
+      return response;
    }
 
    function baseParameters() {

@@ -3,7 +3,7 @@
       <input type="checkbox" ng-click="update()" ng-model="item.selected" ng-change="change()">
       <span>
          <a target="_blank" href="http://www.google.com/search?q={{item.name}}">{{item.code}}</a>
-         ({{(item.count | number) + (item.count || item.count == 0?' of ':'')}}{{item.total | number}})
+         ({{(item.allCount | number) + (item.allCount || item.allCount == 0?' of ':'')}}{{item.total | number}})
       </span>
    </div>
 </div>

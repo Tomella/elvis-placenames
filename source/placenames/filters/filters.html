@@ -4,7 +4,7 @@
          Filter<span ng-if="summary.filterBy==='group' && summary.current.length">ing</span> by group...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.groupOpen, 'glyphicon-chevron-right': !status.groupOpen}"></i>
       </uib-accordion-heading>
-      <div style="max-height: 300px; overflow-y: auto">
+      <div style="max-height: 200px; overflow-y: auto">
          <placenames-groups update="update()" ng-show="status.groupOpen"></placenames-groups>
       </div>
    </div>
@@ -13,7 +13,7 @@
          Filter<span ng-if="summary.filterBy==='category' && summary.current.length">ing</span> by category...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.catOpen, 'glyphicon-chevron-right': !status.catOpen}"></i>
       </uib-accordion-heading>
-      <div style="max-height: 300px; overflow-y: auto">
+      <div style="max-height: 200px; overflow-y: auto">
          <placenames-categories update="update()" ng-show="status.catOpen"></placenames-categories>
       </div>
    </div>
@@ -22,7 +22,7 @@
          Filter<span ng-if="summary.filterBy==='feature' && summary.current.length">ing</span> by feature...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.featureOpen, 'glyphicon-chevron-right': !status.featureOopen}"></i>
       </uib-accordion-heading>
-      <div style="max-height: 300px; overflow-y: auto">
+      <div style="max-height: 200px; overflow-y: auto">
          <placenames-features update="update()" ng-show="status.featureOpen"></placenames-features>
       </div>
    </div>
@@ -33,7 +33,7 @@
          Filter<span ng-if="summary.authorities.length">ing</span> by authority...
          <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.authOpen, 'glyphicon-chevron-right': !status.authOpen}"></i>
       </uib-accordion-heading>
-      <div style="max-height: 300px; overflow-y: auto">
+      <div style="max-height: 200px; overflow-y: auto">
          <placenames-authorities update="update()" ng-show="status.authOpen"></placenames-authorities>
       </div>
    </div>

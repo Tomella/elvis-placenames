@@ -9,7 +9,7 @@
          return {
             templateUrl: "placenames/groups/groups.html",
             link: function (scope) {
-               groupsService.getGroups().then(data => {
+               groupsService._loadGroups().then(data => {
                   scope.data = data;
                });
 
@@ -33,7 +33,7 @@
       .factory("groupsService", ["$http", "$q", "$rootScope", "configService", "mapService",
          function ($http, $q, $rootScope, configService, mapService) {
             let service = {};
-            service.getGroups = function () {
+            service._loadGroups = function () {
                if (service.config) {
                   service.promise = null;
                   return $q.when(service.config);
@@ -101,23 +101,29 @@
             };
 
             service.getCategories = function () {
-               return service.getGroups().then(() => {
+               return service._loadGroups().then(() => {
                   return service.config.categories;
                });
             };
 
             service.getAll = function() {
-               return service.getGroups().then(() => service.config);
+               return service._loadGroups().then(() => service.config);
             };
 
             service.getAuthorities = function () {
-               return service.getGroups().then(() => {
+               return service._loadGroups().then(() => {
                   return service.config.authorities;
                });
             };
 
+            service.getGroups = function () {
+               return service._loadGroups().then(() => {
+                  return service.config.groups;
+               });
+            };
+
             service.getFeatures = function () {
-               return service.getGroups().then(() => {
+               return service._loadGroups().then(() => {
                   return service.config.features;
                });
             };
