@@ -500,8 +500,9 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filteredCurrent(params) {
-      return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
-         if (summary.current && summary.current.length) {
+      if (summary.current && summary.current.length) {
+         return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
+
             // We need get the facets as though no filters are selected. Select against Solr
             let newParams = typeBaseParameters(summary.filterBy);
             newParams.q = createQText(summary);
@@ -521,11 +522,18 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
                console.log("oth counts", data, summary);
                return data;
             });
-         } else {
-            // Otherwise we can just decorate the counts in from the bigger query to set the all counts
-
+         });
+      } else {
+         // Otherwise we can just decorate the counts in from the bigger query to set the all counts
+         if (summary.filterBy) {
+            return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
+               items.forEach(item => {
+                  item.allCount = counts[{ group: "groups", category: "categories", feature: "features" }[summary.filterBy]][item.name];
+               });
+            });
          }
-      });
+      }
+
    }
 
    // We assume summary is already made.
