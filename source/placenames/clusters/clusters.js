@@ -34,8 +34,8 @@ class SolrTransformer {
                         coordinates: []
                      }
                   },
-                  properties = cell.properties,
-                  geometry = cell.geometry;
+                     properties = cell.properties,
+                     geometry = cell.geometry;
 
                   geometry.coordinates[0] = this.data.minX + this.dx * (columnIndex + 0.5);
                   geometry.coordinates[1] = this.data.maxY - this.dy * (rowIndex + 0.5);
@@ -96,6 +96,7 @@ class SolrTransformer {
          };
 
          service._refreshClusters = function (response) {
+
             let geojsonMarkerOptions = {
                radius: 8,
                fillColor: "#ff0000",
@@ -112,7 +113,44 @@ class SolrTransformer {
             }
 
 
-            if (count > 2000) {
+            if (count > 40000) {
+               let options = {
+                  showCoverageOnHover: false,
+                  zoomToBoundsOnClick: false,
+                  singleMarkerMode: true,
+                  iconCreateFunction: function (cluster) {
+                     var childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
+                     var c = ' marker-cluster-';
+                     if (childCount < 1000) {
+                        c += 'small';
+                     } else if (childCount < 5000) {
+                        c += 'medium';
+                     } else {
+                        c += 'large';
+                     }
+                     return new L.DivIcon({
+                        html: '<div><span>' + childCount + '</span></div>',
+                        className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
+                     });
+                  }
+               };
+
+               this.layer = L.markerClusterGroup(options);
+
+               let data = response.facet_counts.facet_heatmaps[this.config.countField];
+               let worker = new SolrTransformer(data);
+               let result = worker.getGeoJson();
+
+               let maxCount = Math.max(...result.features.map(item => item.properties.count));
+
+               worker.cells.forEach(cell => {
+                  let count = cell.properties.count;
+                  let x = cell.geometry.coordinates[1];
+                  let y = cell.geometry.coordinates[0];
+                  let xy = [x, y];
+                  this.layer.addLayer(L.marker(xy, { count }));
+               });
+            } else if (count > 2000) {
                let flag = count > 50000;
                let options = {
                   showCoverageOnHover: false,
@@ -152,7 +190,7 @@ class SolrTransformer {
                let url = "select?fl=location,name&" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
                $http.get(url).then(result => {
                   let docs = result.data.response.docs;
-                  docs.forEach( doc => {
+                  docs.forEach(doc => {
                      let coords = doc.location.split(" ");
                      doc.title = doc.name;
                      this.layer.addLayer(L.marker([+coords[1], +coords[0]], doc));

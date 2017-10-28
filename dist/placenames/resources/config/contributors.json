@@ -12,7 +12,7 @@
 
    {
       "name": "NSW Government",
-      "title": "NSW Land $amp;Property Information",
+      "title": "NSW Land & Property Information",
       "href": "http://spatialservices.finance.nsw.gov.au/",
       "enabled": true,
       "code": "lpi",

@@ -768,6 +768,13 @@ img.elvis-logo {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.pn-pill {
+  padding: 0px 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
+}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -805,13 +812,6 @@ img.elvis-logo {
   border-top-width: 0;
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
-}
-.pn-pill {
-  padding: 0px 2px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin: 0;
 }
 @media print {
 @page {
@@ -915,24 +915,6 @@ img.elvis-logo {
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
 }
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
-}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -1030,6 +1012,24 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
+}
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
 }
 .placenames-toolbar {
   position: fixed;

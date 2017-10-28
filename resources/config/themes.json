@@ -4,7 +4,7 @@
          "code": "map",
          "label": "Administrative Boundaries",
          "title": "Cartographic representation of borders between states/territories that allows consistent analysis on the cross-border zones.",
-         "description": "The Administrative Boundaries datasets are Australiaâs most comprehensive national collection of boundaries including government, statistical and electoral boundaries.",
+         "description": "The Administrative Boundaries datasets are Australia's most comprehensive national collection of boundaries including government, statistical and electoral boundaries.",
          "className": "altthemes-map",
          "url": "comingSoon.html",
          "urlPending": "administrativeBoundaries.html",

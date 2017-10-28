@@ -528,7 +528,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          if (summary.filterBy) {
             return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
                items.forEach(item => {
-                  item.allCount = counts[{ group: "groups", category: "categories", feature: "features" }[summary.filterBy]][item.name];
+                  item.allCount = summary.counts[{ group: "groups", category: "categories", feature: "features" }[summary.filterBy]][item.name];
                });
             });
          }
@@ -601,7 +601,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          "facet.field": ["authority"],
          rows: 0,
          wt: "json"
-      }
+      };
    }
 
    function typeBaseParameters(type) {

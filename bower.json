@@ -17,7 +17,7 @@
   ],
   "license": "http://git.prod.lan/raw/explorer/explorer-icsm.git/master/LICENCE",
   "dependencies": {
-   "geostats": "^1.5.0",
+    "geostats": "^1.5.0",
     "ga-explorer-map-components": "https://github.com/Tomella/explorer-map-components.git#master",
     "explorer-ui-components": "https://github.com/Tomella/explorer-ui-components.git#master",
     "explorer-search-components": "https://github.com/Tomella/explorer-search-components.git",
@@ -32,7 +32,9 @@
     "ang-accordion": "*",
     "x2js": "x2js#^1.2.0",
     "leaflet-draw": "^0.3.2",
-    "ngInfiniteScroll": "1.0.0"
+    "ngInfiniteScroll": "1.0.0",
+    "proj4": "^2.4.4",
+    "Proj4Leaflet": "proj4leaflet#^1.0.2"
   },
   "resolutions": {
     "leaflet-draw": "~0.3.2",
