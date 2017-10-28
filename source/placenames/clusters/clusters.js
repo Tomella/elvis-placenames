@@ -67,7 +67,8 @@ class SolrTransformer {
       }])
 
       .factory("placenamesClusterService",
-      ["$http", "$rootScope", "configService", "mapService", function ($http, $rootScope, configService, mapService) {
+      ["$http", "$rootScope", "configService", "flashService", "mapService",
+      function ($http, $rootScope, configService, flashService, mapService) {
          let service = {
             showClusters: true,
             sequence: 0,
@@ -77,13 +78,20 @@ class SolrTransformer {
          service.init = function () {
             configService.getConfig("clusters").then(config => {
                mapService.getMap().then(map => {
-                  console.log("Now we have the map", map);
                   this.map = map;
                   this.config = config;
 
-                  console.log(mapService.getGroup("clusters"));
                   let self = this;
                   $rootScope.$on('pn.search.complete', movePan);
+                  $rootScope.$on('pn.search.start', hideClusters);
+
+                  function hideClusters() {
+                     if ( self.layer) {
+                        self.flasher  = flashService.add("Loading clusters", null, true);
+                        self.map.removeLayer( self.layer);
+                        self.layer = null;
+                     }
+                  }
 
                   function movePan(event, data) {
                      if (!self.showClusters) {
@@ -105,34 +113,33 @@ class SolrTransformer {
                opacity: 1,
                fillOpacity: 0.8
             };
+            let options = {
+               showCoverageOnHover: false,
+               zoomToBoundsOnClick: false,
+               singleMarkerMode: true,
+               animate: false
+            };
 
             let count = response.response.numFound;
 
-            if (this.layer) {
-               this.map.removeLayer(this.layer);
+            if ( this.layer) {
+               this.map.removeLayer( this.layer);
             }
-
-
             if (count > 40000) {
-               let options = {
-                  showCoverageOnHover: false,
-                  zoomToBoundsOnClick: false,
-                  singleMarkerMode: true,
-                  iconCreateFunction: function (cluster) {
-                     var childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
-                     var c = ' marker-cluster-';
-                     if (childCount < 1000) {
-                        c += 'small';
-                     } else if (childCount < 5000) {
-                        c += 'medium';
-                     } else {
-                        c += 'large';
-                     }
-                     return new L.DivIcon({
-                        html: '<div><span>' + childCount + '</span></div>',
-                        className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
-                     });
+               options.iconCreateFunction = function (cluster) {
+                  var childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
+                  var c = ' marker-cluster-';
+                  if (childCount < 1000) {
+                     c += 'small';
+                  } else if (childCount < 5000) {
+                     c += 'medium';
+                  } else {
+                     c += 'large';
                   }
+                  return new L.DivIcon({
+                     html: '<div><span>' + childCount + '</span></div>',
+                     className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
+                  });
                };
 
                this.layer = L.markerClusterGroup(options);
@@ -152,17 +159,7 @@ class SolrTransformer {
                });
             } else if (count > 2000) {
                let flag = count > 50000;
-               let options = {
-                  showCoverageOnHover: false,
-                  zoomToBoundsOnClick: false,
-                  singleMarkerMode: true
-               };
 
-               if (count > 40000) {
-                  options.chunkedLoading = true;
-                  options.chunkInterval = 200;
-                  options.chunkDelay = 10;
-               }
                this.layer = L.markerClusterGroup(options);
 
                let data = response.facet_counts.facet_heatmaps[this.config.countField];
@@ -175,7 +172,7 @@ class SolrTransformer {
                   let count = cell.properties.count;
                   let x = cell.geometry.coordinates[1];
                   let y = cell.geometry.coordinates[0];
-                  let xy = [x,y];
+                  let xy = [x, y];
                   for (let i = 0; i < count; i++) {
                      this.layer.addLayer(L.marker(xy));
                   }
@@ -198,7 +195,9 @@ class SolrTransformer {
                });
 
             }
-
+            if(this.flasher) {
+               this.flasher.remove();
+            }
             this.layer.addTo(this.map);
          };
 

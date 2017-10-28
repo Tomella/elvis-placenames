@@ -465,13 +465,6 @@ img.elvis-logo {
     width: 23em;
   }
 }
-.pn-pill {
-  padding: 0px 2px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin: 0;
-}
 .altthemes-icon {
   background: url("../resources/img/dbl_sprites.svg") no-repeat;
   display: inline-block;
@@ -775,6 +768,13 @@ img.elvis-logo {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.pn-pill {
+  padding: 0px 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
+}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -862,24 +862,6 @@ img.elvis-logo {
   border-radius: 3px;
   display: inline-block;
 }
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
-}
 .pn-container {
   overflow-y: auto;
   position: absolute;
@@ -932,6 +914,24 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
+}
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
 }
 /* Side Panel */
 

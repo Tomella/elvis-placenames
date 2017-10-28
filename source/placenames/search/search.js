@@ -317,11 +317,12 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       map.on('resize moveend viewreset', update);
 
       function update() {
+         $rootScope.$broadcast('pn.search.start');
          $timeout.cancel(timeout);
          if (!data.searched) {
             timeout = $timeout(function () {
                service.filtered();
-            }, 200);
+            }, 20);
             mapListeners.forEach(listener => {
                listener();
             });
