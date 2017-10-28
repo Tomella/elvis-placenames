@@ -27,14 +27,13 @@
       </div>
    </div>
 </uib-accordion>
-<uib-accordion close-others="oneAtATime">
-   <div uib-accordion-group class="panel-default" is-open="status.authOpen">
-      <uib-accordion-heading>
+<div class="panel panel-default" style="margin-top: -15px">
+   <div class="panel-heading">
+      <h4 class="panel-title">
          Filter<span ng-if="summary.authorities.length">ing</span> by authority...
-         <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.authOpen, 'glyphicon-chevron-right': !status.authOpen}"></i>
-      </uib-accordion-heading>
-      <div style="max-height: 200px; overflow-y: auto">
-         <placenames-authorities update="update()" ng-show="status.authOpen"></placenames-authorities>
-      </div>
+      </h4>
    </div>
-</uib-accordion>
+   <div style="max-height: 200px; overflow-y: auto; padding:5px">
+      <placenames-authorities update="update()"></placenames-authorities>
+   </div>
+</div>

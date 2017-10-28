@@ -1,5 +1,5 @@
-<div ng-repeat="item in authorities">
-   <div class="col-md-12 ellipsis" title='Jurisdiction: {{item.jurisdiction}}, Authority name: {{item.name}}'>
+<div ng-repeat="item in authorities" style="width:49%; display:inline-block">
+   <div class="ellipsis" title='Jurisdiction: {{item.jurisdiction}}, Authority name: {{item.name}}'>
       <input type="checkbox" ng-click="update()" ng-model="item.selected" ng-change="change()">
       <span>
          <a target="_blank" href="http://www.google.com/search?q={{item.name}}">{{item.code}}</a>
