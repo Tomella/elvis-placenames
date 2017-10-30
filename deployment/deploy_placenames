@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Get the database connections
+source $HOME/.bash_profile
 # Bootstrap the first pull from bit bucket.
 # WARNING At this time it is a private repository so you need a valid key in ~/.ssh/xx_rsa (or whatever you want to call it)
 # cd /home/ec2-user

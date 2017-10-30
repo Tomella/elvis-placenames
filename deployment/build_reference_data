@@ -15,10 +15,10 @@ $NODE build_reference_data.js > $TMP_FILE
 # Test file size. We are better off with an old version rather than a broken version
 ACTUAL_SIZE=$(du -k "$TMP_FILE" | cut -f 1)
 if [ $ACTUAL_SIZE -ge $MIN_SIZE ]; then
-    sudo rm -f $TARGET_FILE
-    sudo cp $TMP_FILE $TARGET_FILE
+   # Copy the content to Apache.
+   sudo rm -f $TARGET_FILE
+   sudo cp $TMP_FILE $TARGET_FILE
 else
-    echo size is under $MIN_SIZE kilobytes
+   echo size is under $MIN_SIZE kilobytes
 fi
 
-# Copy the content to Apache.
