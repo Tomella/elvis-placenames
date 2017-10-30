@@ -44,10 +44,10 @@ const client = new Client({
             }
 
             let categoryName = row.category.trim();
-            let category = group.categories[categoryName];
+            let category = group[categoryName];
 
             if(!category) {
-               category = group.categories[categoryName] = {
+               category = group[categoryName] = {
                   name: categoryName,
                   definition: row.category_definition,
                   features:[]
