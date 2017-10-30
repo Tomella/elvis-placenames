@@ -76,12 +76,12 @@
 
 function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapService, placenamesSearchService) {
    const ZOOM_IN = 7;
-   var marker;
+   let marker;
 
-   var service = {
+   let service = {
       showPan(what) {
          return this.show(what).then(details => {
-            var map = details.map;
+            let map = details.map;
             map.panTo(details.location, { animate: true });
             if (map.getZoom() < ZOOM_IN) {
                map.setZoom(ZOOM_IN, { animate: true });
@@ -99,7 +99,7 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
 
       show(what) {
          return this.hide().then(map => {
-            var location = what.location.split(" ").reverse().map(str => +str);
+            let location = what.location.split(" ").reverse().map(str => +str);
             // split lng/lat string seperated by space, reverse to lat/lng, cooerce to numbers
             marker = L.popup()
                .setLatLng(location)
@@ -119,7 +119,7 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       download(ids) {
          this.config.then(config => {
             proxy.get(config.esriTemplate.replace("${id}", ids.join(","))).then(data => {
-               var blob = new Blob([JSON.stringify(data, null, 3)], { type: "application/json;charset=utf-8" });
+               let blob = new Blob([JSON.stringify(data, null, 3)], { type: "application/json;charset=utf-8" });
                saveAs(blob, "gazetteer-esri-features-" + Date.now() + ".json");
             });
          });

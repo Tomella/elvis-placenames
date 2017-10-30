@@ -127,8 +127,8 @@ class SolrTransformer {
             }
             if (count > 40000) {
                options.iconCreateFunction = function (cluster) {
-                  var childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
-                  var c = ' marker-cluster-';
+                  let childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
+                  let c = ' marker-cluster-';
                   if (childCount < 1000) {
                      c += 'small';
                   } else if (childCount < 5000) {

@@ -4,7 +4,7 @@
    .provider("proxy", function() {
 
       this.$get = ['$http', '$q', function ($http, $q) {
-         var base = "proxy/";
+         let base = "proxy/";
 
          this.setProxyBase = function(newBase) {
             base = newBase;

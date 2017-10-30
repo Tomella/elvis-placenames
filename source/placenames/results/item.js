@@ -40,12 +40,12 @@
       }])
 
       .factory('placenamesItemService', ['$http', 'configService', function ($http, configService) {
-         var service = {
+         let service = {
 
             wfs(vm) {
                configService.getConfig("results").then(({wfsTemplate}) => {
                   $http.get(wfsTemplate.replace("${id}", vm.item.recordId)).then(response => {
-                     var blob = new Blob([response.data], { type: "application/json;charset=utf-8" });
+                     let blob = new Blob([response.data], { type: "application/json;charset=utf-8" });
                      saveAs(blob, "gazetteer-wfs-feature-" + vm.item.recordId + ".xml");
                   });
                });

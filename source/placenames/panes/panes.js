@@ -9,7 +9,7 @@
                data: "="
             },
             controller: ['$scope', function ($scope) {
-               var changeSize = false;
+               let changeSize = false;
 
                $scope.view = $scope.defaultItem;
 

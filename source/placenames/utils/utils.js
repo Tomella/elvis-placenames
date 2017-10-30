@@ -4,7 +4,7 @@
 
          .filter("placenamesSplitBar", function () {
             return function (val = "") {
-               var buffer = "";
+               let buffer = "";
                val.split("|").forEach((name, index, variants) => {
                   buffer += (index && index < variants.length - 1 ? "," : "") + " ";
                   if (index && index === variants.length - 1) {
@@ -17,7 +17,7 @@
          })
 
          .filter("placenamesGoogleLink", function() {
-            var template = "https://www.google.com/maps/search/?api=1&query=${lat},${lng}";
+            let template = "https://www.google.com/maps/search/?api=1&query=${lat},${lng}";
             return function(what) {
                if(!what) return "";
                let location = what.location.split(" ");
@@ -29,7 +29,7 @@
          })
 
          .factory('placenamesUtilsService', ['configService', function (configService) {
-            var service = {};
+            let service = {};
 
             return service;
          }]);

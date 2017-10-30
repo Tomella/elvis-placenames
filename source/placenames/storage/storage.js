@@ -23,7 +23,7 @@
             },
 
             getItem: function (key) {
-               var deferred = $q.defer();
+               let deferred = $q.defer();
                this._getItem(project, key).then(function (response) {
                   deferred.resolve(response);
                });
@@ -32,7 +32,7 @@
 
             _getItem: function (project, key) {
                $log.debug("Fetching state locally for key " + key);
-               var item = localStorage.getItem(project + "." + key);
+               let item = localStorage.getItem(project + "." + key);
                if (item) {
                   try {
                      item = JSON.parse(item);

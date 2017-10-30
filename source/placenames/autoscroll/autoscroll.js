@@ -9,7 +9,7 @@
                height: "@"
             },
             link: function (scope, element, attrs) {
-               var timeout, oldBottom, startHeight;
+               let timeout, oldBottom, startHeight;
 
                if (scope.height) {
                   startHeight = +scope.height;
@@ -19,7 +19,7 @@
                oldBottom = startHeight;
 
                element.on("scroll", function (event) {
-                  var scrollHeight = element.scrollTop(),
+                  let scrollHeight = element.scrollTop(),
                      target = element.find(attrs.autoScroll),
                      totalHeight = target.height(),
                      scrollWindow = element.height(),

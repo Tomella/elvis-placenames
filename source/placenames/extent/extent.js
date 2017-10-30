@@ -31,7 +31,7 @@
 
          function execute() {
             mapService.getMap().then(function (map) {
-               var bounds = map.getBounds();
+               let bounds = map.getBounds();
                bbox.yMin = bounds.getSouth();
                bbox.xMin = bounds.getWest();
                bbox.yMax = bounds.getNorth();

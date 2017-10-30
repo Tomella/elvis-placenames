@@ -36,7 +36,7 @@
 
          .filter('altthemesFilter', function () {
             return function (features, theme) {
-               var response = [];
+               let response = [];
                // Give 'em all if they haven't set a theme.
                if (!theme) {
                   return features;
@@ -58,11 +58,11 @@
          })
 
          .factory('altthemesService', ['$q', '$http', 'storageService', function ($q, $http, storageService) {
-            var THEME_PERSIST_KEY = 'placenames.current.theme';
-            var THEMES_LOCATION = 'placenames/resources/config/themes.json';
-            var DEFAULT_THEME = "All";
-            var waiting = [];
-            var self = this;
+            let THEME_PERSIST_KEY = 'placenames.current.theme';
+            let THEMES_LOCATION = 'placenames/resources/config/themes.json';
+            let DEFAULT_THEME = "All";
+            let waiting = [];
+            let self = this;
 
             this.themes = [];
             this.theme = null;
@@ -72,7 +72,7 @@
                   value = DEFAULT_THEME;
                }
                $http.get(THEMES_LOCATION, { cache: true }).then(function (response) {
-                  var themes = response.data.themes;
+                  let themes = response.data.themes;
 
                   self.themes = themes;
                   self.theme = themes[value];
@@ -91,7 +91,7 @@
                if (this.theme) {
                   return $q.when(self.theme);
                } else {
-                  var waiter = $q.defer();
+                  let waiter = $q.defer();
                   waiting.push(waiter);
                   return waiter.promise;
                }

@@ -7,7 +7,7 @@
 
          .controller('headerController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
 
-            var modifyConfigSource = function (headerConfig) {
+            let modifyConfigSource = function (headerConfig) {
                return headerConfig;
             };
 
@@ -17,7 +17,7 @@
          }])
 
          .directive('placenamesHeader', [function () {
-            var defaults = {
+            let defaults = {
                current: "none",
                heading: "ICSM",
                headingtitle: "ICSM",
@@ -45,7 +45,7 @@
                   quicklinksurl: "="
                },
                link: function (scope, element, attrs) {
-                  var data = angular.copy(defaults);
+                  let data = angular.copy(defaults);
                   angular.forEach(defaults, function (value, key) {
                      if (!(key in scope)) {
                         scope[key] = value;

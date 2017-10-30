@@ -11,8 +11,7 @@
       }])
 
       .controller("toolbarLinksCtrl", ["$scope", "configService", function ($scope, configService) {
-
-         var self = this;
+         let self = this;
          configService.getConfig().then(function (config) {
             self.links = config.toolbarLinks;
          });

@@ -7,7 +7,7 @@
                placenamesSearchService.onMapUpdate(listening);
                function listening() {
                   if (element.is(":focus")) {
-                     var e = $.Event("keydown");
+                     let e = $.Event("keydown");
                      e.which = 27; // # Some key code value
                      element.trigger(e);
                      element.blur();
@@ -154,7 +154,7 @@
 
       .filter('placenamesTooltip', [function () {
          return function (model) {
-            var buffer = "<div style='text-align:left'>";
+            let buffer = "<div style='text-align:left'>";
             if (model.variant) {
                let variants = model.variant.split("|");
                variants.forEach((name, index) => {
@@ -180,24 +180,24 @@
 }
 
 function SearchService($http, $rootScope, $timeout, configService, groupsService, mapService) {
-   var data = {
+   let data = {
       searched: null // Search results
    };
 
-   var countsMapping = {
+   let countsMapping = {
       group: "groups",
       authority: "authorities",
       feature: "features",
       category: "categories"
    };
 
-   var summary = {};
-   var mapListeners = [];
+   let summary = {};
+   let mapListeners = [];
 
-   var results;
-   var marker;
+   let results;
+   let marker;
 
-   var service = {
+   let service = {
 
       onMapUpdate(listener) {
          mapListeners.push(listener);
@@ -253,7 +253,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       show(what) {
          this.hide().then(map => {
             // split lng/lat string seperated by space, reverse to lat/lng, cooerce to numbers
-            var location = what.location.split(" ").reverse().map(str => +str);
+            let location = what.location.split(" ").reverse().map(str => +str);
             marker = L.popup()
                .setLatLng(location)
                .setContent(what.name + "<br/>Lat/Lng: " +
@@ -274,8 +274,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    };
 
    mapService.getMap().then(map => {
-      var timeout;
-      var facets = {
+      let timeout;
+      let facets = {
          facet: true,
          "facet.field": "feature"
       };
@@ -292,6 +292,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             mapListeners.forEach(listener => {
                listener();
             });
+         } else {
+            $rootScope.$broadcast('pn.search.complete', data.searched.data);
          }
       }
    });
@@ -379,8 +381,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    function createSummary() {
       return mapService.getMap().then(map => {
          return groupsService.getAll().then(response => {
-            var filterIsObject = typeof data.filter === "object";
-            var summary = service.summary;
+            let filterIsObject = typeof data.filter === "object";
+            let summary = service.summary;
             summary.filter = filterIsObject ? data.filter.name : data.filter;
             summary.bounds = map.getBounds();
             summary.authorities = response.authorities.filter(auth => auth.selected);
@@ -512,7 +514,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function run(params) {
       return request(params).then(data => {
-         var code;
+         let code;
          data.facetCounts = {};
          $rootScope.$broadcast("pn.facets.changed", data.facet_counts.facet_fields);
 
@@ -532,8 +534,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function getSort(bounds) {
-      var dx = (bounds.getEast() - bounds.getWest()) / 2;
-      var dy = (bounds.getNorth() - bounds.getSouth()) / 2;
+      let dx = (bounds.getEast() - bounds.getWest()) / 2;
+      let dy = (bounds.getNorth() - bounds.getSouth()) / 2;
       return "geodist(ll," +
          (bounds.getSouth() + dy) +
          "," +
@@ -593,10 +595,5 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    return service;
-
-   function baseFacetParameters() {
-      var params = baseParameters();
-      params.rows = 0;
-   }
 }
 

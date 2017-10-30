@@ -75,7 +75,7 @@
 }
 
 function ContributorsService($http) {
-   var state = {
+   let state = {
       show: false,
       ingroup: false,
       stick: false

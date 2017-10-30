@@ -14,7 +14,7 @@
                   });
                }],
                link: function (scope, element) {
-                  var modalInstance;
+                  let modalInstance;
 
                   scope.$watch("acceptedTerms", function (value) {
                      if (value === false) {
@@ -57,7 +57,7 @@
          }])
 
       .factory("splashService", ['$http', function ($http) {
-         var VIEWED_SPLASH_KEY = "placenames.accepted.terms",
+         let VIEWED_SPLASH_KEY = "placenames.accepted.terms",
             releaseNotesUrl = "placenames/resources/config/releasenotes.json";
 
          return {
@@ -87,7 +87,7 @@
       }])
 
       .filter("priorityColor", [function () {
-         var map = {
+         let map = {
             IMPORTANT: "red",
             HIGH: "blue",
             MEDIUM: "orange",
@@ -113,7 +113,7 @@
             if (!messages) {
                return;
             }
-            var response = messages.slice(0).sort(function (prev, next) {
+            let response = messages.slice(0).sort(function (prev, next) {
                if (prev.priority == next.priority) {
                   return prev.lastUpdate == next.lastUpdate ? 0 : next.lastUpdate - prev.lastUpdate;
                } else {

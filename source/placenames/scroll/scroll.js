@@ -9,11 +9,11 @@
                buffer: "=?"
             },
             link: function (scope, element, attrs) {
-               var fetching;
+               let fetching;
                if (!scope.buffer) scope.buffer = 100;
 
                element.on("scroll", function (event) {
-                  var target = event.currentTarget;
+                  let target = event.currentTarget;
                   $timeout.cancel(fetching);
                   fetching = $timeout(bouncer, 120);
 
