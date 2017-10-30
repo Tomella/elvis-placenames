@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Get the database connections
+source $HOME/.bash_profile
+
 NODE=/usr/bin/node
 TMP_FILE=/tmp/groupCatalogFeatures.json
 TARGET_FILE=/var/www/placenames/placenames/resources/config/groupCatalogFeatures.json
