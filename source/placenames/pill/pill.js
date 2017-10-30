@@ -10,6 +10,10 @@
                name: "@?"
             },
             link: function(scope) {
+               if(scope.item.label) {
+                  scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+               }
+
                if(!scope.name) {
                   scope.name = "name";
                }

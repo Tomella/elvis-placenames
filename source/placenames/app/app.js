@@ -40,7 +40,6 @@
       'placenames.contributors',
       'placenames.download',
       'placenames.extent',
-      'placenames.filters',
       'placenames.header',
       'placenames.lock',
       'placenames.maps',
@@ -51,11 +50,12 @@
       'placenames.quicksearch',
       'placenames.reset',
       "placenames.results",
-      "placenames.search",
+      "placenames.search.1",
       "placenames.side-panel",
       'placenames.splash',
       'placenames.templates',
       'placenames.toolbar',
+      'placenames.tree',
       'placenames.utils'
    ])
 

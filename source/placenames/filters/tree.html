@@ -1,0 +1,33 @@
+<div style="max-height:300px; overflow-y:auto;padding-left:10px">
+   <div ng-repeat="group in groups | withTotals">
+      <button class="undecorated" ng-click="group.expanded = !group.expanded" ng-style="{color:group.color}">
+         <i class="fa" ng-class="{'fa-plus':!group.expanded, 'fa-minus':group.expanded}"></i>
+      </button>
+      <input type="checkbox" class="filters-check" ng-model="group.selectExpand" ng-change="change(group)" ng-style="{color:group.color}">
+      <span title="{{group.definition}}">
+         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?' of ':'')}}{{group.total | number}})
+      </span>
+      <div style="padding-left:10px" ng-show="group.expanded">
+         <div ng-repeat="category in group.categories | withTotals | orderBy: 'name'"  ng-attr-title="{{category.definition}}">
+            <button class="undecorated" ng-click="category.expanded = !category.expanded" ng-style="{color:category.color}">
+               <i class="fa" ng-class="{'fa-plus':!category.expanded, 'fa-minus':category.expanded}"></i>
+            </button>
+            <input class="filters-check" type="checkbox" ng-model="category.selectExpand" ng-change="change()" ng-style="{color:category.color}">
+            <span title="{{category.definition}}">
+               {{category.name}}
+               ({{(category.allCount | number) + (category.allCount || category.allCount == 0?' of ':'')}}{{category.total}})
+            </span>
+            <div ng-show="category.expanded" style="padding-left:20px">
+               <div ng-repeat="feature in category.features | withTotals | orderBy: 'name'"  ng-attr-title="{{feature.definition}}">
+                  <i class="fa fa-hand-o-right" aria-hidden="true" ng-style="{color:feature.color}"></i>
+                  <input class="filters-check" type="checkbox" ng-model="feature.selected" ng-change="change()" ng-style="{color:feature.color}">
+                  <span>
+                     {{feature.name}}
+                     ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?' of ':'')}}{{feature.total}})
+                  </span>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

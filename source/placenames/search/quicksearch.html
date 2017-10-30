@@ -6,12 +6,32 @@
          placenames-clear>
 
       <span class="input-group-btn">
-         <button class="btn btn-primary" type="button" ng-click="search()" title="Search for all features matching your search criteria" ng-hide="state.searched">Search</button>
          <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
          <button class="btn btn-primary" title="Clear the current search and enable discovery" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
+         <button class="btn btn-primary" type="button" ng-click="search()" title="Search for all features matching your search criteria"
+         ng-hide="state.searched">Search</button>
       </span>
    </div>
 </div>
 <div class="filters" ng-show="showFilters" style="background-color: white; opacity:0.9">
-   <placenames-filters status="status"></placenames-filters>
+   <div class="panel panel-default" style="margin-bottom:5px">
+      <div class="panel-heading">
+         <h4 class="panel-title">
+            Filter
+            <span ng-if="summary.current.length">ing</span> by groups/categorie/features...
+         </h4>
+      </div>
+   </div>
+   <placenames-tree></placenames-tree>
+   <div class="panel panel-default" style="margin-bottom:5px">
+      <div class="panel-heading">
+         <h4 class="panel-title">
+            Filter
+            <span ng-if="summary.authorities.length">ing</span> by authority...
+         </h4>
+      </div>
+      <div style="max-height: 200px; overflow-y: auto; padding:5px">
+         <placenames-authorities update="update()"></placenames-authorities>
+      </div>
+   </div>
 </div>

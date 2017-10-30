@@ -1,5 +1,5 @@
 <div style="padding-top:5px; padding-bottom:5px">
-   <span ng-if="data.filter && !data.filter.location">Matching names like "{{data.filter}}"</span>
-   <span ng-if="summary.current.length">Filtered by {{summary.filterBy}}: {{summary.current | quicksummary : "name" }}</span>
+   <span ng-if="data.filter && !data.filter.location">Matching names like "{{summary.filter}}"</span>
+   <span ng-if="summary.current.length">Filtered by: {{summary.current | quicksummary : "name" }}</span>
    <span ng-if="summary.authorities.length">For authorities: {{summary.authorities | quicksummary : "code"}}</span>
 </div>

@@ -419,6 +419,85 @@ img.elvis-logo {
   right: 7px;
   bottom: 15px;
 }
+/* Base for label styling */
+
+.filters-check:not(:checked),
+.filters-check:checked {
+  margin: 3px;
+}
+
+.filters-check:not(:checked) + label,
+.filters-check:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+
+.filters-check:not(:checked) + label:before,
+.filters-check:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+/* checked mark aspect */
+
+.filters-check:not(:checked) + label:after,
+.filters-check:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: .1em;
+  left: .3em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #09ad7e;
+  transition: all .2s;
+}
+
+/* checked mark aspect changes */
+
+.filters-check:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.filters-check:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* disabled checkbox */
+
+.filters-check:disabled:not(:checked) + label:before,
+.filters-check:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+
+.filters-check:disabled:checked + label:after {
+  color: #999;
+}
+
+.filters-check:disabled + label {
+  color: #aaa;
+}
+
+/* accessibility */
+
+.filters-check:checked:focus + label:before,
+.filters-check:not(:checked):focus + label:before {
+  border: 2px dotted blue;
+}
 .nav-icons {
   margin-top: 7px !important;
 }
@@ -689,6 +768,13 @@ img.elvis-logo {
   color: #fff;
   background-color: #777;
 }
+.pn-pill {
+  padding: 0px 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
+}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -768,13 +854,6 @@ img.elvis-logo {
   overflow-y: auto;
   overflow-x: hidden;
 }
-.pn-pill {
-  padding: 0px 2px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin: 0;
-}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -844,24 +923,6 @@ img.elvis-logo {
     display: none !important;
   }
 }
-.quickSearch {
-  width: 33em;
-}
-
-.placenames-filtered-summary {
-  position: fixed;
-  z-index: 4;
-  top: 123px;
-  left: 450px;
-  right: 20px;
-}
-
-.placenames-filtered-summary-child {
-  background-color: white;
-  opacity: 0.6;
-  border-radius: 3px;
-  display: inline-block;
-}
 .pn-container {
   overflow-y: auto;
   position: absolute;
@@ -914,6 +975,24 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
+}
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  position: fixed;
+  z-index: 4;
+  top: 123px;
+  left: 450px;
+  right: 20px;
+}
+
+.placenames-filtered-summary-child {
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 3px;
+  display: inline-block;
 }
 .pn-features {
   max-block-size: 300px;
