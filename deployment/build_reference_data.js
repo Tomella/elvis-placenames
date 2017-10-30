@@ -38,8 +38,7 @@ const client = new Client({
             if(!group) {
                group = groups[groupName] = {
                   name: groupName,
-                  definition: row.group_definition,
-                  categories: {}
+                  definition: row.group_definition
                };
             }
 
