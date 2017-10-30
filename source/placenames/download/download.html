@@ -6,7 +6,8 @@
          </label>
       </div>
       <div class="col-md-8">
-         <select style="width:95%" ng-model="processing.outCoordSys" ng-options="opt.value for opt in processing.config.outCoordSys | productIntersect : data.bounds"></select>
+         <select style="width:95%" ng-model="processing.outCoordSys" id="geoprocessOutCoordSys"
+            ng-options="opt.value for opt in processing.config.outCoordSys | productIntersect : data.bounds"></select>
       </div>
    </div>
 
@@ -17,7 +18,22 @@
          </label>
       </div>
       <div class="col-md-8">
-         <select style="width:95%" ng-model="processing.outFormat" ng-options="opt.value for opt in processing.config.outFormat"></select>
+         <select style="width:95%" ng-model="processing.outFormat" id="geoprocessOutputFormat" ng-options="opt.value for opt in processing.config.outFormat"></select>
+      </div>
+   </div>
+
+
+   <div class="row" title="You can elect to get common data across the authorities or for each authority receive the authorities data per feature">
+      <div class="col-md-4">
+         <label for="geoprocessDataFieldsCommon">
+            Data fields
+         </label>
+      </div>
+      <div class="col-md-8">
+         <label for="geoprocessDataFieldsCommon">Common fields</label>
+         <input type="radio" ng-model="processing.dataFields" value="common" id="geoprocessDataFieldsCommon" name="dataFields" checked="checked">
+         <label for="geoprocessDataFields">Authorities' fields</label>
+         <input type="radio" ng-model="processing.dataFields" value="authorities" id="geoprocessDataFields" name="dataFields">
       </div>
    </div>
 

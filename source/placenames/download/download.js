@@ -52,6 +52,7 @@
                show: false,
                email: null,
                validFilename: false,
+               dataFields: "common",
 
                get valid() {
                   return this.percentComplete === 100;
@@ -80,6 +81,7 @@
                   file_name: this.data.filename ? this.data.filename : "output_filename",
                   file_format_vector: this.data.outFormat.code,
                   coord_sys: this.data.outCoordSys.code,
+                  data_fields: this.data.dataFields,
                   email_address: this.data.email,
                   params: {
                      q,
