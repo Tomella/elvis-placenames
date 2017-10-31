@@ -178,7 +178,7 @@ class SolrTransformer {
                   }
                });
             } else {
-               this.layer = L.markerClusterGroup({
+               let layer = this.layer = L.markerClusterGroup({
                   disableClusteringAtZoom: count > 600 ? 12 : 4
                });
                let params = Object.assign({}, response.responseHeader.params);
@@ -190,7 +190,7 @@ class SolrTransformer {
                   docs.forEach(doc => {
                      let coords = doc.location.split(" ");
                      doc.title = doc.name;
-                     this.layer.addLayer(L.marker([+coords[1], +coords[0]], doc));
+                     layer.addLayer(L.marker([+coords[1], +coords[0]], doc));
                   });
                });
 
