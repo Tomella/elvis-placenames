@@ -8,5 +8,3 @@ yum install -y httpd24
 yum install -y git
 npm install -g forever
 npm install -g bower
-chkconfig httpd on
-service httpd start

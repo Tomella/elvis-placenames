@@ -2,18 +2,18 @@
 
 ## Service or system overview
 
-Bathymetry Extractor is also referred to as MH370 for brevity,  is a single page applications that is comprised of:
+Placenames is a single page applications that is comprised of:
 * Static content delivered through Apache HTTP server
 * Invoking bespoke asynchronous services running on FME server.
+* A few microservices that are shared across the Elvis applications runnubing under the fsdf service
 
 ### Business overview
 
-Provides users the ability to select areas of interest and download bathymetry and backscatter data from those areas
-where the data has been collected in the search for MH370 [MH370](http://www.ga.gov.au/about/projects/marine/mh370-phase-one-data-release)
+Provides users the ability to pan and zoom areas of interest and download gazetteer point data from those areas.
 
 ### Technical overview
 
-MH370 is a static web application. The static content is served via Apache HTTP and all content is routed through the same. It's current deployment is in AWS using a single AWS EC2 instance but the code is not bound to any particular platorm.
+Placenames is a static web application. The static content is served via Apache HTTP and all content is routed through the same. It's current deployment is in AWS using a single AWS EC2 instance but the code is not bound to any particular platform.
 
 ### Service Level Agreements (SLAs)
 
@@ -33,14 +33,14 @@ Symonston ACT 2609
 From least to most complex the application can be described by these parts
 * Static web content served over Apache HTTP server as a numer of single page applications (SPA) using:
    * AngularJS for application framework
-   * Leaflet < 1 for map rendering
+   * Leaflet > 1 for map rendering
    * Bootstrap for look and feel
-   * D3JS for graph plotting
    * Ahngular UI Bootstrap library for richer UI
    * Explorer maps for consistant map configuration
    * Explorer UI for Explorer or Elvis common look and feel
 
-The client SPA's talk directly to FME services and all end points are configured via the configuration files contained within the resources/config directory, typically named to match function.
+The client SPA's talk directly to FME services and all end points are configured via the configuration files contained within the resources/config directory, typically named to match function. Microservices are consumed from the fsdf-elvis project via proxy configuration so that they look local.
+server.js is the development server with the needed microservices included.
 
 ## System characteristics
 
@@ -54,13 +54,13 @@ All process flows are via the web application user interaction. Flows are passed
 
 ### Infrastructure and network design
 
-1 x AWS EC2 t2.micro instance, 1 core, 1 GB RAM, 8 GB SSD
+1 shared AWS EC2 t2.medium instance, 2 cores, 4 GB RAM, 20 GB SSD. Runs as a virtual domain in a seperate directory.
 Ports open on 80 (HTTP), 443 (HTTPS unused) and 22 (SSH)
 SSH access controlled by PEM, ask the product owners for details if you are entitled to access.
 An AWS elastic IP for public access
 DNS entry pointing at the elastic IP
 
-As of writing the DEV instance has been spun down while the PROD instance is [here](http://elevation.fsdf.org.au)
+As of writing the DEV instance is [here](http://placenames.geospeedster.com) while the PROD instance will be [here](http://placenames.fsdf.org.au)
 
 It is expected that the DEV instance will be taken over by someone else but is currently routed through my (Larry Hill's) DNS when active while the PROD instance is managed indirectly by the product owner.
 
@@ -85,10 +85,15 @@ There are no functional differences between the DEV and PROD environments other 
 ### Tools
 
 There are a number of scripts and configuration files availble to simplify environment construction and management
-* [Install dependencies](../deployment/load_app_dependencies) adds all the software packages and install services to autostart to support the application
-* [Update code](../deployment/deploy_bathy) to pull from the repository and update the static code base. It also restarts the services.
+* [Install dependencies](../deployment/load_app_dependencies) adds all the software packages to support the application
+* [Update code](../deployment/deploy_placenames) to pull from the repository and update the static code base.
+nb. This application piggy backs on fsdf-elevation services and those services that it requires access to are expected to be proxied
+ onto the placenames domain.
 
 ## Required resources
+
+This application piggy backs on fsdf-elevation services and those services that it requires access to are expected to be proxied
+ onto the placenames domain.
 
 ### Required resources - compute
 
@@ -100,11 +105,20 @@ None other than root mounted SSD
 
 ### Required resources - database
 
-None.
+Solr installation. See [Gazetteer project for installation](../../gazetteer) It is expected that the Gazetteer is co-installed on the
+same VM or at least installed somewhere where it can be proxied to.
+
+Apache configuration to select against Solr can be found [here](../../apache-configuration)
 
 ### Required resources - logging
 
 Apache HTTP logs - Rolling 5 week logs for both access and errors in /etc/httpd/logs
+
+Failed and some successful cron jobs will be logged to the user's mail acount. On the ec2-user it can be viewed on a SSH with:
+sudo cat /var/spool/mail/ec2-user
+
+The successful Solr jobs will show how many features are written. At the time the last cron jobs were set up there should be an email that
+states there are all features written (this one rebuilds the collection nightly) and others with a small subset of records written.
 
 ## Security and access control
 
@@ -128,8 +142,7 @@ All configuration is done through the suite of JSON files maintained in the `res
 ## System backup and restore
 ### Backup requirements
 
-No backups are required except for the code base maintained in git. There is no dynamic content or storage assiciated with this application.
-All is delegated to FME server.
+No backups are required except for the code base maintained in git. There is no dynamic content or storage assiciated with this application that is definitive. The data maintained in this app is exracted via scheduled jobs to be extracted from two PostGres tables maintained by NLIG.
 
 ## Monitoring and alerting
 ### Log aggregation solution
@@ -172,7 +185,12 @@ Standard Apache HTTP logging:
 
 ### Health checks
 
-Periodic manual loading of [application](http://bathymetry-extractor.ga.gov.au/) in browser
+Periodic manual loading of [application](http://placenames.fsdf.org.au/) in browser.
+Things to check:
+* That the application loads completely
+* That on clicking the filters button that there is an appropriate list of groups, category, features and authorities. This data
+  is extracted from a reference data table in postgres.
+* That the clustering shows a healthy count of features. On full map view this should be around 350k of features. (At the time of writing it is only 130k+ features)
 
 #### Health of dependencies
 
@@ -190,15 +208,21 @@ Now the application is on the machine and ready for future deployments
 
 ### Subsequent deployments
 
-Everything is done via a second [deployment script](../deployment/deploy_bathy).
+Everything is done via a second [deployment script](../deployment/deploy_placenames).
 Again, login via ssh to a sudo capable logon like the default ec2-user account and run the script like:
-`> bash elvis-mh370/deployment/deploy_bathy`
+`> bash elvis-placenames/deployment/deploy_placenames`
 
 Everything is updated from git, static content copied to the Apache web. There is no flush of orphaned code and this might be worth considering at some point.
 
 ### Batch processing
 
-There is no scheduled batch processing that falls under the maintenance of this application
+There is a single job to generate the reference data into  JSON file:
+`15 13 * * * /bin/bash $HOME/elvis-placenames/deployment/build_reference_data`
+
+There are two jobs that are part of the gazetteer project that this project depends on:
+
+`0 1,3,5,7,21,23 * * * /bin/bash $HOME/gazetteer/deploy/schedule_provisioning`
+`0 13 * * * /bin/bash $HOME/gazetteer/deploy/clean_deploy`
 
 ### Power procedures
 
@@ -212,20 +236,20 @@ At a later date we can organise the automated health checking if that becomes a 
 
 ### Troubleshooting
 
-Typically checking the [endpoint](http://bathymetry-extractor.ga.gov.au/).
+Typically checking the [endpoint](http://placenames.fsdf.org.au/).
 is broken.
 
-Logging in and checking that the http and microservices can be done (see above). There is [script](code-deploy/start_server) that will restart both
-the microservices and the http server and it is safe to do this at any point that there are slack peiods in the logs. Cycle time is less than a second
-and browsers now retry a page if it doesn't load on the odd chance that a user attempts to load the page at the exact time that the cycling
-occurs.
+Logging in and checking that the http and microservices can be done (see above). As this piggy backs ont the HTTP server installed
+for FSDF Elevation the only service worth checking is the
+`sudo service httpd restart`
+`sudo service fsdf restart`
 
 ## Maintenance tasks
 ### Patching
 
 Linux patching should be done at times suggested by AWS.
 
-Patching of the application itself is not needed as a deployment is very light weight meaning a deployment is patching.
+Patching of the application itself is not needed as a deployment is very light weight meaning a full deployment occurs with each release.
 
 ### Log rotation
 
@@ -245,6 +269,6 @@ There is no failover implemented.
 
 The microservices are configured to restart on failure using [forever](https://github.com/foreverjs/forever)
 
-See [microservices System V script](../code-deploy/fsdf) for its configuration.
+See [microservices System V script](../../fsdf-elvis/code-deploy/fsdf) for its configuration.
 
 A standard Apache HTTPD process pool means processes are insulated from each other for static web content.
