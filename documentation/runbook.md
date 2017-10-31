@@ -123,12 +123,13 @@ export PLACENAMES_DB_DATABASE
 export PLACENAMES_DB_PASSWORD
 export PLACENAMES_DB_PORT
 ```
+The cron jobs require these credentials
 
 
-Solr installation. See [Gazetteer project for installation](../../gazetteer) It is expected that the Gazetteer is co-installed on the
+Solr installation. See [Gazetteer project for installation](https://github.com/Tomella/gazetteer) It is expected that the Gazetteer is co-installed on the
 same VM or at least installed somewhere where it can be proxied to.
 
-Apache configuration to select against Solr can be found [here](../../apache-configuration)
+Apache configuration to select against Solr can be found [here](https://github.com/Tomella/apache-configuration)
 
 ### Required resources - logging
 
@@ -146,8 +147,7 @@ Only ports 80, 443 and 22 are open. All application services run internallly and
 
 ### Password and PII security
 
-No passwords of personal information maintained or logged. There was an interim basic authentication applied to the application.
-See [Apache config file](../deployment/bathy_httpd.conf) for details.
+No passwords of personal information maintained or logged.
 
 ### Ongoing security checks
 
@@ -289,6 +289,6 @@ There is no failover implemented.
 
 The microservices are configured to restart on failure using [forever](https://github.com/foreverjs/forever)
 
-See [microservices System V script](../../fsdf-elvis/code-deploy/fsdf) for its configuration.
+See [microservices System V script](https://github.com/Tomella/fsdf-elvis/code-deploy/fsdf) for its configuration.
 
 A standard Apache HTTPD process pool means processes are insulated from each other for static web content.
