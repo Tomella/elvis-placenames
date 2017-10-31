@@ -3,7 +3,7 @@ angular.module('placenames.popover', [])
 
 .directive('placenamesPopover', [function() {
 	return {
-		templateUrl : "placenames/popover/popover.html",
+		templateUrl : "popover/popover.html",
 		restrict : 'A',
 		transclude : true,
 		scope : {

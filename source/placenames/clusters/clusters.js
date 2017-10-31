@@ -193,7 +193,6 @@ class SolrTransformer {
                      layer.addLayer(L.marker([+coords[1], +coords[0]], doc));
                   });
                });
-
             }
             if(this.flasher) {
                this.flasher.remove();

@@ -3,7 +3,7 @@
       .directive('placenamesPill', ['placenamesSearchService', function (placenamesSearchService) {
          return {
 				restrict: 'EA',
-            templateUrl: "placenames/pill/pill.html",
+            templateUrl: "pill/pill.html",
             scope: {
                item: "=",
                update: "&",

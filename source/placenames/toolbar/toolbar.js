@@ -4,7 +4,7 @@
 
       .directive("placenamesToolbar", [function () {
          return {
-            templateUrl: "placenames/toolbar/toolbar.html",
+            templateUrl: "toolbar/toolbar.html",
             controller: 'toolbarLinksCtrl',
             transclude: true
          };

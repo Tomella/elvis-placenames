@@ -3,7 +3,7 @@
 
    .directive("placenamesFeatures", ['groupsService', "placenamesSearchService", function(groupsService, placenamesSearchService) {
       return {
-         templateUrl: "placenames/features/features.html",
+         templateUrl: "features/features.html",
          link: function(scope) {
             groupsService.getFeatures().then(features => scope.features = features);
             scope.change = function() {

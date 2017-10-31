@@ -31,7 +31,7 @@
             return {
                transclude: true,
                restrict: 'EA',
-               templateUrl: "placenames/header/header.html",
+               templateUrl: "header/header.html",
                scope: {
                   current: "=",
                   breadcrumbs: "=",

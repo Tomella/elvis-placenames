@@ -2,7 +2,7 @@
    angular.module("placenames.tree", [])
    .directive("placenamesTree", ["groupsService", "placenamesSearchService", function(groupsService, placenamesSearchService) {
       return {
-         templateUrl: "placenames/filters/tree.html",
+         templateUrl: "filters/tree.html",
          restrict: "AE",
          link: function(scope) {
             groupsService.getGroups().then(groups => scope.groups = groups);

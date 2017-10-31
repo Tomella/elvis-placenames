@@ -33,8 +33,8 @@
     "x2js": "x2js#^1.2.0",
     "leaflet-draw": "^0.3.2",
     "ngInfiniteScroll": "1.0.0",
-    "proj4": "^2.4.4",
-    "Proj4Leaflet": "proj4leaflet#^1.0.2"
+    "proj4": "2.3.3",
+    "Proj4Leaflet": "proj4leaflet#0.7.0"
   },
   "resolutions": {
     "leaflet-draw": "~0.3.2",

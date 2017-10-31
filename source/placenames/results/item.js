@@ -8,7 +8,7 @@
             function (placenamesItemService, placenamesResultsService, placenamesSearchService) {
 
          return {
-            templateUrl: "placenames/results/item.html",
+            templateUrl: "results/item.html",
             bindToController: {
                item: "="
             },

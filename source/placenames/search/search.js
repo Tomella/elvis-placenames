@@ -1,5 +1,5 @@
 {
-   angular.module("placenames.search.1", ['placenames.authorities', 'placenames.groups'])
+   angular.module("placenames.search", ['placenames.authorities', 'placenames.groups'])
 
       .directive('placenamesClear', ['placenamesSearchService', function (placenamesSearchService) {
          return {
@@ -25,7 +25,7 @@
          };
 
          return {
-            templateUrl: "placenames/search/searchfilters.html",
+            templateUrl: "search/searchfilters.html",
             link: function (scope) {
                scope.summary = placenamesSearchService.summary;
                scope.data = placenamesSearchService.data;
@@ -54,7 +54,7 @@
       .directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'placenamesSearchService',
          function ($rootScope, $timeout, groupsService, placenamesSearchService) {
             return {
-               templateUrl: 'placenames/search/quicksearch.html',
+               templateUrl: 'search/quicksearch.html',
                restrict: 'AE',
                link: function (scope) {
                   scope.state = placenamesSearchService.data;
@@ -87,7 +87,7 @@
       .directive("placenamesSearch", ['$timeout', 'groupsService', 'placenamesSearchService',
          function ($timeout, groupsService, placenamesSearchService) {
             return {
-               templateUrl: 'placenames/search/search.html',
+               templateUrl: 'search/search.html',
                restrict: 'AE',
                link: function (scope) {
                   scope.state = placenamesSearchService.data;

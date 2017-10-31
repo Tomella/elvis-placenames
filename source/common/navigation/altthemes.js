@@ -9,7 +9,7 @@
          .directive('altThemes', ['altthemesService', function (themesService) {
             return {
                restrict: 'AE',
-               templateUrl: 'placenames/navigation/altthemes.html',
+               templateUrl: 'navigation/altthemes.html',
                scope: {
                   current: "="
                },

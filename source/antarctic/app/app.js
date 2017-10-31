@@ -1,9 +1,7 @@
 {
    class RootCtrl {
       constructor(configService, mapService) {
-         mapService.getMap().then(map => {
-            this.map = map;
-         });
+         this.map = mapService.map;
          configService.getConfig().then(data => {
             this.data = data;
          });
@@ -11,7 +9,11 @@
    }
    RootCtrl.$invoke = ['configService', 'mapService'];
 
-   angular.module("PlacenamesApp", [
+   angular.module("AntarcticApp", [
+
+      'antarctic.maps',
+      'antarctic.templates',
+
       'explorer.config',
       'explorer.confirm',
       'explorer.enter',
@@ -23,40 +25,17 @@
       'explorer.persist',
       'explorer.version',
 
+      'placenames.contributors',
+      'placenames.header',
+      'placenames.navigation',
+
       'exp.ui.templates',
       'explorer.map.templates',
 
       'ui.bootstrap',
       'ngAutocomplete',
       'ngSanitize',
-      'page.footer',
-
-      'geo.map',
-      'geo.maphelper',
-
-      'placenames.about',
-      'placenames.antarctic',
-      'placenames.clusters',
-      'placenames.contributors',
-      'placenames.download',
-      'placenames.extent',
-      'placenames.header',
-      'placenames.lock',
-      'placenames.maps',
-      'placenames.navigation',
-      'placenames.panes',
-      'placenames.popover',
-      'placenames.proxy',
-      'placenames.quicksearch',
-      'placenames.reset',
-      "placenames.results",
-      "placenames.search",
-      "placenames.side-panel",
-      'placenames.splash',
-      'placenames.templates',
-      'placenames.toolbar',
-      'placenames.tree',
-      'placenames.utils'
+      'page.footer'
    ])
 
       // Set up all the service providers here.
@@ -69,6 +48,9 @@
             projectsServiceProvider.setProject("placenames");
          }])
 
+      .run(["mapService", function(mapService) {
+         window.map = mapService.map;
+      }])
       .controller("RootCtrl", RootCtrl)
 
       .filter('bytes', function () {

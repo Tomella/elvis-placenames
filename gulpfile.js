@@ -43,18 +43,35 @@ gulp.task('views', function () {
 });
 
 //Concatenate & Minify JS
-gulp.task('scripts', function() {
-   return prepareScripts();
+gulp.task('placenamesScripts', function() {
+   return preparePlacenamesScripts();
 });
 
-function prepareScripts() {
-   return gulp.src(directories.source + '/**/*.js')
+gulp.task('antarcticScripts', function() {
+   return prepareAntarcticScripts();
+});
+
+function prepareAntarcticScripts() {
+   return gulp.src([directories.source + '/common/**/*.js', directories.source + '/antarctic/**/*.js'])
       .pipe(babel({
             compact: false,
             comments: true,
             presets: ['es2015', 'es2016', 'es2017']
       }))
-	   .pipe(addStream.obj(prepareNamedTemplates()))
+	   .pipe(addStream.obj(prepareNamedTemplates("antarctic")))
+      .pipe(concat('antarctic.js'))
+      .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
+      .pipe(gulp.dest(directories.assets));
+}
+
+function preparePlacenamesScripts() {
+   return gulp.src([directories.source + '/common/**/*.js', directories.source + '/placenames/**/*.js'])
+      .pipe(babel({
+            compact: false,
+            comments: true,
+            presets: ['es2015', 'es2016', 'es2017']
+      }))
+	   .pipe(addStream.obj(prepareNamedTemplates("placenames")))
       .pipe(concat('placenames.js'))
       .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
       .pipe(gulp.dest(directories.assets));
@@ -62,8 +79,12 @@ function prepareScripts() {
 
 
 //Concatenate & Minify JS
-gulp.task('squash', function() {
+gulp.task('squashPlacenames', function() {
 	return squashJs('placenames');
+});
+
+gulp.task('squashAntarctic', function() {
+	return squashJs('antarctic');
 });
 
 function squashJs(name) {
@@ -76,9 +97,11 @@ function squashJs(name) {
 gulp.task('watch', function() {
 	// We watch both JS and HTML files.
     gulp.watch(directories.source + '/**/*(*.js|*.html)', ['lint']);
-    gulp.watch(directories.source + '/**/*(*.js|*.html)', ['scripts']);
+    gulp.watch(directories.source + '/placenames/**/*(*.js|*.html)', ['placenamesScripts']);
+    gulp.watch(directories.source + '/antarctic/**/*(*.js|*.html)', ['antarcticScripts']);
     gulp.watch(directories.source + '/**/*.css', ['concatCss']);
-    gulp.watch(directories.assets + '/placenames.js', ['squash']);
+    gulp.watch(directories.assets + '/antarctic.js', ['squashAntarctic']);
+    gulp.watch(directories.assets + '/placenames.js', ['squashPlacenames']);
     gulp.watch(directories.views +  '/*', ['views']);
     gulp.watch(directories.resources + '/**/*', ['resources']);
     //gulp.watch('scss/*.scss', ['sass']);
@@ -95,13 +118,13 @@ gulp.task('package', function() {
       .pipe(gulp.dest(directories.assets));
 });
 
-gulp.task('build', ['views', 'package', 'scripts', 'concatCss', 'resources'])
+gulp.task('build', ['views', 'package', 'placenamesScripts', 'antarcticScripts', 'concatCss', 'resources'])
 
 // Default Task
-gulp.task('default', ['lint', 'scripts', 'concatCss', 'watch', 'package', 'resources', 'views']);
+gulp.task('default', ['lint', 'placenamesScripts', 'antarcticScripts', 'concatCss', 'watch', 'package', 'resources', 'views']);
 
 
-function prepareNamedTemplates() {
-   return gulp.src(directories.source + '/**/*.html')
-      .pipe(templateCache({module: "placenames.templates", standalone : true}));
+function prepareNamedTemplates(name) {
+   return gulp.src([directories.source + '/' + name + '/**/*.html', directories.source + '/common/**/*.html'])
+      .pipe(templateCache({module: name + ".templates", standalone : true}));
 }
