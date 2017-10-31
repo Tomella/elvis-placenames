@@ -105,6 +105,26 @@ None other than root mounted SSD
 
 ### Required resources - database
 
+Note that the access to a remote Postgres database requires credentials. These credentials are stored in exported environment
+variables in:
+`.bash_profile`
+
+and need the following
+```bash
+PLACENAMES_DB_USER=<user_name>
+PLACENAMES_DB_HOST=<host_name>
+PLACENAMES_DB_DATABASE=<database>
+PLACENAMES_DB_PASSWORD=<password>
+PLACENAMES_DB_PORT=<port>
+
+export PLACENAMES_DB_USER
+export PLACENAMES_DB_HOST
+export PLACENAMES_DB_DATABASE
+export PLACENAMES_DB_PASSWORD
+export PLACENAMES_DB_PORT
+```
+
+
 Solr installation. See [Gazetteer project for installation](../../gazetteer) It is expected that the Gazetteer is co-installed on the
 same VM or at least installed somewhere where it can be proxied to.
 

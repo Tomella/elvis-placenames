@@ -74,8 +74,3 @@ function decorate(target, source, name, key) {
       target[name] = source[key];
    }
 }
-
-
-function transform(results) {
-   console.log(JSON.stringify(results))
-}
