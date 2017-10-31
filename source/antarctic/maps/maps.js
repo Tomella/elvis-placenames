@@ -45,10 +45,7 @@
             continuousWorld: true,
             attribution:
             "<a href='https://wiki.earthdata.nasa.gov/display/GIBS'>" +
-            "NASA EOSDIS GIBS</a>&nbsp;&nbsp;&nbsp;" +
-            "<a href='https://github.com/nasa-gibs/web-examples/blob/release/examples/leaflet/antarctic-epsg3031.js'>" +
-            "View Source" +
-            "</a>"
+            "NASA EOSDIS GIBS</a>"
          });
 
          // HACK: BEGIN
