@@ -17,6 +17,60 @@ specific language governing permissions and limitations
 under the License.
 */
 
+'use strict';
+
+(function (angular) {
+
+   'use strict';
+
+   angular.module('placenames.header', []).controller('headerController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
+
+      var modifyConfigSource = function modifyConfigSource(headerConfig) {
+         return headerConfig;
+      };
+
+      $scope.$on('headerUpdated', function (event, args) {
+         $scope.headerConfig = modifyConfigSource(args);
+      });
+   }]).directive('placenamesHeader', [function () {
+      var defaults = {
+         current: "none",
+         heading: "ICSM",
+         headingtitle: "ICSM",
+         helpurl: "help.html",
+         helptitle: "Get help about ICSM",
+         helpalttext: "Get help about ICSM",
+         skiptocontenttitle: "Skip to content",
+         skiptocontent: "Skip to content",
+         quicklinksurl: "/search/api/quickLinks/json?lang=en-US"
+      };
+      return {
+         transclude: true,
+         restrict: 'EA',
+         templateUrl: "header/header.html",
+         scope: {
+            current: "=",
+            breadcrumbs: "=",
+            heading: "=",
+            headingtitle: "=",
+            helpurl: "=",
+            helptitle: "=",
+            helpalttext: "=",
+            skiptocontenttitle: "=",
+            skiptocontent: "=",
+            quicklinksurl: "="
+         },
+         link: function link(scope, element, attrs) {
+            var data = angular.copy(defaults);
+            angular.forEach(defaults, function (value, key) {
+               if (!(key in scope)) {
+                  scope[key] = value;
+               }
+            });
+         }
+      };
+   }]).factory('headerService', ['$http', function () {}]);
+})(angular);
 "use strict";
 
 {
@@ -260,60 +314,6 @@ function ContributorsService($http) {
       return {};
    }]);
 }
-'use strict';
-
-(function (angular) {
-
-   'use strict';
-
-   angular.module('placenames.header', []).controller('headerController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
-
-      var modifyConfigSource = function modifyConfigSource(headerConfig) {
-         return headerConfig;
-      };
-
-      $scope.$on('headerUpdated', function (event, args) {
-         $scope.headerConfig = modifyConfigSource(args);
-      });
-   }]).directive('placenamesHeader', [function () {
-      var defaults = {
-         current: "none",
-         heading: "ICSM",
-         headingtitle: "ICSM",
-         helpurl: "help.html",
-         helptitle: "Get help about ICSM",
-         helpalttext: "Get help about ICSM",
-         skiptocontenttitle: "Skip to content",
-         skiptocontent: "Skip to content",
-         quicklinksurl: "/search/api/quickLinks/json?lang=en-US"
-      };
-      return {
-         transclude: true,
-         restrict: 'EA',
-         templateUrl: "header/header.html",
-         scope: {
-            current: "=",
-            breadcrumbs: "=",
-            heading: "=",
-            headingtitle: "=",
-            helpurl: "=",
-            helptitle: "=",
-            helpalttext: "=",
-            skiptocontenttitle: "=",
-            skiptocontent: "=",
-            quicklinksurl: "="
-         },
-         link: function link(scope, element, attrs) {
-            var data = angular.copy(defaults);
-            angular.forEach(defaults, function (value, key) {
-               if (!(key in scope)) {
-                  scope[key] = value;
-               }
-            });
-         }
-      };
-   }]).factory('headerService', ['$http', function () {}]);
-})(angular);
 "use strict";
 
 {
@@ -505,28 +505,145 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 }
 "use strict";
 
+{
+   /*
+   Graticule plugin for Leaflet powered maps.
+   */
+   L.Graticule = L.GeoJSON.extend({
+
+      options: {
+         style: {
+            color: '#333',
+            weight: 1
+         },
+         interval: 20
+      },
+
+      initialize: function initialize(options) {
+         L.Util.setOptions(this, options);
+         this._layers = {};
+
+         if (this.options.sphere) {
+            this.addData(this._getFrame());
+         } else {
+            this.addData(this._getGraticule());
+         }
+      },
+
+      _getFrame: function _getFrame() {
+         return {
+            "type": "Polygon",
+            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
+         };
+      },
+
+      _getGraticule: function _getGraticule() {
+         var features = [],
+             interval = this.options.interval;
+
+         // Meridians
+         for (var lng = 0; lng <= 180; lng = lng + interval) {
+            features.push(this._getFeature(this._getMeridian(lng), {
+               "name": lng ? lng.toString() + "° E" : "Prime meridian"
+            }));
+            if (lng !== 0) {
+               features.push(this._getFeature(this._getMeridian(-lng), {
+                  "name": lng.toString() + "° W"
+               }));
+            }
+         }
+
+         // Parallels
+         for (var lat = 0; lat <= 90; lat = lat + interval) {
+            features.push(this._getFeature(this._getParallel(lat), {
+               "name": lat ? lat.toString() + "° N" : "Equator"
+            }));
+            if (lat !== 0) {
+               features.push(this._getFeature(this._getParallel(-lat), {
+                  "name": lat.toString() + "° S"
+               }));
+            }
+         }
+
+         return {
+            "type": "FeatureCollection",
+            "features": features
+         };
+      },
+
+      _getMeridian: function _getMeridian(lng) {
+         lng = this._lngFix(lng);
+         var coords = [];
+         for (var lat = -90; lat <= 90; lat++) {
+            coords.push([lng, lat]);
+         }
+         return coords;
+      },
+
+      _getParallel: function _getParallel(lat) {
+         var coords = [];
+         for (var lng = -180; lng <= 180; lng++) {
+            coords.push([this._lngFix(lng), lat]);
+         }
+         return coords;
+      },
+
+      _getFeature: function _getFeature(coords, prop) {
+         return {
+            "type": "Feature",
+            "geometry": {
+               "type": "LineString",
+               "coordinates": coords
+            },
+            "properties": prop
+         };
+      },
+
+      _lngFix: function _lngFix(lng) {
+         if (lng >= 180) return 179.999999;
+         if (lng <= -180) return -179.999999;
+         return lng;
+      }
+
+   });
+
+   L.graticule = function (options) {
+      return new L.Graticule(options);
+   };
+}
+'use strict';
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 {
    var MapService = function MapService() {
       _classCallCheck(this, MapService);
 
-      var EPSG3031 = new L.Proj.CRS("EPSG:3031", "+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 " + "+ellps=WGS84 +datum=WGS84 +units=m +no_defs", {
-         origin: [-4194304, 4194304],
-         resolutions: [8192.0, 4096.0, 2048.0, 1024.0, 512.0, 256.0],
-         bounds: [[-4194304, -4194304], [4194304, 4194304]]
+      // Map resolutions that NASA GIBS specify
+      var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335];
+
+      var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
+
+      // The polar projection
+      var EPSG3031 = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
+         resolutions: resolutions,
+         origin: [-30636100, 30636100],
+         bounds: bounds
       });
+
+      EPSG3031.projection.bounds = bounds;
 
       var map = this.map = L.map("mappo", {
          center: [-90, 0],
-         zoom: 0,
-         maxZoom: 5,
+         zoom: 2,
+         maxZoom: 8,
+         minZoom: 1,
          crs: EPSG3031
       });
 
       var template = "//map1{s}.vis.earthdata.nasa.gov/wmts-antarctic/" + "{layer}/default/{time}/{tileMatrixSet}/{z}/{y}/{x}.jpg";
 
-      var layer = this.layer = L.tileLayer(template, {
+      var options = {
          layer: "MODIS_Aqua_CorrectedReflectance_TrueColor",
          tileMatrixSet: "EPSG3031_250m",
          format: "image%2Fjpeg",
@@ -536,7 +653,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          noWrap: true,
          continuousWorld: true,
          attribution: "<a href='https://wiki.earthdata.nasa.gov/display/GIBS'>" + "NASA EOSDIS GIBS</a>"
-      });
+      };
+
+      template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
+      options = {
+         layer: "MODIS_Aqua_CorrectedReflectance_TrueColor",
+         format: "image%2Fpng",
+         tileSize: 256,
+         subdomains: "1234",
+         noWrap: true,
+         continuousWorld: true,
+         attribution: "<a href='.'>" + "Geoscience Australia</a>"
+      };
+
+      var layer = this.layer = L.tileLayer(template, options);
 
       // HACK: BEGIN
       // Leaflet does not yet handle these kind of projections nicely. Monkey
@@ -545,7 +675,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       var superGetTileUrl = layer.getTileUrl;
 
       layer.getTileUrl = function (coords) {
-         var max = Math.pow(2, layer._getZoomForUrl() + 1);
+         var max = Math.pow(2, layer._getZoomForUrl() + 2);
          if (coords.x < 0) {
             return "";
          }
@@ -564,34 +694,116 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
       map.addLayer(layer);
-      for (var i = -180; i < 181; i += 10) {
-         L.marker([-81 + i / 20, i]).addTo(map);
+
+      // Module which adds graticule (lat/lng lines)
+      // L.graticule().addTo(map);
+
+      L.control.scale({ imperial: false }).addTo(map);
+      /*
+      L.control.mousePosition({
+         position: "bottomright",
+         emptyString: "",
+         seperator: " ",
+         latFormatter: function (lat) {
+            return "Lat " + L.Util.formatNum(lat, 5) + "°";
+         },
+         lngFormatter: function (lng) {
+            return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
+         }
+      }).addTo(map);
+      */
+
+      /*
+      for (let i = -180; i < 181; i += 10) {
+         L.marker([-81 + (i / 20), i]).addTo(map);
       }
+      */
 
-      L.marker([-90, 0]).addTo(map);
-      L.marker([-88, 0]).addTo(map);
+      L.marker([-90, 90]).addTo(map);
+      L.marker([-88, 88]).addTo(map);
 
-      L.marker([-80, 0]).addTo(map);
-      L.marker([-78, 0]).addTo(map);
+      L.marker([-80, 90]).addTo(map);
+      L.marker([-78, 88]).addTo(map);
 
-      L.marker([-70, 0]).addTo(map);
-      L.marker([-68, 0]).addTo(map);
-
-      L.marker([-90, -90]).addTo(map);
-      L.marker([-88, -88]).addTo(map);
-
-      L.marker([-80, -90]).addTo(map);
-      L.marker([-78, -88]).addTo(map);
-
-      L.marker([-70, -90]).addTo(map);
-      L.marker([-68, -88]).addTo(map);
+      L.marker([-70, 90]).addTo(map);
+      L.marker([-68, 88]).addTo(map);
    };
 
    angular.module("antarctic.maps", []).service("mapService", [function () {
       var service = new MapService();
    }]);
 }
-angular.module("antarctic.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("contributors/contributors.html","<span class=\"contributors\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" style=\"z-index:1500\"\r\n      ng-class=\"(contributors.show || contributors.ingroup || contributors.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated contributors-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div ng-repeat=\"contributor in contributors.orgs | activeContributors\" style=\"text-align:cnter\">\r\n      <a ng-href=\"{{contributor.href}}\" name=\"contributors{{$index}}\" title=\"{{contributor.title}}\" target=\"_blank\">\r\n         <img ng-src=\"{{contributor.image}}\" alt=\"{{contributor.title}}\" class=\"elvis-logo\" ng-class=\"contributor.class\"></img>\r\n      </a>\r\n   </div>\r\n</span>");
+'use strict';
+
+{
+   L.Control.MousePosition = L.Control.extend({
+      options: {
+         position: 'bottomleft',
+         separator: ' : ',
+         emptyString: 'Unavailable',
+         lngFirst: false,
+         numDigits: 5,
+         elevGetter: undefined,
+         lngFormatter: undefined,
+         latFormatter: undefined,
+         prefix: ""
+      },
+
+      onAdd: function onAdd(map) {
+         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+         L.DomEvent.disableClickPropagation(this._container);
+         map.on('mousemove', this._onMouseMove, this);
+         this._container.innerHTML = this.options.emptyString;
+         return this._container;
+      },
+
+      onRemove: function onRemove(map) {
+         map.off('mousemove', this._onMouseMove);
+      },
+
+      _onMouseHover: function _onMouseHover() {
+         var info = this._hoverInfo;
+         this._hoverInfo = undefined;
+         this.options.elevGetter(info).then(function (elevStr) {
+            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
+            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
+         }.bind(this));
+      },
+
+      _onMouseMove: function _onMouseMove(e) {
+         var w = e.latlng.wrap();
+         lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
+         lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
+         if (this.options.elevGetter) {
+            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
+            this._hoverInfo = {
+               lat: w.lat,
+               lng: w.lng,
+               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
+            };
+         }
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue;
+      }
+
+   });
+
+   L.Map.mergeOptions({
+      positionControl: false
+   });
+
+   L.Map.addInitHook(function () {
+      if (this.options.positionControl) {
+         this.positionControl = new L.Control.MousePosition();
+         this.addControl(this.positionControl);
+      }
+   });
+
+   L.control.mousePosition = function (options) {
+      return new L.Control.MousePosition(options);
+   };
+}
+angular.module("antarctic.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n   <div class=\"navbar-header\">\r\n\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n         <span class=\"sr-only\">Toggle navigation</span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n      </button>\r\n\r\n      <a href=\"/\" class=\"appTitle visible-xs\">\r\n         <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n      </a>\r\n   </div>\r\n   <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n         <li class=\"hidden-xs\">\r\n            <a href=\"/\">\r\n               <h1 class=\"applicationTitle\">{{heading}}</h1>\r\n            </a>\r\n         </li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n         <li role=\"menuitem\" style=\"padding-right:10px;position: relative;top: -3px;\">\r\n            <span class=\"altthemes-container\">\r\n               <span>\r\n                  <a title=\"Location INformation Knowledge platform (LINK)\" href=\"http://fsdf.org.au/\" target=\"_blank\">\r\n                     <img alt=\"FSDF\" src=\"placenames/resources/img/FSDFimagev4.0.png\" style=\"height: 66px\">\r\n                  </a>\r\n               </span>\r\n            </span>\r\n         </li>\r\n         <li placenames-navigation role=\"menuitem\" current=\"current\" style=\"padding-right:10px\"></li>\r\n         <li mars-version-display role=\"menuitem\"></li>\r\n         <li style=\"width:10px\"></li>\r\n      </ul>\r\n   </div>\r\n   <!--/.nav-collapse -->\r\n</div>\r\n<div class=\"contributorsLink\" style=\"position: absolute; right:7px; bottom:15px\">\r\n   <placenames-contributors-link></placenames-contributors-link>\r\n</div>\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n   <div class=\"col-md-12\">\r\n      <div class=\"strap-blue\">\r\n      </div>\r\n      <div class=\"strap-white\">\r\n      </div>\r\n      <div class=\"strap-red\">\r\n      </div>\r\n   </div>\r\n</div>");
+$templateCache.put("contributors/contributors.html","<span class=\"contributors\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" style=\"z-index:1500\"\r\n      ng-class=\"(contributors.show || contributors.ingroup || contributors.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated contributors-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div ng-repeat=\"contributor in contributors.orgs | activeContributors\" style=\"text-align:cnter\">\r\n      <a ng-href=\"{{contributor.href}}\" name=\"contributors{{$index}}\" title=\"{{contributor.title}}\" target=\"_blank\">\r\n         <img ng-src=\"{{contributor.image}}\" alt=\"{{contributor.title}}\" class=\"elvis-logo\" ng-class=\"contributor.class\"></img>\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("contributors/show.html","<a ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" class=\"contributors-link\" title=\"Click to lock/unlock contributors list.\"\r\n      ng-click=\"toggleStick()\" href=\"#contributors0\">Contributors</a>");
-$templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
-$templateCache.put("header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n   <div class=\"navbar-header\">\r\n\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n         <span class=\"sr-only\">Toggle navigation</span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n      </button>\r\n\r\n      <a href=\"/\" class=\"appTitle visible-xs\">\r\n         <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n      </a>\r\n   </div>\r\n   <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n         <li class=\"hidden-xs\">\r\n            <a href=\"/\">\r\n               <h1 class=\"applicationTitle\">{{heading}}</h1>\r\n            </a>\r\n         </li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n         <li role=\"menuitem\" style=\"padding-right:10px;position: relative;top: -3px;\">\r\n            <span class=\"altthemes-container\">\r\n               <span>\r\n                  <a title=\"Location INformation Knowledge platform (LINK)\" href=\"http://fsdf.org.au/\" target=\"_blank\">\r\n                     <img alt=\"FSDF\" src=\"placenames/resources/img/FSDFimagev4.0.png\" style=\"height: 66px\">\r\n                  </a>\r\n               </span>\r\n            </span>\r\n         </li>\r\n         <li placenames-navigation role=\"menuitem\" current=\"current\" style=\"padding-right:10px\"></li>\r\n         <li mars-version-display role=\"menuitem\"></li>\r\n         <li style=\"width:10px\"></li>\r\n      </ul>\r\n   </div>\r\n   <!--/.nav-collapse -->\r\n</div>\r\n<div class=\"contributorsLink\" style=\"position: absolute; right:7px; bottom:15px\">\r\n   <placenames-contributors-link></placenames-contributors-link>\r\n</div>\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n   <div class=\"col-md-12\">\r\n      <div class=\"strap-blue\">\r\n      </div>\r\n      <div class=\"strap-white\">\r\n      </div>\r\n      <div class=\"strap-red\">\r\n      </div>\r\n   </div>\r\n</div>");}]);
+$templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");}]);
