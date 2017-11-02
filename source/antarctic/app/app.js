@@ -10,9 +10,11 @@
    RootCtrl.$invoke = ['configService', 'mapService'];
 
    angular.module("AntarcticApp", [
-
+      'antarctic.australia',
       'antarctic.maps',
+      'antarctic.panes',
       'antarctic.templates',
+      'antarctic.toolbar',
 
       'explorer.config',
       'explorer.confirm',
@@ -28,9 +30,10 @@
       'placenames.contributors',
       'placenames.header',
       'placenames.navigation',
+      'placenames.reset',
+      'placenames.side-panel',
 
       'exp.ui.templates',
-      'explorer.map.templates',
 
       'ui.bootstrap',
       'ngAutocomplete',
@@ -47,10 +50,6 @@
             persistServiceProvider.handler("local");
             projectsServiceProvider.setProject("placenames");
          }])
-
-      .run(["mapService", function(mapService) {
-         window.map = mapService.map;
-      }])
       .controller("RootCtrl", RootCtrl)
 
       .filter('bytes', function () {

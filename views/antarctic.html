@@ -50,26 +50,20 @@
       </div>
       <!-- END: Sticky Header -->
 
-      <div id="mappo" style="position:fixed; top:85px; left:0; right:0; bottom:8px"></div>
       <!-- Messages go here. They are fixed to the tab bar. -->
 
       <!-- BEGIN: Page Content -->
       <div explorer-messages class="marsMessages noPrint"></div>
-      <placenames-toolbar></placenames-toolbar>
+      <antarctic-toolbar></antarctic-toolbar>
 
       <side-panel-left style="z-index: 2"></side-panel-left>
 
       <side-panel-right-oppose>
-         <placenames-panes data="root.data" default-item="none"></placenames-panes>
+         <antarctic-panes data="root.data" default-item="none"></antarctic-panes>
       </side-panel-right-oppose>
 
       <side-panel-right style="z-index: 2"></side-panel-right>
 
-      <div path-elevation-plot class="noPrint elevationFixedBottom"></div>
-      <mars-pan-to></mars-pan-to>
-
-      <div placenames-review></div>
-      <div placenames-splash class="noPrint"></div>
 
       <!-- END: Page Content -->
       <placenames-clusters></placenames-clusters>
@@ -90,7 +84,7 @@
       <script src="placenames/resources/antarctic/proj4.js"></script>
 
       <script>
-         var d3 = google = {}; // Just to keep a script happy
+         var d3 = {}; // Just to keep a script happy
       </script>
       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
       <!--[if IE 9 ]>    <script src="assets/placeholder/placeholders.jquery.min.js"></script> <![endif]-->
@@ -117,10 +111,9 @@
 
       <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster-src.js"></script>
 
-      <script src="placenames/bower_components/ga-explorer-map-components/dist/ga-explorer-map.js"></script>
       <script src="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.js"></script>
 
-      <!-- These are the "placenames" specific includes of modules -->
+      <!-- These are the "antarctic" specific includes of modules -->
       <script src="placenames/assets/antarctic.js?v=1"></script>
 
    </body>

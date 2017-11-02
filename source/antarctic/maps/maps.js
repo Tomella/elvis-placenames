@@ -2,7 +2,9 @@
 
    class MapService {
       constructor() {
+      }
 
+      init(div) {
          // Map resolutions that NASA GIBS specify
          let resolutions = [
             67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335
@@ -23,7 +25,7 @@
 
          EPSG3031.projection.bounds = bounds;
 
-         let map = this.map = L.map("mappo", {
+         let map = this.map = L.map(div, {
             center: [-90, 0],
             zoom: 2,
             maxZoom: 8,
@@ -31,6 +33,8 @@
             crs: EPSG3031
          });
 
+         /*
+         // NASA data. It includes cloud and snow so looks bit yuck.
          let template =
             "//map1{s}.vis.earthdata.nasa.gov/wmts-antarctic/" +
             "{layer}/default/{time}/{tileMatrixSet}/{z}/{y}/{x}.jpg";
@@ -48,18 +52,20 @@
             "<a href='https://wiki.earthdata.nasa.gov/display/GIBS'>" +
             "NASA EOSDIS GIBS</a>"
          };
+         */
 
-         template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" +
+         // This data is from the "Heroes of the Antarctic"
+         // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
+         let template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" +
             "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
-         options = {
-            layer: "MODIS_Aqua_CorrectedReflectance_TrueColor",
+         let options = {
             format: "image%2Fpng",
             tileSize: 256,
             subdomains: "1234",
             noWrap: true,
             continuousWorld: true,
             attribution:
-            "<a href='.'>" +
+            "<a href='http://www.ga.gov.au'>" +
             "Geoscience Australia</a>"
          };
 
@@ -72,6 +78,9 @@
          var superGetTileUrl = layer.getTileUrl;
 
          layer.getTileUrl = function (coords) {
+            if (coords.z === 2) {
+               if ((coords.y === 6 || coords.y === 7) && (coords.x === 5 || coords.x === 4 || coords.x === 9)) return "";
+            }
             var max = Math.pow(2, layer._getZoomForUrl() + 2);
             if (coords.x < 0) { return ""; }
             if (coords.y < 0) { return ""; }
@@ -121,10 +130,19 @@
    }
 
    angular.module("antarctic.maps", [])
-
+      .directive("antarcticMaps", ["mapService", function(mapService) {
+         return {
+            restict: "AE",
+            template: "<div id='mappo' style='height: 100%;'></div>",
+            link: function(scope) {
+               scope.map = mapService.init("mappo");
+            }
+         };
+      }])
 
       .service("mapService", [function () {
          let service = new MapService();
+         return service;
       }]);
 
 }
