@@ -1,3 +1,49 @@
+.nav-icons {
+  margin-top: 7px !important;
+}
+
+@media only screen and (max-width:1200px) {
+  .nav-icons {
+    margin-top: 30px;
+  }
+}
+
+.breadcrumbsContainer {
+  margin-left: 245px;
+}
+
+.header-logo img {
+  padding-top: 3px;
+}
+
+.header-logo {
+  padding-right: 20px;
+}
+
+.applicationTitle {
+  padding-left: 20px;
+  font-size: 200%;
+}
+
+.common-header {
+  background-color: white;
+}
+
+.searchBar {
+  position: fixed;
+  top: 18px;
+  right: 118px;
+  width: 35em;
+  z-index: 2000;
+  width: 27em;
+  opacity: 0.9;
+}
+
+@media only screen and (max-width:1100px) {
+  .searchBar {
+    width: 23em;
+  }
+}
 .altthemes-icon {
   background: url("../resources/img/dbl_sprites.svg") no-repeat;
   display: inline-block;
@@ -299,52 +345,6 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
-}
-.nav-icons {
-  margin-top: 7px !important;
-}
-
-@media only screen and (max-width:1200px) {
-  .nav-icons {
-    margin-top: 30px;
-  }
-}
-
-.breadcrumbsContainer {
-  margin-left: 245px;
-}
-
-.header-logo img {
-  padding-top: 3px;
-}
-
-.header-logo {
-  padding-right: 20px;
-}
-
-.applicationTitle {
-  padding-left: 20px;
-  font-size: 200%;
-}
-
-.common-header {
-  background-color: white;
-}
-
-.searchBar {
-  position: fixed;
-  top: 18px;
-  right: 118px;
-  width: 35em;
-  z-index: 2000;
-  width: 27em;
-  opacity: 0.9;
-}
-
-@media only screen and (max-width:1100px) {
-  .searchBar {
-    width: 23em;
-  }
 }
 /* Side Panel */
 
@@ -952,37 +952,6 @@ input.ng-valid.ng-touched {
   border-radius: 3px;
   margin: 0;
 }
-@media print {
-@page {
-    size: landscape;
-}
-
-  .noPrint {
-    display: none;
-  }
-
-  .printOnly {
-    display: inline !important;
-  }
-
-  .contentContainer {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    left: 0px !important;
-  }
-
-  .panel-inner-container {
-    display: none !important;
-  }
-
-  .leaflet-control-mouseposition {
-    display: none !important;
-  }
-
-  .leaflet-control-attribution {
-    display: none !important;
-  }
-}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -1021,23 +990,36 @@ input.ng-valid.ng-touched {
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
 }
-.quickSearch {
-  width: 33em;
+@media print {
+@page {
+    size: landscape;
 }
 
-.placenames-filtered-summary {
-  position: fixed;
-  z-index: 4;
-  top: 123px;
-  left: 450px;
-  right: 20px;
-}
+  .noPrint {
+    display: none;
+  }
 
-.placenames-filtered-summary-child {
-  background-color: white;
-  opacity: 0.6;
-  border-radius: 3px;
-  display: inline-block;
+  .printOnly {
+    display: inline !important;
+  }
+
+  .contentContainer {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    left: 0px !important;
+  }
+
+  .panel-inner-container {
+    display: none !important;
+  }
+
+  .leaflet-control-mouseposition {
+    display: none !important;
+  }
+
+  .leaflet-control-attribution {
+    display: none !important;
+  }
 }
 .pn-container {
   overflow-y: auto;
@@ -1091,6 +1073,24 @@ input.ng-valid.ng-touched {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
+}
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  position: fixed;
+  z-index: 4;
+  top: 123px;
+  left: 450px;
+  right: 20px;
+}
+
+.placenames-filtered-summary-child {
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 3px;
+  display: inline-block;
 }
 .pn-features {
   max-block-size: 300px;
