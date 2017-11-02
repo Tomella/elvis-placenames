@@ -76,6 +76,52 @@ img.elvis-logo {
   right: 7px;
   bottom: 15px;
 }
+.nav-icons {
+  margin-top: 7px !important;
+}
+
+@media only screen and (max-width:1200px) {
+  .nav-icons {
+    margin-top: 30px;
+  }
+}
+
+.breadcrumbsContainer {
+  margin-left: 245px;
+}
+
+.header-logo img {
+  padding-top: 3px;
+}
+
+.header-logo {
+  padding-right: 20px;
+}
+
+.applicationTitle {
+  padding-left: 20px;
+  font-size: 200%;
+}
+
+.common-header {
+  background-color: white;
+}
+
+.searchBar {
+  position: fixed;
+  top: 18px;
+  right: 118px;
+  width: 35em;
+  z-index: 2000;
+  width: 27em;
+  opacity: 0.9;
+}
+
+@media only screen and (max-width:1100px) {
+  .searchBar {
+    width: 23em;
+  }
+}
 .altthemes-icon {
   background: url("../resources/img/dbl_sprites.svg") no-repeat;
   display: inline-block;
@@ -318,52 +364,6 @@ img.elvis-logo {
   border-radius: 3px;
   display: inline-block;
 }
-.nav-icons {
-  margin-top: 7px !important;
-}
-
-@media only screen and (max-width:1200px) {
-  .nav-icons {
-    margin-top: 30px;
-  }
-}
-
-.breadcrumbsContainer {
-  margin-left: 245px;
-}
-
-.header-logo img {
-  padding-top: 3px;
-}
-
-.header-logo {
-  padding-right: 20px;
-}
-
-.applicationTitle {
-  padding-left: 20px;
-  font-size: 200%;
-}
-
-.common-header {
-  background-color: white;
-}
-
-.searchBar {
-  position: fixed;
-  top: 18px;
-  right: 118px;
-  width: 35em;
-  z-index: 2000;
-  width: 27em;
-  opacity: 0.9;
-}
-
-@media only screen and (max-width:1100px) {
-  .searchBar {
-    width: 23em;
-  }
-}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -520,17 +520,6 @@ img.elvis-logo {
 .aboutHeading {
   font-weight: bold;
   padding-bottom: 5px;
-}
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
-
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
 }
 body {
   overflow-y: hidden;
@@ -778,6 +767,17 @@ input.ng-valid.ng-touched {
 .placenames-lock i.fa {
   color: #337ab7;
   font-size: 3em;
+}
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
+  display: inline-block;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
 }
 .product-invalid {
   color: red;

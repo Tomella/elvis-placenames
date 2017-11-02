@@ -194,9 +194,8 @@ class SolrTransformer {
                      let date = new Date(doc.supplyDate);
                      let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
-                     doc.title = doc.name +
-                        "\nis a " + doc.feature + " feature in the " +
-                        doc.category + " category\nwhich is in the " +
+                     doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
+                        doc.category + "\ncategory which is in the " +
                         doc.group + " group." +
                         "\nThe authority is " + doc.authority +
                         " and the data was supplied on " + dateStr +
