@@ -155,7 +155,10 @@ class SolrTransformer {
                   let x = cell.geometry.coordinates[1];
                   let y = cell.geometry.coordinates[0];
                   let xy = [x, y];
-                  this.layer.addLayer(L.marker(xy, { count }));
+                  let marker = L.marker(xy, { count }).on("click", function() {
+                     console.log("clickety click");
+                  });
+                  this.layer.addLayer(marker);
                });
             } else if (count > 2000) {
                let flag = count > 50000;
@@ -184,13 +187,23 @@ class SolrTransformer {
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;
 
-               let url = "select?fl=location,name&" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
+               let url = "select?" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
                $http.get(url).then(result => {
                   let docs = result.data.response.docs;
                   docs.forEach(doc => {
                      let coords = doc.location.split(" ");
-                     doc.title = doc.name;
-                     layer.addLayer(L.marker([+coords[1], +coords[0]], doc));
+                     let date = new Date(doc.supplyDate);
+                     let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                     doc.title = doc.name + "\nAuthority:\t" + doc.authority +
+                        "\nFeature Type:\t" + doc.feature +
+                        "\nCategory:\t\t" + doc.category +
+                        "\nGroup:\t\t" + doc.group +
+                        "\nSupply Date:\t" + dateStr +
+                        "\nLat / Lng:\t\t" + coords[1] + "° / " + coords[0] + "°";
+
+                     let marker = L.marker([+coords[1], +coords[0]], doc);
+                     layer.addLayer(marker);
                   });
                });
             }
