@@ -155,9 +155,7 @@ class SolrTransformer {
                   let x = cell.geometry.coordinates[1];
                   let y = cell.geometry.coordinates[0];
                   let xy = [x, y];
-                  let marker = L.marker(xy, { count }).on("click", function() {
-                     console.log("clickety click");
-                  });
+                  let marker = L.marker(xy, { count });
                   this.layer.addLayer(marker);
                });
             } else if (count > 2000) {
@@ -182,6 +180,7 @@ class SolrTransformer {
                });
             } else {
                let layer = this.layer = L.markerClusterGroup({
+                  showCoverageOnHover: false,
                   disableClusteringAtZoom: count > 600 ? 12 : 4
                });
                let params = Object.assign({}, response.responseHeader.params);
@@ -195,12 +194,13 @@ class SolrTransformer {
                      let date = new Date(doc.supplyDate);
                      let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
-                     doc.title = doc.name + "\nAuthority:\t" + doc.authority +
-                        "\nFeature Type:\t" + doc.feature +
-                        "\nCategory:\t\t" + doc.category +
-                        "\nGroup:\t\t" + doc.group +
-                        "\nSupply Date:\t" + dateStr +
-                        "\nLat / Lng:\t\t" + coords[1] + "° / " + coords[0] + "°";
+                     doc.title = doc.name +
+                        "\nis a " + doc.feature + " feature in the " +
+                        doc.category + " category\nwhich is in the " +
+                        doc.group + " group." +
+                        "\nThe authority is " + doc.authority +
+                        " and the data was supplied on " + dateStr +
+                        "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
 
                      let marker = L.marker([+coords[1], +coords[0]], doc);
                      layer.addLayer(marker);
