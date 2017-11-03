@@ -1,127 +1,3 @@
-.contributors {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 70px;
-  right: 1px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  text-align: center;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.contributors img {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.contributors.transitioned-up img {
-  height: 0;
-}
-
-.contributors.transitioned-up .contributors-unstick {
-  display: none;
-}
-
-.contributors.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.contributors.transitioned-up a {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-}
-
-.contributors-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.contributors-link {
-  font-weight: bold;
-}
-
-.elevation-and-depth {
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-img.elvis-logo {
-  height: 75px;
-}
-
-.icsm-logo.last {
-  padding-right: 10px;
-}
-
-.contributorsLink {
-  position: absolute;
-  right: 7px;
-  bottom: 15px;
-}
-.nav-icons {
-  margin-top: 7px !important;
-}
-
-@media only screen and (max-width:1200px) {
-  .nav-icons {
-    margin-top: 30px;
-  }
-}
-
-.breadcrumbsContainer {
-  margin-left: 245px;
-}
-
-.header-logo img {
-  padding-top: 3px;
-}
-
-.header-logo {
-  padding-right: 20px;
-}
-
-.applicationTitle {
-  padding-left: 20px;
-  font-size: 200%;
-}
-
-.common-header {
-  background-color: white;
-}
-
-.searchBar {
-  position: fixed;
-  top: 18px;
-  right: 118px;
-  width: 35em;
-  z-index: 2000;
-  width: 27em;
-  opacity: 0.9;
-}
-
-@media only screen and (max-width:1100px) {
-  .searchBar {
-    width: 23em;
-  }
-}
 .altthemes-icon {
   background: url("../resources/img/dbl_sprites.svg") no-repeat;
   display: inline-block;
@@ -363,6 +239,52 @@ img.elvis-logo {
   opacity: 0.6;
   border-radius: 3px;
   display: inline-block;
+}
+.nav-icons {
+  margin-top: 7px !important;
+}
+
+@media only screen and (max-width:1200px) {
+  .nav-icons {
+    margin-top: 30px;
+  }
+}
+
+.breadcrumbsContainer {
+  margin-left: 245px;
+}
+
+.header-logo img {
+  padding-top: 3px;
+}
+
+.header-logo {
+  padding-right: 20px;
+}
+
+.applicationTitle {
+  padding-left: 20px;
+  font-size: 200%;
+}
+
+.common-header {
+  background-color: white;
+}
+
+.searchBar {
+  position: fixed;
+  top: 18px;
+  right: 118px;
+  width: 35em;
+  z-index: 2000;
+  width: 27em;
+  opacity: 0.9;
+}
+
+@media only screen and (max-width:1100px) {
+  .searchBar {
+    width: 23em;
+  }
 }
 /* Side Panel */
 
@@ -1233,4 +1155,82 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
+}
+.contributors {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
+  position: fixed;
+  top: 70px;
+  right: 1px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.contributors img {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.contributors.transitioned-up img {
+  height: 0;
+}
+
+.contributors.transitioned-up .contributors-unstick {
+  display: none;
+}
+
+.contributors.transitioned-down {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.contributors.transitioned-up a {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+.contributors-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.contributors-link {
+  font-weight: bold;
+}
+
+.elevation-and-depth {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+img.elvis-logo {
+  height: 75px;
+}
+
+.icsm-logo.last {
+  padding-right: 10px;
+}
+
+.contributorsLink {
+  position: absolute;
+  right: 7px;
+  bottom: 15px;
 }

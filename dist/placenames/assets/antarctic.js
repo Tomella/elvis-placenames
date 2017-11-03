@@ -157,10 +157,7 @@ function ContributorsService($http) {
 }
 'use strict';
 
-(function (angular) {
-
-   'use strict';
-
+{
    angular.module('placenames.header', []).controller('headerController', ['$scope', '$q', '$timeout', function ($scope, $q, $timeout) {
 
       var modifyConfigSource = function modifyConfigSource(headerConfig) {
@@ -207,8 +204,8 @@ function ContributorsService($http) {
             });
          }
       };
-   }]).factory('headerService', ['$http', function () {}]);
-})(angular);
+   }]);
+}
 'use strict';
 
 {
@@ -393,69 +390,6 @@ function ContributorsService($http) {
 'use strict';
 
 {
-   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'reset/reset.html',
-         controller: ['$scope', function ($scope) {
-            $scope.reset = function () {
-               $window.location.reload();
-            };
-         }]
-      };
-   });
-}
-"use strict";
-
-{
-
-   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
-      var project = "elvis.placenames";
-      return {
-         setGlobalItem: function setGlobalItem(key, value) {
-            this._setItem("_system", key, value);
-         },
-
-         setItem: function setItem(key, value) {
-            this._setItem(project, key, value);
-         },
-
-         _setItem: function _setItem(project, key, value) {
-            $log.debug("Fetching state for key locally" + key);
-            localStorage.setItem(project + "." + key, JSON.stringify(value));
-         },
-
-         getGlobalItem: function getGlobalItem(key) {
-            return this._getItem("_system", key);
-         },
-
-         getItem: function getItem(key) {
-            var deferred = $q.defer();
-            this._getItem(project, key).then(function (response) {
-               deferred.resolve(response);
-            });
-            return deferred.promise;
-         },
-
-         _getItem: function _getItem(project, key) {
-            $log.debug("Fetching state locally for key " + key);
-            var item = localStorage.getItem(project + "." + key);
-            if (item) {
-               try {
-                  item = JSON.parse(item);
-               } catch (e) {
-                  // Do nothing as it will be a string
-               }
-            }
-            return $q.when(item);
-         }
-      };
-   }]);
-}
-'use strict';
-
-{
    angular.module("placenames.side-panel", []).factory('panelSideFactory', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
       var state = {
          left: {
@@ -625,6 +559,147 @@ function ContributorsService($http) {
 }
 'use strict';
 
+{
+   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'reset/reset.html',
+         controller: ['$scope', function ($scope) {
+            $scope.reset = function () {
+               $window.location.reload();
+            };
+         }]
+      };
+   });
+}
+"use strict";
+
+{
+
+   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
+      var project = "elvis.placenames";
+      return {
+         setGlobalItem: function setGlobalItem(key, value) {
+            this._setItem("_system", key, value);
+         },
+
+         setItem: function setItem(key, value) {
+            this._setItem(project, key, value);
+         },
+
+         _setItem: function _setItem(project, key, value) {
+            $log.debug("Fetching state for key locally" + key);
+            localStorage.setItem(project + "." + key, JSON.stringify(value));
+         },
+
+         getGlobalItem: function getGlobalItem(key) {
+            return this._getItem("_system", key);
+         },
+
+         getItem: function getItem(key) {
+            var deferred = $q.defer();
+            this._getItem(project, key).then(function (response) {
+               deferred.resolve(response);
+            });
+            return deferred.promise;
+         },
+
+         _getItem: function _getItem(project, key) {
+            $log.debug("Fetching state locally for key " + key);
+            var item = localStorage.getItem(project + "." + key);
+            if (item) {
+               try {
+                  item = JSON.parse(item);
+               } catch (e) {
+                  // Do nothing as it will be a string
+               }
+            }
+            return $q.when(item);
+         }
+      };
+   }]);
+}
+'use strict';
+
+{
+   angular.module("placenames.zone", []).factory('zoneService', ['$http', '$q', 'configService', function ($http, $q, configService) {
+      return {
+         counts: function counts(searched) {
+            var _this = this;
+
+            return configService.getConfig("download").then(function (_ref) {
+               var outCoordSys = _ref.outCoordSys;
+
+               return _this.intersections(searched).then(function (results) {
+                  var map = {};
+                  results.forEach(function (container) {
+                     map[container.zone.code] = container.intersections.response.numFound;
+                  });
+
+                  outCoordSys.forEach(function (sys) {
+                     if (sys.extent) {
+                        sys.intersects = map[sys.code] ? map[sys.code] : 0;
+                     }
+                  });
+                  return outCoordSys.filter(function (sys) {
+                     return !sys.extent || sys.intersects;
+                  });
+               });
+            });
+         },
+         intersections: function intersections(searched) {
+            return configService.getConfig().then(function (config) {
+               var outCoordSys = config.download.outCoordSys;
+
+               var zones = outCoordSys.filter(function (sys) {
+                  return sys.extent;
+               });
+               var bounds = searched.bounds;
+               var q = searched.params.q;
+               var xMin = bounds.getWest();
+               var xMax = bounds.getEast();
+               var yMin = bounds.getSouth();
+               var yMax = bounds.getNorth();
+
+               var responses = zones.filter(function (zone) {
+                  return xMin <= zone.extent.xMax && xMax >= zone.extent.xMin && yMin <= zone.extent.yMax && yMax >= zone.extent.yMin;
+               }).map(function (zone) {
+                  return {
+                     zone: zone,
+                     get bounds() {
+                        return {
+                           xMin: xMin > zone.extent.xMin ? xMin : zone.extent.xMin,
+                           xMax: xMax < zone.extent.xMax ? xMax : zone.extent.xMax,
+                           yMin: yMin > zone.extent.yMin ? yMin : zone.extent.yMin,
+                           yMax: yMax < zone.extent.yMax ? yMax : zone.extent.yMax
+                        };
+                     },
+
+                     get location() {
+                        var bounds = this.bounds;
+                        return "location:[" + bounds.yMin + "," + bounds.xMin + " TO " + bounds.yMax + "," + bounds.xMax + "]";
+                     }
+                  };
+               });
+
+               var template = config.zoneQueryTemplate + "&q=" + q;
+
+               return $q.all(responses.map(function (response) {
+                  return $http.get(template + "&fq=" + response.location).then(function (_ref2) {
+                     var data = _ref2.data;
+
+                     response.intersections = data;
+                     return response;
+                  });
+               }));
+            });
+         }
+      };
+   }]);
+}
+'use strict';
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 {
@@ -762,82 +837,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          };
       }();
    }
-}
-'use strict';
-
-{
-   angular.module('antarctic.australia', []).directive('australiaView', function () {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'australia/australia.html',
-         controller: ['$scope', function ($scope) {
-            $scope.go = function () {
-               window.location = "index.html";
-            };
-         }]
-      };
-   });
-}
-"use strict";
-
-{
-   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
-      return {
-         templateUrl: "panes/panes.html",
-         scope: {
-            defaultItem: "@",
-            data: "="
-         },
-         controller: ['$scope', function ($scope) {
-            var changeSize = false;
-
-            $scope.view = $scope.defaultItem;
-
-            $rootScope.$on('side.panel.change', function (event) {
-               emitter();
-               $timeout(emitter, 100);
-               $timeout(emitter, 200);
-               $timeout(emitter, 300);
-               $timeout(emitter, 500);
-               function emitter() {
-                  var evt = document.createEvent("HTMLEvents");
-                  evt.initEvent("resize", false, true);
-                  window.dispatchEvent(evt);
-               }
-            });
-
-            $scope.setView = function (what) {
-               var oldView = $scope.view;
-               var delay = 0;
-
-               if ($scope.view === what) {
-                  if (what) {
-                     changeSize = true;
-                     delay = 1000;
-                  }
-                  $scope.view = "";
-               } else {
-                  if (!what) {
-                     changeSize = true;
-                  }
-                  $scope.view = what;
-               }
-
-               $rootScope.$broadcast("view.changed", $scope.view, oldView);
-
-               if (changeSize) {
-                  mapService.getMap().then(function (map) {
-                     map._onResize();
-                  });
-               }
-            };
-            $timeout(function () {
-               $rootScope.$broadcast("view.changed", $scope.view, null);
-            }, 50);
-         }]
-      };
-   }]);
 }
 "use strict";
 
@@ -1169,6 +1168,82 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return new L.Control.MousePosition(options);
    };
 }
+'use strict';
+
+{
+   angular.module('antarctic.australia', []).directive('australiaView', function () {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'australia/australia.html',
+         controller: ['$scope', function ($scope) {
+            $scope.go = function () {
+               window.location = "index.html";
+            };
+         }]
+      };
+   });
+}
+"use strict";
+
+{
+   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
+      return {
+         templateUrl: "panes/panes.html",
+         scope: {
+            defaultItem: "@",
+            data: "="
+         },
+         controller: ['$scope', function ($scope) {
+            var changeSize = false;
+
+            $scope.view = $scope.defaultItem;
+
+            $rootScope.$on('side.panel.change', function (event) {
+               emitter();
+               $timeout(emitter, 100);
+               $timeout(emitter, 200);
+               $timeout(emitter, 300);
+               $timeout(emitter, 500);
+               function emitter() {
+                  var evt = document.createEvent("HTMLEvents");
+                  evt.initEvent("resize", false, true);
+                  window.dispatchEvent(evt);
+               }
+            });
+
+            $scope.setView = function (what) {
+               var oldView = $scope.view;
+               var delay = 0;
+
+               if ($scope.view === what) {
+                  if (what) {
+                     changeSize = true;
+                     delay = 1000;
+                  }
+                  $scope.view = "";
+               } else {
+                  if (!what) {
+                     changeSize = true;
+                  }
+                  $scope.view = what;
+               }
+
+               $rootScope.$broadcast("view.changed", $scope.view, oldView);
+
+               if (changeSize) {
+                  mapService.getMap().then(function (map) {
+                     map._onResize();
+                  });
+               }
+            };
+            $timeout(function () {
+               $rootScope.$broadcast("view.changed", $scope.view, null);
+            }, 50);
+         }]
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1202,5 +1277,5 @@ $templateCache.put("header/header.html","<div class=\"container-full common-head
 $templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
 $templateCache.put("quicksearch/filteredsummary.html","<span class=\"placenames-filtered-summary-child\">\r\n   <span style=\"font-weight:bold; margin:5px;\">\r\n      Matched {{state.persist.data.response.numFound | number}}\r\n   </span>\r\n   <span ng-if=\"summary.authorities.length\">\r\n      <span style=\"font-weight:bold\">| For authorities:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.authorities\" name=\"code\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n   <span ng-if=\"summary.current.length\">\r\n      <span style=\"font-weight:bold\"> | Filtered by {{summary.filterBy}}:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.current\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n</span>");
 $templateCache.put("quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search style=\"opacity:0.9\"></div>\r\n");
-$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
-$templateCache.put("side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <ng-transclude></ng-transclude>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");}]);
+$templateCache.put("side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <ng-transclude></ng-transclude>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");
+$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");}]);

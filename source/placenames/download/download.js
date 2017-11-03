@@ -1,7 +1,8 @@
 {
-   angular.module("placenames.download", [])
+   angular.module("placenames.download", ['placenames.zone'])
 
-      .directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", function (flashService, messageService, placenamesDownloadService) {
+      .directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", "zoneService",
+               function (flashService, messageService, placenamesDownloadService, zoneService) {
          return {
             templateUrl: "download/download.html",
             scope: {
@@ -9,6 +10,10 @@
             },
             link: function (scope) {
                scope.processing = placenamesDownloadService.data;
+               // Gets the counts per zone but they can be a bit iffy so we use them for a guide only
+               zoneService.counts(scope.data).then(results => {
+                  scope.outCoordSys = results;
+               });
 
                scope.$watch("processing.filename", testFilename);
 

@@ -99,6 +99,7 @@ gulp.task('watch', function() {
     gulp.watch(directories.source + '/**/*(*.js|*.html)', ['lint']);
     gulp.watch(directories.source + '/placenames/**/*(*.js|*.html)', ['placenamesScripts']);
     gulp.watch(directories.source + '/antarctic/**/*(*.js|*.html)', ['antarcticScripts']);
+    gulp.watch(directories.source + '/common/**/*(*.js|*.html)', ['antarcticScripts', 'placenamesScripts']);
     gulp.watch(directories.source + '/**/*.css', ['concatCss']);
     gulp.watch(directories.assets + '/antarctic.js', ['squashAntarctic']);
     gulp.watch(directories.assets + '/placenames.js', ['squashPlacenames']);
