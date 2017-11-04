@@ -66,13 +66,11 @@
 
 
       <!-- END: Page Content -->
-      <placenames-clusters></placenames-clusters>
+      <antarctic-clusters></antarctic-clusters>
       <div placenames-quicksearch class="placenames-quicksearch"></div>
       <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
       <div ng-if="state.searched" class="placenames-lock"><placenames-lock></placenames-lock></div>
       <div placenames-contributors style="z-index:3"></div>
-
-      <placenames-mapevents placenames-bounds></placenames-mapevents>
       <panel-open-on-event panel-id="search" panel-width="540px" event-name="search.button.fired"></panel-open-on-event>
       <panel-close-on-event event-name="clear.button.fired"></panel-close-on-event>
 
@@ -91,7 +89,7 @@
 
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
          crossorigin="anonymous"></script>
-      <script src="placenames/resources/antarctic/leaflet.js" ></script>
+         <script src="placenames/bower_components/leaflet/dist/leaflet-src.js" ></script>
       <script src="placenames/resources/antarctic/proj4leaflet.js"></script>
       <style>
          /* A work around for an annoying little white box on my Google tiles. */

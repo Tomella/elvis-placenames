@@ -35,8 +35,14 @@
 
       _onMouseMove: function (e) {
          var w = e.latlng.wrap();
-         lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
-         lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+         let lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
+         let lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+
+
+         let sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
+
+
+
          this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
          if (this.options.elevGetter) {
             if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
@@ -46,7 +52,7 @@
                timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
             };
          }
-         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue;
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
       }
 
    });

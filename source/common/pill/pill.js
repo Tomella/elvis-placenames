@@ -1,6 +1,6 @@
 {
    angular.module("placenames.pill", [])
-      .directive('placenamesPill', ['placenamesSearchService', function (placenamesSearchService) {
+      .directive('placenamesPill', ['searchService', function (searchService) {
          return {
 				restrict: 'EA',
             templateUrl: "pill/pill.html",
@@ -19,7 +19,7 @@
                }
                scope.deselect = function() {
                   scope.item.selected = false;
-                  placenamesSearchService.filtered();
+                  searchService.filtered();
                };
             }
          };

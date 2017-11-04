@@ -115,7 +115,7 @@ class SolrTransformer {
             };
             let options = {
                showCoverageOnHover: false,
-               zoomToBoundsOnClick: false,
+               zoomToBoundsOnClick: true,
                singleMarkerMode: true,
                animate: false
             };

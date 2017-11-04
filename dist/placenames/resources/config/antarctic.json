@@ -7,7 +7,7 @@
    },
    "groups": {
       "referenceDataLocation": "placenames/resources/config/groupCatalogFeatures.json",
-      "referenceDataCountsUrl": "select?facet=true&facet.limit=-1&facet.field=group&facet.field=feature&facet.field=category&facet.field=authority&q=*:*&wt=json&rows=0"
+      "referenceDataCountsUrl": "select?fq=xPolar:*&facet=true&facet.limit=-1&facet.field=group&facet.field=feature&facet.field=category&facet.field=authority&q=*:*&wt=json&rows=0"
    },
 
    "download": {
@@ -47,164 +47,70 @@
             "value": "Lambert Conformal Conic for Australia, WGS84"
          },
          {
-            "code": "EPSG:28347",
-            "value": "Map Grid of Australia Zone 47 (GDA 94)",
-            "extent": {
-               "xMax": 102,
-               "xMin": 96,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28348",
-            "value": "Map Grid of Australia Zone 48 (GDA 94)",
-            "extent": {
-               "xMax": 108,
-               "xMin": 102,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28349",
-            "value": "Map Grid of Australia Zone 49 (GDA 94)",
-            "extent": {
-               "xMax": 114,
-               "xMin": 108,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28350",
-            "value": "Map Grid of Australia Zone 50 (GDA 94)",
-            "extent": {
-               "xMax": 120,
-               "xMin": 114,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28351",
-            "value": "Map Grid of Australia Zone 51 (GDA 94)",
-            "extent": {
-               "xMax": 126,
-               "xMin": 120,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28352",
-            "value": "Map Grid of Australia Zone 52 (GDA 94)",
-            "extent": {
-               "xMax": 132,
-               "xMin": 126,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28353",
-            "value": "Map Grid of Australia Zone 53 (GDA 94)",
-            "extent": {
-               "xMax": 138,
-               "xMin": 132,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28354",
-            "value": "Map Grid of Australia Zone 54 (GDA 94)",
-            "extent": {
-               "xMax": 144,
-               "xMin": 138,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28355",
-            "value": "Map Grid of Australia Zone 55 (GDA 94)",
-            "extent": {
-               "xMax": 150,
-               "xMin": 144,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28356",
-            "value": "Map Grid of Australia Zone 56 (GDA 94)",
-            "extent": {
-               "xMax": 156,
-               "xMin": 150,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28357",
-            "value": "Map Grid of Australia Zone 57 (GDA 94)",
-            "extent": {
-               "xMax": 162,
-               "xMin": 156,
-               "yMax": -54.7,
-               "yMin": -54.8
-            }
-         },
-         {
-            "code": "EPSG:28358",
-            "value": "Map Grid of Australia Zone 58 (GDA 94)",
-            "extent": {
-               "xMax": 168,
-               "xMin": 162,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "EPSG:28359",
-            "value": "Map Grid of Australia Zone 59 (GDA 94)",
-            "extent": {
-               "xMax": 174,
-               "xMin": 168,
-               "yMax": -8,
-               "yMin": -56
-            }
-         },
-         {
-            "code": "GDA94.Geoscience/Lmbrt",
-            "value": "GDA94 / Geoscience Australia Lambert (EPSG:3112)",
-            "extent": {
-               "xMax": 155,
-               "xMin": 108,
-               "yMax": -10,
-               "yMin": -45
-            }
-         },
-         {
-            "code": "LL-GDA94",
-            "value": "Geodetic Datum of Australia 1994 (EPSG:4283)",
-            "extent": {
-               "xMax": 155,
-               "xMin": 108,
-               "yMax": -10,
-               "yMin": -45
-            }
-         },
-         {
             "code": "LL-WGS84",
             "value": "WGS84 Lat/Longs (EPSG:4326)"
          }
       ]
    },
+   "authorities": [
+      {
+         "code": "AAD",
+         "jurisdiction": "Australian Government",
+         "name": "Australian Antarctic Division"
+      },
+      {
+         "code": "AHO",
+         "jurisdiction": "Australian Government",
+         "name": "Australian Hydrographic Service"
+      },
+      {
+         "code": "GA",
+         "jurisdiction": "Australian Government",
+         "name": "Geoscience Australia"
+      },
+      {
+         "code": "ACT",
+         "jurisdiction": "Australian Capital Territory",
+         "name": "ACT Planning and Land Authority"
+      },
+      {
+         "code": "NSW",
+         "jurisdiction": "New South Wales",
+         "name": "Geographical Names Board"
+      },
+      {
+         "code": "NT",
+         "jurisdiction": "Northern Territory",
+         "name": "Department of Planning and Infrastructure"
+      },
+      {
+         "code": "QLD",
+         "jurisdiction": "Queensland",
+         "name": "Department of Natural Resources and Water"
+      },
+      {
+         "code": "SA",
+         "jurisdiction": "South Australia",
+         "name": "Department for Transport, Energy and Infrastructure Land Services Group"
+      },
+      {
+         "code": "TAS",
+         "jurisdiction": "Tasmania",
+         "name": "Department of Primary Industries and Water"
+      },
+      {
+         "code": "VIC",
+         "jurisdiction": "Victoria",
+         "name": "Department of Sustainability and Environment"
+      },
+      {
+         "code": "WA",
+         "jurisdiction": "Western Australia",
+         "name": "Landgate"
+      }
+   ],
 
    "filters": {
       "referenceDataUrl": "placenames/resources/config/groupCatalogFeatures.json"
-   },
-   "facetsQuery": "select?facet=true&facet.limit=-1&facet.field=location&facet.field=feature&facet.field=authority&facet.field=category&facet.field=group&q=*:*&rows=1&wt=json"
+   }
 }

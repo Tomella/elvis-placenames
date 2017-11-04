@@ -1,7 +1,8 @@
 {
-   angular.module("placenames.search.service", [])
+   angular.module("antarctic.search", [])
 
-   .factory('searchService', SearchService);
+
+      .factory('searchService', SearchService);
 
    SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'groupsService', 'mapService'];
 }
@@ -226,7 +227,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          let bounds = summary.bounds;
 
          params.fq = getBounds(bounds);
-         params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
          params.sort = getSort(bounds);
          params.q = createQText(summary);
 
@@ -361,30 +361,42 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function getSort(bounds) {
-      let dx = (bounds.getEast() - bounds.getWest()) / 2;
-      let dy = (bounds.getNorth() - bounds.getSouth()) / 2;
-      return "geodist(ll," +
-         (bounds.getSouth() + dy) +
-         "," +
-         (bounds.getWest() + dx) +
-         ") asc";
+      return ""
    }
 
    function getBounds(bounds) {
-      return "location:[" +
-         Math.max(bounds.getSouth(), -90) + "," +
-         Math.max(bounds.getWest(), -180) + " TO " +
-         Math.min(bounds.getNorth(), 90) + "," +
-         Math.min(bounds.getEast(), 180) + "]";
-   }
+      /*
+      const MAX_LENGTH = 3700000; // 3,700km radius?
+      let sw = proj4("EPSG:4326", "EPSG:3031", [bounds.getWest(), bounds.getSouth()]);
+      let ne = proj4("EPSG:4326", "EPSG:3031", [bounds.getEast(), bounds.getNorth()]);
 
+      // Lng
+      let xLow = limitBetween(sw[0], MAX_LENGTH).toFixed(0);
+      let xMax = limitBetween(ne[0], MAX_LENGTH).toFixed(0);
 
-   function getHeatmapBounds(bounds) {
-      return "[" +
-         Math.max(bounds.getSouth(), -90) + "," +
-         Math.max(bounds.getWest(), -180) + " TO " +
-         Math.min(bounds.getNorth(), 90) + "," +
-         Math.min(bounds.getEast(), 180) + "]";
+      // Lat
+      let yLow = limitBetween(sw[1], MAX_LENGTH).toFixed(0);
+      let yMax = limitBetween(ne[1], MAX_LENGTH).toFixed(0);
+*/
+      var bounds = map.getPixelBounds();
+
+      var sw = map.unproject(bounds.getBottomLeft());
+      var ne = map.unproject(bounds.getTopRight());
+
+      var size = map.getSize();
+      var ne_p = map.options.crs.project(ne);
+      var sw_p = map.options.crs.project(sw);
+
+      return [
+         "xPolar:[" + sw_p.x + " TO " + ne_p.x + "]", // Long
+         "yPolar:[" + sw_p.y + " TO " + ne_p.y + "]"  // Lat
+      ];
+
+      function limitBetween(value, limit) {
+         let sign = value < 0? -1: 1;
+         let acc = Math.abs(value);
+         return sign * (acc < limit? acc : limit);
+      }
    }
 
    function authBaseParameters() {
@@ -411,8 +423,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function baseParameters() {
       return {
-         "facet.heatmap.format": "ints2D",
-         "facet.heatmap": "location",
          "facet.limit": -1,
          facet: true,
          "facet.field": ["feature", "category", "authority", "group"],
@@ -423,4 +433,3 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    return service;
 }
-

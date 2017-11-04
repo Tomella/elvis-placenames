@@ -1,6 +1,6 @@
 {
    angular.module("placenames.tree", [])
-   .directive("placenamesTree", ["groupsService", "placenamesSearchService", function(groupsService, placenamesSearchService) {
+   .directive("placenamesTree", ["groupsService", "searchService", function(groupsService, searchService) {
       return {
          templateUrl: "filters/tree.html",
          restrict: "AE",
@@ -8,7 +8,7 @@
             groupsService.getGroups().then(groups => scope.groups = groups);
 
             scope.change = function(group) {
-               placenamesSearchService.filtered();
+               searchService.filtered();
                if (group.selected) {
                   group.expanded = true;
                }

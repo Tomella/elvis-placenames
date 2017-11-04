@@ -120,7 +120,7 @@
 
    angular.module("placenames.groups", ["placenames.feature", "placenames.categories"])
 
-      .directive("placenamesGroups", ['groupsService', "placenamesSearchService", function (groupsService, placenamesSearchService) {
+      .directive("placenamesGroups", ['groupsService', "searchService", function (groupsService, searchService) {
          return {
             templateUrl: "groups/groups.html",
             link: function (scope) {
@@ -130,7 +130,7 @@
 
                scope.change = function () {
                   console.log("Update groups");
-                  placenamesSearchService.filtered();
+                  searchService.filtered();
                };
             }
          };

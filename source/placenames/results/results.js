@@ -71,10 +71,10 @@
          };
       });
 
-   ResultsService.$inject = ['proxy', '$http', '$rootScope', '$timeout', 'configService', 'mapService', 'placenamesSearchService'];
+   ResultsService.$inject = ['proxy', '$http', '$rootScope', '$timeout', 'configService', 'mapService', 'searchService'];
 }
 
-function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapService, placenamesSearchService) {
+function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapService, searchService) {
    const ZOOM_IN = 7;
    let marker;
 
@@ -154,7 +154,7 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
          let params = persist.params;
          params.start = start;
 
-         placenamesSearchService.request(params).then(data => {
+         searchService.request(params).then(data => {
             response.docs.push(...data.response.docs);
          });
       }

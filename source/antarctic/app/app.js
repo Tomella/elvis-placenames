@@ -11,8 +11,10 @@
 
    angular.module("AntarcticApp", [
       'antarctic.australia',
+      'antarctic.clusters',
       'antarctic.maps',
       'antarctic.panes',
+      "antarctic.search",
       'antarctic.templates',
       'antarctic.toolbar',
 
@@ -28,10 +30,14 @@
       'explorer.version',
 
       'placenames.contributors',
+      'placenames.groups',
       'placenames.header',
       'placenames.navigation',
+      'placenames.quicksearch',
       'placenames.reset',
+      'placenames.search',
       'placenames.side-panel',
+      'placenames.tree',
 
       'exp.ui.templates',
 
@@ -44,12 +50,16 @@
       // Set up all the service providers here.
       .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider',
          function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
-            configServiceProvider.location("placenames/resources/config/config.json?v=4");
+            configServiceProvider.location("placenames/resources/config/antarctic.json?v=4");
             configServiceProvider.dynamicLocation("placenames/resources/config/configclient.json?");
             versionServiceProvider.url("placenames/assets/package.json");
             persistServiceProvider.handler("local");
             projectsServiceProvider.setProject("placenames");
          }])
+
+      .run(["searchService", function(searchService) {
+         searchService.filtered();
+      }])
       .controller("RootCtrl", RootCtrl)
 
       .filter('bytes', function () {

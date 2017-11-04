@@ -1,244 +1,91 @@
-.altthemes-icon {
-  background: url("../resources/img/dbl_sprites.svg") no-repeat;
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
   display: inline-block;
-  width: 40px;
-  height: 62px;
-  margin: 0 auto 0 auto;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
 }
-
-.altthemes-pin {
-  background-position: 0px;
-}
-
-.altthemes-map {
-  background-position: -40px;
-}
-
-.altthemes-crosshair {
-  background-position: -80px;
-}
-
-.altthemes-sign {
-  background-position: -120px;
-}
-
-.altthemes-parcel {
-  background-position: -160px;
-}
-
-.altthemes-satellite {
-  background-position: -200px;
-}
-
-.altthemes-ship {
-  background-position: -240px;
-}
-
-.altthemes-water {
-  background-position: -280px;
-}
-
-.altthemes-shore {
-  background-position: -320px;
-}
-
-.altthemes-land {
-  background-position: -360px;
-}
-
-@media only screen and (max-width:1200px) {
-  .altthemes-icon {
-    background: url("../resources/img/alt-sprites.svg") no-repeat;
-    display: inline-block;
-    width: 25px;
-    height: 40px;
-    margin: 0 auto 0 auto;
-  }
-
-  .altthemes-pin {
-    background-position: 0px;
-  }
-
-  .altthemes-map {
-    background-position: -25px;
-  }
-
-  .altthemes-crosshair {
-    background-position: -50px;
-  }
-
-  .altthemes-sign {
-    background-position: -75px;
-  }
-
-  .altthemes-parcel {
-    background-position: -100px;
-  }
-
-  .altthemes-satellite {
-    background-position: -125px;
-  }
-
-  .altthemes-ship {
-    background-position: -150px;
-  }
-
-  .altthemes-water {
-    background-position: -175px;
-  }
-
-  .altthemes-shore {
-    background-position: -200px;
-  }
-
-  .altthemes-land {
-    background-position: -225px;
-  }
-}
-
-.altthemesItemCompact {
-  margin-top: 0px !important;
-}
-
-.altthemesdropdown {
-  margin-top: -8px;
-  padding-right: 20px;
-  z-index: 100000;
-}
-
-.altthemesdropdown .altthemescurrent {
-  color: #fff;
-  background-color: #777;
-}
-.altthemes-icon {
-  background: url("../resources/img/dbl_sprites.svg") no-repeat;
-  display: inline-block;
-  width: 40px;
-  height: 62px;
-  margin: 0 auto 0 auto;
-}
-
-.altthemes-pin {
-  background-position: 0px;
-}
-
-.altthemes-map {
-  background-position: -40px;
-}
-
-.altthemes-crosshair {
-  background-position: -80px;
-}
-
-.altthemes-sign {
-  background-position: -120px;
-}
-
-.altthemes-parcel {
-  background-position: -160px;
-}
-
-.altthemes-satellite {
-  background-position: -200px;
-}
-
-.altthemes-ship {
-  background-position: -240px;
-}
-
-.altthemes-water {
-  background-position: -280px;
-}
-
-.altthemes-shore {
-  background-position: -320px;
-}
-
-.altthemes-land {
-  background-position: -360px;
-}
-
-@media only screen and (max-width:1200px) {
-  .altthemes-icon {
-    background: url("../resources/img/alt-sprites.svg") no-repeat;
-    display: inline-block;
-    width: 25px;
-    height: 40px;
-    margin: 0 auto 0 auto;
-  }
-
-  .altthemes-pin {
-    background-position: 0px;
-  }
-
-  .altthemes-map {
-    background-position: -25px;
-  }
-
-  .altthemes-crosshair {
-    background-position: -50px;
-  }
-
-  .altthemes-sign {
-    background-position: -75px;
-  }
-
-  .altthemes-parcel {
-    background-position: -100px;
-  }
-
-  .altthemes-satellite {
-    background-position: -125px;
-  }
-
-  .altthemes-ship {
-    background-position: -150px;
-  }
-
-  .altthemes-water {
-    background-position: -175px;
-  }
-
-  .altthemes-shore {
-    background-position: -200px;
-  }
-
-  .altthemes-land {
-    background-position: -225px;
-  }
-}
-
-.altthemesItemCompact {
-  margin-top: 0px !important;
-}
-
-.altthemesdropdown {
-  margin-top: -8px;
-  padding-right: 20px;
-  z-index: 100000;
-}
-
-.altthemesdropdown .altthemescurrent {
-  color: #fff;
-  background-color: #777;
-}
-.quickSearch {
-  width: 33em;
-}
-
-.placenames-filtered-summary {
+.contributors {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
   position: fixed;
-  z-index: 4;
-  top: 123px;
-  left: 450px;
-  right: 20px;
+  top: 70px;
+  right: 1px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  text-align: center;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
 }
 
-.placenames-filtered-summary-child {
-  background-color: white;
-  opacity: 0.6;
+.contributors img {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.contributors.transitioned-up img {
+  height: 0;
+}
+
+.contributors.transitioned-up .contributors-unstick {
+  display: none;
+}
+
+.contributors.transitioned-down {
+  border: 1px solid gray;
   border-radius: 3px;
-  display: inline-block;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.contributors.transitioned-up a {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+}
+
+.contributors-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.contributors-link {
+  font-weight: bold;
+}
+
+.elevation-and-depth {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+img.elvis-logo {
+  height: 75px;
+}
+
+.icsm-logo.last {
+  padding-right: 10px;
+}
+
+.contributorsLink {
+  position: absolute;
+  right: 7px;
+  bottom: 15px;
 }
 .nav-icons {
   margin-top: 7px !important;
@@ -285,6 +132,273 @@
   .searchBar {
     width: 23em;
   }
+}
+.altthemes-icon {
+  background: url("../resources/img/dbl_sprites.svg") no-repeat;
+  display: inline-block;
+  width: 40px;
+  height: 62px;
+  margin: 0 auto 0 auto;
+}
+
+.altthemes-pin {
+  background-position: 0px;
+}
+
+.altthemes-map {
+  background-position: -40px;
+}
+
+.altthemes-crosshair {
+  background-position: -80px;
+}
+
+.altthemes-sign {
+  background-position: -120px;
+}
+
+.altthemes-parcel {
+  background-position: -160px;
+}
+
+.altthemes-satellite {
+  background-position: -200px;
+}
+
+.altthemes-ship {
+  background-position: -240px;
+}
+
+.altthemes-water {
+  background-position: -280px;
+}
+
+.altthemes-shore {
+  background-position: -320px;
+}
+
+.altthemes-land {
+  background-position: -360px;
+}
+
+@media only screen and (max-width:1200px) {
+  .altthemes-icon {
+    background: url("../resources/img/alt-sprites.svg") no-repeat;
+    display: inline-block;
+    width: 25px;
+    height: 40px;
+    margin: 0 auto 0 auto;
+  }
+
+  .altthemes-pin {
+    background-position: 0px;
+  }
+
+  .altthemes-map {
+    background-position: -25px;
+  }
+
+  .altthemes-crosshair {
+    background-position: -50px;
+  }
+
+  .altthemes-sign {
+    background-position: -75px;
+  }
+
+  .altthemes-parcel {
+    background-position: -100px;
+  }
+
+  .altthemes-satellite {
+    background-position: -125px;
+  }
+
+  .altthemes-ship {
+    background-position: -150px;
+  }
+
+  .altthemes-water {
+    background-position: -175px;
+  }
+
+  .altthemes-shore {
+    background-position: -200px;
+  }
+
+  .altthemes-land {
+    background-position: -225px;
+  }
+}
+
+.altthemesItemCompact {
+  margin-top: 0px !important;
+}
+
+.altthemesdropdown {
+  margin-top: -8px;
+  padding-right: 20px;
+  z-index: 100000;
+}
+
+.altthemesdropdown .altthemescurrent {
+  color: #fff;
+  background-color: #777;
+}
+.altthemes-icon {
+  background: url("../resources/img/dbl_sprites.svg") no-repeat;
+  display: inline-block;
+  width: 40px;
+  height: 62px;
+  margin: 0 auto 0 auto;
+}
+
+.altthemes-pin {
+  background-position: 0px;
+}
+
+.altthemes-map {
+  background-position: -40px;
+}
+
+.altthemes-crosshair {
+  background-position: -80px;
+}
+
+.altthemes-sign {
+  background-position: -120px;
+}
+
+.altthemes-parcel {
+  background-position: -160px;
+}
+
+.altthemes-satellite {
+  background-position: -200px;
+}
+
+.altthemes-ship {
+  background-position: -240px;
+}
+
+.altthemes-water {
+  background-position: -280px;
+}
+
+.altthemes-shore {
+  background-position: -320px;
+}
+
+.altthemes-land {
+  background-position: -360px;
+}
+
+@media only screen and (max-width:1200px) {
+  .altthemes-icon {
+    background: url("../resources/img/alt-sprites.svg") no-repeat;
+    display: inline-block;
+    width: 25px;
+    height: 40px;
+    margin: 0 auto 0 auto;
+  }
+
+  .altthemes-pin {
+    background-position: 0px;
+  }
+
+  .altthemes-map {
+    background-position: -25px;
+  }
+
+  .altthemes-crosshair {
+    background-position: -50px;
+  }
+
+  .altthemes-sign {
+    background-position: -75px;
+  }
+
+  .altthemes-parcel {
+    background-position: -100px;
+  }
+
+  .altthemes-satellite {
+    background-position: -125px;
+  }
+
+  .altthemes-ship {
+    background-position: -150px;
+  }
+
+  .altthemes-water {
+    background-position: -175px;
+  }
+
+  .altthemes-shore {
+    background-position: -200px;
+  }
+
+  .altthemes-land {
+    background-position: -225px;
+  }
+}
+
+.altthemesItemCompact {
+  margin-top: 0px !important;
+}
+
+.altthemesdropdown {
+  margin-top: -8px;
+  padding-right: 20px;
+  z-index: 100000;
+}
+
+.altthemesdropdown .altthemescurrent {
+  color: #fff;
+  background-color: #777;
+}
+.pn-pill {
+  padding: 0px 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
+}
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  position: fixed;
+  z-index: 4;
+  top: 123px;
+  left: 450px;
+  right: 20px;
+}
+
+.placenames-filtered-summary-child {
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 3px;
+  display: inline-block;
+}
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
 }
 /* Side Panel */
 
@@ -690,17 +804,6 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
-
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
-}
 .product-invalid {
   color: red;
   opacity: 0.6;
@@ -885,13 +988,6 @@ input.ng-valid.ng-touched {
   overflow-y: auto;
   overflow-x: hidden;
 }
-.pn-pill {
-  padding: 0px 2px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin: 0;
-}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -1014,24 +1110,6 @@ input.ng-valid.ng-touched {
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
 }
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
-}
 .placenames-toolbar {
   position: fixed;
   top: 82px;
@@ -1098,6 +1176,10 @@ input.ng-valid.ng-touched {
   color: #333;
   font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
+
+.leaflet-pane {
+  z-index: 400;
+}
 .placenames-toolbar {
   position: fixed;
   top: 82px;
@@ -1155,82 +1237,4 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
-}
-.contributors {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 70px;
-  right: 1px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  text-align: center;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.contributors img {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.contributors.transitioned-up img {
-  height: 0;
-}
-
-.contributors.transitioned-up .contributors-unstick {
-  display: none;
-}
-
-.contributors.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.contributors.transitioned-up a {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-  border-radius: 0;
-}
-
-.contributors-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.contributors-link {
-  font-weight: bold;
-}
-
-.elevation-and-depth {
-  padding-left: 12px;
-  padding-right: 12px;
-}
-
-img.elvis-logo {
-  height: 75px;
-}
-
-.icsm-logo.last {
-  padding-right: 10px;
-}
-
-.contributorsLink {
-  position: absolute;
-  right: 7px;
-  bottom: 15px;
 }

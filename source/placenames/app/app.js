@@ -51,6 +51,7 @@
       'placenames.reset',
       "placenames.results",
       "placenames.search",
+      "placenames.search.service",
       "placenames.side-panel",
       'placenames.splash',
       'placenames.templates',

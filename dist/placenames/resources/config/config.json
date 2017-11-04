@@ -34,16 +34,7 @@
             "addLayerControl":false,
             "visible":true
          }
-      ],
-      "drawOptions" : {
-      	 "draw" : {
-      		"polygon" : false,
-      		"circle" : false,
-      		"marker" : false,
-      		"rectangle" : false
-      	 },
-      	 "edit" : false
-      }
+      ]
    },
    "clusters": {
       "defaultQuery": "*:*",
@@ -314,6 +305,5 @@
          "name": "Landgate"
       }
    ],
-   "facetsQuery": "select?facet=true&facet.limit=-1&facet.field=location&facet.field=feature&facet.field=authority&facet.field=category&facet.field=group&q=*:*&rows=1&wt=json",
    "zoneQueryTemplate": "select?rows=0&wt=json"
 }

@@ -9,14 +9,14 @@
       };
    }])
 
-   .directive('placenamesFilteredSummary', ["placenamesSearchService", function(placenamesSearchService) {
+   .directive('placenamesFilteredSummary', ["searchService", function(searchService) {
       return {
          scope: {
             state: "="
          },
          templateUrl: "quicksearch/filteredsummary.html",
          link: function(scope) {
-            scope.summary = placenamesSearchService.summary;
+            scope.summary = searchService.summary;
          }
       };
    }])

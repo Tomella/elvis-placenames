@@ -1,13 +1,13 @@
 {
    angular.module("placenames.categories", [])
 
-      .directive("placenamesCategories", ['groupsService', "placenamesSearchService", function(groupsService, placenamesSearchService) {
+      .directive("placenamesCategories", ['groupsService', "searchService", function(groupsService, searchService) {
          return {
             templateUrl: "categories/categories.html",
             link: function(scope) {
                groupsService.getCategories().then(categories => scope.categories = categories);
                scope.change = function() {
-                  placenamesSearchService.filtered();
+                  searchService.filtered();
                };
             }
          };
