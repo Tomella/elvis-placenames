@@ -44,66 +44,108 @@
                      }
                   });
                });
-            };
 
+            }
+
+            // Stage one
             service._refreshClusters = function (response) {
-
-               let geojsonMarkerOptions = {
-                  radius: 8,
-                  fillColor: "#ff0000",
-                  color: "#000",
-                  weight: 1,
-                  opacity: 1,
-                  fillOpacity: 0.8
-               };
-               let options = {
-                  showCoverageOnHover: false,
-                  zoomToBoundsOnClick: false,
-                  singleMarkerMode: true,
-                  animate: false
-               };
-
                let count = response.response.numFound;
 
-               if (this.layer) {
-                  this.map.removeLayer(this.layer);
-               }
-
-               let layer = this.layer = L.layerGroup();
                let params = Object.assign({}, response.responseHeader.params);
-               params.rows = count;
 
-               let url = "select?" + Object.keys(params)
-                  .filter(key => key.indexOf("facet") !== 0)
-                  .map(key => {
-                     let obj = params[key];
-                     return (Array.isArray(obj) ? obj : [obj]).map(item => key + "=" + item).join("&");
-                  }).join("&");
-               $http.get(url).then(result => {
-                  let docs = result.data.response.docs;
-                  docs.forEach(doc => {
-                     let coords = doc.location.split(" ");
-                     let date = new Date(doc.supplyDate);
-                     let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+               if (!this.lookup) {
+                  let url = "select?q=*:*&fq=xPolar:*&rows=10000&wt=json&" +
+                     "fl=location,recordId,authorityId,name,feature,category,group,authority,supplyDate,xPolar,yPolar";
+                  $http.get(url).then(({ data }) => {
+                     this.lookup = new PolarLookUp();
+                     this.lookup.addPoints(data.response.docs);
 
-                     doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
-                        doc.category + "\ncategory which is in the " +
-                        doc.group + " group." +
-                        "\nThe authority is " + doc.authority +
-                        " and the data was supplied on " + dateStr +
-                        "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
-
-                     doc.zIndexOffset = 500;
-
-                     let marker = L.marker([+coords[1], +coords[0]], doc);
-                     layer.addLayer(marker);
+                     _refreshAfterLookup(this);
                   });
-               });
-
-               if (this.flasher) {
-                  this.flasher.remove();
+               } else {
+                  _refreshAfterLookup(this);
                }
-               this.layer.addTo(this.map);
+
+               // Stage 2
+               function _refreshAfterLookup(scope) {
+                  let params = Object.assign({}, response.responseHeader.params, { fl: "recordId", rows: 10000 });
+
+                  let url = "select?" + Object.keys(params)
+                     .filter(key => key.indexOf("facet") !== 0)
+                     .map(key => {
+                        let obj = params[key];
+                        return (Array.isArray(obj) ? obj : [obj]).map(item => key + "=" + item).join("&");
+                     }).join("&");
+
+                  mapService.getMap().then(map => {
+                     $http.get(url).then(({ data }) => {
+                        if (scope.layer) {
+                           map.removeLayer(scope.layer);
+                        }
+
+                        let docs = data.response.docs;
+                        let zoom = map.getZoom();
+                        let cellSize = [24, 19, 12, 9, 5, 3, 2, 1, 1, 1][zoom] * 100000;
+                        let count = docs.length;
+                        let features = scope.lookup.find(docs.map(doc => doc.recordId));
+
+                        if (features.length > 600) {
+                           let polarGrid = new PolarGrid({cellWidth: cellSize, cellHeight: cellSize});
+                           polarGrid.addPoints(features);
+
+
+                           let max = Math.max(...polarGrid.cells.map(cell => cell.length));
+
+                           scope.layer = L.layerGroup(polarGrid.cells.map(cell => {
+                              let template = '<div class="leaflet-marker-icon marker-cluster marker-cluster-{size} leaflet-zoom-animated leaflet-interactive" ' +
+                                             'tabindex="0" style="transform: translate3d(-8px, -8px, 0px);">' +
+                                             '<div style="transform: translate3d(-2px, -2px, 0px);"><span>{value}</span></div></div>';
+
+                              let size = "small";
+                              if (cell.length > max * 0.8) {
+                                 size = "large";
+                              } else if (cell.length > max * 0.4) {
+                                 size = "medium";
+                              }
+
+                              template = template.replace("{size}", size).replace("{value}", cell.length)
+                              return L.marker(cell.weightedLatLng, {icon: L.divIcon({html:template})}).on('click', (event) => {
+                                 map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
+                              });
+                           })).addTo(map);
+
+                        } else {
+
+                           let layer = scope.layer = L.layerGroup();
+
+                           features.forEach(feature => {
+                              let doc = feature.data;
+                              let latLng = feature.latLng;
+                              let date = new Date(doc.supplyDate);
+                              let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                              doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
+                                 doc.category + "\ncategory which is in the " +
+                                 doc.group + " group." +
+                                 "\nThe authority is " + doc.authority +
+                                 " and the data was supplied on " + dateStr +
+                                 "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
+
+                              doc.zIndexOffset = 500;
+
+                              layer.addLayer(L.marker(latLng, doc).on('click', (event) => {
+                                 map.setZoomAround(latLng, map.getZoom() + 1);
+                              }));
+                           });
+                           layer.addTo(map);
+                        }
+
+                        if (scope.flasher) {
+                           scope.flasher.remove();
+                        }
+                     });
+                  });
+               }
             };
 
             return service;

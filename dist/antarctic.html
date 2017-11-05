@@ -73,6 +73,7 @@
       <div placenames-contributors style="z-index:3"></div>
       <panel-open-on-event panel-id="search" panel-width="540px" event-name="search.button.fired"></panel-open-on-event>
       <panel-close-on-event event-name="clear.button.fired"></panel-close-on-event>
+      <restrict-pan-latitude latitude="60"></restrict-pan-latitude>
 
       <div explorer-flash class="noPrint" style="z-index:1500"></div>
       <!-- BEGIN: Sticky Footer -->
@@ -87,9 +88,8 @@
       <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
       <!--[if IE 9 ]>    <script src="assets/placeholder/placeholders.jquery.min.js"></script> <![endif]-->
 
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
-         crossorigin="anonymous"></script>
-         <script src="placenames/bower_components/leaflet/dist/leaflet-src.js" ></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+      <script src="placenames/bower_components/leaflet/dist/leaflet-src.js" ></script>
       <script src="placenames/resources/antarctic/proj4leaflet.js"></script>
       <style>
          /* A work around for an annoying little white box on my Google tiles. */
@@ -106,8 +106,6 @@
       <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
 
       <script src="placenames/bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
-
-      <script src="https://unpkg.com/leaflet.markercluster@1.1.0/dist/leaflet.markercluster-src.js"></script>
 
       <script src="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.js"></script>
 

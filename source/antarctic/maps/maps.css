@@ -10,3 +10,7 @@
  .leaflet-pane {
    z-index: 400;
 }
+
+#mappo {
+   height:100%;
+}

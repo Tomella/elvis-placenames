@@ -14,6 +14,7 @@
       'antarctic.clusters',
       'antarctic.maps',
       'antarctic.panes',
+      'antarctic.restrict.pan',
       "antarctic.search",
       'antarctic.templates',
       'antarctic.toolbar',

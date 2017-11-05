@@ -87,6 +87,85 @@ img.elvis-logo {
   right: 7px;
   bottom: 15px;
 }
+/* Base for label styling */
+
+.filters-check:not(:checked),
+.filters-check:checked {
+  margin: 3px;
+}
+
+.filters-check:not(:checked) + label,
+.filters-check:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+
+.filters-check:not(:checked) + label:before,
+.filters-check:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+/* checked mark aspect */
+
+.filters-check:not(:checked) + label:after,
+.filters-check:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: .1em;
+  left: .3em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #09ad7e;
+  transition: all .2s;
+}
+
+/* checked mark aspect changes */
+
+.filters-check:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.filters-check:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* disabled checkbox */
+
+.filters-check:disabled:not(:checked) + label:before,
+.filters-check:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+
+.filters-check:disabled:checked + label:after {
+  color: #999;
+}
+
+.filters-check:disabled + label {
+  color: #aaa;
+}
+
+/* accessibility */
+
+.filters-check:checked:focus + label:before,
+.filters-check:not(:checked):focus + label:before {
+  border: 2px dotted blue;
+}
 .nav-icons {
   margin-top: 7px !important;
 }
@@ -381,6 +460,59 @@ img.elvis-logo {
   opacity: 0.6;
   border-radius: 3px;
   display: inline-block;
+}
+.pn-container {
+  overflow-y: auto;
+  position: absolute;
+  top: 20px;
+  bottom: 0px;
+  left: 0px;
+  right: 7px;
+  margin-bottom: 0;
+}
+
+.pn-results-heading {
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+.pn-results {
+  position: absolute;
+  top: 55px;
+  bottom: 1px;
+  left: 0px;
+  right: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.pn-numeric {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.pn-header {
+  font-weight: bold;
+  background-color: #eaeaea;
+  padding: 3px;
+}
+
+.pn-results-list {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 4px;
+}
+
+.pn-results-list:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pn-item-footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #f8f8ff;
+  border-top: 1px solid #f0f0f0;
 }
 .pn-features {
   max-block-size: 300px;
@@ -830,85 +962,6 @@ input.ng-valid.ng-touched {
 .download-control::placeholder {
   color: #ccc;
 }
-/* Base for label styling */
-
-.filters-check:not(:checked),
-.filters-check:checked {
-  margin: 3px;
-}
-
-.filters-check:not(:checked) + label,
-.filters-check:checked + label {
-  position: relative;
-  padding-left: 1.95em;
-  cursor: pointer;
-}
-
-/* checkbox aspect */
-
-.filters-check:not(:checked) + label:before,
-.filters-check:checked + label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1.25em;
-  height: 1.25em;
-  border: 2px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
-}
-
-/* checked mark aspect */
-
-.filters-check:not(:checked) + label:after,
-.filters-check:checked + label:after {
-  content: '✔';
-  position: absolute;
-  top: .1em;
-  left: .3em;
-  font-size: 1.3em;
-  line-height: 0.8;
-  color: #09ad7e;
-  transition: all .2s;
-}
-
-/* checked mark aspect changes */
-
-.filters-check:not(:checked) + label:after {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.filters-check:checked + label:after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* disabled checkbox */
-
-.filters-check:disabled:not(:checked) + label:before,
-.filters-check:disabled:checked + label:before {
-  box-shadow: none;
-  border-color: #bbb;
-  background-color: #ddd;
-}
-
-.filters-check:disabled:checked + label:after {
-  color: #999;
-}
-
-.filters-check:disabled + label {
-  color: #aaa;
-}
-
-/* accessibility */
-
-.filters-check:checked:focus + label:before,
-.filters-check:not(:checked):focus + label:before {
-  border: 2px dotted blue;
-}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -988,6 +1041,37 @@ input.ng-valid.ng-touched {
   overflow-y: auto;
   overflow-x: hidden;
 }
+@media print {
+@page {
+    size: landscape;
+}
+
+  .noPrint {
+    display: none;
+  }
+
+  .printOnly {
+    display: inline !important;
+  }
+
+  .contentContainer {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    left: 0px !important;
+  }
+
+  .panel-inner-container {
+    display: none !important;
+  }
+
+  .leaflet-control-mouseposition {
+    display: none !important;
+  }
+
+  .leaflet-control-attribution {
+    display: none !important;
+  }
+}
 .placenames-popover {
   z-index: 1060;
   max-width: 600px;
@@ -1025,90 +1109,6 @@ input.ng-valid.ng-touched {
   border-top-width: 0;
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
-}
-@media print {
-@page {
-    size: landscape;
-}
-
-  .noPrint {
-    display: none;
-  }
-
-  .printOnly {
-    display: inline !important;
-  }
-
-  .contentContainer {
-    max-width: 100% !important;
-    overflow: hidden !important;
-    left: 0px !important;
-  }
-
-  .panel-inner-container {
-    display: none !important;
-  }
-
-  .leaflet-control-mouseposition {
-    display: none !important;
-  }
-
-  .leaflet-control-attribution {
-    display: none !important;
-  }
-}
-.pn-container {
-  overflow-y: auto;
-  position: absolute;
-  top: 20px;
-  bottom: 0px;
-  left: 0px;
-  right: 7px;
-  margin-bottom: 0;
-}
-
-.pn-results-heading {
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-.pn-results {
-  position: absolute;
-  top: 55px;
-  bottom: 1px;
-  left: 0px;
-  right: 0px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.pn-numeric {
-  text-align: right;
-  padding-right: 20px;
-}
-
-.pn-header {
-  font-weight: bold;
-  background-color: #eaeaea;
-  padding: 3px;
-}
-
-.pn-results-list {
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 4px;
-}
-
-.pn-results-list:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.pn-item-footer {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: #f8f8ff;
-  border-top: 1px solid #f0f0f0;
 }
 .placenames-toolbar {
   position: fixed;
@@ -1168,6 +1168,10 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+}
 .leaflet-container .leaflet-control-mouseposition {
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 5px #bbb;
@@ -1179,6 +1183,10 @@ input.ng-valid.ng-touched {
 
 .leaflet-pane {
   z-index: 400;
+}
+
+#mappo {
+  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;
