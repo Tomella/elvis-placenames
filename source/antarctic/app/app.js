@@ -34,11 +34,14 @@
       'placenames.groups',
       'placenames.header',
       'placenames.navigation',
+      'placenames.proxy',
       'placenames.quicksearch',
       'placenames.reset',
+      "placenames.results",
       'placenames.search',
       'placenames.side-panel',
       'placenames.tree',
+      'placenames.utils',
 
       'exp.ui.templates',
 

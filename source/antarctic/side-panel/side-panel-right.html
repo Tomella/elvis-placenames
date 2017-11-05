@@ -1,6 +1,17 @@
 <div class="cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right noPrint" ng-attr-style="width:{{right.width}}" ng-class="{'cbp-spmenu-open': right.active}">
-Hello worlds
-</div>
+      <a href="" title="Close panel" ng-click="closePanel()" style="z-index: 1">
+          <span class="glyphicon glyphicon-chevron-right pull-left"></span>
+      </a>
+      <div ng-show="right.active === 'search'" class="right-side-menu-container" style="z-index: 2">
+          <div class="panesTabContentItem" placenames-search ></div>
+      </div>
+      <div ng-if="right.active === 'glossary'" class="right-side-menu-container">
+          <div class="panesTabContentItem" placenames-glossary></div>
+      </div>
+      <div ng-show="right.active === 'help'" class="right-side-menu-container">
+          <div class="panesTabContentItem" placenames-help></div>
+      </div>
+  </div>
 
 
 
