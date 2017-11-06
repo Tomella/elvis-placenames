@@ -87,7 +87,7 @@ class SolrTransformer {
 
                   function hideClusters() {
                      if ( self.layer) {
-                        self.flasher  = flashService.add("Loading clusters", null, true);
+                        self.flasher  = flashService.add("Loading features", null, true);
                         self.map.removeLayer( self.layer);
                         self.layer = null;
                      }

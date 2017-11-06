@@ -23,12 +23,12 @@
             "type":["TileLayer"],
             "key":"topography",
             "parameters":[
-                "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+               "http://services.ga.gov.au/site_7/rest/services/NationalMap_Colour_Topographic_Base_World_WM/MapServer/tile/{z}/{y}/{x}",
                 {
                    "minZoom:": 8,
-                   "maxZoom": 18,
+                   "maxZoom": 22,
                    "switch": "topography",
-                   "attribution": "Map data © <a target='_blank' href='http://openstreetmap.org'>OpenStreetMap</a> contributors"
+                   "attribution": "Map data © <a target='_blank' href='http://www.ga.gov.au'>Geoscience Australia</a> and contributors contributors"
                 }
             ],
             "addLayerControl":false,
