@@ -1,7 +1,7 @@
 {
    angular.module("placenames.search.service", [])
 
-   .factory('searchService', SearchService);
+      .factory('searchService', SearchService);
 
    SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'groupsService', 'mapService'];
 }
@@ -284,48 +284,36 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function filteredCurrent(params) {
-      if (summary.current && summary.current.length) {
-         return groupsService.getGroups().then(groups => {
+      return groupsService.getGroups().then(groups => {
 
-            // We need get the facets as though no filters are selected. Select against Solr
-            let newParams = typeBaseParameters(["group", "category", "feature"]);
-            newParams.q = createQText(summary);
-            let qs = createAuthorityParams();
-            if (qs.length) {
-               newParams.q += ' AND (' + qs.join(" ") + ')';
-            }
-            newParams.fq = params.fq;
+         // We need get the facets as though no filters are selected. Select against Solr
+         let newParams = typeBaseParameters(["group", "category", "feature"]);
+         newParams.q = createQText(summary);
+         let qs = createAuthorityParams();
+         if (qs.length) {
+            newParams.q += ' AND (' + qs.join(" ") + ')';
+         }
+         newParams.fq = params.fq;
 
-            return request(newParams).then(data => {
-               let groupMap = arrayToMap(data.facet_counts.facet_fields.group);
-               let categoryMap = arrayToMap(data.facet_counts.facet_fields.category);
-               let featureMap = arrayToMap(data.facet_counts.facet_fields.feature);
-               groups.forEach(group => {
-                  group.allCount = groupMap[group.name];
-                  group.categories.forEach(category => {
-                     category.allCount = categoryMap[category.name];
-                     category.features.forEach(feature => {
-                        feature.allCount = featureMap[feature.name];
-                     });
+         return request(newParams).then(data => {
+            let groupMap = arrayToMap(data.facet_counts.facet_fields.group);
+            let categoryMap = arrayToMap(data.facet_counts.facet_fields.category);
+            let featureMap = arrayToMap(data.facet_counts.facet_fields.feature);
+            groups.forEach(group => {
+               group.allCount = groupMap[group.name];
+               group.categories.forEach(category => {
+                  category.allCount = categoryMap[category.name];
+                  category.features.forEach(feature => {
+                     feature.allCount = featureMap[feature.name];
                   });
                });
-
-               data.facetCounts = {};
-               console.log("oth counts", data, summary);
-               return data;
             });
+
+            data.facetCounts = {};
+            console.log("oth counts", data, summary);
+            return data;
          });
-      } else {
-         // Otherwise we can just decorate the counts in from the bigger query to set the all counts
-         if (summary.filterBy) {
-            return groupsService[{ group: "getGroups", category: "getCategories", feature: "getFeatures" }[summary.filterBy]]().then(items => {
-               items.forEach(item => {
-                  item.allCount = summary.counts[{ group: "groups", category: "categories", feature: "features" }[summary.filterBy]][item.name];
-               });
-            });
-         }
-      }
-
+      });
    }
 
    // We assume summary is already made.
