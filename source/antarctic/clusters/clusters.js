@@ -44,8 +44,7 @@
                      }
                   });
                });
-
-            }
+            };
 
             // Stage one
             service._refreshClusters = function (response) {
@@ -108,7 +107,7 @@
                                  size = "medium";
                               }
 
-                              template = template.replace("{size}", size).replace("{value}", cell.length)
+                              template = template.replace("{size}", size).replace("{value}", cell.length);
                               return L.marker(cell.weightedLatLng, {icon: L.divIcon({html:template})}).on('click', (event) => {
                                  map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
                               });

@@ -79,7 +79,7 @@
             6: { min: 96, max: 129 },
             7: { min: 192, max: 259 },
             8: { min: 385, max: 519 }
-         }
+         };
          layer.getTileUrl = function (coords) {
             let zoom = layer._getZoomForUrl();
             let max = validTiles[zoom].max;

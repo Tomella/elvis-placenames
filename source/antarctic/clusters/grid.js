@@ -20,7 +20,7 @@ class PolarLookUp {
    }
 
    get length() {
-      return this._points.keys
+      return this._points.keys;
    }
 }
 

@@ -325,7 +325,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             });
          }
       }
-
    }
 
    // We assume summary is already made.
@@ -361,23 +360,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    }
 
    function getSort(bounds) {
-      return ""
+      return "";
    }
 
-   function getBounds(bounds) {
-      /*
-      const MAX_LENGTH = 3700000; // 3,700km radius?
-      let sw = proj4("EPSG:4326", "EPSG:3031", [bounds.getWest(), bounds.getSouth()]);
-      let ne = proj4("EPSG:4326", "EPSG:3031", [bounds.getEast(), bounds.getNorth()]);
-
-      // Lng
-      let xLow = limitBetween(sw[0], MAX_LENGTH).toFixed(0);
-      let xMax = limitBetween(ne[0], MAX_LENGTH).toFixed(0);
-
-      // Lat
-      let yLow = limitBetween(sw[1], MAX_LENGTH).toFixed(0);
-      let yMax = limitBetween(ne[1], MAX_LENGTH).toFixed(0);
-*/
+   function getBounds() {
       var bounds = map.getPixelBounds();
 
       var sw = map.unproject(bounds.getBottomLeft());
