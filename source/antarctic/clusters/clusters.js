@@ -15,7 +15,8 @@
             let service = {
                showClusters: true,
                sequence: 0,
-               layer: null
+               layer: null,
+               cellSizes: [24, 19, 12, 9, 5, 2.5, 1.2, 1, 1, 1]
             };
 
             service.init = function () {
@@ -84,7 +85,7 @@
 
                         let docs = data.response.docs;
                         let zoom = map.getZoom();
-                        let cellSize = [24, 19, 12, 9, 5, 3, 2, 1, 1, 1][zoom] * 100000;
+                        let cellSize = (service.config.cellSizes ? service.config.cellSizes: service.cellSizes)[zoom] * 100000; // Tuned to suit the spacing of clusters on the map
                         let count = docs.length;
                         let features = scope.lookup.find(docs.map(doc => doc.recordId));
 

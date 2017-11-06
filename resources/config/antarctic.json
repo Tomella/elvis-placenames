@@ -3,7 +3,8 @@
       "defaultQuery": "*:*",
       "summaryZoom": 10,
       "countField": "location",
-      "attribution": "Copyright of the Gazetteer data resides with the relevant State, Territory and Commonwealth Government agencies."
+      "attribution": "Copyright of the Gazetteer data resides with the relevant State, Territory and Commonwealth Government agencies.",
+      "cellSizes":  [24, 19, 12, 9, 5, 2.5, 1.2, 1, 1, 1]
    },
    "groups": {
       "referenceDataLocation": "placenames/resources/config/groupCatalogFeatures.json",
