@@ -59,56 +59,6 @@ under the License.
       };
    }]);
 }
-'use strict';
-
-{
-   angular.module('placenames.autoscroll', []).directive('autoScroll', ['$timeout', '$rootScope', function ($timeout, $rootScope) {
-      return {
-         scope: {
-            trigger: "@",
-            y: "@",
-            height: "@"
-         },
-         link: function link(scope, element, attrs) {
-            var timeout = void 0,
-                oldBottom = void 0,
-                startHeight = void 0;
-
-            if (scope.height) {
-               startHeight = +scope.height;
-            } else {
-               startHeight = 100;
-            }
-            oldBottom = startHeight;
-
-            element.on("scroll", function (event) {
-               var scrollHeight = element.scrollTop(),
-                   target = element.find(attrs.autoScroll),
-                   totalHeight = target.height(),
-                   scrollWindow = element.height(),
-                   scrollBottom = void 0,
-                   up = void 0;
-
-               if (scrollWindow >= totalHeight) {
-                  return;
-               }
-               scrollBottom = totalHeight - scrollHeight - scrollWindow;
-               up = oldBottom < scrollBottom;
-               oldBottom = scrollBottom;
-               if (scrollBottom < startHeight && !up) {
-                  // Add some debounce
-                  if (timeout) {
-                     $timeout.cancel(timeout);
-                  }
-                  timeout = $timeout(function () {
-                     $rootScope.$broadcast(scope.trigger);
-                  }, 30);
-               }
-            });
-         }
-      };
-   }]);
-}
 "use strict";
 
 {
@@ -196,6 +146,56 @@ function ContributorsService($http) {
          return state;
       }
    };
+}
+'use strict';
+
+{
+   angular.module('placenames.autoscroll', []).directive('autoScroll', ['$timeout', '$rootScope', function ($timeout, $rootScope) {
+      return {
+         scope: {
+            trigger: "@",
+            y: "@",
+            height: "@"
+         },
+         link: function link(scope, element, attrs) {
+            var timeout = void 0,
+                oldBottom = void 0,
+                startHeight = void 0;
+
+            if (scope.height) {
+               startHeight = +scope.height;
+            } else {
+               startHeight = 100;
+            }
+            oldBottom = startHeight;
+
+            element.on("scroll", function (event) {
+               var scrollHeight = element.scrollTop(),
+                   target = element.find(attrs.autoScroll),
+                   totalHeight = target.height(),
+                   scrollWindow = element.height(),
+                   scrollBottom = void 0,
+                   up = void 0;
+
+               if (scrollWindow >= totalHeight) {
+                  return;
+               }
+               scrollBottom = totalHeight - scrollHeight - scrollWindow;
+               up = oldBottom < scrollBottom;
+               oldBottom = scrollBottom;
+               if (scrollBottom < startHeight && !up) {
+                  // Add some debounce
+                  if (timeout) {
+                     $timeout.cancel(timeout);
+                  }
+                  timeout = $timeout(function () {
+                     $rootScope.$broadcast(scope.trigger);
+                  }, 30);
+               }
+            });
+         }
+      };
+   }]);
 }
 "use strict";
 
@@ -362,36 +362,6 @@ function ContributorsService($http) {
             }
             return response;
          });
-      };
-   });
-}
-"use strict";
-
-{
-   angular.module("placenames.tree", []).directive("placenamesTree", ["groupsService", "searchService", function (groupsService, searchService) {
-      return {
-         templateUrl: "filters/tree.html",
-         restrict: "AE",
-         link: function link(scope) {
-            groupsService.getGroups().then(function (groups) {
-               return scope.groups = groups;
-            });
-
-            scope.change = function (group) {
-               searchService.filtered();
-               if (group.selected) {
-                  group.expanded = true;
-               }
-            };
-         }
-      };
-   }]).filter("withTotals", function () {
-      return function (list) {
-         if (list) {
-            return list.filter(function (item) {
-               return item.total;
-            });
-         }
       };
    });
 }
@@ -746,6 +716,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return service;
    }]);
 }
+"use strict";
+
+{
+   angular.module("placenames.tree", []).directive("placenamesTree", ["groupsService", "searchService", function (groupsService, searchService) {
+      return {
+         templateUrl: "filters/tree.html",
+         restrict: "AE",
+         link: function link(scope) {
+            groupsService.getGroups().then(function (groups) {
+               return scope.groups = groups;
+            });
+
+            scope.change = function (group) {
+               searchService.filtered();
+               if (group.selected) {
+                  group.expanded = true;
+               }
+            };
+         }
+      };
+   }]).filter("withTotals", function () {
+      return function (list) {
+         if (list) {
+            return list.filter(function (item) {
+               return item.total;
+            });
+         }
+      };
+   });
+}
 'use strict';
 
 {
@@ -952,6 +952,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       return {};
    }]);
 }
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -985,34 +1013,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          };
       }];
    });
-}
-'use strict';
-
-{
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
-      return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
-         scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
-         },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
 }
 'use strict';
 
@@ -1298,53 +1298,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
                   }
                }
             });
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-
-   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
-      var project = "elvis.placenames";
-      return {
-         setGlobalItem: function setGlobalItem(key, value) {
-            this._setItem("_system", key, value);
-         },
-
-         setItem: function setItem(key, value) {
-            this._setItem(project, key, value);
-         },
-
-         _setItem: function _setItem(project, key, value) {
-            $log.debug("Fetching state for key locally" + key);
-            localStorage.setItem(project + "." + key, JSON.stringify(value));
-         },
-
-         getGlobalItem: function getGlobalItem(key) {
-            return this._getItem("_system", key);
-         },
-
-         getItem: function getItem(key) {
-            var deferred = $q.defer();
-            this._getItem(project, key).then(function (response) {
-               deferred.resolve(response);
-            });
-            return deferred.promise;
-         },
-
-         _getItem: function _getItem(project, key) {
-            $log.debug("Fetching state locally for key " + key);
-            var item = localStorage.getItem(project + "." + key);
-            if (item) {
-               try {
-                  item = JSON.parse(item);
-               } catch (e) {
-                  // Do nothing as it will be a string
-               }
-            }
-            return $q.when(item);
          }
       };
    }]);
@@ -1819,6 +1772,53 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       };
    }]);
 }
+"use strict";
+
+{
+
+   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
+      var project = "elvis.placenames";
+      return {
+         setGlobalItem: function setGlobalItem(key, value) {
+            this._setItem("_system", key, value);
+         },
+
+         setItem: function setItem(key, value) {
+            this._setItem(project, key, value);
+         },
+
+         _setItem: function _setItem(project, key, value) {
+            $log.debug("Fetching state for key locally" + key);
+            localStorage.setItem(project + "." + key, JSON.stringify(value));
+         },
+
+         getGlobalItem: function getGlobalItem(key) {
+            return this._getItem("_system", key);
+         },
+
+         getItem: function getItem(key) {
+            var deferred = $q.defer();
+            this._getItem(project, key).then(function (response) {
+               deferred.resolve(response);
+            });
+            return deferred.promise;
+         },
+
+         _getItem: function _getItem(project, key) {
+            $log.debug("Fetching state locally for key " + key);
+            var item = localStorage.getItem(project + "." + key);
+            if (item) {
+               try {
+                  item = JSON.parse(item);
+               } catch (e) {
+                  // Do nothing as it will be a string
+               }
+            }
+            return $q.when(item);
+         }
+      };
+   }]);
+}
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1976,6 +1976,809 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          }]
       };
    });
+}
+"use strict";
+
+{
+   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
+      return {
+         templateUrl: "panes/panes.html",
+         scope: {
+            defaultItem: "@",
+            data: "="
+         },
+         controller: ['$scope', function ($scope) {
+            var changeSize = false;
+
+            $scope.view = $scope.defaultItem;
+
+            $rootScope.$on('side.panel.change', function (event) {
+               emitter();
+               $timeout(emitter, 100);
+               $timeout(emitter, 200);
+               $timeout(emitter, 300);
+               $timeout(emitter, 500);
+               function emitter() {
+                  var evt = document.createEvent("HTMLEvents");
+                  evt.initEvent("resize", false, true);
+                  window.dispatchEvent(evt);
+               }
+            });
+
+            $scope.setView = function (what) {
+               var oldView = $scope.view;
+               var delay = 0;
+
+               if ($scope.view === what) {
+                  if (what) {
+                     changeSize = true;
+                     delay = 1000;
+                  }
+                  $scope.view = "";
+               } else {
+                  if (!what) {
+                     changeSize = true;
+                  }
+                  $scope.view = what;
+               }
+
+               $rootScope.$broadcast("view.changed", $scope.view, oldView);
+
+               if (changeSize) {
+                  mapService.getMap().then(function (map) {
+                     map._onResize();
+                  });
+               }
+            };
+            $timeout(function () {
+               $rootScope.$broadcast("view.changed", $scope.view, null);
+            }, 50);
+         }]
+      };
+   }]);
+}
+"use strict";
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+{
+   angular.module("antarctic.clusters", []).directive("antarcticClusters", ["clusterService", function (clusterService) {
+      return {
+         link: function link() {
+            clusterService.init();
+         }
+      };
+   }]).factory("clusterService", ["$http", "$rootScope", "configService", "flashService", "mapService", function ($http, $rootScope, configService, flashService, mapService) {
+      var service = {
+         showClusters: true,
+         sequence: 0,
+         layer: null,
+         cellSizes: [24, 19, 12, 9, 5, 2.5, 1.2, 1, 1, 1]
+      };
+
+      service.init = function () {
+         var _this = this;
+
+         configService.getConfig("clusters").then(function (config) {
+            mapService.getMap().then(function (map) {
+               _this.map = map;
+               _this.config = config;
+
+               var self = _this;
+               $rootScope.$on('pn.search.complete', movePan);
+               $rootScope.$on('pn.search.start', hideClusters);
+
+               function hideClusters() {
+                  if (self.layer) {
+                     self.flasher = flashService.add("Loading features", null, true);
+                     self.map.removeLayer(self.layer);
+                     self.layer = null;
+                  }
+               }
+
+               function movePan(event, data) {
+                  if (!self.showClusters) {
+                     return;
+                  }
+                  self._refreshClusters(data);
+               }
+            });
+         });
+      };
+
+      // Stage one
+      service._refreshClusters = function (response) {
+         var _this2 = this;
+
+         var count = response.response.numFound;
+
+         var params = Object.assign({}, response.responseHeader.params);
+
+         if (!this.lookup) {
+            var url = "select?q=*:*&fq=xPolar:*&rows=10000&wt=json&" + "fl=location,recordId,authorityId,name,feature,category,group,authority,supplyDate,xPolar,yPolar";
+            $http.get(url).then(function (_ref) {
+               var data = _ref.data;
+
+               _this2.lookup = new PolarLookUp();
+               _this2.lookup.addPoints(data.response.docs);
+
+               _refreshAfterLookup(_this2);
+            });
+         } else {
+            _refreshAfterLookup(this);
+         }
+
+         // Stage 2
+         function _refreshAfterLookup(scope) {
+            var params = Object.assign({}, response.responseHeader.params, { fl: "recordId", rows: 10000 });
+
+            var url = "select?" + Object.keys(params).filter(function (key) {
+               return key.indexOf("facet") !== 0;
+            }).map(function (key) {
+               var obj = params[key];
+               return (Array.isArray(obj) ? obj : [obj]).map(function (item) {
+                  return key + "=" + item;
+               }).join("&");
+            }).join("&");
+
+            mapService.getMap().then(function (map) {
+               $http.get(url).then(function (_ref2) {
+                  var data = _ref2.data;
+
+                  if (scope.layer) {
+                     map.removeLayer(scope.layer);
+                  }
+
+                  var docs = data.response.docs;
+                  var zoom = map.getZoom();
+                  var cellSize = (service.config.cellSizes ? service.config.cellSizes : service.cellSizes)[zoom] * 100000; // Tuned to suit the spacing of clusters on the map
+                  var count = docs.length;
+                  var features = scope.lookup.find(docs.map(function (doc) {
+                     return doc.recordId;
+                  }));
+
+                  if (features.length > 600) {
+                     var polarGrid = new PolarGrid({ cellWidth: cellSize, cellHeight: cellSize });
+                     polarGrid.addPoints(features);
+
+                     var max = Math.max.apply(Math, _toConsumableArray(polarGrid.cells.map(function (cell) {
+                        return cell.length;
+                     })));
+
+                     scope.layer = L.layerGroup(polarGrid.cells.map(function (cell) {
+                        var template = '<div class="leaflet-marker-icon marker-cluster marker-cluster-{size} leaflet-zoom-animated leaflet-interactive" ' + 'tabindex="0" style="transform: translate3d(-8px, -8px, 0px);">' + '<div style="transform: translate3d(-2px, -2px, 0px);"><span>{value}</span></div></div>';
+
+                        var size = "small";
+                        if (cell.length > max * 0.8) {
+                           size = "large";
+                        } else if (cell.length > max * 0.4) {
+                           size = "medium";
+                        }
+
+                        template = template.replace("{size}", size).replace("{value}", cell.length);
+                        return L.marker(cell.weightedLatLng, { icon: L.divIcon({ html: template }) }).on('click', function (event) {
+                           map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
+                        });
+                     })).addTo(map);
+                  } else {
+
+                     var layer = scope.layer = L.layerGroup();
+
+                     features.forEach(function (feature) {
+                        var doc = feature.data;
+                        var latLng = feature.latLng;
+                        var date = new Date(doc.supplyDate);
+                        var dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                        doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " + doc.category + "\ncategory which is in the " + doc.group + " group." + "\nThe authority is " + doc.authority + " and the data was supplied on " + dateStr + "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
+
+                        doc.zIndexOffset = 500;
+
+                        layer.addLayer(L.marker(latLng, doc).on('click', function (event) {
+                           map.setZoomAround(latLng, map.getZoom() + 1);
+                        }));
+                     });
+                     layer.addTo(map);
+                  }
+
+                  if (scope.flasher) {
+                     scope.flasher.remove();
+                  }
+               });
+            });
+         }
+      };
+
+      return service;
+   }]);
+}
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var PolarLookUp = function () {
+   function PolarLookUp() {
+      _classCallCheck(this, PolarLookUp);
+
+      this._points = {};
+   }
+
+   _createClass(PolarLookUp, [{
+      key: "addPoint",
+      value: function addPoint(point) {
+         var polar = new PolarPoint(point);
+         this._points[polar.id] = polar;
+      }
+   }, {
+      key: "addPoints",
+      value: function addPoints(points) {
+         var _this = this;
+
+         points.forEach(function (point) {
+            return _this.addPoint(point);
+         });
+      }
+   }, {
+      key: "find",
+      value: function find(id) {
+         var _this2 = this;
+
+         if (Array.isArray(id)) {
+            return id.map(function (id) {
+               return _this2._points[id];
+            });
+         }
+         return this._points[id];
+      }
+   }, {
+      key: "length",
+      get: function get() {
+         return this._points.keys;
+      }
+   }]);
+
+   return PolarLookUp;
+}();
+
+var PolarGrid = function () {
+   /*
+    "location":"110.55 -66.27777778",
+    "recordId":"AAD_102",
+    "authorityId":"102",
+    "name":"Brown Bay",
+    "feature":"BAY",
+    "category":"WATERBODY",
+    "group":"HYDROLOGY",
+    "authority":"AAD",
+    "supplyDate":"2017-11-03T04:58:25Z",
+    "ll":"110.55 -66.27777778",
+    "xPolar":2447147.8,
+    "yPolar":-917385.9,
+    "_version_":1583131288900993033
+    */
+   function PolarGrid(options) {
+      _classCallCheck(this, PolarGrid);
+
+      this._options = Object.assign({
+         cellWidth: 600000, // 200km
+         cellHeight: 600000, // 200km
+         crs: "EPSG:3031"
+      }, options);
+
+      this._cellMap = {};
+   }
+
+   _createClass(PolarGrid, [{
+      key: "addPoint",
+      value: function addPoint(polar) {
+         var cell = new Cell(this._options);
+         cell.addPoint(polar);
+
+         if (this._cellMap[cell.key]) {
+            this._cellMap[cell.key].addCell(cell);
+         } else {
+            this._cellMap[cell.key] = cell;
+         }
+      }
+   }, {
+      key: "addPoints",
+      value: function addPoints(points) {
+         var _this3 = this;
+
+         points.forEach(function (point) {
+            return _this3.addPoint(point);
+         });
+      }
+   }, {
+      key: "cells",
+      get: function get() {
+         return Object.entries(this._cellMap).map(function (entry) {
+            return entry[1];
+         });
+      }
+   }]);
+
+   return PolarGrid;
+}();
+
+var Cell = function () {
+   function Cell(options) {
+      _classCallCheck(this, Cell);
+
+      this._points = [];
+      this._options = options;
+   }
+
+   _createClass(Cell, [{
+      key: "addPoint",
+      value: function addPoint(point) {
+         // Invalidate cache
+         this._weightedLatLng = this._weightedCenter = null;
+
+         var keyX = Math.floor(point.x / this._options.cellWidth);
+         var keyY = Math.floor(point.y / this._options.cellHeight);
+         var key = keyX + "/" + keyY;
+         if (!this._key) {
+            this.x = keyX;
+            this.y = keyY;
+            this._key = key;
+         }
+
+         if (this._key === key) {
+            this._points.push(point);
+            return true;
+         }
+         return false;
+      }
+   }, {
+      key: "addCell",
+      value: function addCell(cell) {
+         this._points = this._points.concat(cell.points);
+      }
+   }, {
+      key: "length",
+      get: function get() {
+         return this._points.length;
+      }
+   }, {
+      key: "weightedCenter",
+      get: function get() {
+         if (!this._weightedCenter) {
+            this._weightedCenter = {
+               x: (this.x + 0.5) * this._options.cellWidth,
+               y: (this.y + 0.5) * this._options.cellHeight
+            };
+         }
+         return this._weightedCenter;
+      }
+   }, {
+      key: "weightedLatLng",
+      get: function get() {
+         if (!this._weightedLatLng) {
+            var sum = this._points.reduce(function (sum, point) {
+               return { lat: sum.lat + point._latLng.lat, lng: sum.lng + point._latLng.lng };
+            }, { lat: 0, lng: 0 });
+            this._weightedLatLng = {
+               lat: sum.lat / this._points.length,
+               lng: sum.lng / this._points.length
+            };
+         }
+         return this._weightedLatLng;
+      }
+   }, {
+      key: "key",
+      get: function get() {
+         return this._key;
+      }
+   }, {
+      key: "points",
+      get: function get() {
+         return this._points;
+      }
+   }]);
+
+   return Cell;
+}();
+
+var PolarPoint = function () {
+   function PolarPoint(data) {
+      _classCallCheck(this, PolarPoint);
+
+      this._data = data;
+      var locationArr = data.location.split(" ");
+      this._latLng = {
+         lat: +locationArr[1],
+         lng: +locationArr[0]
+      };
+   }
+
+   _createClass(PolarPoint, [{
+      key: "data",
+      get: function get() {
+         return this._data;
+      }
+   }, {
+      key: "latLng",
+      get: function get() {
+         return this._latLng;
+      }
+   }, {
+      key: "id",
+      get: function get() {
+         return this._data.recordId;
+      }
+   }, {
+      key: "x",
+      get: function get() {
+         return this._data.xPolar;
+      }
+   }, {
+      key: "y",
+      get: function get() {
+         return this._data.yPolar;
+      }
+   }, {
+      key: "xy",
+      get: function get() {
+         return { x: this.x, y: this.y };
+      }
+   }]);
+
+   return PolarPoint;
+}();
+"use strict";
+
+{
+   /*
+   Graticule plugin for Leaflet powered maps.
+   */
+   L.Graticule = L.GeoJSON.extend({
+
+      options: {
+         style: {
+            color: '#333',
+            weight: 1
+         },
+         interval: 20
+      },
+
+      initialize: function initialize(options) {
+         L.Util.setOptions(this, options);
+         this._layers = {};
+
+         if (this.options.sphere) {
+            this.addData(this._getFrame());
+         } else {
+            this.addData(this._getGraticule());
+         }
+      },
+
+      _getFrame: function _getFrame() {
+         return {
+            "type": "Polygon",
+            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
+         };
+      },
+
+      _getGraticule: function _getGraticule() {
+         var features = [],
+             interval = this.options.interval;
+
+         // Meridians
+         for (var lng = 0; lng <= 180; lng = lng + interval) {
+            features.push(this._getFeature(this._getMeridian(lng), {
+               "name": lng ? lng.toString() + "° E" : "Prime meridian"
+            }));
+            if (lng !== 0) {
+               features.push(this._getFeature(this._getMeridian(-lng), {
+                  "name": lng.toString() + "° W"
+               }));
+            }
+         }
+
+         // Parallels
+         for (var lat = 0; lat <= 90; lat = lat + interval) {
+            features.push(this._getFeature(this._getParallel(lat), {
+               "name": lat ? lat.toString() + "° N" : "Equator"
+            }));
+            if (lat !== 0) {
+               features.push(this._getFeature(this._getParallel(-lat), {
+                  "name": lat.toString() + "° S"
+               }));
+            }
+         }
+
+         return {
+            "type": "FeatureCollection",
+            "features": features
+         };
+      },
+
+      _getMeridian: function _getMeridian(lng) {
+         lng = this._lngFix(lng);
+         var coords = [];
+         for (var lat = -90; lat <= 90; lat++) {
+            coords.push([lng, lat]);
+         }
+         return coords;
+      },
+
+      _getParallel: function _getParallel(lat) {
+         var coords = [];
+         for (var lng = -180; lng <= 180; lng++) {
+            coords.push([this._lngFix(lng), lat]);
+         }
+         return coords;
+      },
+
+      _getFeature: function _getFeature(coords, prop) {
+         return {
+            "type": "Feature",
+            "geometry": {
+               "type": "LineString",
+               "coordinates": coords
+            },
+            "properties": prop
+         };
+      },
+
+      _lngFix: function _lngFix(lng) {
+         if (lng >= 180) return 179.999999;
+         if (lng <= -180) return -179.999999;
+         return lng;
+      }
+
+   });
+
+   L.graticule = function (options) {
+      return new L.Graticule(options);
+   };
+}
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var MapService = function () {
+      function MapService(p) {
+         _classCallCheck(this, MapService);
+
+         this._promise = p;
+         this._promises = [];
+      }
+
+      _createClass(MapService, [{
+         key: 'getMap',
+         value: function getMap() {
+            if (this.map) {
+               return this._promise.when(this.map);
+            }
+
+            var promise = this._promise.defer();
+            this._promises.push(promise);
+            return promise.promise;
+         }
+      }, {
+         key: 'init',
+         value: function init(div) {
+            // Map resolutions that NASA GIBS specify
+            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
+
+            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
+
+            // The polar projection
+            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
+               resolutions: resolutions,
+               origin: [-30636100, 30636100],
+               bounds: bounds
+            });
+            crs.distance = L.CRS.Earth.distance;
+            crs.R = 6378137;
+            crs.projection.bounds = bounds;
+
+            var map = this.map = L.map(div, {
+               center: [-90, 0],
+               zoom: 2,
+               maxZoom: 8,
+               minZoom: 1,
+               crs: crs
+            });
+
+            // This data is from the "Heroes of the Antarctic"
+            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
+            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
+            var options = {
+               format: "image%2Fpng",
+               tileSize: 256,
+               subdomains: "1234",
+               noWrap: true,
+               continuousWorld: true,
+               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
+            };
+
+            var layer = this.layer = L.tileLayer(template, options);
+
+            // HACK: BEGIN
+            // Leaflet does not yet handle these kind of projections nicely. Monkey
+            // patch the getTileUrl function to ensure requests are within
+            // tile matrix set boundaries.
+            var superGetTileUrl = layer.getTileUrl;
+
+            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
+            var validTiles = {
+               0: { min: 1, max: 2 },
+               1: { min: 3, max: 4 },
+               2: { min: 6, max: 8 },
+               3: { min: 12, max: 16 },
+               4: { min: 24, max: 32 },
+               5: { min: 48, max: 64 },
+               6: { min: 96, max: 129 },
+               7: { min: 192, max: 259 },
+               8: { min: 385, max: 519 }
+            };
+            layer.getTileUrl = function (coords) {
+               var zoom = layer._getZoomForUrl();
+               var max = validTiles[zoom].max;
+               var min = validTiles[zoom].min;
+
+               if (coords.x < min) {
+                  return "";
+               }
+               if (coords.y < min) {
+                  return "";
+               }
+               if (coords.x > max) {
+                  return "";
+               }
+               if (coords.y > max) {
+                  return "";
+               }
+               return superGetTileUrl.call(layer, coords);
+            };
+            // HACK: END
+
+
+            map.addLayer(layer);
+            window.map = map;
+
+            // Module which adds graticule (lat/lng lines)
+            // L.graticule().addTo(map);
+
+            L.control.scale({ imperial: false }).addTo(map);
+
+            L.control.mousePosition({
+               position: "bottomright",
+               emptyString: "",
+               seperator: " ",
+               latFormatter: function latFormatter(lat) {
+                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
+               },
+               lngFormatter: function lngFormatter(lng) {
+                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
+               }
+            }).addTo(map);
+
+            if (this._promises.length) {
+               this._promises.forEach(function (promise) {
+                  return promise.resolve(map);
+               });
+            }
+            this._promises = [];
+         }
+      }]);
+
+      return MapService;
+   }();
+
+   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
+      return {
+         restict: "AE",
+         template: "<div id='mappo'></div>",
+         link: function link(scope) {
+            scope.map = mapService.init("mappo");
+         }
+      };
+   }]).service("mapService", ['$q', function ($q) {
+      var service = new MapService($q);
+      return service;
+   }]);
+}
+'use strict';
+
+{
+   L.Control.MousePosition = L.Control.extend({
+      options: {
+         position: 'bottomleft',
+         separator: ' : ',
+         emptyString: 'Unavailable',
+         lngFirst: false,
+         numDigits: 5,
+         elevGetter: undefined,
+         lngFormatter: undefined,
+         latFormatter: undefined,
+         prefix: ""
+      },
+
+      onAdd: function onAdd(map) {
+         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+         L.DomEvent.disableClickPropagation(this._container);
+         map.on('mousemove', this._onMouseMove, this);
+         this._container.innerHTML = this.options.emptyString;
+         return this._container;
+      },
+
+      onRemove: function onRemove(map) {
+         map.off('mousemove', this._onMouseMove);
+      },
+
+      _onMouseHover: function _onMouseHover() {
+         var info = this._hoverInfo;
+         this._hoverInfo = undefined;
+         this.options.elevGetter(info).then(function (elevStr) {
+            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
+            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
+         }.bind(this));
+      },
+
+      _onMouseMove: function _onMouseMove(e) {
+         var w = e.latlng.wrap();
+         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
+         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+
+         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
+
+         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
+         if (this.options.elevGetter) {
+            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
+            this._hoverInfo = {
+               lat: w.lat,
+               lng: w.lng,
+               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
+            };
+         }
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
+      }
+
+   });
+
+   L.Map.mergeOptions({
+      positionControl: false
+   });
+
+   L.Map.addInitHook(function () {
+      if (this.options.positionControl) {
+         this.positionControl = new L.Control.MousePosition();
+         this.addControl(this.positionControl);
+      }
+   });
+
+   L.control.mousePosition = function (options) {
+      return new L.Control.MousePosition(options);
+   };
+}
+"use strict";
+
+{
+
+   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
+      return {
+         restrict: "AE",
+         scope: {
+            latitude: "="
+         },
+         link: function link(scope) {
+            mapService.getMap().then(function (map) {
+               map.on('zoomend moveend resize', function (e, d) {
+                  console.log("drag/zoom", e, d);
+               });
+            });
+         }
+      };
+   }]);
 }
 'use strict';
 
@@ -2392,809 +3195,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 "use strict";
 
 {
-   /*
-   Graticule plugin for Leaflet powered maps.
-   */
-   L.Graticule = L.GeoJSON.extend({
-
-      options: {
-         style: {
-            color: '#333',
-            weight: 1
-         },
-         interval: 20
-      },
-
-      initialize: function initialize(options) {
-         L.Util.setOptions(this, options);
-         this._layers = {};
-
-         if (this.options.sphere) {
-            this.addData(this._getFrame());
-         } else {
-            this.addData(this._getGraticule());
-         }
-      },
-
-      _getFrame: function _getFrame() {
-         return {
-            "type": "Polygon",
-            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
-         };
-      },
-
-      _getGraticule: function _getGraticule() {
-         var features = [],
-             interval = this.options.interval;
-
-         // Meridians
-         for (var lng = 0; lng <= 180; lng = lng + interval) {
-            features.push(this._getFeature(this._getMeridian(lng), {
-               "name": lng ? lng.toString() + "° E" : "Prime meridian"
-            }));
-            if (lng !== 0) {
-               features.push(this._getFeature(this._getMeridian(-lng), {
-                  "name": lng.toString() + "° W"
-               }));
-            }
-         }
-
-         // Parallels
-         for (var lat = 0; lat <= 90; lat = lat + interval) {
-            features.push(this._getFeature(this._getParallel(lat), {
-               "name": lat ? lat.toString() + "° N" : "Equator"
-            }));
-            if (lat !== 0) {
-               features.push(this._getFeature(this._getParallel(-lat), {
-                  "name": lat.toString() + "° S"
-               }));
-            }
-         }
-
-         return {
-            "type": "FeatureCollection",
-            "features": features
-         };
-      },
-
-      _getMeridian: function _getMeridian(lng) {
-         lng = this._lngFix(lng);
-         var coords = [];
-         for (var lat = -90; lat <= 90; lat++) {
-            coords.push([lng, lat]);
-         }
-         return coords;
-      },
-
-      _getParallel: function _getParallel(lat) {
-         var coords = [];
-         for (var lng = -180; lng <= 180; lng++) {
-            coords.push([this._lngFix(lng), lat]);
-         }
-         return coords;
-      },
-
-      _getFeature: function _getFeature(coords, prop) {
-         return {
-            "type": "Feature",
-            "geometry": {
-               "type": "LineString",
-               "coordinates": coords
-            },
-            "properties": prop
-         };
-      },
-
-      _lngFix: function _lngFix(lng) {
-         if (lng >= 180) return 179.999999;
-         if (lng <= -180) return -179.999999;
-         return lng;
-      }
-
-   });
-
-   L.graticule = function (options) {
-      return new L.Graticule(options);
-   };
-}
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var MapService = function () {
-      function MapService(p) {
-         _classCallCheck(this, MapService);
-
-         this._promise = p;
-         this._promises = [];
-      }
-
-      _createClass(MapService, [{
-         key: 'getMap',
-         value: function getMap() {
-            if (this.map) {
-               return this._promise.when(this.map);
-            }
-
-            var promise = this._promise.defer();
-            this._promises.push(promise);
-            return promise.promise;
-         }
-      }, {
-         key: 'init',
-         value: function init(div) {
-            // Map resolutions that NASA GIBS specify
-            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
-
-            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
-
-            // The polar projection
-            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
-               resolutions: resolutions,
-               origin: [-30636100, 30636100],
-               bounds: bounds
-            });
-            crs.distance = L.CRS.Earth.distance;
-            crs.R = 6378137;
-            crs.projection.bounds = bounds;
-
-            var map = this.map = L.map(div, {
-               center: [-90, 0],
-               zoom: 2,
-               maxZoom: 8,
-               minZoom: 1,
-               crs: crs
-            });
-
-            // This data is from the "Heroes of the Antarctic"
-            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
-            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
-            var options = {
-               format: "image%2Fpng",
-               tileSize: 256,
-               subdomains: "1234",
-               noWrap: true,
-               continuousWorld: true,
-               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
-            };
-
-            var layer = this.layer = L.tileLayer(template, options);
-
-            // HACK: BEGIN
-            // Leaflet does not yet handle these kind of projections nicely. Monkey
-            // patch the getTileUrl function to ensure requests are within
-            // tile matrix set boundaries.
-            var superGetTileUrl = layer.getTileUrl;
-
-            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
-            var validTiles = {
-               0: { min: 1, max: 2 },
-               1: { min: 3, max: 4 },
-               2: { min: 6, max: 8 },
-               3: { min: 12, max: 16 },
-               4: { min: 24, max: 32 },
-               5: { min: 48, max: 64 },
-               6: { min: 96, max: 129 },
-               7: { min: 192, max: 259 },
-               8: { min: 385, max: 519 }
-            };
-            layer.getTileUrl = function (coords) {
-               var zoom = layer._getZoomForUrl();
-               var max = validTiles[zoom].max;
-               var min = validTiles[zoom].min;
-
-               if (coords.x < min) {
-                  return "";
-               }
-               if (coords.y < min) {
-                  return "";
-               }
-               if (coords.x > max) {
-                  return "";
-               }
-               if (coords.y > max) {
-                  return "";
-               }
-               return superGetTileUrl.call(layer, coords);
-            };
-            // HACK: END
-
-
-            map.addLayer(layer);
-            window.map = map;
-
-            // Module which adds graticule (lat/lng lines)
-            // L.graticule().addTo(map);
-
-            L.control.scale({ imperial: false }).addTo(map);
-
-            L.control.mousePosition({
-               position: "bottomright",
-               emptyString: "",
-               seperator: " ",
-               latFormatter: function latFormatter(lat) {
-                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
-               },
-               lngFormatter: function lngFormatter(lng) {
-                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
-               }
-            }).addTo(map);
-
-            if (this._promises.length) {
-               this._promises.forEach(function (promise) {
-                  return promise.resolve(map);
-               });
-            }
-            this._promises = [];
-         }
-      }]);
-
-      return MapService;
-   }();
-
-   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
-      return {
-         restict: "AE",
-         template: "<div id='mappo'></div>",
-         link: function link(scope) {
-            scope.map = mapService.init("mappo");
-         }
-      };
-   }]).service("mapService", ['$q', function ($q) {
-      var service = new MapService($q);
-      return service;
-   }]);
-}
-'use strict';
-
-{
-   L.Control.MousePosition = L.Control.extend({
-      options: {
-         position: 'bottomleft',
-         separator: ' : ',
-         emptyString: 'Unavailable',
-         lngFirst: false,
-         numDigits: 5,
-         elevGetter: undefined,
-         lngFormatter: undefined,
-         latFormatter: undefined,
-         prefix: ""
-      },
-
-      onAdd: function onAdd(map) {
-         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
-         L.DomEvent.disableClickPropagation(this._container);
-         map.on('mousemove', this._onMouseMove, this);
-         this._container.innerHTML = this.options.emptyString;
-         return this._container;
-      },
-
-      onRemove: function onRemove(map) {
-         map.off('mousemove', this._onMouseMove);
-      },
-
-      _onMouseHover: function _onMouseHover() {
-         var info = this._hoverInfo;
-         this._hoverInfo = undefined;
-         this.options.elevGetter(info).then(function (elevStr) {
-            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
-            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
-         }.bind(this));
-      },
-
-      _onMouseMove: function _onMouseMove(e) {
-         var w = e.latlng.wrap();
-         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
-         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
-
-         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
-
-         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
-         if (this.options.elevGetter) {
-            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
-            this._hoverInfo = {
-               lat: w.lat,
-               lng: w.lng,
-               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
-            };
-         }
-         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
-      }
-
-   });
-
-   L.Map.mergeOptions({
-      positionControl: false
-   });
-
-   L.Map.addInitHook(function () {
-      if (this.options.positionControl) {
-         this.positionControl = new L.Control.MousePosition();
-         this.addControl(this.positionControl);
-      }
-   });
-
-   L.control.mousePosition = function (options) {
-      return new L.Control.MousePosition(options);
-   };
-}
-"use strict";
-
-{
-
-   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
-      return {
-         restrict: "AE",
-         scope: {
-            latitude: "="
-         },
-         link: function link(scope) {
-            mapService.getMap().then(function (map) {
-               map.on('zoomend moveend resize', function (e, d) {
-                  console.log("drag/zoom", e, d);
-               });
-            });
-         }
-      };
-   }]);
-}
-"use strict";
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-{
-   angular.module("antarctic.clusters", []).directive("antarcticClusters", ["clusterService", function (clusterService) {
-      return {
-         link: function link() {
-            clusterService.init();
-         }
-      };
-   }]).factory("clusterService", ["$http", "$rootScope", "configService", "flashService", "mapService", function ($http, $rootScope, configService, flashService, mapService) {
-      var service = {
-         showClusters: true,
-         sequence: 0,
-         layer: null,
-         cellSizes: [24, 19, 12, 9, 5, 2.5, 1.2, 1, 1, 1]
-      };
-
-      service.init = function () {
-         var _this = this;
-
-         configService.getConfig("clusters").then(function (config) {
-            mapService.getMap().then(function (map) {
-               _this.map = map;
-               _this.config = config;
-
-               var self = _this;
-               $rootScope.$on('pn.search.complete', movePan);
-               $rootScope.$on('pn.search.start', hideClusters);
-
-               function hideClusters() {
-                  if (self.layer) {
-                     self.flasher = flashService.add("Loading features", null, true);
-                     self.map.removeLayer(self.layer);
-                     self.layer = null;
-                  }
-               }
-
-               function movePan(event, data) {
-                  if (!self.showClusters) {
-                     return;
-                  }
-                  self._refreshClusters(data);
-               }
-            });
-         });
-      };
-
-      // Stage one
-      service._refreshClusters = function (response) {
-         var _this2 = this;
-
-         var count = response.response.numFound;
-
-         var params = Object.assign({}, response.responseHeader.params);
-
-         if (!this.lookup) {
-            var url = "select?q=*:*&fq=xPolar:*&rows=10000&wt=json&" + "fl=location,recordId,authorityId,name,feature,category,group,authority,supplyDate,xPolar,yPolar";
-            $http.get(url).then(function (_ref) {
-               var data = _ref.data;
-
-               _this2.lookup = new PolarLookUp();
-               _this2.lookup.addPoints(data.response.docs);
-
-               _refreshAfterLookup(_this2);
-            });
-         } else {
-            _refreshAfterLookup(this);
-         }
-
-         // Stage 2
-         function _refreshAfterLookup(scope) {
-            var params = Object.assign({}, response.responseHeader.params, { fl: "recordId", rows: 10000 });
-
-            var url = "select?" + Object.keys(params).filter(function (key) {
-               return key.indexOf("facet") !== 0;
-            }).map(function (key) {
-               var obj = params[key];
-               return (Array.isArray(obj) ? obj : [obj]).map(function (item) {
-                  return key + "=" + item;
-               }).join("&");
-            }).join("&");
-
-            mapService.getMap().then(function (map) {
-               $http.get(url).then(function (_ref2) {
-                  var data = _ref2.data;
-
-                  if (scope.layer) {
-                     map.removeLayer(scope.layer);
-                  }
-
-                  var docs = data.response.docs;
-                  var zoom = map.getZoom();
-                  var cellSize = (service.config.cellSizes ? service.config.cellSizes : service.cellSizes)[zoom] * 100000; // Tuned to suit the spacing of clusters on the map
-                  var count = docs.length;
-                  var features = scope.lookup.find(docs.map(function (doc) {
-                     return doc.recordId;
-                  }));
-
-                  if (features.length > 600) {
-                     var polarGrid = new PolarGrid({ cellWidth: cellSize, cellHeight: cellSize });
-                     polarGrid.addPoints(features);
-
-                     var max = Math.max.apply(Math, _toConsumableArray(polarGrid.cells.map(function (cell) {
-                        return cell.length;
-                     })));
-
-                     scope.layer = L.layerGroup(polarGrid.cells.map(function (cell) {
-                        var template = '<div class="leaflet-marker-icon marker-cluster marker-cluster-{size} leaflet-zoom-animated leaflet-interactive" ' + 'tabindex="0" style="transform: translate3d(-8px, -8px, 0px);">' + '<div style="transform: translate3d(-2px, -2px, 0px);"><span>{value}</span></div></div>';
-
-                        var size = "small";
-                        if (cell.length > max * 0.8) {
-                           size = "large";
-                        } else if (cell.length > max * 0.4) {
-                           size = "medium";
-                        }
-
-                        template = template.replace("{size}", size).replace("{value}", cell.length);
-                        return L.marker(cell.weightedLatLng, { icon: L.divIcon({ html: template }) }).on('click', function (event) {
-                           map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
-                        });
-                     })).addTo(map);
-                  } else {
-
-                     var layer = scope.layer = L.layerGroup();
-
-                     features.forEach(function (feature) {
-                        var doc = feature.data;
-                        var latLng = feature.latLng;
-                        var date = new Date(doc.supplyDate);
-                        var dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-
-                        doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " + doc.category + "\ncategory which is in the " + doc.group + " group." + "\nThe authority is " + doc.authority + " and the data was supplied on " + dateStr + "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
-
-                        doc.zIndexOffset = 500;
-
-                        layer.addLayer(L.marker(latLng, doc).on('click', function (event) {
-                           map.setZoomAround(latLng, map.getZoom() + 1);
-                        }));
-                     });
-                     layer.addTo(map);
-                  }
-
-                  if (scope.flasher) {
-                     scope.flasher.remove();
-                  }
-               });
-            });
-         }
-      };
-
-      return service;
-   }]);
-}
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var PolarLookUp = function () {
-   function PolarLookUp() {
-      _classCallCheck(this, PolarLookUp);
-
-      this._points = {};
-   }
-
-   _createClass(PolarLookUp, [{
-      key: "addPoint",
-      value: function addPoint(point) {
-         var polar = new PolarPoint(point);
-         this._points[polar.id] = polar;
-      }
-   }, {
-      key: "addPoints",
-      value: function addPoints(points) {
-         var _this = this;
-
-         points.forEach(function (point) {
-            return _this.addPoint(point);
-         });
-      }
-   }, {
-      key: "find",
-      value: function find(id) {
-         var _this2 = this;
-
-         if (Array.isArray(id)) {
-            return id.map(function (id) {
-               return _this2._points[id];
-            });
-         }
-         return this._points[id];
-      }
-   }, {
-      key: "length",
-      get: function get() {
-         return this._points.keys;
-      }
-   }]);
-
-   return PolarLookUp;
-}();
-
-var PolarGrid = function () {
-   /*
-    "location":"110.55 -66.27777778",
-    "recordId":"AAD_102",
-    "authorityId":"102",
-    "name":"Brown Bay",
-    "feature":"BAY",
-    "category":"WATERBODY",
-    "group":"HYDROLOGY",
-    "authority":"AAD",
-    "supplyDate":"2017-11-03T04:58:25Z",
-    "ll":"110.55 -66.27777778",
-    "xPolar":2447147.8,
-    "yPolar":-917385.9,
-    "_version_":1583131288900993033
-    */
-   function PolarGrid(options) {
-      _classCallCheck(this, PolarGrid);
-
-      this._options = Object.assign({
-         cellWidth: 600000, // 200km
-         cellHeight: 600000, // 200km
-         crs: "EPSG:3031"
-      }, options);
-
-      this._cellMap = {};
-   }
-
-   _createClass(PolarGrid, [{
-      key: "addPoint",
-      value: function addPoint(polar) {
-         var cell = new Cell(this._options);
-         cell.addPoint(polar);
-
-         if (this._cellMap[cell.key]) {
-            this._cellMap[cell.key].addCell(cell);
-         } else {
-            this._cellMap[cell.key] = cell;
-         }
-      }
-   }, {
-      key: "addPoints",
-      value: function addPoints(points) {
-         var _this3 = this;
-
-         points.forEach(function (point) {
-            return _this3.addPoint(point);
-         });
-      }
-   }, {
-      key: "cells",
-      get: function get() {
-         return Object.entries(this._cellMap).map(function (entry) {
-            return entry[1];
-         });
-      }
-   }]);
-
-   return PolarGrid;
-}();
-
-var Cell = function () {
-   function Cell(options) {
-      _classCallCheck(this, Cell);
-
-      this._points = [];
-      this._options = options;
-   }
-
-   _createClass(Cell, [{
-      key: "addPoint",
-      value: function addPoint(point) {
-         // Invalidate cache
-         this._weightedLatLng = this._weightedCenter = null;
-
-         var keyX = Math.floor(point.x / this._options.cellWidth);
-         var keyY = Math.floor(point.y / this._options.cellHeight);
-         var key = keyX + "/" + keyY;
-         if (!this._key) {
-            this.x = keyX;
-            this.y = keyY;
-            this._key = key;
-         }
-
-         if (this._key === key) {
-            this._points.push(point);
-            return true;
-         }
-         return false;
-      }
-   }, {
-      key: "addCell",
-      value: function addCell(cell) {
-         this._points = this._points.concat(cell.points);
-      }
-   }, {
-      key: "length",
-      get: function get() {
-         return this._points.length;
-      }
-   }, {
-      key: "weightedCenter",
-      get: function get() {
-         if (!this._weightedCenter) {
-            this._weightedCenter = {
-               x: (this.x + 0.5) * this._options.cellWidth,
-               y: (this.y + 0.5) * this._options.cellHeight
-            };
-         }
-         return this._weightedCenter;
-      }
-   }, {
-      key: "weightedLatLng",
-      get: function get() {
-         if (!this._weightedLatLng) {
-            var sum = this._points.reduce(function (sum, point) {
-               return { lat: sum.lat + point._latLng.lat, lng: sum.lng + point._latLng.lng };
-            }, { lat: 0, lng: 0 });
-            this._weightedLatLng = {
-               lat: sum.lat / this._points.length,
-               lng: sum.lng / this._points.length
-            };
-         }
-         return this._weightedLatLng;
-      }
-   }, {
-      key: "key",
-      get: function get() {
-         return this._key;
-      }
-   }, {
-      key: "points",
-      get: function get() {
-         return this._points;
-      }
-   }]);
-
-   return Cell;
-}();
-
-var PolarPoint = function () {
-   function PolarPoint(data) {
-      _classCallCheck(this, PolarPoint);
-
-      this._data = data;
-      var locationArr = data.location.split(" ");
-      this._latLng = {
-         lat: +locationArr[1],
-         lng: +locationArr[0]
-      };
-   }
-
-   _createClass(PolarPoint, [{
-      key: "data",
-      get: function get() {
-         return this._data;
-      }
-   }, {
-      key: "latLng",
-      get: function get() {
-         return this._latLng;
-      }
-   }, {
-      key: "id",
-      get: function get() {
-         return this._data.recordId;
-      }
-   }, {
-      key: "x",
-      get: function get() {
-         return this._data.xPolar;
-      }
-   }, {
-      key: "y",
-      get: function get() {
-         return this._data.yPolar;
-      }
-   }, {
-      key: "xy",
-      get: function get() {
-         return { x: this.x, y: this.y };
-      }
-   }]);
-
-   return PolarPoint;
-}();
-"use strict";
-
-{
-   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
-      return {
-         templateUrl: "panes/panes.html",
-         scope: {
-            defaultItem: "@",
-            data: "="
-         },
-         controller: ['$scope', function ($scope) {
-            var changeSize = false;
-
-            $scope.view = $scope.defaultItem;
-
-            $rootScope.$on('side.panel.change', function (event) {
-               emitter();
-               $timeout(emitter, 100);
-               $timeout(emitter, 200);
-               $timeout(emitter, 300);
-               $timeout(emitter, 500);
-               function emitter() {
-                  var evt = document.createEvent("HTMLEvents");
-                  evt.initEvent("resize", false, true);
-                  window.dispatchEvent(evt);
-               }
-            });
-
-            $scope.setView = function (what) {
-               var oldView = $scope.view;
-               var delay = 0;
-
-               if ($scope.view === what) {
-                  if (what) {
-                     changeSize = true;
-                     delay = 1000;
-                  }
-                  $scope.view = "";
-               } else {
-                  if (!what) {
-                     changeSize = true;
-                  }
-                  $scope.view = what;
-               }
-
-               $rootScope.$broadcast("view.changed", $scope.view, oldView);
-
-               if (changeSize) {
-                  mapService.getMap().then(function (map) {
-                     map._onResize();
-                  });
-               }
-            };
-            $timeout(function () {
-               $rootScope.$broadcast("view.changed", $scope.view, null);
-            }, 50);
-         }]
-      };
-   }]);
-}
-"use strict";
-
-{
 
    angular.module("antarctic.toolbar", []).directive("antarcticToolbar", [function () {
       return {
@@ -3216,19 +3216,19 @@ var PolarPoint = function () {
 }
 angular.module("antarctic.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("australia/australia.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"go()\" title=\"Change to the view of greater Australia\">\r\n   <span>Go to Australia View</span>\r\n</button>");
 $templateCache.put("panes/panes.html","<div class=\"mapContainer\" class=\"col-md-12\" style=\"padding-right:0\">\r\n   <antarctic-maps></antarctic-maps>\r\n</div>");
-$templateCache.put("toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\">\r\n               <li>\r\n                  <australia-view></australia-view>\r\n               </li>\r\n            </ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Search Results\" icon-class=\"fa-list\" title=\"When a search has completed this allows the showing and hiding of the results\">\r\n                        <placenames-results-summary state=\"state\"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li reset-page></li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("side-panel/side-panel-left.html","<div class=\"cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left\" style=\"width: {{left.width}}px;\" ng-class=\"{\'cbp-spmenu-open\': left.active}\">\r\n    <a href=\"\" title=\"Close panel\" ng-click=\"closeLeft()\" style=\"z-index: 1200\">\r\n        <span class=\"glyphicon glyphicon-chevron-left pull-right\"></span>\r\n    </a>\r\n    <div ng-show=\"left.active === \'legend\'\" class=\"left-side-menu-container\">\r\n        <legend url=\"\'img/AustralianTopogaphyLegend.png\'\" title=\"\'Map Legend\'\"></legend>\r\n    </div>\r\n</div>");
 $templateCache.put("side-panel/side-panel-right.html","<div class=\"cbp-spmenu cbp-spmenu-vertical cbp-spmenu-right noPrint\" ng-attr-style=\"width:{{right.width}}\" ng-class=\"{\'cbp-spmenu-open\': right.active}\">\r\n      <a href=\"\" title=\"Close panel\" ng-click=\"closePanel()\" style=\"z-index: 1\">\r\n          <span class=\"glyphicon glyphicon-chevron-right pull-left\"></span>\r\n      </a>\r\n      <div ng-show=\"right.active === \'search\'\" class=\"right-side-menu-container\" style=\"z-index: 2\">\r\n          <div class=\"panesTabContentItem\" placenames-search ></div>\r\n      </div>\r\n      <div ng-if=\"right.active === \'glossary\'\" class=\"right-side-menu-container\">\r\n          <div class=\"panesTabContentItem\" placenames-glossary></div>\r\n      </div>\r\n      <div ng-show=\"right.active === \'help\'\" class=\"right-side-menu-container\">\r\n          <div class=\"panesTabContentItem\" placenames-help></div>\r\n      </div>\r\n  </div>\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+$templateCache.put("toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\">\r\n               <li>\r\n                  <australia-view></australia-view>\r\n               </li>\r\n            </ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Search Results\" icon-class=\"fa-list\" title=\"When a search has completed this allows the showing and hiding of the results\">\r\n                        <placenames-results-summary state=\"state\"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li reset-page></li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("authorities/authorities.html","<div ng-repeat=\"item in authorities\" style=\"width:49%; display:inline-block\">\r\n   <div class=\"ellipsis\" title=\'Jurisdiction: {{item.jurisdiction}}, Authority name: {{item.name}}\'>\r\n      <input type=\"checkbox\" ng-click=\"update()\" ng-model=\"item.selected\" ng-change=\"change()\">\r\n      <span>\r\n         <a target=\"_blank\" href=\"http://www.google.com/search?q={{item.name}}\">{{item.code}}</a>\r\n         ({{(item.allCount | number) + (item.allCount || item.allCount == 0?\' of \':\'\')}}{{item.total | number}})\r\n      </span>\r\n   </div>\r\n</div>");
 $templateCache.put("categories/categories.html","<div>\r\n   <div ng-repeat=\"category in categories | orderBy: \'name\'\" ng-attr-title=\"{{category.definition}}\">\r\n      <input type=\"checkbox\" ng-model=\"category.selected\" ng-change=\"change()\">\r\n      <span title=\"[Group: {{category.parent.name}}], {{category.definition}}\">\r\n         {{category.name}}\r\n         ({{(category.allCount | number) + (category.allCount || category.allCount == 0?\' of \':\'\')}}{{category.total}})\r\n      </span>\r\n      <button class=\"undecorated\" ng-click=\"category.showChildren = !category.showChildren\">\r\n         <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!category.showChildren, \'fa-minus-square-o\': category.showChildren}\"></i>\r\n      </button>\r\n      <div ng-show=\"category.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n         <div>[Group: {{category.parent.name}}]\r\n         <div ng-if=\"category.definition\">{{category.definition}}</div>\r\n         It includes the following feature types:\r\n         <placenames-category-children features=\"category.features\"></placenames-category-children>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("categories/features.html","<div>\n   <div ng-repeat=\"feature in features\" style=\"padding-left:10px\" title=\"{{feature.definition}}\">\n      - {{feature.name}} ({{feature.total}})\n   </div>\n</div>");
 $templateCache.put("contributors/contributors.html","<span class=\"contributors\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" style=\"z-index:1500\"\r\n      ng-class=\"(contributors.show || contributors.ingroup || contributors.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated contributors-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div ng-repeat=\"contributor in contributors.orgs | activeContributors\" style=\"text-align:cnter\">\r\n      <a ng-href=\"{{contributor.href}}\" name=\"contributors{{$index}}\" title=\"{{contributor.title}}\" target=\"_blank\">\r\n         <img ng-src=\"{{contributor.image}}\" alt=\"{{contributor.title}}\" class=\"elvis-logo\" ng-class=\"contributor.class\"></img>\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("contributors/show.html","<a ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" class=\"contributors-link\" title=\"Click to lock/unlock contributors list.\"\r\n      ng-click=\"toggleStick()\" href=\"#contributors0\">Contributors</a>");
 $templateCache.put("download/download.html","<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutCoordSys\">\r\n            Coordinate System\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outCoordSys\" id=\"geoprocessOutCoordSys\"\r\n            ng-options=\"opt.value for opt in outCoordSys\"></select>\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Output Format\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outFormat\" id=\"geoprocessOutputFormat\" ng-options=\"opt.value for opt in processing.config.outFormat\"></select>\r\n      </div>\r\n   </div>\r\n\r\n\r\n   <div class=\"row\" title=\"You can elect to get common data across the authorities or for each authority receive the authorities data per feature\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessDataFieldsCommon\">\r\n            Data fields\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <label for=\"geoprocessDataFieldsCommon\">Common fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"common\" id=\"geoprocessDataFieldsCommon\" name=\"dataFields\" checked=\"checked\">\r\n         <label for=\"geoprocessDataFields\">Authorities\' fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"authorities\" id=\"geoprocessDataFields\" name=\"dataFields\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            File name\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input type=\"text\" ng-model=\"processing.filename\" class=\"download-control\" placeholder=\"Optional filename\" title=\"Alphanumeric, hyphen or dash characters, maximium of 16 characters\">\r\n      </div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Email\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input required=\"required\" type=\"email\" ng-model=\"processing.email\" class=\"download-control\" placeholder=\"Email address to send download link\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <div class=\"progress\">\r\n            <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{{processing.percentComplete}}\" aria-valuemin=\"0\" aria-valuemax=\"100\"\r\n               style=\"width: {{processing.percentComplete}}%;\">\r\n               <span class=\"sr-only\"></span>\r\n            </div>\r\n         </div>\r\n      </div>\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid coordinate system for area.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-file-video-o fa-2x\" ng-class=\"{\'product-valid\': processing.validProjection, \'product-invalid\': !processing.validProjection}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid download format.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-files-o fa-2x\" ng-class=\"{\'product-valid\': processing.validFormat, \'product-invalid\': !processing.validFormat}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Optional custom filename (alphanumeric, max length 8 characters)\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-save fa-2x\" ng-class=\"{\'product-valid\': processing.validFilename, \'product-invalid\': !processing.validFilename}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Provide an email address.\" tooltip-placement=\"bottom\">\r\n            <i class=\"fa fa-envelope fa-2x\" ng-class=\"{\'product-valid\': processing.validEmail, \'product-invalid\': !processing.validEmail}\"></i>\r\n         </span>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n         <button class=\"btn btn-primary pull-right\" ng-disabled=\"!processing.valid\" ng-click=\"submit()\">Submit</button>\r\n      </div>\r\n   </div>\r\n</div>");
-$templateCache.put("filters/tree.html","<div style=\"max-height:300px; overflow-y:auto;padding-left:10px\">\r\n   <div ng-repeat=\"group in groups | withTotals\">\r\n      <button class=\"undecorated\" ng-click=\"group.expanded = !group.expanded\" ng-style=\"{color:group.color}\">\r\n         <i class=\"fa\" ng-class=\"{\'fa-plus\':!group.expanded, \'fa-minus\':group.expanded}\"></i>\r\n      </button>\r\n      <input type=\"checkbox\" class=\"filters-check\" ng-model=\"group.selectExpand\" ng-change=\"change(group)\" ng-style=\"{color:group.color}\">\r\n      <span title=\"{{group.definition}}\">\r\n         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?\' of \':\'\')}}{{group.total | number}})\r\n      </span>\r\n      <div style=\"padding-left:10px\" ng-show=\"group.expanded\">\r\n         <div ng-repeat=\"category in group.categories | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{category.definition}}\">\r\n            <button class=\"undecorated\" ng-click=\"category.expanded = !category.expanded\" ng-style=\"{color:category.color}\">\r\n               <i class=\"fa\" ng-class=\"{\'fa-plus\':!category.expanded, \'fa-minus\':category.expanded}\"></i>\r\n            </button>\r\n            <input class=\"filters-check\" type=\"checkbox\" ng-model=\"category.selectExpand\" ng-change=\"change()\" ng-style=\"{color:category.color}\">\r\n            <span title=\"{{category.definition}}\">\r\n               {{category.name}}\r\n               ({{(category.allCount | number) + (category.allCount || category.allCount == 0?\' of \':\'\')}}{{category.total}})\r\n            </span>\r\n            <div ng-show=\"category.expanded\" style=\"padding-left:20px\">\r\n               <div ng-repeat=\"feature in category.features | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{feature.definition}}\">\r\n                  <i class=\"fa fa-hand-o-right\" aria-hidden=\"true\" ng-style=\"{color:feature.color}\"></i>\r\n                  <input class=\"filters-check\" type=\"checkbox\" ng-model=\"feature.selected\" ng-change=\"change()\" ng-style=\"{color:feature.color}\">\r\n                  <span>\r\n                     {{feature.name}}\r\n                     ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?\' of \':\'\')}}{{feature.total}})\r\n                  </span>\r\n               </div>\r\n            </div>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("features/features.html","<div>\r\n      <div ng-repeat=\"feature in features | orderBy: \'name\'\" title=\"{{feature.definition}}\">\r\n         <input type=\"checkbox\" ng-model=\"feature.selected\" ng-change=\"change()\">\r\n         <span title=\"[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}\">\r\n            {{feature.name}} ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?\' of \':\'\')}}{{feature.total}})\r\n         </span>\r\n         <button class=\"undecorated\" ng-click=\"feature.showChildren = !feature.showChildren\">\r\n            <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!feature.showChildren, \'fa-minus-square-o\': feature.showChildren}\"></i>\r\n         </button>\r\n         <div ng-show=\"feature.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n            <div ng-if=\"feature.definition\">{{feature.definition}}</div>\r\n            [Group/Category: {{feature.parent.parent.name}}/{{feature.parent.name}}]\r\n         </div>\r\n      </div>\r\n   </div>");
 $templateCache.put("groups/category.html","\r\n<div style=\"padding-left:10px\">\r\n   - <span ng-attr-title=\"{{category.definition}}\">{{category.name}}</span>\r\n   <div ng-repeat=\"feature in category.features | orderBy:\'name\'\" style=\"padding-left:10px\">\r\n      - <span ng-attr-title=\"{{feature.definition}}\">{{feature.name}}</span>\r\n   </div>\r\n</div>\r\n");
 $templateCache.put("groups/groups.html","<div>\r\n   <div ng-repeat=\"group in data.groups\">\r\n      <input type=\"checkbox\" ng-model=\"group.selected\" ng-change=\"change()\"><span title=\"{{group.definition}}\">\r\n         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?\' of \':\'\')}}{{group.total | number}})\r\n      <button class=\"undecorated\" ng-click=\"group.showChildren = !group.showChildren\">\r\n         <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!group.showChildren, \'fa-minus-square-o\': group.showChildren}\"></i>\r\n      </button>\r\n      <div ng-show=\"group.showChildren\" style=\"padding-left:8px\">\r\n         {{group.definition}}<br/><br/>\r\n         This group is made up of the following categories and feature types:\r\n         <div ng-repeat=\"category in group.categories\" style=\"padding-left:8px\">\r\n            <placenames-group-children category=\"category\"></placenames-group-children>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
+$templateCache.put("filters/tree.html","<div style=\"max-height:300px; overflow-y:auto;padding-left:10px\">\r\n   <div ng-repeat=\"group in groups | withTotals\">\r\n      <button class=\"undecorated\" ng-click=\"group.expanded = !group.expanded\" ng-style=\"{color:group.color}\">\r\n         <i class=\"fa\" ng-class=\"{\'fa-plus\':!group.expanded, \'fa-minus\':group.expanded}\"></i>\r\n      </button>\r\n      <input type=\"checkbox\" class=\"filters-check\" ng-model=\"group.selectExpand\" ng-change=\"change(group)\" ng-style=\"{color:group.color}\">\r\n      <span title=\"{{group.definition}}\">\r\n         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?\' of \':\'\')}}{{group.total | number}})\r\n      </span>\r\n      <div style=\"padding-left:10px\" ng-show=\"group.expanded\">\r\n         <div ng-repeat=\"category in group.categories | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{category.definition}}\">\r\n            <button class=\"undecorated\" ng-click=\"category.expanded = !category.expanded\" ng-style=\"{color:category.color}\">\r\n               <i class=\"fa\" ng-class=\"{\'fa-plus\':!category.expanded, \'fa-minus\':category.expanded}\"></i>\r\n            </button>\r\n            <input class=\"filters-check\" type=\"checkbox\" ng-model=\"category.selectExpand\" ng-change=\"change()\" ng-style=\"{color:category.color}\">\r\n            <span title=\"{{category.definition}}\">\r\n               {{category.name}}\r\n               ({{(category.allCount | number) + (category.allCount || category.allCount == 0?\' of \':\'\')}}{{category.total}})\r\n            </span>\r\n            <div ng-show=\"category.expanded\" style=\"padding-left:20px\">\r\n               <div ng-repeat=\"feature in category.features | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{feature.definition}}\">\r\n                  <i class=\"fa fa-hand-o-right\" aria-hidden=\"true\" ng-style=\"{color:feature.color}\"></i>\r\n                  <input class=\"filters-check\" type=\"checkbox\" ng-model=\"feature.selected\" ng-change=\"change()\" ng-style=\"{color:feature.color}\">\r\n                  <span>\r\n                     {{feature.name}}\r\n                     ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?\' of \':\'\')}}{{feature.total}})\r\n                  </span>\r\n               </div>\r\n            </div>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n   <div class=\"navbar-header\">\r\n\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n         <span class=\"sr-only\">Toggle navigation</span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n      </button>\r\n\r\n      <a href=\"/\" class=\"appTitle visible-xs\">\r\n         <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n      </a>\r\n   </div>\r\n   <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n         <li class=\"hidden-xs\">\r\n            <a href=\"/\">\r\n               <h1 class=\"applicationTitle\">{{heading}}</h1>\r\n            </a>\r\n         </li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n         <li role=\"menuitem\" style=\"padding-right:10px;position: relative;top: -3px;\">\r\n            <span class=\"altthemes-container\">\r\n               <span>\r\n                  <a title=\"Location INformation Knowledge platform (LINK)\" href=\"http://fsdf.org.au/\" target=\"_blank\">\r\n                     <img alt=\"FSDF\" src=\"placenames/resources/img/FSDFimagev4.0.png\" style=\"height: 66px\">\r\n                  </a>\r\n               </span>\r\n            </span>\r\n         </li>\r\n         <li placenames-navigation role=\"menuitem\" current=\"current\" style=\"padding-right:10px\"></li>\r\n         <li mars-version-display role=\"menuitem\"></li>\r\n         <li style=\"width:10px\"></li>\r\n      </ul>\r\n   </div>\r\n   <!--/.nav-collapse -->\r\n</div>\r\n<div class=\"contributorsLink\" style=\"position: absolute; right:7px; bottom:15px\">\r\n   <placenames-contributors-link></placenames-contributors-link>\r\n</div>\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n   <div class=\"col-md-12\">\r\n      <div class=\"strap-blue\">\r\n      </div>\r\n      <div class=\"strap-white\">\r\n      </div>\r\n      <div class=\"strap-red\">\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
 $templateCache.put("pill/pill.html","<span class=\"btn btn-primary pn-pill\" ng-style=\"item.color?{\'background-color\':item.color, \'padding-top\': \'3px\'}: {\'padding-top\': \'3px\'}\">\r\n   <span style=\"max-width:100px;display:inline-block\" title=\"{{label + item[name]}}\" class=\"ellipsis\">{{item[name]}}</span>\r\n   <span class=\"ellipsis\" style=\"max-width:100px;display:inline-block\">\r\n      ({{item.count?item.count:0 | number}})\r\n      <a ng-click=\"deselect()\" href=\"javascript:void(0)\" title=\"Remove from filters\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");

@@ -159,8 +159,6 @@ class SolrTransformer {
                   this.layer.addLayer(marker);
                });
             } else if (count > 2000) {
-               let flag = count > 50000;
-
                this.layer = L.markerClusterGroup(options);
 
                let data = response.facet_counts.facet_heatmaps[this.config.countField];

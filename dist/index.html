@@ -77,6 +77,7 @@
       <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
       <div ng-if="state.searched" class="placenames-lock"><placenames-lock></placenames-lock></div>
       <div placenames-contributors style="z-index:3"></div>
+      <panel-open-on-event panel-id="search" panel-width="540px" event-name="search.button.fired"></panel-open-on-event>
 
       <div explorer-flash class="noPrint" style="z-index:1500"></div>
       <!-- BEGIN: Sticky Footer -->
