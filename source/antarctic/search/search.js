@@ -168,7 +168,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
                item.count = item.count ? item.count : 0;
             });
          });
-         console.log("TODO apply counts", response);
       });
    }
 

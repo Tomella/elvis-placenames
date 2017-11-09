@@ -199,10 +199,7 @@ class SolrTransformer {
                      console.log("Bailing out as another post has started since this one started");
                      return;
                   }
-                  let layer = this.layer = L.markerClusterGroup({
-                     showCoverageOnHover: false,
-                     disableClusteringAtZoom: count > 600 ? 12 : 4
-                  });
+                  let layer = this.layer = L.layerGroup();
 
                   let docs = result.data.response.docs;
                   docs.forEach(doc => {

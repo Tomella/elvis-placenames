@@ -38,10 +38,12 @@
                      }
 
                      function movePan(event, data) {
-                        if (!self.showClusters) {
-                           return;
+                        if (service.timeout) {
+                           clearTimeout(service.timeout);
                         }
-                        self._refreshClusters(data);
+                        service.timeout = setTimeout(() => {
+                           self._refreshClusters(data);
+                        }, 10);
                      }
                   });
                });
