@@ -21,11 +21,11 @@
 		"helpalttext": "Get help about Positioning"
 	},
 	"placeNames": {
-		"heading": "Explorer Place Names",
-		"headingtitle": "Place Names",
+		"heading": "Explorer Composite Gazetteer of Australia",
+		"headingtitle": "Composite Gazetteer of Australia",
 		"breadcrumbs": [{"name": "ELVIS", "title": "Reload ELVIS - Foundation Spatial Data", "url": "/"}],
-		"helptitle": "Get help about Place Names",
-		"helpalttext": "Get help about Place Names"
+		"helptitle": "Get help about Composite Gazetteer of Australia",
+		"helpalttext": "Get help about Composite Gazetteer of Australia"
 	},
 	"landParcelAndProperty": {
 		"heading": "Explorer Land Parcel and Property",

@@ -63,9 +63,12 @@
             projectsServiceProvider.setProject("placenames");
          }])
 
-      .run(["searchService", function(searchService) {
-         searchService.filtered();
+      .run(["mapService", "searchService", function(mapService, searchService) {
+         mapService.getMap(map => {
+            searchService.filtered();
+         });
       }])
+
       .controller("RootCtrl", RootCtrl)
 
       .filter('bytes', function () {

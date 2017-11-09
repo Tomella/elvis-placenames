@@ -2,6 +2,8 @@
    class RootCtrl {
       constructor(configService, mapService) {
          mapService.getMap().then(map => {
+            // TODO: Remove this hack when we rewrite the map library.
+            map.fitBounds([[-9.622414142924805, 196.61132812500003], [-55.57834467218206, 67.06054687500001]]);
             this.map = map;
          });
          configService.getConfig().then(data => {
@@ -83,20 +85,20 @@
          };
       })
 
-		.factory("userService", [function () {
-			return {
-				login: noop,
-				hasAcceptedTerms: noop,
-				setAcceptedTerms: noop,
-				getUsername: function () {
-					return "anon";
-				}
-			};
-			function noop() { return true; }
-		}]);
+      .factory("userService", [function () {
+         return {
+            login: noop,
+            hasAcceptedTerms: noop,
+            setAcceptedTerms: noop,
+            getUsername: function () {
+               return "anon";
+            }
+         };
+         function noop() { return true; }
+      }]);
 
 
-// A couple of polyfills for ie11
+   // A couple of polyfills for ie11
    if (!('every' in Array.prototype)) {
       Array.prototype.every = function (tester, that /*opt*/) {
          for (let i = 0, n = this.length; i < n; i++)
