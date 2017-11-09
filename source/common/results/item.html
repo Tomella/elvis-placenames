@@ -6,8 +6,8 @@
                 tooltip-append-to-body="true" title="Zoom to location and mark." tooltip-placement="left" uib-tooltip="Zoom to location and mark">
             <i class="fa fa-lg fa-flag-o"></i>
          </button>
-         <span><a ng-href="{{vm.item | placenamesGoogleLink}}" target="_google"
-            title="View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.">{{vm.item.name}}</a></span>
+         <span><placenames-google-anchor item="vm.item"
+            link-title="View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data."></placenames-google-anchor></span>
          <span class="pull-right">Record ID: {{vm.item.authorityId}}</span>
       </div>
    </div>

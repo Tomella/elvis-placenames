@@ -1168,10 +1168,6 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
-.leaflet-div-icon {
-  background-color: transparent;
-  border: none;
-}
 .leaflet-container .leaflet-control-mouseposition {
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 5px #bbb;
@@ -1187,6 +1183,10 @@ input.ng-valid.ng-touched {
 
 #mappo {
   height: 100%;
+}
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
 }
 .placenames-toolbar {
   position: fixed;
