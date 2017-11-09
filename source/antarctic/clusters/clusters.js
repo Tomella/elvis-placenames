@@ -131,12 +131,13 @@
                                  "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
 
                               doc.zIndexOffset = 500;
-                              doc.radius = 2;
+                              doc.icon = declusteredIcon;
 
                               let marker;
                               if (features.length > 50) {
                                  marker = L.marker(latLng, doc);
                               } else {
+                                 doc.radius = 2;
                                  marker = L.circleMarker(latLng, doc);
                                  layer.addLayer(marker);
                                  marker = L.marker(latLng,

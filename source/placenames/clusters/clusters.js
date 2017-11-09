@@ -158,6 +158,10 @@ class SolrTransformer {
                   let marker = L.marker(xy, { count });
                   this.layer.addLayer(marker);
                });
+               if(this.flasher) {
+                  this.flasher.remove();
+               }
+               this.layer.addTo(this.map);
             } else if (count > 2000) {
                this.layer = L.markerClusterGroup(options);
 
@@ -176,6 +180,10 @@ class SolrTransformer {
                      this.layer.addLayer(L.marker(xy));
                   }
                });
+               if(this.flasher) {
+                  this.flasher.remove();
+               }
+               this.layer.addTo(this.map);
             } else {
                let layer = this.layer = L.markerClusterGroup({
                   showCoverageOnHover: false,
@@ -184,8 +192,16 @@ class SolrTransformer {
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;
 
+               // We use this to know when to bail out on slow service calls
+               service.sequence++;
+               let mySequence = service.sequence;
+
                let url = "select?" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
                $http.get(url).then(result => {
+                  if(mySequence !== service.sequence) {
+                     console.log("Bailing out as another post has started since this one started");
+                     return;
+                  }
                   let docs = result.data.response.docs;
                   docs.forEach(doc => {
                      let coords = doc.location.split(" ");
@@ -200,15 +216,25 @@ class SolrTransformer {
                         "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
                      doc.icon = declusteredIcon;
 
-                     let marker = L.marker([+coords[1], +coords[0]], doc);
+                     let marker;
+                     if (docs.length > 50) {
+                        marker = L.marker([+coords[1], +coords[0]], doc);
+                     } else {
+                        doc.radius = 2;
+                        marker = L.circleMarker([+coords[1], +coords[0]], doc);
+                        layer.addLayer(marker);
+                        marker = L.marker([+coords[1], +coords[0]],
+                           {icon:L.divIcon({html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>"})});
+                     }
+
                      layer.addLayer(marker);
+                     if(this.flasher) {
+                        this.flasher.remove();
+                     }
+                     this.layer.addTo(this.map);
                   });
                });
             }
-            if(this.flasher) {
-               this.flasher.remove();
-            }
-            this.layer.addTo(this.map);
          };
 
          return service;
