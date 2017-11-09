@@ -35,11 +35,11 @@
 
          {
             "code": "ESRISHAPE",
-            "value": "Esri Shapefile"
+            "value": "Shapefile"
          },
          {
-            "code": "FILEGDB",
-            "value": "Esri Geodatabase"
+            "code": "GEOJSON",
+            "value": "GeoJSON"
          }
       ],
       "outCoordSys": [
