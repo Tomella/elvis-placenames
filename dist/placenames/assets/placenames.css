@@ -87,32 +87,6 @@ img.elvis-logo {
   right: 7px;
   bottom: 15px;
 }
-.product-invalid {
-  color: red;
-  opacity: 0.6;
-}
-
-.product-valid {
-  color: green;
-}
-
-.download-control {
-  display: block;
-  width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.download-control::placeholder {
-  color: #ccc;
-}
 /* Base for label styling */
 
 .filters-check:not(:checked),
@@ -191,6 +165,32 @@ img.elvis-logo {
 .filters-check:checked:focus + label:before,
 .filters-check:not(:checked):focus + label:before {
   border: 2px dotted blue;
+}
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
 }
 .nav-icons {
   margin-top: 7px !important;
@@ -656,65 +656,6 @@ img.elvis-logo {
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
 }
-.about {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 178px;
-  right: 12px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about div {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about.transitioned-up div {
-  height: 0;
-}
-
-.about.transitioned-up .about-unstick {
-  display: none;
-}
-
-.about.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.about.transitioned-up div {
-  display: none;
-}
-
-.about-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.about-link {
-  font-weight: bold;
-}
-
-.aboutHeading {
-  font-weight: bold;
-  padding-bottom: 5px;
-}
 body {
   overflow-y: hidden;
 }
@@ -961,6 +902,65 @@ input.ng-valid.ng-touched {
 .placenames-lock i.fa {
   color: #337ab7;
   font-size: 3em;
+}
+.about {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
+  position: fixed;
+  top: 178px;
+  right: 12px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about div {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about.transitioned-up div {
+  height: 0;
+}
+
+.about.transitioned-up .about-unstick {
+  display: none;
+}
+
+.about.transitioned-down {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.about.transitioned-up div {
+  display: none;
+}
+
+.about-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.about-link {
+  font-weight: bold;
+}
+
+.aboutHeading {
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 .placenamesTabs {
   position: absolute;

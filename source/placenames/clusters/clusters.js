@@ -70,9 +70,9 @@ class SolrTransformer {
       ["$http", "$rootScope", "configService", "flashService", "mapService",
       function ($http, $rootScope, configService, flashService, mapService) {
          let service = {
-            showClusters: true,
             sequence: 0,
-            layer: null
+            layer: null,
+            timeout: null
          };
 
          service.init = function () {
@@ -94,10 +94,12 @@ class SolrTransformer {
                   }
 
                   function movePan(event, data) {
-                     if (!self.showClusters) {
-                        return;
+                     if (service.timeout) {
+                        clearTimeout(service.timeout);
                      }
-                     self._refreshClusters(data);
+                     service.timeout = setTimeout(() => {
+                        self._refreshClusters(data);
+                     }, 10);
                   }
                });
             });
@@ -189,19 +191,19 @@ class SolrTransformer {
                }
                this.layer.addTo(this.map);
             } else {
-               let layer = this.layer = L.markerClusterGroup({
-                  showCoverageOnHover: false,
-                  disableClusteringAtZoom: count > 600 ? 12 : 4
-               });
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;
-
                let url = "select?" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
                $http.get(url).then(result => {
                   if(mySequence !== service.sequence) {
                      console.log("Bailing out as another post has started since this one started");
                      return;
                   }
+                  let layer = this.layer = L.markerClusterGroup({
+                     showCoverageOnHover: false,
+                     disableClusteringAtZoom: count > 600 ? 12 : 4
+                  });
+
                   let docs = result.data.response.docs;
                   docs.forEach(doc => {
                      let coords = doc.location.split(" ");
@@ -226,13 +228,17 @@ class SolrTransformer {
                         marker = L.marker([+coords[1], +coords[0]],
                            {icon:L.divIcon({html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>"})});
                      }
-
                      layer.addLayer(marker);
+                  });
+                  try {
+                     layer.addTo(this.map);
+                  } catch(e) {
+                     console.log("What the ");
+                  } finally {
                      if(this.flasher) {
                         this.flasher.remove();
                      }
-                     this.layer.addTo(this.map);
-                  });
+                  }
                });
             }
          };
