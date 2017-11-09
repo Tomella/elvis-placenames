@@ -38,7 +38,7 @@
          crs.projection.bounds = bounds;
 
          let map = this.map = L.map(div, {
-            center: [-90, 0],
+            center: [-70, 90],
             zoom: 2,
             maxZoom: 8,
             minZoom: 1,

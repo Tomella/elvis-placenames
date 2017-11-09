@@ -115,7 +115,6 @@
                            })).addTo(map);
 
                         } else {
-
                            let layer = scope.layer = L.layerGroup();
 
                            features.forEach(feature => {
@@ -132,10 +131,19 @@
                                  "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
 
                               doc.zIndexOffset = 500;
+                              doc.radius = 2;
 
-                              layer.addLayer(L.marker(latLng, doc).on('click', (event) => {
-                                 map.setZoomAround(latLng, map.getZoom() + 1);
-                              }));
+                              let marker;
+                              if (features.length > 50) {
+                                 marker = L.marker(latLng, doc);
+                              } else {
+                                 marker = L.circleMarker(latLng, doc);
+                                 layer.addLayer(marker);
+                                 marker = L.marker(latLng,
+                                    {icon:L.divIcon({html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>"})});
+                              }
+
+                              layer.addLayer(marker);
                            });
                            layer.addTo(map);
                         }

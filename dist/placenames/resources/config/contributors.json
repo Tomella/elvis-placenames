@@ -9,7 +9,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "NSW Government",
       "title": "NSW Land & Property Information",
@@ -21,7 +20,6 @@
       "ccLicence": 3,
       "showText": false
    },
-
    {
       "name": "ACT Government",
       "title": "ACT Government",
@@ -32,7 +30,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "QLD Government",
       "title": "QLD Government",
@@ -43,7 +40,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "TAS Government",
       "title": "TAS Government",
@@ -54,7 +50,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "NT Government",
       "title": "NT Government",
@@ -65,7 +60,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "SA Government",
       "title": "SA Government",
@@ -76,7 +70,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "WA Government",
       "title": "WA Government",
@@ -87,7 +80,16 @@
       "height": 42,
       "showText": false
    },
-
+   {
+      "name": "VIC Government",
+      "title": "VIC Government",
+      "href": "http://www.delwp.vic.gov.au/",
+      "enabled": true,
+      "code": "vic",
+      "image": "placenames/resources/img/Victoria-State-Gov-DELWP-right-pms-2945-rgb.png",
+      "height": 34,
+      "showText": false
+   },
    {
       "name": "ICSM - ANZLIC Committee on Surveying &amp; Mapping",
       "title": "ICSM - ANZLIC Committee on Surveying &amp; Mapping",
@@ -98,7 +100,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "PCPN - Permanent Committee on Place Names",
       "title": "PCPN - Permanent Committee on Place Names",
@@ -109,7 +110,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "FSDF",
       "title": "FSDF",
@@ -120,7 +120,6 @@
       "height": 42,
       "showText": false
    },
-
    {
       "name": "Elevation &amp; Depth",
       "title": "Elevation &amp; Depth",

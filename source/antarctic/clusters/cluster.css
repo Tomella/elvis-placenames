@@ -2,3 +2,26 @@
    background-color: transparent;
    border: none;
 }
+
+.cluster-icon {
+   display: block;
+   background-color: white;
+   border: 1px solid gray;
+   border-radius: 3px;
+   position: absolute;
+   top:5px;
+   left:5px;
+   padding: 5px;
+   max-width:150px;
+   opacity: 0.7;
+}
+
+.clusster-icon:before {
+   content: ' ';
+   height: 0;
+   position: absolute;
+   width: 0;
+   left:10px;
+   border: 10px solid transparent;
+   border-right-color: #DA362A;
+}

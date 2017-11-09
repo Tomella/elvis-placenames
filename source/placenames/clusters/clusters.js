@@ -198,6 +198,7 @@ class SolrTransformer {
                         "\nThe authority is " + doc.authority +
                         " and the data was supplied on " + dateStr +
                         "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
+                     doc.icon = declusteredIcon;
 
                      let marker = L.marker([+coords[1], +coords[0]], doc);
                      layer.addLayer(marker);
