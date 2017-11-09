@@ -41,6 +41,7 @@
       'placenames.download',
       'placenames.extent',
       'placenames.header',
+      'placenames.help',
       'placenames.lock',
       'placenames.maps',
       'placenames.navigation',

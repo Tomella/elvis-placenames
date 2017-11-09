@@ -33,6 +33,7 @@
       'placenames.contributors',
       'placenames.groups',
       'placenames.header',
+      'placenames.help',
       'placenames.lock',
       'placenames.navigation',
       'placenames.proxy',

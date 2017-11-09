@@ -1,16 +1,16 @@
 {
-	angular.module("icsm.help", [])
+	angular.module("placenames.help", [])
 
-		.directive("icsmHelp", [function () {
+		.directive("placenamesHelp", [function () {
 			return {
-				templateUrl: "icsm/help/help.html"
+				templateUrl: "help/help.html"
 			};
 		}])
 
-		.directive("icsmFaqs", [function () {
+		.directive("placenamesFaqs", [function () {
 			return {
 				restrict: "AE",
-				templateUrl: "icsm/help/faqs.html",
+				templateUrl: "help/faqs.html",
 				scope: {
 					faqs: "="
 				},
@@ -26,25 +26,25 @@
 		.factory("helpService", HelpService);
 
 	HelpCtrl.$inject = ['$log', 'helpService'];
-	function HelpCtrl($log, helpService) {
-		var self = this;
-		$log.info("HelpCtrl");
-		helpService.getFaqs().then(function (faqs) {
-			self.faqs = faqs;
-		});
-	}
+}
 
-	HelpService.$inject = ['$http'];
-	function HelpService($http) {
-		var FAQS_SERVICE = "icsm/resources/config/faqs.json";
+function HelpCtrl($log, helpService) {
+   var self = this;
+   $log.info("HelpCtrl");
+   helpService.getFaqs().then(function (faqs) {
+      self.faqs = faqs;
+   });
+}
 
-		return {
-			getFaqs: function () {
-				return $http.get(FAQS_SERVICE, { cache: true }).then(function (response) {
-					return response.data;
-				});
-			}
-		};
-	}
+HelpService.$inject = ['$http'];
+function HelpService($http) {
+   var FAQS_SERVICE = "placenames/resources/config/faqs.json";
 
+   return {
+      getFaqs: function () {
+         return $http.get(FAQS_SERVICE, { cache: true }).then(function (response) {
+            return response.data;
+         });
+      }
+   };
 }

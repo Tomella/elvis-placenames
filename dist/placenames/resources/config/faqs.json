@@ -1,7 +1,27 @@
 [
 	{
 		"key" : "faq1",
-		"question" : "Why aren't there many FAQs yet?",
-		"answer" : "This is a product in the making. Give it time for people to ask the questions."
+		"question" : "Which data can I download as a public user (non-government)?",
+		"answer" : "All users of this portal can download composite gazetteer data which is licensed under Creative Commons."
+	},
+	{
+		"key" : "faq2",
+		"question" : "How much data can I download for free?",
+		"answer" : "Users can download a submitted order for free. There is no limit to the number of orders you can submit."
+	},
+	{
+		"key" : "faq3",
+		"question" : "How do I find out more about the data?",
+		"answer" : "To find out more about the data visit <a href='http://link.fsdf.org.au/fsdf-theme/place-names' target='_blank'>Place Names | The Location Information Knowledge Platform</a>"
+	},
+	{
+		"key" : "faq4",
+		"question" : "What data is available for Australia?",
+		"answer" : "All the authorities have place name data which is aggregated into the Composite Gazetteer of Australia. While the authorities own the data this site seeks to aggregate the data for a composite view"
+	},
+	{
+		"key" : "faq5",
+		"question" : "How do I use the search function?",
+		"answer" : "Searching is over the current view on your map. The bounds of the search are restricted to the bounds of the map. Further filtering can be done by feature name or by expanding the \"Filters...\" where the options are available to filter by group, category and feature and another selection allows you to restrict to authority.<br/>Once you are satisfied with your filtered selections hit the \"Search\" button to list your results with the option to download them in  aformat of your choice"
 	}
 ]
