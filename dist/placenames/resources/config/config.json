@@ -26,7 +26,7 @@
                "http://services.ga.gov.au/site_7/rest/services/NationalMap_Colour_Topographic_Base_World_WM/MapServer/tile/{z}/{y}/{x}",
                 {
                    "minZoom:": 8,
-                   "maxZoom": 22,
+                   "maxZoom": 16,
                    "switch": "topography",
                    "attribution": "Map data © <a target='_blank' href='http://services.ga.gov.au/site_7/rest/services/NationalMap_Colour_Topographic_Base_World_WM/MapServer'>Geoscience Australia</a> and contributors"
                 }
