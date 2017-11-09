@@ -310,7 +310,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             });
 
             data.facetCounts = {};
-            console.log("oth counts", data, summary);
             return data;
          });
       });

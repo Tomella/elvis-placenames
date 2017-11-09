@@ -213,7 +213,6 @@
                         config.groups = config.groups.filter(group => group.total);
                         config.categories = config.categories.filter(category => category.total);
                         config.features = config.features.filter(feature => feature.total);
-                        console.log(config);
                         window.larry = config.groups;
                         return config;
                      });

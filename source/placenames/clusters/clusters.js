@@ -120,6 +120,10 @@ class SolrTransformer {
                animate: false
             };
 
+            // We use this to know when to bail out on slow service calls
+            service.sequence++;
+            let mySequence = service.sequence;
+
             let count = response.response.numFound;
 
             if ( this.layer) {
@@ -191,10 +195,6 @@ class SolrTransformer {
                });
                let params = Object.assign({}, response.responseHeader.params);
                params.rows = count;
-
-               // We use this to know when to bail out on slow service calls
-               service.sequence++;
-               let mySequence = service.sequence;
 
                let url = "select?" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
                $http.get(url).then(result => {

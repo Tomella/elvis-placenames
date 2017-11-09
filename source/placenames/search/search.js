@@ -167,7 +167,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
                item.count = item.count ? item.count : 0;
             });
          });
-         console.log("TODO apply counts", response);
       });
    }
 
@@ -310,7 +309,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             });
 
             data.facetCounts = {};
-            console.log("oth counts", data, summary);
             return data;
          });
       });
