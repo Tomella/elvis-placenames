@@ -13,7 +13,7 @@
       {
          "code": "sign",
          "enabled": false,
-         "label": "Place Names",
+         "label": "Composite Gazetteer of Australia is a ICSM project under the Foundation Spatial Data Framework  to improve the access of data for the Place Names theme.",
          "title": "Cultural and physical features and their associated spatial identifiers, location and extent.",
          "description": "Place Names are the names of cultural and physical features and their associated spatial identifiers, location and extent. Place Names constitute the most commonly used spatial references and can be approved, unapproved, commonly used or historical.",
          "className": "altthemes-sign",
