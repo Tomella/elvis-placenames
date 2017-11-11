@@ -70,38 +70,43 @@
 
                // Stage 2
                function _refreshAfterLookup(scope) {
-                  let params = Object.assign({}, response.responseHeader.params, { fl: "recordId", rows: 10000 });
-
-                  let url = "select?" + Object.keys(params)
-                     .filter(key => key.indexOf("facet") !== 0)
-                     .map(key => {
-                        let obj = params[key];
-                        return (Array.isArray(obj) ? obj : [obj]).map(item => key + "=" + item).join("&");
-                     }).join("&");
 
                   mapService.getMap().then(map => {
-                     $http.get(url).then(({ data }) => {
+                     // The filter is a bit tricky and only applicable here because the polar coordinates are in an array.
+                     let params = {
+                           q: response.responseHeader.params.q,
+                           fl: "recordId",
+                           rows: 10000,
+                           fq: getBounds(map, response.restrict),
+                           wt: "json"
+                        };
+
+                     $http({
+                        url: "/select?",
+                        method: "GET",
+                        params,
+                        cache: false
+                     }).then(({ data }) => {
                         if (scope.layer) {
                            map.removeLayer(scope.layer);
                         }
 
                         let docs = data.response.docs;
                         let zoom = map.getZoom();
-                        let cellSize = (service.config.cellSizes ? service.config.cellSizes: service.cellSizes)[zoom] * 100000; // Tuned to suit the spacing of clusters on the map
+                        let cellSize = (service.config.cellSizes ? service.config.cellSizes : service.cellSizes)[zoom] * 100000; // Tuned to suit the spacing of clusters on the map
                         let count = docs.length;
                         let features = scope.lookup.find(docs.map(doc => doc.recordId));
 
                         if (features.length > 600) {
-                           let polarGrid = new PolarGrid({cellWidth: cellSize, cellHeight: cellSize});
+                           let polarGrid = new PolarGrid({ cellWidth: cellSize, cellHeight: cellSize });
                            polarGrid.addPoints(features);
-
 
                            let max = Math.max(...polarGrid.cells.map(cell => cell.length));
 
                            scope.layer = L.layerGroup(polarGrid.cells.map(cell => {
                               let template = '<div class="leaflet-marker-icon marker-cluster marker-cluster-{size} leaflet-zoom-animated leaflet-interactive" ' +
-                                             'tabindex="0" style="transform: translate3d(-8px, -8px, 0px);">' +
-                                             '<div style="transform: translate3d(-2px, -2px, 0px);"><span>{value}</span></div></div>';
+                                 'tabindex="0" style="transform: translate3d(-8px, -8px, 0px);">' +
+                                 '<div style="transform: translate3d(-2px, -2px, 0px);"><span>{value}</span></div></div>';
 
                               let size = "small";
                               if (cell.length > max * 0.8) {
@@ -111,7 +116,7 @@
                               }
 
                               template = template.replace("{size}", size).replace("{value}", cell.length);
-                              return L.marker(cell.weightedLatLng, {icon: L.divIcon({html:template})}).on('click', (event) => {
+                              return L.marker(cell.weightedLatLng, { icon: L.divIcon({ html: template }) }).on('click', (event) => {
                                  map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
                               });
                            })).addTo(map);
@@ -143,7 +148,7 @@
                                  marker = L.circleMarker(latLng, doc);
                                  layer.addLayer(marker);
                                  marker = L.marker(latLng,
-                                    {icon:L.divIcon({html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>"})});
+                                    { icon: L.divIcon({ html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
                               }
 
                               layer.addLayer(marker);

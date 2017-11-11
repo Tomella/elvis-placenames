@@ -68,13 +68,14 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       persist(params, response) {
          data.persist = {
             params,
-            data: response
+            data: response,
+            bounds: map.getBounds()
          };
-         return mapService.getMap().then(map => data.persist.bounds = map.getBounds());
       },
 
       searched() {
          data.searched = data.persist;
+         data.searched.data.restrict = getEpsg3031Bounds(map);
          this.hide();
       },
 
@@ -108,6 +109,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          "facet.field": "feature"
       };
 
+      service.map = map;
+
       map.on('zoomend moveend resize', update);
 
       function update() {
@@ -131,11 +134,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       return createParams().then(params => {
          params.q = "recordId:" + recordId;
          return run(params).then(response => {
-            return service.persist(params, response).then(function () {
-               decorateCounts(response.facet_counts.facet_fields);
-               $rootScope.$broadcast('pn.search.complete', response);
-               return response;
-            });
+            service.persist(params, response);
+            decorateCounts(response.facet_counts.facet_fields);
+            $rootScope.$broadcast('pn.search.complete', response);
+            return response;
          });
       });
    }
@@ -143,11 +145,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    function filtered() {
       return createParams().then(params => {
          return run(params).then(response => {
-            return service.persist(params, response).then(function () {
-               decorateCounts(response.facet_counts.facet_fields);
-               $rootScope.$broadcast('pn.search.complete', response);
-               return response;
-            });
+            service.persist(params, response);
+            decorateCounts(response.facet_counts.facet_fields);
+            $rootScope.$broadcast('pn.search.complete', response);
+            return response;
          });
       });
    }
@@ -225,7 +226,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          let params = baseParameters();
          let bounds = summary.bounds;
 
-         params.fq = getBounds(bounds);
+         params.fq = getBounds(map);
          params.sort = getSort(bounds);
          params.q = createQText(summary);
 
@@ -348,28 +349,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function getSort(bounds) {
       return "";
-   }
-
-   function getBounds() {
-      var bounds = map.getPixelBounds();
-
-      var sw = map.unproject(bounds.getBottomLeft());
-      var ne = map.unproject(bounds.getTopRight());
-
-      var size = map.getSize();
-      var ne_p = map.options.crs.project(ne);
-      var sw_p = map.options.crs.project(sw);
-
-      return [
-         "xPolar:[" + sw_p.x + " TO " + ne_p.x + "]", // Long
-         "yPolar:[" + sw_p.y + " TO " + ne_p.y + "]"  // Lat
-      ];
-
-      function limitBetween(value, limit) {
-         let sign = value < 0 ? -1 : 1;
-         let acc = Math.abs(value);
-         return sign * (acc < limit ? acc : limit);
-      }
    }
 
    function authBaseParameters() {
