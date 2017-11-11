@@ -56,8 +56,18 @@
             return {
                templateUrl: 'search/quicksearch.html',
                restrict: 'AE',
-               link: function (scope) {
+               link: function (scope, element) {
                   scope.state = searchService.data;
+
+                  element.on('keyup', function keyupHandler(keyEvent) {
+                     if (keyEvent.which === 27) {
+                        keyEvent.stopPropagation();
+                        keyEvent.preventDefault();
+                        scope.$apply(function () {
+                           scope.showFilters = false;
+                        });
+                     }
+                  });
 
                   scope.loadDocs = function () {
                      return searchService.filtered().then(fetched => {
@@ -173,4 +183,4 @@
             return buffer;
          };
       }]);
-   }
+}
