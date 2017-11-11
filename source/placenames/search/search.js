@@ -74,6 +74,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       searched() {
          data.searched = data.persist;
+         data.searched.data.restrict = map.getBounds();
          this.hide();
       },
 
@@ -355,15 +356,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          (bounds.getWest() + dx) +
          ") asc";
    }
-
-   function getBounds(bounds) {
-      return "location:[" +
-         Math.max(bounds.getSouth(), -90) + "," +
-         Math.max(bounds.getWest(), -180) + " TO " +
-         Math.min(bounds.getNorth(), 90) + "," +
-         Math.min(bounds.getEast(), 180) + "]";
-   }
-
 
    function getHeatmapBounds(bounds) {
       return "[" +

@@ -68,178 +68,218 @@ class SolrTransformer {
 
       .factory("placenamesClusterService",
       ["$http", "$rootScope", "configService", "flashService", "mapService",
-      function ($http, $rootScope, configService, flashService, mapService) {
-         let service = {
-            sequence: 0,
-            layer: null,
-            timeout: null
-         };
+         function ($http, $rootScope, configService, flashService, mapService) {
+            const HIGHWATER_MARK = 40000;
+            const MIDWATER_MARK = 600;
+            const LOWWATER_MARK = 50;
 
-         service.init = function () {
-            configService.getConfig("clusters").then(config => {
-               mapService.getMap().then(map => {
-                  this.map = map;
-                  this.config = config;
-
-                  let self = this;
-                  $rootScope.$on('pn.search.complete', movePan);
-                  $rootScope.$on('pn.search.start', hideClusters);
-
-                  function hideClusters() {
-                     if ( self.layer) {
-                        self.flasher  = flashService.add("Loading features", null, true);
-                        self.map.removeLayer( self.layer);
-                        self.layer = null;
-                     }
-                  }
-
-                  function movePan(event, data) {
-                     if (service.timeout) {
-                        clearTimeout(service.timeout);
-                     }
-                     service.timeout = setTimeout(() => {
-                        self._refreshClusters(data);
-                     }, 10);
-                  }
-               });
-            });
-         };
-
-         service._refreshClusters = function (response) {
-
-            let geojsonMarkerOptions = {
-               radius: 8,
-               fillColor: "#ff0000",
-               color: "#000",
-               weight: 1,
-               opacity: 1,
-               fillOpacity: 0.8
-            };
-            let options = {
-               showCoverageOnHover: false,
-               zoomToBoundsOnClick: true,
-               singleMarkerMode: true,
-               animate: false
+            let service = {
+               sequence: 0,
+               layer: null,
+               timeout: null
             };
 
-            // We use this to know when to bail out on slow service calls
-            service.sequence++;
-            let mySequence = service.sequence;
+            service.init = function () {
+               configService.getConfig("clusters").then(config => {
+                  mapService.getMap().then(map => {
+                     this.map = map;
+                     this.config = config;
 
-            let count = response.response.numFound;
+                     let self = this;
+                     $rootScope.$on('pn.search.complete', movePan);
+                     $rootScope.$on('pn.search.start', hideClusters);
 
-            if ( this.layer) {
-               this.map.removeLayer( this.layer);
-            }
-            if (count > 40000) {
-               options.iconCreateFunction = function (cluster) {
-                  let childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
-                  let c = ' marker-cluster-';
-                  if (childCount < 1000) {
-                     c += 'small';
-                  } else if (childCount < 5000) {
-                     c += 'medium';
-                  } else {
-                     c += 'large';
-                  }
-                  return new L.DivIcon({
-                     html: '<div><span>' + childCount + '</span></div>',
-                     className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
+                     function hideClusters() {
+                        if (self.layer) {
+                           self.flasher = flashService.add("Loading features", null, true);
+                           self.map.removeLayer(self.layer);
+                           self.layer = null;
+                        }
+                     }
+
+                     function movePan(event, data) {
+                        if (service.timeout) {
+                           clearTimeout(service.timeout);
+                        }
+                        service.timeout = setTimeout(() => {
+                           self._refreshClusters(data);
+                        }, 10);
+                     }
                   });
+               });
+            };
+
+            service._refreshClusters = function (response) {
+               if (response.restrict && response.response.numFound > MIDWATER_MARK) {
+                  clearTimeout(service.debounce);
+                  service.debounce = setTimeout(() => {
+
+                     let params = Object.assign(
+                        {},
+                        response.responseHeader.params,
+                        {
+                           rows: MIDWATER_MARK,
+                           fq: getBounds(map.getBounds(), response.restrict)
+                        });
+
+                     return $http({
+                        url: "/select?",
+                        params,
+                        method: "get"
+                     }).then(result => {
+                        service._refreshClusters2(result.data);
+                     });
+
+                  }, 200);
+               } else {
+                  return service._refreshClusters2(response);
+               }
+            };
+
+            service._refreshClusters2 = function (response) {
+
+               let geojsonMarkerOptions = {
+                  radius: 8,
+                  fillColor: "#ff0000",
+                  color: "#000",
+                  weight: 1,
+                  opacity: 1,
+                  fillOpacity: 0.8
+               };
+               let options = {
+                  showCoverageOnHover: false,
+                  zoomToBoundsOnClick: true,
+                  singleMarkerMode: true,
+                  animate: false
                };
 
-               this.layer = L.markerClusterGroup(options);
+               // We use this to know when to bail out on slow service calls
+               service.sequence++;
+               let mySequence = service.sequence;
 
-               let data = response.facet_counts.facet_heatmaps[this.config.countField];
-               let worker = new SolrTransformer(data);
-               let result = worker.getGeoJson();
+               let count = response.response.numFound;
 
-               let maxCount = Math.max(...result.features.map(item => item.properties.count));
-
-               worker.cells.forEach(cell => {
-                  let count = cell.properties.count;
-                  let x = cell.geometry.coordinates[1];
-                  let y = cell.geometry.coordinates[0];
-                  let xy = [x, y];
-                  let marker = L.marker(xy, { count });
-                  this.layer.addLayer(marker);
-               });
-               if(this.flasher) {
-                  this.flasher.remove();
+               if (this.layer) {
+                  this.map.removeLayer(this.layer);
                }
-               this.layer.addTo(this.map);
-            } else if (count > 2000) {
-               this.layer = L.markerClusterGroup(options);
-
-               let data = response.facet_counts.facet_heatmaps[this.config.countField];
-               let worker = new SolrTransformer(data);
-               let result = worker.getGeoJson();
-
-               let maxCount = Math.max(...result.features.map(item => item.properties.count));
-
-               worker.cells.forEach(cell => {
-                  let count = cell.properties.count;
-                  let x = cell.geometry.coordinates[1];
-                  let y = cell.geometry.coordinates[0];
-                  let xy = [x, y];
-                  for (let i = 0; i < count; i++) {
-                     this.layer.addLayer(L.marker(xy));
-                  }
-               });
-               if(this.flasher) {
-                  this.flasher.remove();
-               }
-               this.layer.addTo(this.map);
-            } else {
-               let params = Object.assign({}, response.responseHeader.params);
-               params.rows = count;
-               let url = "select?" + Object.keys(params).filter(key => key.indexOf("facet") !== 0).map(key => key + "=" + params[key]).join("&");
-               $http.get(url).then(result => {
-                  if(mySequence !== service.sequence) {
-                     console.log("Bailing out as another post has started since this one started");
-                     return;
-                  }
-                  let layer = this.layer = L.layerGroup();
-
-                  let docs = result.data.response.docs;
-                  docs.forEach(doc => {
-                     let coords = doc.location.split(" ");
-                     let date = new Date(doc.supplyDate);
-                     let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-
-                     doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
-                        doc.category + "\ncategory which is in the " +
-                        doc.group + " group." +
-                        "\nThe authority is " + doc.authority +
-                        " and the data was supplied on " + dateStr +
-                        "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
-                     doc.icon = declusteredIcon;
-
-                     let marker;
-                     if (docs.length > 50) {
-                        marker = L.marker([+coords[1], +coords[0]], doc);
+               if (count > HIGHWATER_MARK) {
+                  options.iconCreateFunction = function (cluster) {
+                     let childCount = cluster.getAllChildMarkers().reduce((sum, value) => sum + value.options.count, 0);
+                     let c = ' marker-cluster-';
+                     if (childCount < 1000) {
+                        c += 'small';
+                     } else if (childCount < 5000) {
+                        c += 'medium';
                      } else {
-                        doc.radius = 2;
-                        marker = L.circleMarker([+coords[1], +coords[0]], doc);
-                        layer.addLayer(marker);
-                        marker = L.marker([+coords[1], +coords[0]],
-                           {icon:L.divIcon({html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>"})});
+                        c += 'large';
                      }
-                     layer.addLayer(marker);
-                  });
-                  try {
-                     layer.addTo(this.map);
-                  } catch(e) {
-                     console.log("What the ");
-                  } finally {
-                     if(this.flasher) {
-                        this.flasher.remove();
-                     }
-                  }
-               });
-            }
-         };
+                     return new L.DivIcon({
+                        html: '<div><span>' + childCount + '</span></div>',
+                        className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
+                     });
+                  };
 
-         return service;
-      }]);
+                  this.layer = L.markerClusterGroup(options);
+
+                  let data = response.facet_counts.facet_heatmaps[this.config.countField];
+                  let worker = new SolrTransformer(data);
+                  let result = worker.getGeoJson();
+
+                  let maxCount = Math.max(...result.features.map(item => item.properties.count));
+
+                  worker.cells.forEach(cell => {
+                     let count = cell.properties.count;
+                     let x = cell.geometry.coordinates[1];
+                     let y = cell.geometry.coordinates[0];
+                     let xy = [x, y];
+                     let marker = L.marker(xy, { count });
+                     this.layer.addLayer(marker);
+                  });
+                  if (this.flasher) {
+                     this.flasher.remove();
+                  }
+                  this.layer.addTo(this.map);
+               } else if (count > MIDWATER_MARK) {
+                  this.layer = L.markerClusterGroup(options);
+
+                  let data = response.facet_counts.facet_heatmaps[this.config.countField];
+                  let worker = new SolrTransformer(data);
+                  let result = worker.getGeoJson();
+
+                  let maxCount = Math.max(...result.features.map(item => item.properties.count));
+
+                  worker.cells.forEach(cell => {
+                     let count = cell.properties.count;
+                     let x = cell.geometry.coordinates[1];
+                     let y = cell.geometry.coordinates[0];
+                     let xy = [x, y];
+                     for (let i = 0; i < count; i++) {
+                        this.layer.addLayer(L.marker(xy));
+                     }
+                  });
+                  if (this.flasher) {
+                     this.flasher.remove();
+                  }
+                  this.layer.addTo(this.map);
+               } else {
+                  let params = {
+                     q: response.responseHeader.params.q,
+                     sort: response.responseHeader.params.sort,
+                     rows: count,
+                     fq: getBounds(map.getBounds(), response.restrict),
+                     wt: "json"
+                  };
+
+                  $http({
+                     url: "/select?",
+                     params,
+                     method: "get"
+                  }).then(result => {
+                     if (mySequence !== service.sequence) {
+                        console.log("Bailing out as another post has started since this one started");
+                        return;
+                     }
+                     let layer = this.layer = L.layerGroup();
+
+                     let docs = result.data.response.docs;
+                     docs.forEach(doc => {
+                        let coords = doc.location.split(" ");
+                        let date = new Date(doc.supplyDate);
+                        let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+
+                        doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
+                           doc.category + "\ncategory which is in the " +
+                           doc.group + " group." +
+                           "\nThe authority is " + doc.authority +
+                           " and the data was supplied on " + dateStr +
+                           "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
+                        doc.icon = declusteredIcon;
+
+                        let marker;
+                        if (docs.length > LOWWATER_MARK) {
+                           marker = L.marker([+coords[1], +coords[0]], doc);
+                        } else {
+                           doc.radius = 2;
+                           marker = L.circleMarker([+coords[1], +coords[0]], doc);
+                           layer.addLayer(marker);
+                           marker = L.marker([+coords[1], +coords[0]],
+                              { icon: L.divIcon({ html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
+                        }
+                        layer.addLayer(marker);
+                     });
+                     try {
+                        layer.addTo(this.map);
+                     } catch (e) {
+                        console.log("What the ");
+                     } finally {
+                        if (this.flasher) {
+                           this.flasher.remove();
+                        }
+                     }
+                  });
+               }
+            };
+
+            return service;
+         }]);
 }

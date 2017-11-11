@@ -52,7 +52,7 @@
                timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
             };
          }
-         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
       }
 
    });
