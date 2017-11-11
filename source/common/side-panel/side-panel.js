@@ -121,7 +121,7 @@
                }
                $rootScope.$on(scope.eventName, (event, data) => {
                   let state = panelSideFactory.state[scope.side];
-                  if(state && (!state.active || scope.panelId !== state.name)) {
+                  if(state && (!state.active || scope.panelId !== state.active)) {
                      let params = {
                         width: scope.panelWidth,
                         name: scope.panelId
