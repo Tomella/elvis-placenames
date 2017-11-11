@@ -5,7 +5,7 @@ Exposing placenames or gazetteer data gathered from the various jurisdictions.
 ### What is this repository for? ###
 
 * Client side code to collect user input to farm off to the FME or other bespoke services/
-* Version 0.0.1
+* Version 0.1.0
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up for developement? ###
@@ -67,3 +67,10 @@ Log into your Linux vm and:
 
 It will pull the latest code base in and deploy. It's up to you to manage versioning and the like so take care. Don't forget it doesn't use
 the development server in the current deployment. This project is purely static content once it is deployed.
+
+### Services in production ###
+This project leverages off the Solr instance found under the Gazetteer project and the micro services in the fsdf-elevation project. It does not need any services of its own to run.
+
+All routing to the services is controlled by Apache HTTPD proxy configuration. Look in the [apache configuration project](https://github.com/Tomella/apache-configuration) for examples, particularly the [proxies](https://github.com/Tomella/apache-configuration/blob/master/config/proxies.conf).
+
+The services are replicated in the base server.js in this project but are only needed for development and in turn proxy to real services or are clones of the microservices in the [fsdf-elevation project](https://github.com/Tomella/fsdf-elvis)

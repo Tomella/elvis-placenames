@@ -1,3 +1,6 @@
+/**
+ * This is the all of australia specific implementation of the search service.
+ */
 {
    angular.module("placenames.search.service", [])
 

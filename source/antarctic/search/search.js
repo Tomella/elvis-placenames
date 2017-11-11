@@ -1,3 +1,8 @@
+/**
+ * This is the antarctic specific implementation of the search service. There are quite a few changes to cope with
+ * the EPSG:3031 projection
+ */
+
 {
    angular.module("antarctic.search", [])
 

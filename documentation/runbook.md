@@ -157,7 +157,8 @@ Occasional scanning of logs for suspicious activiy.
 
 ### Configuration management
 
-All configuration is done through the suite of JSON files maintained in the `resources` directory. The main configuration file is `config.json'
+All configuration is done through the suite of JSON files maintained in the `resources` directory. The main configuration file is `config.json'.
+There is an exception for batch jobs, some properties are sensitive so are exposed via environment variables and are mentioned above.
 
 ## System backup and restore
 ### Backup requirements
