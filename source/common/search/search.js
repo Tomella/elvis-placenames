@@ -51,15 +51,15 @@
          };
       }])
 
-      .directive("placenamesQuickSearch", ['$rootScope', '$timeout', 'groupsService', 'searchService',
-         function ($rootScope, $timeout, groupsService, searchService) {
+      .directive("placenamesQuickSearch", ['$document', '$rootScope', '$timeout', 'groupsService', 'searchService',
+         function ($document, $rootScope, $timeout, groupsService, searchService) {
             return {
                templateUrl: 'search/quicksearch.html',
                restrict: 'AE',
                link: function (scope, element) {
                   scope.state = searchService.data;
 
-                  element.on('keyup', function keyupHandler(keyEvent) {
+                  $document.on('keyup', function keyupHandler(keyEvent) {
                      if (keyEvent.which === 27) {
                         keyEvent.stopPropagation();
                         keyEvent.preventDefault();
