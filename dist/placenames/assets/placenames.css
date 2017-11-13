@@ -540,6 +540,24 @@ img.elvis-logo {
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
 }
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
+}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -637,24 +655,6 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
-}
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
 }
 .about {
   margin: 2px;
