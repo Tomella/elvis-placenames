@@ -462,13 +462,6 @@ img.elvis-logo {
   color: #fff;
   background-color: #777;
 }
-.pn-pill {
-  padding: 0px 2px;
-  font-size: 12px;
-  line-height: 1.5;
-  border-radius: 3px;
-  margin: 0;
-}
 .quickSearch {
   width: 33em;
 }
@@ -486,6 +479,13 @@ img.elvis-logo {
   opacity: 0.6;
   border-radius: 3px;
   display: inline-block;
+}
+.pn-pill {
+  padding: 0px 2px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+  margin: 0;
 }
 .pn-container {
   overflow-y: auto;

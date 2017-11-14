@@ -40,10 +40,11 @@
       ];
       let maxXy = Math.max(dx, dy);
       let zoom = 2;
-      if(maxXy < 400000) {
-         zoom = 4;
-      } else if(maxXy < 200000) {
+
+      if(maxXy < 200000) {
          zoom = 6;
+      } else if(maxXy < 400000) {
+         zoom = 4;
       }
 
       let centre = proj4("EPSG:3031", "EPSG:4326", [bbox.xMin, bbox.yMin]).reverse();
