@@ -174,7 +174,7 @@ class SolrTransformer {
                         c += 'large';
                      }
                      return new L.DivIcon({
-                        html: '<div><span>' + childCount + '</span></div>',
+                        html: '<div><span>' + Number(childCount).toLocaleString() + '</span></div>',
                         className: 'marker-cluster' + c, iconSize: new L.Point(40, 40)
                      });
                   };
@@ -200,6 +200,24 @@ class SolrTransformer {
                   }
                   this.layer.addTo(this.map);
                } else if (count > MIDWATER_MARK) {
+                  options.iconCreateFunction = function (cluster) {
+                     var childCount = cluster.getChildCount();
+
+                     var c = ' marker-cluster-';
+                     if (childCount < 10) {
+                        c += 'small';
+                     } else if (childCount < 100) {
+                        c += 'medium';
+                     } else {
+                        c += 'large';
+                     }
+
+                     return new L.DivIcon({
+                        html: '<div><span>' + Number(childCount).toLocaleString() + '</span></div>', className: 'marker-cluster' + c,
+                        iconSize: new L.Point(40, 40)
+                     });
+                  };
+
                   this.layer = L.markerClusterGroup(options);
 
                   let data = response.facet_counts.facet_heatmaps[this.config.countField];
