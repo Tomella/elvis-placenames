@@ -12,6 +12,9 @@
    text-align: center;
    -webkit-transition: height 1s; /* Safari */
    transition: height 1s;
+   max-height: 630px;
+   overflow-y: auto;
+   overflow-x: hidden;
 }
 
 .contributors img {
@@ -62,7 +65,7 @@
 }
 
 img.elvis-logo  {
-   height: 75px;
+   height: 72px;
 }
 
 .icsm-logo.last {

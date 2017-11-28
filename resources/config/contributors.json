@@ -87,7 +87,17 @@
       "enabled": true,
       "code": "vic",
       "image": "placenames/resources/img/Victoria-State-Gov-DELWP-right-pms-2945-rgb.png",
-      "height": 34,
+      "height": 42,
+      "showText": false
+   },
+   {
+      "name": "Australian Antarctic Division",
+      "title": "Australian Antarctic Division",
+      "href": "http://www.antarctica.gov.au/",
+      "enabled": true,
+      "code": "aad",
+      "image": "placenames/resources/img/AAD_EnvEnergy_stacked.png",
+      "height": 42,
       "showText": false
    },
    {
