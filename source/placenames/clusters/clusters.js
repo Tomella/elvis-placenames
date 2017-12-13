@@ -261,16 +261,18 @@ class SolrTransformer {
 
                      let docs = result.data.response.docs;
                      docs.forEach(doc => {
+                        let popup = ["<table class='cluster-table'>"];
                         let coords = doc.location.split(" ");
                         let date = new Date(doc.supplyDate);
                         let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
-                        doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
-                           doc.category + "\ncategory which is in the " +
-                           doc.group + " group." +
-                           "\nThe authority is " + doc.authority +
-                           " and the data was supplied on " + dateStr +
-                           "\nLat / Lng: " + coords[1] + "° / " + coords[0] + "°";
+                        popup.push("<tr><th>Name </th><td>" + doc.name + "</td></tr>");
+                        popup.push("<tr><th>Feature type </th><td>" + doc.feature + "</td></tr>");
+                        popup.push("<tr><th>Category </th><td>" + doc.category + "</td></tr>");
+                        popup.push("<tr><th>Authority </th><td>" + doc.authority + "</td></tr>");
+                        popup.push("<tr><th>Supply date</th><td>" + dateStr + "</td></tr>");
+                        popup.push("<tr><th>Lat / Lng</th><td>" + coords[1] + "° / " + coords[0] + "°</td></tr>");
+
                         doc.icon = declusteredIcon;
 
                         let marker;
@@ -281,8 +283,17 @@ class SolrTransformer {
                            marker = L.circleMarker([+coords[1], +coords[0]], doc);
                            layer.addLayer(marker);
                            marker = L.marker([+coords[1], +coords[0]],
-                              { icon: L.divIcon({ html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
+                              { icon: L.divIcon({ html: "<div class='cluster-icon'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
                         }
+
+                        popup.push("</table>")
+                        marker.bindPopup(popup.join(""));
+                        marker.on("mouseover", function() {
+                           this.openPopup();
+                        });
+                        marker.on('mouseout', function (e) {
+                           this.closePopup();
+                        });
                         layer.addLayer(marker);
                      });
                      try {

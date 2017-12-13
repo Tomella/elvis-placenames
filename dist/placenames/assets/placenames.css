@@ -1066,6 +1066,9 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
+.cluster-table th {
+  padding-right: 8px;
+}
 .placenamesTabs {
   position: absolute;
   top: 60px;
