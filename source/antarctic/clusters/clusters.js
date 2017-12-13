@@ -74,12 +74,12 @@
                   mapService.getMap().then(map => {
                      // The filter is a bit tricky and only applicable here because the polar coordinates are in an array.
                      let params = {
-                           q: response.responseHeader.params.q,
-                           fl: "recordId",
-                           rows: 10000,
-                           fq: getBounds(map, response.restrict),
-                           wt: "json"
-                        };
+                        q: response.responseHeader.params.q,
+                        fl: "recordId",
+                        rows: 10000,
+                        fq: getBounds(map, response.restrict),
+                        wt: "json"
+                     };
 
                      $http({
                         url: "/select?",
@@ -125,17 +125,21 @@
                            let layer = scope.layer = L.layerGroup();
 
                            features.forEach(feature => {
+                              let popup = ["<table class='cluster-table'>"];
                               let doc = feature.data;
+                              let coords = doc.location.split(" ");
                               let latLng = feature.latLng;
                               let date = new Date(doc.supplyDate);
                               let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
 
-                              doc.title = '"' + doc.name + "\"is a " + doc.feature + " feature in the " +
-                                 doc.category + "\ncategory which is in the " +
-                                 doc.group + " group." +
-                                 "\nThe authority is " + doc.authority +
-                                 " and the data was supplied on " + dateStr +
-                                 "\nLat / Lng: " + latLng.lat + "° / " + latLng.lng + "°";
+
+                              popup.push("<tr><th>Name </th><td>" + doc.name + "</td></tr>");
+                              popup.push("<tr><th>Feature type </th><td>" + doc.feature + "</td></tr>");
+                              popup.push("<tr><th>Category </th><td>" + doc.category + "</td></tr>");
+                              popup.push("<tr><th>Authority </th><td>" + doc.authority + "</td></tr>");
+                              popup.push("<tr><th>Supply date</th><td>" + dateStr + "</td></tr>");
+                              popup.push("<tr><th>Lat / Lng</th><td>" + coords[1] + "° / " + coords[0] + "°</td></tr>");
+
 
                               doc.zIndexOffset = 500;
                               doc.icon = declusteredIcon;
@@ -148,8 +152,17 @@
                                  marker = L.circleMarker(latLng, doc);
                                  layer.addLayer(marker);
                                  marker = L.marker(latLng,
-                                    { icon: L.divIcon({ html: "<div class='cluster-icon' title='" + doc.title.replace(/\'/g, "&apos;") + "'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
+                                    { icon: L.divIcon({ html: "<div class='cluster-icon'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
                               }
+
+                              popup.push("</table>");
+                              marker.bindPopup(popup.join(""));
+                              marker.on("mouseover", function () {
+                                 this.openPopup();
+                              });
+                              marker.on('mouseout', function (e) {
+                                 this.closePopup();
+                              });
 
                               layer.addLayer(marker);
                            });

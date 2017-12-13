@@ -1,3 +1,104 @@
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+}
+
+.cluster-icon {
+  display: block;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  max-width: 150px;
+  opacity: 0.7;
+}
+
+.clusster-icon:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 10px;
+  border: 10px solid transparent;
+  border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
 .pn-authorities-pills span.btn-primary {
   background-color: red;
 }
@@ -240,6 +341,12 @@ img.elvis-logo {
   .searchBar {
     width: 23em;
   }
+}
+
+.sub-heading {
+  font-size: 120%;
+  padding-left: 15px;
+  margin: 5px;
 }
 .altthemes-icon {
   background: url("../resources/img/dbl_sprites.svg") no-repeat;
@@ -659,64 +766,8 @@ img.elvis-logo {
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
 }
-.about {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 178px;
-  right: 12px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about div {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about.transitioned-up div {
-  height: 0;
-}
-
-.about.transitioned-up .about-unstick {
-  display: none;
-}
-
-.about.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.about.transitioned-up div {
-  display: none;
-}
-
-.about-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.about-link {
-  font-weight: bold;
-}
-
-.aboutHeading {
-  font-weight: bold;
-  padding-bottom: 5px;
+.cluster-table th {
+  padding-right: 8px;
 }
 body {
   overflow-y: hidden;
@@ -965,8 +1016,64 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
-.cluster-table th {
-  padding-right: 8px;
+.about {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
+  position: fixed;
+  top: 178px;
+  right: 12px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about div {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about.transitioned-up div {
+  height: 0;
+}
+
+.about.transitioned-up .about-unstick {
+  display: none;
+}
+
+.about.transitioned-down {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.about.transitioned-up div {
+  display: none;
+}
+
+.about-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.about-link {
+  font-weight: bold;
+}
+
+.aboutHeading {
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 .placenamesTabs {
   position: absolute;
@@ -1115,107 +1222,6 @@ input.ng-valid.ng-touched {
   border-top-width: 0;
   border-bottom-color: #999;
   border-bottom-color: rgba(0, 0, 0, .25);
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
-.leaflet-div-icon {
-  background-color: transparent;
-  border: none;
-}
-
-.cluster-icon {
-  display: block;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 3px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 5px;
-  max-width: 150px;
-  opacity: 0.7;
-}
-
-.clusster-icon:before {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  left: 10px;
-  border: 10px solid transparent;
-  border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;
