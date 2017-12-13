@@ -286,7 +286,7 @@ class SolrTransformer {
                               { icon: L.divIcon({ html: "<div class='cluster-icon'><div class='ellipsis'>" + doc.name + "</div></div>" }) });
                         }
 
-                        popup.push("</table>")
+                        popup.push("</table>");
                         marker.bindPopup(popup.join(""));
                         marker.on("mouseover", function() {
                            this.openPopup();
