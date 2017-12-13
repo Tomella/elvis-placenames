@@ -16,6 +16,7 @@
          let defaults = {
             current: "none",
             heading: "ICSM",
+            subheading: "ICSM",
             headingtitle: "ICSM",
             helpurl: "help.html",
             helptitle: "Get help about ICSM",
@@ -32,6 +33,7 @@
                current: "=",
                breadcrumbs: "=",
                heading: "=",
+               subheading: "=",
                headingtitle: "=",
                helpurl: "=",
                helptitle: "=",

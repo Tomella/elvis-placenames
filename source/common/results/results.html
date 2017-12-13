@@ -11,15 +11,13 @@
       </a>
    </span>
    <span class="pull-right">
-      <a href "javascript:void()" ng-if="!pr.data.searched.item" ng-click="pr.showDownload = !pr.showDownload" tooltip-placement="bottom"
-         uib-tooltip="Package up for download all your search results...">
-         [
+      <button class="btn btn-primary" style="padding:0 10px" ng-click="pr.showDownload = !pr.showDownload">
          <span ng-if="!pr.showDownload">Download...</span>
-         <span ng-if="pr.showDownload">Hide download details</span>]
-      </a>
-      <a href "javascript:void()" ng-if="!pr.data.searched.item" ng-click="pr.clear()" tooltip-placement="bottom" uib-tooltip="Clear search results and search again">
-         [Clear results]
-      </a>
+         <span ng-if="pr.showDownload">Hide download details</span>
+      </button>
+      <button class="btn btn-primary" style="padding:0 10px" ng-if="!pr.data.searched.item && !pr.showDownload" ng-click="pr.clear()">
+         Clear results
+      </button>
    </span>
 </div>
 <div class="panel panel-default pn-container" ng-if="pr.data.searched" common-scroller buffer="200" more="pr.more()">
@@ -45,13 +43,14 @@
       <span class="padding-left:5px">You can apply filters for:</span>
       <div class="well">
          Features matching on partial or like name, groups, categories and features.
+         <br/> You can restrict results to only authorities of interest.
          <br/>
-         You can restrict results to only authorities of interest.
-         <br/><br/>
-         Once you have zoomed, panned and filtered to your desired results
-         hit the search button to list details with the option to fownload in a variety of projections and formats.
-         <br/><br/>
-         <b title="nota bene">NB</b> Name searching is done on "fuzzy" searching which means it isn't always an exact match but a match something like what is typed.
+         <br/> Once you have zoomed, panned and filtered to your desired results hit the search button to list details with the
+         option to fownload in a variety of projections and formats.
+         <br/>
+         <br/>
+         <b title="nota bene">NB</b> Name searching is done on "fuzzy" searching which means it isn't always an exact match but a match something
+         like what is typed.
 
       </div>
       <div>
