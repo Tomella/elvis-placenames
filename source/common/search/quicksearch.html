@@ -6,10 +6,10 @@
          placenames-clear>
 
       <span class="input-group-btn">
-         <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
-         <button class="btn btn-primary" title="Clear the current search and enable discovery" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
          <button class="btn btn-primary" type="button" ng-click="search()" title="Search for all features matching your search criteria"
          ng-hide="state.searched">Search</button>
+         <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
+         <button class="btn btn-primary" title="Clear the current search and enable discovery" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
       </span>
    </div>
 </div>
@@ -18,7 +18,7 @@
       <div class="panel-heading">
          <h4 class="panel-title">
             Filter
-            <span ng-if="summary.current.length">ing</span> by groups/categorie/features...
+            <span ng-if="summary.current.length">ing</span> by groups/categories/features...
          </h4>
       </div>
    </div>
