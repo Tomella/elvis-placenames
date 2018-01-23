@@ -75,17 +75,15 @@
 }
 
 function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapService, searchService) {
-   const ZOOM_IN = 7;
+   const ZOOM_IN = 13;
    let marker;
 
    let service = {
       showPan(what) {
          return this.show(what).then(details => {
             let map = details.map;
-            map.panTo(details.location, { animate: true });
-            if (map.getZoom() < ZOOM_IN) {
-               map.setZoom(ZOOM_IN, { animate: true });
-            }
+            map.setView(details.location, ZOOM_IN, { animate: true });
+
             return details;
          });
       },
