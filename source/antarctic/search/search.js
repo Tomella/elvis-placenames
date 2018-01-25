@@ -251,7 +251,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function createQText(summary) {
       let q = summary.filter;
-      return q ? '*' + q.toLowerCase() : "*:*";
+      return q ? '"' + q.toLowerCase() + '"' : "*:*";
    }
 
    function filteredAuthorities(params) {

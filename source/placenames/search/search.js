@@ -353,7 +353,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    function getSort(bounds) {
       let dx = (bounds.getEast() - bounds.getWest()) / 2;
       let dy = (bounds.getNorth() - bounds.getSouth()) / 2;
-      return "score desc, geodist(ll," +
+      return "geodist(ll," +
          (bounds.getSouth() + dy) +
          "," +
          (bounds.getWest() + dx) +
