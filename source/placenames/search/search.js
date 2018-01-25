@@ -249,7 +249,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    function createQText(summary) {
       let q = summary.filter;
-      return q ? '*' + q.toLowerCase() : "*:*";
+      return q ? '"' + q.toLowerCase() + '"' : "*:*";
    }
 
    function filteredAuthorities(params) {
@@ -353,7 +353,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    function getSort(bounds) {
       let dx = (bounds.getEast() - bounds.getWest()) / 2;
       let dy = (bounds.getNorth() - bounds.getSouth()) / 2;
-      return "geodist(ll," +
+      return "score desc, geodist(ll," +
          (bounds.getSouth() + dy) +
          "," +
          (bounds.getWest() + dx) +

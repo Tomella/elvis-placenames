@@ -131,6 +131,7 @@
                               let latLng = feature.latLng;
                               let date = new Date(doc.supplyDate);
                               let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                              let wasclicked = false;
 
 
                               popup.push("<tr><th>Name </th><td>" + doc.name + "</td></tr>");
@@ -161,7 +162,17 @@
                                  this.openPopup();
                               });
                               marker.on('mouseout', function (e) {
-                                 this.closePopup();
+                                 if(!wasclicked) {
+                                    this.closePopup();
+                                 }
+                              });
+                              marker.on('click', function (e) {
+                                 wasclicked = true;
+                                 this.openPopup();
+                              });
+
+                              marker.on('popupclose', function (e) {
+                                 wasclicked = false;
                               });
 
                               layer.addLayer(marker);

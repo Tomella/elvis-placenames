@@ -1,6 +1,7 @@
 <div class="search-text">
    <div class="input-group input-group-sm">
-      <input type="text" ng-model="state.filter" placeholder="Match by feature name..." ng-model-options="{ debounce: 300}" typeahead-on-select="select($item, $model, $label)"
+      <input type="text" ng-model="state.filter" placeholder="Match by feature name..."
+         ng-model-options="{ debounce: 300}" typeahead-on-select="select($item, $model, $label)"
          ng-disabled="state.searched" typeahead-template-url="search/typeahead.html" class="form-control" typeahead-min-length="0"
          uib-typeahead="doc as doc.name for doc in loadDocs(state.filter)" typeahead-loading="loadingLocations" typeahead-no-results="noResults"
          placenames-clear>

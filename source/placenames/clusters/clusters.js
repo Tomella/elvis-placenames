@@ -265,6 +265,7 @@ class SolrTransformer {
                         let coords = doc.location.split(" ");
                         let date = new Date(doc.supplyDate);
                         let dateStr = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                        let wasclicked = false;
 
                         popup.push("<tr><th>Name </th><td>" + doc.name + "</td></tr>");
                         popup.push("<tr><th>Feature type </th><td>" + doc.feature + "</td></tr>");
@@ -292,7 +293,17 @@ class SolrTransformer {
                            this.openPopup();
                         });
                         marker.on('mouseout', function (e) {
-                           this.closePopup();
+                           if(!wasclicked) {
+                              this.closePopup();
+                           }
+                        });
+                        marker.on('click', function (e) {
+                           wasclicked = true;
+                           this.openPopup();
+                        });
+
+                        marker.on('popupclose', function (e) {
+                           wasclicked = false;
                         });
                         layer.addLayer(marker);
                      });
