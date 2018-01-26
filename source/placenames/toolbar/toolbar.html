@@ -8,14 +8,17 @@
             </ul>
             <ul class="right-toolbar-items">
                 <li>
-                    <panel-trigger panel-id="search" panel-width="540px" name="Search Results" icon-class="fa-list" title="When a search has completed this allows the showing and hiding of the results">
+                    <panel-trigger panel-id="search" panel-width="540px" name="Search results" icon-class="fa-list" title="When a search has completed this allows the showing and hiding of the results">
                         <placenames-results-summary state="state"></placenames-results-summary>
                     </panel-trigger>
                 </li>
+                <li ng-if="state.searched.data.response.numFound">
+                   <placenames-zoom-to-all bounds="state.searched.bounds" text="Show searched area" icon="fa-object-group"></placenames-zoom-to-all>
+                </li>
+                <li reset-page></li>
                 <li>
                   <panel-trigger panel-id="help" panel-width="540px" name="Help" icon-class="fa-question-circle-o" title="Show help"></panel-trigger>
                </li>
-                <li reset-page></li>
             </ul>
         </div>
     </div>

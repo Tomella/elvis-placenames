@@ -12,10 +12,13 @@
                         <placenames-results-summary state="state"></placenames-results-summary>
                     </panel-trigger>
                 </li>
+                <li ng-if="state.searched.data.response.numFound">
+                   <placenames-zoom-to-all center="state.searched.center" zoom="state.searched.zoom" bounds="state.searched.bounds" text="Show searched area" icon="fa-object-group"></placenames-zoom-to-all>
+                </li>
+                <li reset-page></li>
                 <li>
                   <panel-trigger panel-id="help" panel-width="540px" name="Help" icon-class="fa-question-circle-o" title="Show help"></panel-trigger>
                </li>
-                <li reset-page></li>
             </ul>
         </div>
     </div>

@@ -549,6 +549,24 @@ img.elvis-logo {
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
 }
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
+}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -646,86 +664,6 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
-}
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
-}
-.about {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 178px;
-  right: 12px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about div {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about.transitioned-up div {
-  height: 0;
-}
-
-.about.transitioned-up .about-unstick {
-  display: none;
-}
-
-.about.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.about.transitioned-up div {
-  display: none;
-}
-
-.about-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.about-link {
-  font-weight: bold;
-}
-
-.aboutHeading {
-  font-weight: bold;
-  padding-bottom: 5px;
-}
-.cluster-table th {
-  padding-right: 8px;
 }
 body {
   overflow-y: hidden;
@@ -974,43 +912,67 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
+.about {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
+  position: fixed;
+  top: 178px;
+  right: 12px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
 }
 
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
+.about div {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about.transitioned-up div {
+  height: 0;
+}
+
+.about.transitioned-up .about-unstick {
+  display: none;
+}
+
+.about.transitioned-down {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.about.transitioned-up div {
+  display: none;
+}
+
+.about-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.about-link {
+  font-weight: bold;
+}
+
+.aboutHeading {
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+.cluster-table th {
+  padding-right: 8px;
 }
 .placenamesTabs {
   position: absolute;
@@ -1090,6 +1052,44 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
 }
 @media print {
 @page {
@@ -1180,22 +1180,6 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
 .leaflet-div-icon {
   background-color: transparent;
   border: none;
@@ -1222,6 +1206,22 @@ input.ng-valid.ng-touched {
   left: 10px;
   border: 10px solid transparent;
   border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;

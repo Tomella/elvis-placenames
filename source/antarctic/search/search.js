@@ -80,6 +80,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       searched() {
          data.searched = data.persist;
+         data.searched.center = map.getCenter();
+         data.searched.zoom = map.getZoom();
          data.searched.data.restrict = getEpsg3031Bounds(map);
          this.hide();
       },

@@ -1,6 +1,33 @@
 {
    angular.module("placenames.results", ['placenames.results.item', 'placenames.scroll', 'placenames.download'])
 
+      .directive("placenamesZoomToAll", ['mapService', function (mapService) {
+         return {
+            template: '<button type="button" class="map-tool-toggle-btn" ng-click="zoomToAll()" title="{{text}}">' +
+                     '<span class="hidden-sm">{{text}}</span> ' +
+                     '<i class="fa fa-lg {{icon}}"></i>' +
+                     '</button>',
+            scope: {
+               center: "=",
+               zoom: "=",
+               bounds: "=",
+               text: "@",
+               icon: "@"
+            },
+            link: function(scope) {
+               scope.zoomToAll = function() {
+                  mapService.getMap().then(function(map) {
+                     if(scope.center && scope.zoom) {
+                        map.setView(scope.center, scope.zoom);
+                     } else {
+                        map.fitBounds(scope.bounds);
+                     }
+                  });
+               };
+            }
+         };
+      }])
+
       .directive("placenamesResultsSummary", [function () {
          return {
             templateUrl: "results/summary.html",
