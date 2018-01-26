@@ -85,6 +85,18 @@ under the License.
       };
    }]);
 }
+'use strict';
+
+var declusteredIcon = L.icon({
+   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
+   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
+   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
+   iconSize: [16, 25],
+   iconAnchor: [7, 26],
+   popupAnchor: [1, -22],
+   tooltipAnchor: [10, -18],
+   shadowSize: [25, 25]
+});
 "use strict";
 
 {
@@ -109,18 +121,6 @@ under the License.
       };
    }]);
 }
-'use strict';
-
-var declusteredIcon = L.icon({
-   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
-   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
-   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
-   iconSize: [16, 25],
-   iconAnchor: [7, 26],
-   popupAnchor: [1, -22],
-   tooltipAnchor: [10, -18],
-   shadowSize: [25, 25]
-});
 "use strict";
 
 {
@@ -867,6 +867,40 @@ function HelpService($http) {
       };
    }]);
 }
+"use strict";
+
+{
+   angular.module("placenames.proxy", []).provider("proxy", function () {
+
+      this.$get = ['$http', '$q', function ($http, $q) {
+         var base = "proxy/";
+
+         this.setProxyBase = function (newBase) {
+            base = newBase;
+         };
+
+         return {
+            get: function get(url, options) {
+               return this._method("get", url, options);
+            },
+
+            post: function post(url, options) {
+               return this._method("post", url, options);
+            },
+
+            put: function put(url, options) {
+               return this._method("put", url, options);
+            },
+
+            _method: function _method(method, url, options) {
+               return $http[method](base + url, options).then(function (response) {
+                  return response.data;
+               });
+            }
+         };
+      }];
+   });
+}
 'use strict';
 
 {
@@ -1050,40 +1084,6 @@ function HelpService($http) {
       };
    }]);
 }
-"use strict";
-
-{
-   angular.module("placenames.proxy", []).provider("proxy", function () {
-
-      this.$get = ['$http', '$q', function ($http, $q) {
-         var base = "proxy/";
-
-         this.setProxyBase = function (newBase) {
-            base = newBase;
-         };
-
-         return {
-            get: function get(url, options) {
-               return this._method("get", url, options);
-            },
-
-            post: function post(url, options) {
-               return this._method("post", url, options);
-            },
-
-            put: function put(url, options) {
-               return this._method("put", url, options);
-            },
-
-            _method: function _method(method, url, options) {
-               return $http[method](base + url, options).then(function (response) {
-                  return response.data;
-               });
-            }
-         };
-      }];
-   });
-}
 'use strict';
 
 {
@@ -1107,6 +1107,35 @@ function HelpService($http) {
          return items.map(function (item) {
             return item[key] + "(" + item.count + ")";
          }).join(", ");
+      };
+   }]);
+}
+"use strict";
+
+{
+
+   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
+      return {
+         scope: {
+            more: "&",
+            buffer: "=?"
+         },
+         link: function link(scope, element, attrs) {
+            var fetching = void 0;
+            if (!scope.buffer) scope.buffer = 100;
+
+            element.on("scroll", function (event) {
+               var target = event.currentTarget;
+               $timeout.cancel(fetching);
+               fetching = $timeout(bouncer, 120);
+
+               function bouncer() {
+                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
+                     scope.more();
+                  }
+               }
+            });
+         }
       };
    }]);
 }
@@ -1362,35 +1391,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
    };
 
    return service;
-}
-"use strict";
-
-{
-
-   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
-      return {
-         scope: {
-            more: "&",
-            buffer: "=?"
-         },
-         link: function link(scope, element, attrs) {
-            var fetching = void 0;
-            if (!scope.buffer) scope.buffer = 100;
-
-            element.on("scroll", function (event) {
-               var target = event.currentTarget;
-               $timeout.cancel(fetching);
-               fetching = $timeout(bouncer, 120);
-
-               function bouncer() {
-                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
-                     scope.more();
-                  }
-               }
-            });
-         }
-      };
-   }]);
 }
 'use strict';
 
@@ -2078,434 +2078,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }();
    }
 }
-'use strict';
-
-{
-   angular.module('antarctic.australia', []).directive('australiaView', function () {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'australia/australia.html',
-         controller: ['$scope', function ($scope) {
-            $scope.go = function () {
-               window.location = "index.html";
-            };
-         }]
-      };
-   });
-}
-"use strict";
-
-{
-   /*
-   Graticule plugin for Leaflet powered maps.
-   */
-   L.Graticule = L.GeoJSON.extend({
-
-      options: {
-         style: {
-            color: '#333',
-            weight: 1
-         },
-         interval: 20
-      },
-
-      initialize: function initialize(options) {
-         L.Util.setOptions(this, options);
-         this._layers = {};
-
-         if (this.options.sphere) {
-            this.addData(this._getFrame());
-         } else {
-            this.addData(this._getGraticule());
-         }
-      },
-
-      _getFrame: function _getFrame() {
-         return {
-            "type": "Polygon",
-            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
-         };
-      },
-
-      _getGraticule: function _getGraticule() {
-         var features = [],
-             interval = this.options.interval;
-
-         // Meridians
-         for (var lng = 0; lng <= 180; lng = lng + interval) {
-            features.push(this._getFeature(this._getMeridian(lng), {
-               "name": lng ? lng.toString() + "° E" : "Prime meridian"
-            }));
-            if (lng !== 0) {
-               features.push(this._getFeature(this._getMeridian(-lng), {
-                  "name": lng.toString() + "° W"
-               }));
-            }
-         }
-
-         // Parallels
-         for (var lat = 0; lat <= 90; lat = lat + interval) {
-            features.push(this._getFeature(this._getParallel(lat), {
-               "name": lat ? lat.toString() + "° N" : "Equator"
-            }));
-            if (lat !== 0) {
-               features.push(this._getFeature(this._getParallel(-lat), {
-                  "name": lat.toString() + "° S"
-               }));
-            }
-         }
-
-         return {
-            "type": "FeatureCollection",
-            "features": features
-         };
-      },
-
-      _getMeridian: function _getMeridian(lng) {
-         lng = this._lngFix(lng);
-         var coords = [];
-         for (var lat = -90; lat <= 90; lat++) {
-            coords.push([lng, lat]);
-         }
-         return coords;
-      },
-
-      _getParallel: function _getParallel(lat) {
-         var coords = [];
-         for (var lng = -180; lng <= 180; lng++) {
-            coords.push([this._lngFix(lng), lat]);
-         }
-         return coords;
-      },
-
-      _getFeature: function _getFeature(coords, prop) {
-         return {
-            "type": "Feature",
-            "geometry": {
-               "type": "LineString",
-               "coordinates": coords
-            },
-            "properties": prop
-         };
-      },
-
-      _lngFix: function _lngFix(lng) {
-         if (lng >= 180) return 179.999999;
-         if (lng <= -180) return -179.999999;
-         return lng;
-      }
-
-   });
-
-   L.graticule = function (options) {
-      return new L.Graticule(options);
-   };
-}
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var MapService = function () {
-      function MapService(p) {
-         _classCallCheck(this, MapService);
-
-         this._promise = p;
-         this._promises = [];
-      }
-
-      _createClass(MapService, [{
-         key: 'getMap',
-         value: function getMap() {
-            if (this.map) {
-               return this._promise.when(this.map);
-            }
-
-            var promise = this._promise.defer();
-            this._promises.push(promise);
-            return promise.promise;
-         }
-      }, {
-         key: 'init',
-         value: function init(div) {
-            // Map resolutions that NASA GIBS specify
-            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
-
-            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
-
-            // The polar projection
-            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
-               resolutions: resolutions,
-               origin: [-30636100, 30636100],
-               bounds: bounds
-            });
-            crs.distance = L.CRS.Earth.distance;
-            crs.R = 6378137;
-            crs.projection.bounds = bounds;
-
-            var map = this.map = L.map(div, {
-               center: [-70, 90],
-               zoom: 2,
-               maxZoom: 8,
-               minZoom: 1,
-               crs: crs
-            });
-
-            // This data is from the "Heroes of the Antarctic"
-            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
-            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
-            var options = {
-               format: "image%2Fpng",
-               tileSize: 256,
-               subdomains: "1234",
-               noWrap: true,
-               continuousWorld: true,
-               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
-            };
-
-            var layer = this.layer = L.tileLayer(template, options);
-
-            // HACK: BEGIN
-            // Leaflet does not yet handle these kind of projections nicely. Monkey
-            // patch the getTileUrl function to ensure requests are within
-            // tile matrix set boundaries.
-            var superGetTileUrl = layer.getTileUrl;
-
-            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
-            var validTiles = {
-               0: { min: 1, max: 2 },
-               1: { min: 3, max: 4 },
-               2: { min: 6, max: 8 },
-               3: { min: 12, max: 16 },
-               4: { min: 24, max: 32 },
-               5: { min: 48, max: 64 },
-               6: { min: 96, max: 129 },
-               7: { min: 192, max: 259 },
-               8: { min: 385, max: 519 }
-            };
-            layer.getTileUrl = function (coords) {
-               var zoom = layer._getZoomForUrl();
-               var max = validTiles[zoom].max;
-               var min = validTiles[zoom].min;
-
-               if (coords.x < min) {
-                  return "";
-               }
-               if (coords.y < min) {
-                  return "";
-               }
-               if (coords.x > max) {
-                  return "";
-               }
-               if (coords.y > max) {
-                  return "";
-               }
-               return superGetTileUrl.call(layer, coords);
-            };
-            // HACK: END
-
-
-            map.addLayer(layer);
-            window.map = map;
-
-            // Module which adds graticule (lat/lng lines)
-            // L.graticule().addTo(map);
-
-            L.control.scale({ imperial: false }).addTo(map);
-
-            L.control.mousePosition({
-               position: "bottomright",
-               emptyString: "",
-               seperator: " ",
-               latFormatter: function latFormatter(lat) {
-                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
-               },
-               lngFormatter: function lngFormatter(lng) {
-                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
-               }
-            }).addTo(map);
-
-            if (this._promises.length) {
-               this._promises.forEach(function (promise) {
-                  return promise.resolve(map);
-               });
-            }
-            this._promises = [];
-         }
-      }]);
-
-      return MapService;
-   }();
-
-   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
-      return {
-         restict: "AE",
-         template: "<div id='mappo'></div>",
-         link: function link(scope) {
-            scope.map = mapService.init("mappo");
-         }
-      };
-   }]).service("mapService", ['$q', function ($q) {
-      var service = new MapService($q);
-      return service;
-   }]);
-}
-'use strict';
-
-{
-   L.Control.MousePosition = L.Control.extend({
-      options: {
-         position: 'bottomleft',
-         separator: ' : ',
-         emptyString: 'Unavailable',
-         lngFirst: false,
-         numDigits: 5,
-         elevGetter: undefined,
-         lngFormatter: undefined,
-         latFormatter: undefined,
-         prefix: ""
-      },
-
-      onAdd: function onAdd(map) {
-         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
-         L.DomEvent.disableClickPropagation(this._container);
-         map.on('mousemove', this._onMouseMove, this);
-         this._container.innerHTML = this.options.emptyString;
-         return this._container;
-      },
-
-      onRemove: function onRemove(map) {
-         map.off('mousemove', this._onMouseMove);
-      },
-
-      _onMouseHover: function _onMouseHover() {
-         var info = this._hoverInfo;
-         this._hoverInfo = undefined;
-         this.options.elevGetter(info).then(function (elevStr) {
-            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
-            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
-         }.bind(this));
-      },
-
-      _onMouseMove: function _onMouseMove(e) {
-         var w = e.latlng.wrap();
-         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
-         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
-
-         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
-
-         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
-         if (this.options.elevGetter) {
-            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
-            this._hoverInfo = {
-               lat: w.lat,
-               lng: w.lng,
-               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
-            };
-         }
-         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
-      }
-
-   });
-
-   L.Map.mergeOptions({
-      positionControl: false
-   });
-
-   L.Map.addInitHook(function () {
-      if (this.options.positionControl) {
-         this.positionControl = new L.Control.MousePosition();
-         this.addControl(this.positionControl);
-      }
-   });
-
-   L.control.mousePosition = function (options) {
-      return new L.Control.MousePosition(options);
-   };
-}
-"use strict";
-
-{
-
-   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
-      return {
-         restrict: "AE",
-         scope: {
-            latitude: "="
-         },
-         link: function link(scope) {
-            mapService.getMap().then(function (map) {
-               map.on('zoomend moveend resize', function (e, d) {
-                  console.log("drag/zoom", e, d);
-               });
-            });
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
-      return {
-         templateUrl: "panes/panes.html",
-         scope: {
-            defaultItem: "@",
-            data: "="
-         },
-         controller: ['$scope', function ($scope) {
-            var changeSize = false;
-
-            $scope.view = $scope.defaultItem;
-
-            $rootScope.$on('side.panel.change', function (event) {
-               emitter();
-               $timeout(emitter, 100);
-               $timeout(emitter, 200);
-               $timeout(emitter, 300);
-               $timeout(emitter, 500);
-               function emitter() {
-                  var evt = document.createEvent("HTMLEvents");
-                  evt.initEvent("resize", false, true);
-                  window.dispatchEvent(evt);
-               }
-            });
-
-            $scope.setView = function (what) {
-               var oldView = $scope.view;
-               var delay = 0;
-
-               if ($scope.view === what) {
-                  if (what) {
-                     changeSize = true;
-                     delay = 1000;
-                  }
-                  $scope.view = "";
-               } else {
-                  if (!what) {
-                     changeSize = true;
-                  }
-                  $scope.view = what;
-               }
-
-               $rootScope.$broadcast("view.changed", $scope.view, oldView);
-
-               if (changeSize) {
-                  mapService.getMap().then(function (map) {
-                     map._onResize();
-                  });
-               }
-            };
-            $timeout(function () {
-               $rootScope.$broadcast("view.changed", $scope.view, null);
-            }, 50);
-         }]
-      };
-   }]);
-}
 "use strict";
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -2938,6 +2510,434 @@ var PolarPoint = function () {
 
    return PolarPoint;
 }();
+'use strict';
+
+{
+   angular.module('antarctic.australia', []).directive('australiaView', function () {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'australia/australia.html',
+         controller: ['$scope', function ($scope) {
+            $scope.go = function () {
+               window.location = "index.html";
+            };
+         }]
+      };
+   });
+}
+"use strict";
+
+{
+   /*
+   Graticule plugin for Leaflet powered maps.
+   */
+   L.Graticule = L.GeoJSON.extend({
+
+      options: {
+         style: {
+            color: '#333',
+            weight: 1
+         },
+         interval: 20
+      },
+
+      initialize: function initialize(options) {
+         L.Util.setOptions(this, options);
+         this._layers = {};
+
+         if (this.options.sphere) {
+            this.addData(this._getFrame());
+         } else {
+            this.addData(this._getGraticule());
+         }
+      },
+
+      _getFrame: function _getFrame() {
+         return {
+            "type": "Polygon",
+            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
+         };
+      },
+
+      _getGraticule: function _getGraticule() {
+         var features = [],
+             interval = this.options.interval;
+
+         // Meridians
+         for (var lng = 0; lng <= 180; lng = lng + interval) {
+            features.push(this._getFeature(this._getMeridian(lng), {
+               "name": lng ? lng.toString() + "° E" : "Prime meridian"
+            }));
+            if (lng !== 0) {
+               features.push(this._getFeature(this._getMeridian(-lng), {
+                  "name": lng.toString() + "° W"
+               }));
+            }
+         }
+
+         // Parallels
+         for (var lat = 0; lat <= 90; lat = lat + interval) {
+            features.push(this._getFeature(this._getParallel(lat), {
+               "name": lat ? lat.toString() + "° N" : "Equator"
+            }));
+            if (lat !== 0) {
+               features.push(this._getFeature(this._getParallel(-lat), {
+                  "name": lat.toString() + "° S"
+               }));
+            }
+         }
+
+         return {
+            "type": "FeatureCollection",
+            "features": features
+         };
+      },
+
+      _getMeridian: function _getMeridian(lng) {
+         lng = this._lngFix(lng);
+         var coords = [];
+         for (var lat = -90; lat <= 90; lat++) {
+            coords.push([lng, lat]);
+         }
+         return coords;
+      },
+
+      _getParallel: function _getParallel(lat) {
+         var coords = [];
+         for (var lng = -180; lng <= 180; lng++) {
+            coords.push([this._lngFix(lng), lat]);
+         }
+         return coords;
+      },
+
+      _getFeature: function _getFeature(coords, prop) {
+         return {
+            "type": "Feature",
+            "geometry": {
+               "type": "LineString",
+               "coordinates": coords
+            },
+            "properties": prop
+         };
+      },
+
+      _lngFix: function _lngFix(lng) {
+         if (lng >= 180) return 179.999999;
+         if (lng <= -180) return -179.999999;
+         return lng;
+      }
+
+   });
+
+   L.graticule = function (options) {
+      return new L.Graticule(options);
+   };
+}
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var MapService = function () {
+      function MapService(p) {
+         _classCallCheck(this, MapService);
+
+         this._promise = p;
+         this._promises = [];
+      }
+
+      _createClass(MapService, [{
+         key: 'getMap',
+         value: function getMap() {
+            if (this.map) {
+               return this._promise.when(this.map);
+            }
+
+            var promise = this._promise.defer();
+            this._promises.push(promise);
+            return promise.promise;
+         }
+      }, {
+         key: 'init',
+         value: function init(div) {
+            // Map resolutions that NASA GIBS specify
+            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
+
+            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
+
+            // The polar projection
+            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
+               resolutions: resolutions,
+               origin: [-30636100, 30636100],
+               bounds: bounds
+            });
+            crs.distance = L.CRS.Earth.distance;
+            crs.R = 6378137;
+            crs.projection.bounds = bounds;
+
+            var map = this.map = L.map(div, {
+               center: [-70, 90],
+               zoom: 2,
+               maxZoom: 8,
+               minZoom: 1,
+               crs: crs
+            });
+
+            // This data is from the "Heroes of the Antarctic"
+            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
+            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
+            var options = {
+               format: "image%2Fpng",
+               tileSize: 256,
+               subdomains: "1234",
+               noWrap: true,
+               continuousWorld: true,
+               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
+            };
+
+            var layer = this.layer = L.tileLayer(template, options);
+
+            // HACK: BEGIN
+            // Leaflet does not yet handle these kind of projections nicely. Monkey
+            // patch the getTileUrl function to ensure requests are within
+            // tile matrix set boundaries.
+            var superGetTileUrl = layer.getTileUrl;
+
+            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
+            var validTiles = {
+               0: { min: 1, max: 2 },
+               1: { min: 3, max: 4 },
+               2: { min: 6, max: 8 },
+               3: { min: 12, max: 16 },
+               4: { min: 24, max: 32 },
+               5: { min: 48, max: 64 },
+               6: { min: 96, max: 129 },
+               7: { min: 192, max: 259 },
+               8: { min: 385, max: 519 }
+            };
+            layer.getTileUrl = function (coords) {
+               var zoom = layer._getZoomForUrl();
+               var max = validTiles[zoom].max;
+               var min = validTiles[zoom].min;
+
+               if (coords.x < min) {
+                  return "";
+               }
+               if (coords.y < min) {
+                  return "";
+               }
+               if (coords.x > max) {
+                  return "";
+               }
+               if (coords.y > max) {
+                  return "";
+               }
+               return superGetTileUrl.call(layer, coords);
+            };
+            // HACK: END
+
+
+            map.addLayer(layer);
+            window.map = map;
+
+            // Module which adds graticule (lat/lng lines)
+            // L.graticule().addTo(map);
+
+            L.control.scale({ imperial: false }).addTo(map);
+
+            L.control.mousePosition({
+               position: "bottomright",
+               emptyString: "",
+               seperator: " ",
+               latFormatter: function latFormatter(lat) {
+                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
+               },
+               lngFormatter: function lngFormatter(lng) {
+                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
+               }
+            }).addTo(map);
+
+            if (this._promises.length) {
+               this._promises.forEach(function (promise) {
+                  return promise.resolve(map);
+               });
+            }
+            this._promises = [];
+         }
+      }]);
+
+      return MapService;
+   }();
+
+   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
+      return {
+         restict: "AE",
+         template: "<div id='mappo'></div>",
+         link: function link(scope) {
+            scope.map = mapService.init("mappo");
+         }
+      };
+   }]).service("mapService", ['$q', function ($q) {
+      var service = new MapService($q);
+      return service;
+   }]);
+}
+'use strict';
+
+{
+   L.Control.MousePosition = L.Control.extend({
+      options: {
+         position: 'bottomleft',
+         separator: ' : ',
+         emptyString: 'Unavailable',
+         lngFirst: false,
+         numDigits: 5,
+         elevGetter: undefined,
+         lngFormatter: undefined,
+         latFormatter: undefined,
+         prefix: ""
+      },
+
+      onAdd: function onAdd(map) {
+         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+         L.DomEvent.disableClickPropagation(this._container);
+         map.on('mousemove', this._onMouseMove, this);
+         this._container.innerHTML = this.options.emptyString;
+         return this._container;
+      },
+
+      onRemove: function onRemove(map) {
+         map.off('mousemove', this._onMouseMove);
+      },
+
+      _onMouseHover: function _onMouseHover() {
+         var info = this._hoverInfo;
+         this._hoverInfo = undefined;
+         this.options.elevGetter(info).then(function (elevStr) {
+            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
+            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
+         }.bind(this));
+      },
+
+      _onMouseMove: function _onMouseMove(e) {
+         var w = e.latlng.wrap();
+         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
+         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+
+         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
+
+         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
+         if (this.options.elevGetter) {
+            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
+            this._hoverInfo = {
+               lat: w.lat,
+               lng: w.lng,
+               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
+            };
+         }
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
+      }
+
+   });
+
+   L.Map.mergeOptions({
+      positionControl: false
+   });
+
+   L.Map.addInitHook(function () {
+      if (this.options.positionControl) {
+         this.positionControl = new L.Control.MousePosition();
+         this.addControl(this.positionControl);
+      }
+   });
+
+   L.control.mousePosition = function (options) {
+      return new L.Control.MousePosition(options);
+   };
+}
+"use strict";
+
+{
+
+   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
+      return {
+         restrict: "AE",
+         scope: {
+            latitude: "="
+         },
+         link: function link(scope) {
+            mapService.getMap().then(function (map) {
+               map.on('zoomend moveend resize', function (e, d) {
+                  console.log("drag/zoom", e, d);
+               });
+            });
+         }
+      };
+   }]);
+}
+"use strict";
+
+{
+   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
+      return {
+         templateUrl: "panes/panes.html",
+         scope: {
+            defaultItem: "@",
+            data: "="
+         },
+         controller: ['$scope', function ($scope) {
+            var changeSize = false;
+
+            $scope.view = $scope.defaultItem;
+
+            $rootScope.$on('side.panel.change', function (event) {
+               emitter();
+               $timeout(emitter, 100);
+               $timeout(emitter, 200);
+               $timeout(emitter, 300);
+               $timeout(emitter, 500);
+               function emitter() {
+                  var evt = document.createEvent("HTMLEvents");
+                  evt.initEvent("resize", false, true);
+                  window.dispatchEvent(evt);
+               }
+            });
+
+            $scope.setView = function (what) {
+               var oldView = $scope.view;
+               var delay = 0;
+
+               if ($scope.view === what) {
+                  if (what) {
+                     changeSize = true;
+                     delay = 1000;
+                  }
+                  $scope.view = "";
+               } else {
+                  if (!what) {
+                     changeSize = true;
+                  }
+                  $scope.view = what;
+               }
+
+               $rootScope.$broadcast("view.changed", $scope.view, oldView);
+
+               if (changeSize) {
+                  mapService.getMap().then(function (map) {
+                     map._onResize();
+                  });
+               }
+            };
+            $timeout(function () {
+               $rootScope.$broadcast("view.changed", $scope.view, null);
+            }, 50);
+         }]
+      };
+   }]);
+}
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
