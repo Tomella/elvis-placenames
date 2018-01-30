@@ -1,14 +1,14 @@
 <div class="search-text">
    <div class="input-group input-group-sm">
-      <input type="text" ng-model="state.filter" placeholder="Match by feature name..."
-         ng-model-options="{ debounce: 300}" typeahead-on-select="select($item, $model, $label)"
+      <input type="text" ng-model="state.filter" placeholder="Match by feature name..." placenames-on-enter="search()"
+         ng-model-options="{ debounce: 300}" typeahead-on-select="select($item, $model, $label)" typeahead-focus-first="false"
          ng-disabled="state.searched" typeahead-template-url="search/typeahead.html" class="form-control" typeahead-min-length="0"
          uib-typeahead="doc as doc.name for doc in loadDocs(state.filter)" typeahead-loading="loadingLocations" typeahead-no-results="noResults"
          placenames-clear>
 
       <span class="input-group-btn">
          <button class="btn btn-primary" type="button" ng-click="search()" title="Search for all features matching your search criteria"
-         ng-hide="state.searched">Search</button>
+         ng-hide="state.searched" id="placenamesSearchBtn">Search</button>
          <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
          <button class="btn btn-primary" title="Clear the current search and enable discovery" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
       </span>
