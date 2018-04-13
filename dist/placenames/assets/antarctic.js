@@ -85,6 +85,18 @@ under the License.
       };
    }]);
 }
+'use strict';
+
+var declusteredIcon = L.icon({
+   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
+   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
+   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
+   iconSize: [16, 25],
+   iconAnchor: [7, 26],
+   popupAnchor: [1, -22],
+   tooltipAnchor: [10, -18],
+   shadowSize: [25, 25]
+});
 "use strict";
 
 {
@@ -109,18 +121,6 @@ under the License.
       };
    }]);
 }
-'use strict';
-
-var declusteredIcon = L.icon({
-   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
-   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
-   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
-   iconSize: [16, 25],
-   iconAnchor: [7, 26],
-   popupAnchor: [1, -22],
-   tooltipAnchor: [10, -18],
-   shadowSize: [25, 25]
-});
 "use strict";
 
 {
@@ -813,6 +813,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 "use strict";
 
 {
+   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
+      return {
+         scope: {
+            hover: "="
+         },
+         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
+      };
+   }]);
+}
+"use strict";
+
+{
 	angular.module("placenames.help", []).directive("placenamesHelp", [function () {
 		return {
 			templateUrl: "help/help.html"
@@ -854,18 +866,6 @@ function HelpService($http) {
 			});
 		}
 	};
-}
-"use strict";
-
-{
-   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
-      return {
-         scope: {
-            hover: "="
-         },
-         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
-      };
-   }]);
 }
 'use strict';
 
@@ -1022,6 +1022,34 @@ function HelpService($http) {
       return {};
    }]);
 }
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1054,76 +1082,6 @@ function HelpService($http) {
             }
          };
       }];
-   });
-}
-'use strict';
-
-{
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
-      return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
-         scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
-         },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module("placenames.quicksearch", ['placenames.pill']).directive('placenamesQuicksearch', [function () {
-      return {
-         link: function link(scope) {},
-         templateUrl: "quicksearch/quicksearch.html"
-      };
-   }]).directive('placenamesFilteredSummary', ["searchService", function (searchService) {
-      return {
-         scope: {
-            state: "="
-         },
-         templateUrl: "quicksearch/filteredsummary.html",
-         link: function link(scope) {
-            scope.summary = searchService.summary;
-         }
-      };
-   }]).filter("quicksummary", [function () {
-      return function (items, key) {
-         return items.map(function (item) {
-            return item[key] + "(" + item.count + ")";
-         }).join(", ");
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'reset/reset.html',
-         controller: ['$scope', function ($scope) {
-            $scope.reset = function () {
-               $window.location.reload();
-            };
-         }]
-      };
    });
 }
 "use strict";
@@ -1363,6 +1321,48 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
 
    return service;
 }
+'use strict';
+
+{
+   angular.module("placenames.quicksearch", ['placenames.pill']).directive('placenamesQuicksearch', [function () {
+      return {
+         link: function link(scope) {},
+         templateUrl: "quicksearch/quicksearch.html"
+      };
+   }]).directive('placenamesFilteredSummary', ["searchService", function (searchService) {
+      return {
+         scope: {
+            state: "="
+         },
+         templateUrl: "quicksearch/filteredsummary.html",
+         link: function link(scope) {
+            scope.summary = searchService.summary;
+         }
+      };
+   }]).filter("quicksummary", [function () {
+      return function (items, key) {
+         return items.map(function (item) {
+            return item[key] + "(" + item.count + ")";
+         }).join(", ");
+      };
+   }]);
+}
+'use strict';
+
+{
+   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'reset/reset.html',
+         controller: ['$scope', function ($scope) {
+            $scope.reset = function () {
+               $window.location.reload();
+            };
+         }]
+      };
+   });
+}
 "use strict";
 
 {
@@ -1571,53 +1571,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
          buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Feature type: " + model.feature + "</div>";
 
          return buffer;
-      };
-   }]);
-}
-"use strict";
-
-{
-
-   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
-      var project = "elvis.placenames";
-      return {
-         setGlobalItem: function setGlobalItem(key, value) {
-            this._setItem("_system", key, value);
-         },
-
-         setItem: function setItem(key, value) {
-            this._setItem(project, key, value);
-         },
-
-         _setItem: function _setItem(project, key, value) {
-            $log.debug("Fetching state for key locally" + key);
-            localStorage.setItem(project + "." + key, JSON.stringify(value));
-         },
-
-         getGlobalItem: function getGlobalItem(key) {
-            return this._getItem("_system", key);
-         },
-
-         getItem: function getItem(key) {
-            var deferred = $q.defer();
-            this._getItem(project, key).then(function (response) {
-               deferred.resolve(response);
-            });
-            return deferred.promise;
-         },
-
-         _getItem: function _getItem(project, key) {
-            $log.debug("Fetching state locally for key " + key);
-            var item = localStorage.getItem(project + "." + key);
-            if (item) {
-               try {
-                  item = JSON.parse(item);
-               } catch (e) {
-                  // Do nothing as it will be a string
-               }
-            }
-            return $q.when(item);
-         }
       };
    }]);
 }
@@ -1868,6 +1821,53 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       return service;
    }]);
 }
+"use strict";
+
+{
+
+   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
+      var project = "elvis.placenames";
+      return {
+         setGlobalItem: function setGlobalItem(key, value) {
+            this._setItem("_system", key, value);
+         },
+
+         setItem: function setItem(key, value) {
+            this._setItem(project, key, value);
+         },
+
+         _setItem: function _setItem(project, key, value) {
+            $log.debug("Fetching state for key locally" + key);
+            localStorage.setItem(project + "." + key, JSON.stringify(value));
+         },
+
+         getGlobalItem: function getGlobalItem(key) {
+            return this._getItem("_system", key);
+         },
+
+         getItem: function getItem(key) {
+            var deferred = $q.defer();
+            this._getItem(project, key).then(function (response) {
+               deferred.resolve(response);
+            });
+            return deferred.promise;
+         },
+
+         _getItem: function _getItem(project, key) {
+            $log.debug("Fetching state locally for key " + key);
+            var item = localStorage.getItem(project + "." + key);
+            if (item) {
+               try {
+                  item = JSON.parse(item);
+               } catch (e) {
+                  // Do nothing as it will be a string
+               }
+            }
+            return $q.when(item);
+         }
+      };
+   }]);
+}
 'use strict';
 
 {
@@ -2089,6 +2089,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          };
       }();
    }
+}
+'use strict';
+
+{
+   angular.module('antarctic.australia', []).directive('australiaView', function () {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'australia/australia.html',
+         controller: ['$scope', function ($scope) {
+            $scope.go = function () {
+               window.location = "index.html";
+            };
+         }]
+      };
+   });
 }
 "use strict";
 
@@ -2524,19 +2540,398 @@ var PolarPoint = function () {
 }();
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * This is the antarctic specific implementation of the search service. There are quite a few changes to cope with
+ * the EPSG:3031 projection
+ */
+
 {
-   angular.module('antarctic.australia', []).directive('australiaView', function () {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'australia/australia.html',
-         controller: ['$scope', function ($scope) {
-            $scope.go = function () {
-               window.location = "index.html";
-            };
-         }]
+   angular.module("antarctic.search", []).factory('searchService', SearchService);
+
+   SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'groupsService', 'mapService'];
+}
+
+function SearchService($http, $rootScope, $timeout, configService, groupsService, mapService) {
+   var data = {
+      searched: null // Search results
+   };
+
+   var countsMapping = {
+      group: "groups",
+      authority: "authorities",
+      feature: "features",
+      category: "categories"
+   };
+
+   var summary = {};
+   var mapListeners = [];
+
+   var results = void 0;
+   var marker = void 0;
+
+   var service = {
+      onMapUpdate: function onMapUpdate(listener) {
+         mapListeners.push(listener);
+      },
+      offMapUpdate: function offMapUpdate(listener) {
+         delete mapListeners[listener];
+      },
+
+
+      get data() {
+         return data;
+      },
+
+      get summary() {
+         return summary;
+      },
+
+      filtered: function filtered() {
+         return _filtered().then(function (response) {
+            data.filtered = response;
+            var params = response.responseHeader.params;
+            filteredAuthorities(params);
+            filteredCurrent(params);
+            return response;
+         });
+      },
+      request: function request(params) {
+         return _request(params);
+      },
+      search: function search(item) {
+         var _this = this;
+
+         if (item) {
+            select(item.recordId).then(function () {
+               return _this.searched();
+            });
+         } else {
+            this.searched();
+         }
+      },
+      persist: function persist(params, response) {
+         data.persist = {
+            params: params,
+            data: response,
+            bounds: map.getBounds()
+         };
+      },
+      searched: function searched() {
+         data.searched = data.persist;
+         data.searched.center = map.getCenter();
+         data.searched.zoom = map.getZoom();
+         data.searched.data.restrict = getEpsg3031Bounds(map);
+         this.hide();
+      },
+      show: function show(what) {
+         this.hide().then(function (map) {
+            // split lng/lat string seperated by space, reverse to lat/lng, cooerce to numbers
+            var location = what.location.split(" ").reverse().map(function (str) {
+               return +str;
+            });
+            marker = L.popup().setLatLng(location).setContent(what.name + "<br/>Lat/Lng: " + location[0] + "&deg;" + location[1] + "&deg;").openOn(map);
+         });
+      },
+      hide: function hide(what) {
+         return mapService.getMap().then(function (map) {
+            if (marker) {
+               map.removeLayer(marker);
+            }
+            return map;
+         });
+      }
+   };
+
+   mapService.getMap().then(function (map) {
+      var timeout = void 0;
+      var facets = {
+         facet: true,
+         "facet.field": "feature"
       };
+
+      service.map = map;
+
+      map.on('zoomend moveend resize', update);
+
+      function update() {
+         $rootScope.$broadcast('pn.search.start');
+         $timeout.cancel(timeout);
+         if (!data.searched) {
+            timeout = $timeout(function () {
+               service.filtered();
+            }, 20);
+            mapListeners.forEach(function (listener) {
+               listener();
+            });
+         } else {
+            $rootScope.$broadcast('pn.search.complete', data.searched.data);
+         }
+      }
    });
+
+   // We replace the search parameters like filters with a unique record ID.
+   function select(recordId) {
+      return createParams().then(function (params) {
+         params.q = "recordId:" + recordId;
+         return run(params).then(function (response) {
+            service.persist(params, response);
+            decorateCounts(response.facet_counts.facet_fields);
+            $rootScope.$broadcast('pn.search.complete', response);
+            return response;
+         });
+      });
+   }
+
+   function _filtered() {
+      return createParams().then(function (params) {
+         return run(params).then(function (response) {
+            service.persist(params, response);
+            decorateCounts(response.facet_counts.facet_fields);
+            $rootScope.$broadcast('pn.search.complete', response);
+            return response;
+         });
+      });
+   }
+
+   function decorateCounts(facets) {
+      groupsService.getAll().then(function (response) {
+
+         summary.counts = arraysToMap(facets);
+
+         response.authorities.forEach(function (auth) {
+            auth.count = summary.counts.authorities[auth.code];
+            auth.count = auth.count ? auth.count : 0;
+         });
+
+         ["groups", "features", "categories"].forEach(function (key) {
+            response[key].forEach(function (item) {
+               item.count = summary.counts[key][item.name];
+               item.count = item.count ? item.count : 0;
+            });
+         });
+      });
+   }
+
+   function arrayToMap(facets) {
+      var lastElement = void 0;
+      var counts = {};
+
+      facets.forEach(function (value, index) {
+         if (index % 2) {
+            counts[lastElement] = value;
+         } else {
+            lastElement = value;
+         }
+      });
+      return counts;
+   }
+
+   function arraysToMap(facets) {
+      var lastElement = void 0;
+      var counts = {};
+      Object.values(countsMapping).forEach(function (value) {
+         counts[value] = {};
+      });
+
+      Object.keys(facets).forEach(function (key) {
+         facets[key].forEach(function (value, index) {
+            if (index % 2) {
+               counts[countsMapping[key]][lastElement] = value;
+            } else {
+               lastElement = value;
+            }
+         });
+      });
+      return counts;
+   }
+
+   function createSummary() {
+      return mapService.getMap().then(function (map) {
+         return groupsService.getAll().then(function (response) {
+            var filterIsObject = _typeof(data.filter) === "object";
+            var summary = service.summary;
+            summary.filter = filterIsObject ? data.filter.name : data.filter;
+            summary.bounds = map.getBounds();
+            summary.authorities = response.authorities.filter(function (auth) {
+               return auth.selected;
+            });
+            summary.current = [];
+            response.groups.forEach(function (group) {
+               return summary.current = summary.current.concat(group.selections());
+            });
+            return summary;
+         });
+      });
+   }
+
+   function createParams() {
+      return createSummary().then(function (summary) {
+         var params = baseParameters();
+         var bounds = summary.bounds;
+
+         params.fq = getBounds(map);
+         params.sort = getSort(bounds);
+         params.q = createQText(summary);
+
+         var qs = createCurrentParams();
+         var qas = createAuthorityParams();
+
+         if (qas.length) {
+            params.q += ' AND (' + qas.join(" ") + ')';
+         }
+
+         if (qs.length) {
+            params.q += ' AND (' + qs.join(" ") + ')';
+         }
+         return params;
+      });
+   }
+
+   function createQText(summary) {
+      var q = summary.filter;
+      return q ? '"' + q.toLowerCase() + '"' : "*:*";
+   }
+
+   function filteredAuthorities(params) {
+      return groupsService.getAuthorities().then(function (authorities) {
+         if (summary.authorities && summary.authorities.length) {
+            // We need get the facets as though no authorities are selected Select against Solr
+            var newParams = authBaseParameters();
+
+            var qs = createCurrentParams();
+            if (qs.length) {
+               newParams.q += ' AND (' + qs.join(" ") + ')';
+            }
+            newParams.q = createQText(summary);
+            newParams.fq = params.fq;
+
+            return _request(newParams).then(function (data) {
+               var countMap = arrayToMap(data.facet_counts.facet_fields.authority);
+               authorities.forEach(function (auth) {
+                  auth.allCount = countMap[auth.code];
+               });
+
+               data.facetCounts = {};
+               console.log("auth counts", data, summary);
+               return data;
+            });
+         } else {
+            // Otherwise we can just use the normal counts to set the allCounts
+            authorities.forEach(function (auth) {
+               auth.allCount = summary.counts.authorities[auth.code];
+            });
+            return null;
+         }
+      });
+   }
+
+   function filteredCurrent(params) {
+      return groupsService.getGroups().then(function (groups) {
+
+         // We need get the facets as though no filters are selected. Select against Solr
+         var newParams = typeBaseParameters(["group", "category", "feature"]);
+         newParams.q = createQText(summary);
+         var qs = createAuthorityParams();
+         if (qs.length) {
+            newParams.q += ' AND (' + qs.join(" ") + ')';
+         }
+         newParams.fq = params.fq;
+
+         return _request(newParams).then(function (data) {
+            var groupMap = arrayToMap(data.facet_counts.facet_fields.group);
+            var categoryMap = arrayToMap(data.facet_counts.facet_fields.category);
+            var featureMap = arrayToMap(data.facet_counts.facet_fields.feature);
+            groups.forEach(function (group) {
+               group.allCount = groupMap[group.name];
+               group.categories.forEach(function (category) {
+                  category.allCount = categoryMap[category.name];
+                  category.features.forEach(function (feature) {
+                     feature.allCount = featureMap[feature.name];
+                  });
+               });
+            });
+
+            data.facetCounts = {};
+            return data;
+         });
+      });
+   }
+
+   // We assume summary is already made.
+   function createAuthorityParams() {
+      return summary.authorities.map(function (auth) {
+         return 'authority:' + auth.code;
+      });
+   }
+
+   // We assume
+   // Current is one of group category or feature, which ever panel is open.
+   function createCurrentParams() {
+      return summary.current.map(function (item) {
+         return item.label + ':"' + item.name + '"';
+      });
+   }
+
+   function run(params) {
+      return _request(params).then(function (data) {
+         var code = void 0;
+         data.facetCounts = {};
+         $rootScope.$broadcast("pn.facets.changed", data.facet_counts.facet_fields);
+
+         return data;
+      });
+   }
+
+   function _request(params) {
+      return $http({
+         url: "/select?",
+         method: "GET",
+         params: params,
+         cache: true
+      }).then(function (response) {
+         return response.data;
+      });
+   }
+
+   function getSort(bounds) {
+      return "";
+   }
+
+   function authBaseParameters() {
+      return {
+         facet: true,
+         "facet.field": ["authority"],
+         rows: 0,
+         wt: "json"
+      };
+   }
+
+   function typeBaseParameters(types) {
+      var response = {
+         "facet.limit": -1,
+         facet: true,
+         rows: 0,
+         wt: "json"
+      };
+      if (types) {
+         response["facet.field"] = types;
+      }
+      return response;
+   }
+
+   function baseParameters() {
+      return {
+         "facet.limit": -1,
+         facet: true,
+         "facet.field": ["feature", "category", "authority", "group"],
+         rows: 50,
+         wt: "json"
+      };
+   }
+
+   return service;
 }
 "use strict";
 
@@ -2950,401 +3345,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]);
 }
-'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-/**
- * This is the antarctic specific implementation of the search service. There are quite a few changes to cope with
- * the EPSG:3031 projection
- */
-
-{
-   angular.module("antarctic.search", []).factory('searchService', SearchService);
-
-   SearchService.$inject = ['$http', '$rootScope', '$timeout', 'configService', 'groupsService', 'mapService'];
-}
-
-function SearchService($http, $rootScope, $timeout, configService, groupsService, mapService) {
-   var data = {
-      searched: null // Search results
-   };
-
-   var countsMapping = {
-      group: "groups",
-      authority: "authorities",
-      feature: "features",
-      category: "categories"
-   };
-
-   var summary = {};
-   var mapListeners = [];
-
-   var results = void 0;
-   var marker = void 0;
-
-   var service = {
-      onMapUpdate: function onMapUpdate(listener) {
-         mapListeners.push(listener);
-      },
-      offMapUpdate: function offMapUpdate(listener) {
-         delete mapListeners[listener];
-      },
-
-
-      get data() {
-         return data;
-      },
-
-      get summary() {
-         return summary;
-      },
-
-      filtered: function filtered() {
-         return _filtered().then(function (response) {
-            data.filtered = response;
-            var params = response.responseHeader.params;
-            filteredAuthorities(params);
-            filteredCurrent(params);
-            return response;
-         });
-      },
-      request: function request(params) {
-         return _request(params);
-      },
-      search: function search(item) {
-         var _this = this;
-
-         if (item) {
-            select(item.recordId).then(function () {
-               return _this.searched();
-            });
-         } else {
-            this.searched();
-         }
-      },
-      persist: function persist(params, response) {
-         data.persist = {
-            params: params,
-            data: response,
-            bounds: map.getBounds()
-         };
-      },
-      searched: function searched() {
-         data.searched = data.persist;
-         data.searched.center = map.getCenter();
-         data.searched.zoom = map.getZoom();
-         data.searched.data.restrict = getEpsg3031Bounds(map);
-         this.hide();
-      },
-      show: function show(what) {
-         this.hide().then(function (map) {
-            // split lng/lat string seperated by space, reverse to lat/lng, cooerce to numbers
-            var location = what.location.split(" ").reverse().map(function (str) {
-               return +str;
-            });
-            marker = L.popup().setLatLng(location).setContent(what.name + "<br/>Lat/Lng: " + location[0] + "&deg;" + location[1] + "&deg;").openOn(map);
-         });
-      },
-      hide: function hide(what) {
-         return mapService.getMap().then(function (map) {
-            if (marker) {
-               map.removeLayer(marker);
-            }
-            return map;
-         });
-      }
-   };
-
-   mapService.getMap().then(function (map) {
-      var timeout = void 0;
-      var facets = {
-         facet: true,
-         "facet.field": "feature"
-      };
-
-      service.map = map;
-
-      map.on('zoomend moveend resize', update);
-
-      function update() {
-         $rootScope.$broadcast('pn.search.start');
-         $timeout.cancel(timeout);
-         if (!data.searched) {
-            timeout = $timeout(function () {
-               service.filtered();
-            }, 20);
-            mapListeners.forEach(function (listener) {
-               listener();
-            });
-         } else {
-            $rootScope.$broadcast('pn.search.complete', data.searched.data);
-         }
-      }
-   });
-
-   // We replace the search parameters like filters with a unique record ID.
-   function select(recordId) {
-      return createParams().then(function (params) {
-         params.q = "recordId:" + recordId;
-         return run(params).then(function (response) {
-            service.persist(params, response);
-            decorateCounts(response.facet_counts.facet_fields);
-            $rootScope.$broadcast('pn.search.complete', response);
-            return response;
-         });
-      });
-   }
-
-   function _filtered() {
-      return createParams().then(function (params) {
-         return run(params).then(function (response) {
-            service.persist(params, response);
-            decorateCounts(response.facet_counts.facet_fields);
-            $rootScope.$broadcast('pn.search.complete', response);
-            return response;
-         });
-      });
-   }
-
-   function decorateCounts(facets) {
-      groupsService.getAll().then(function (response) {
-
-         summary.counts = arraysToMap(facets);
-
-         response.authorities.forEach(function (auth) {
-            auth.count = summary.counts.authorities[auth.code];
-            auth.count = auth.count ? auth.count : 0;
-         });
-
-         ["groups", "features", "categories"].forEach(function (key) {
-            response[key].forEach(function (item) {
-               item.count = summary.counts[key][item.name];
-               item.count = item.count ? item.count : 0;
-            });
-         });
-      });
-   }
-
-   function arrayToMap(facets) {
-      var lastElement = void 0;
-      var counts = {};
-
-      facets.forEach(function (value, index) {
-         if (index % 2) {
-            counts[lastElement] = value;
-         } else {
-            lastElement = value;
-         }
-      });
-      return counts;
-   }
-
-   function arraysToMap(facets) {
-      var lastElement = void 0;
-      var counts = {};
-      Object.values(countsMapping).forEach(function (value) {
-         counts[value] = {};
-      });
-
-      Object.keys(facets).forEach(function (key) {
-         facets[key].forEach(function (value, index) {
-            if (index % 2) {
-               counts[countsMapping[key]][lastElement] = value;
-            } else {
-               lastElement = value;
-            }
-         });
-      });
-      return counts;
-   }
-
-   function createSummary() {
-      return mapService.getMap().then(function (map) {
-         return groupsService.getAll().then(function (response) {
-            var filterIsObject = _typeof(data.filter) === "object";
-            var summary = service.summary;
-            summary.filter = filterIsObject ? data.filter.name : data.filter;
-            summary.bounds = map.getBounds();
-            summary.authorities = response.authorities.filter(function (auth) {
-               return auth.selected;
-            });
-            summary.current = [];
-            response.groups.forEach(function (group) {
-               return summary.current = summary.current.concat(group.selections());
-            });
-            return summary;
-         });
-      });
-   }
-
-   function createParams() {
-      return createSummary().then(function (summary) {
-         var params = baseParameters();
-         var bounds = summary.bounds;
-
-         params.fq = getBounds(map);
-         params.sort = getSort(bounds);
-         params.q = createQText(summary);
-
-         var qs = createCurrentParams();
-         var qas = createAuthorityParams();
-
-         if (qas.length) {
-            params.q += ' AND (' + qas.join(" ") + ')';
-         }
-
-         if (qs.length) {
-            params.q += ' AND (' + qs.join(" ") + ')';
-         }
-         return params;
-      });
-   }
-
-   function createQText(summary) {
-      var q = summary.filter;
-      return q ? '"' + q.toLowerCase() + '"' : "*:*";
-   }
-
-   function filteredAuthorities(params) {
-      return groupsService.getAuthorities().then(function (authorities) {
-         if (summary.authorities && summary.authorities.length) {
-            // We need get the facets as though no authorities are selected Select against Solr
-            var newParams = authBaseParameters();
-
-            var qs = createCurrentParams();
-            if (qs.length) {
-               newParams.q += ' AND (' + qs.join(" ") + ')';
-            }
-            newParams.q = createQText(summary);
-            newParams.fq = params.fq;
-
-            return _request(newParams).then(function (data) {
-               var countMap = arrayToMap(data.facet_counts.facet_fields.authority);
-               authorities.forEach(function (auth) {
-                  auth.allCount = countMap[auth.code];
-               });
-
-               data.facetCounts = {};
-               console.log("auth counts", data, summary);
-               return data;
-            });
-         } else {
-            // Otherwise we can just use the normal counts to set the allCounts
-            authorities.forEach(function (auth) {
-               auth.allCount = summary.counts.authorities[auth.code];
-            });
-            return null;
-         }
-      });
-   }
-
-   function filteredCurrent(params) {
-      return groupsService.getGroups().then(function (groups) {
-
-         // We need get the facets as though no filters are selected. Select against Solr
-         var newParams = typeBaseParameters(["group", "category", "feature"]);
-         newParams.q = createQText(summary);
-         var qs = createAuthorityParams();
-         if (qs.length) {
-            newParams.q += ' AND (' + qs.join(" ") + ')';
-         }
-         newParams.fq = params.fq;
-
-         return _request(newParams).then(function (data) {
-            var groupMap = arrayToMap(data.facet_counts.facet_fields.group);
-            var categoryMap = arrayToMap(data.facet_counts.facet_fields.category);
-            var featureMap = arrayToMap(data.facet_counts.facet_fields.feature);
-            groups.forEach(function (group) {
-               group.allCount = groupMap[group.name];
-               group.categories.forEach(function (category) {
-                  category.allCount = categoryMap[category.name];
-                  category.features.forEach(function (feature) {
-                     feature.allCount = featureMap[feature.name];
-                  });
-               });
-            });
-
-            data.facetCounts = {};
-            return data;
-         });
-      });
-   }
-
-   // We assume summary is already made.
-   function createAuthorityParams() {
-      return summary.authorities.map(function (auth) {
-         return 'authority:' + auth.code;
-      });
-   }
-
-   // We assume
-   // Current is one of group category or feature, which ever panel is open.
-   function createCurrentParams() {
-      return summary.current.map(function (item) {
-         return item.label + ':"' + item.name + '"';
-      });
-   }
-
-   function run(params) {
-      return _request(params).then(function (data) {
-         var code = void 0;
-         data.facetCounts = {};
-         $rootScope.$broadcast("pn.facets.changed", data.facet_counts.facet_fields);
-
-         return data;
-      });
-   }
-
-   function _request(params) {
-      return $http({
-         url: "/select?",
-         method: "GET",
-         params: params,
-         cache: true
-      }).then(function (response) {
-         return response.data;
-      });
-   }
-
-   function getSort(bounds) {
-      return "";
-   }
-
-   function authBaseParameters() {
-      return {
-         facet: true,
-         "facet.field": ["authority"],
-         rows: 0,
-         wt: "json"
-      };
-   }
-
-   function typeBaseParameters(types) {
-      var response = {
-         "facet.limit": -1,
-         facet: true,
-         rows: 0,
-         wt: "json"
-      };
-      if (types) {
-         response["facet.field"] = types;
-      }
-      return response;
-   }
-
-   function baseParameters() {
-      return {
-         "facet.limit": -1,
-         facet: true,
-         "facet.field": ["feature", "category", "authority", "group"],
-         rows: 50,
-         wt: "json"
-      };
-   }
-
-   return service;
-}
 "use strict";
 
 {
@@ -3440,12 +3440,12 @@ $templateCache.put("help/faqs.html","<p style=\"text-align: left; margin: 10px; 
 $templateCache.put("help/help.html","<p style=\"text-align: left; margin: 10px; font-size: 14px;\">\r\n	<strong>Help</strong>\r\n</p>\r\n\r\n<div class=\"panel-body\" ng-controller=\"HelpCtrl as help\">\r\n	The steps to get data!\r\n	<ol>\r\n		<li>Define area of interest</li>\r\n		<li>Select datasets</li>\r\n		<li>Enter email address</li>\r\n		<li>Start extract</li>\r\n	</ol>\r\n	An email will be sent to you on completion of the data extract with a link to your data.\r\n   <hr>\r\n	<placenames-faqs faqs=\"help.faqs\" ></placenames-faqs>\r\n</div>");
 $templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
 $templateCache.put("pill/pill.html","<span class=\"btn btn-primary pn-pill\" ng-style=\"item.color?{\'background-color\':item.color, \'padding-top\': \'3px\'}: {\'padding-top\': \'3px\'}\">\r\n   <span style=\"max-width:100px;display:inline-block\" title=\"{{label + item[name]}}\" class=\"ellipsis\">{{item[name]}}</span>\r\n   <span class=\"ellipsis\" style=\"max-width:100px;display:inline-block\">\r\n      ({{item.count?item.count:0 | number}})\r\n      <a ng-click=\"deselect()\" href=\"javascript:void(0)\" title=\"Remove from filters\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");
-$templateCache.put("quicksearch/filteredsummary.html","<span class=\"placenames-filtered-summary-child\">\r\n   <span style=\"font-weight:bold; margin:5px;\">\r\n      Matched {{state.persist.data.response.numFound | number}}\r\n   </span>\r\n   <span ng-if=\"summary.authorities.length\">\r\n      <span style=\"font-weight:bold\">| For authorities:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.authorities\" name=\"code\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n   <span ng-if=\"summary.current.length\">\r\n      <span style=\"font-weight:bold\"> | Filtered by {{summary.filterBy}}:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.current\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n</span>");
-$templateCache.put("quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search></div>\r\n");
-$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
 $templateCache.put("results/item.html","<div ng-mouseenter=\"vm.enter()\" ng-mouseleave=\"vm.leave()\">\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-12 pn-header\" >\r\n         <button type=\"button\" class=\"undecorated\" ng-click=\"vm.showPan(vm.item)\"\r\n                tooltip-append-to-body=\"true\" title=\"Zoom to location.\" tooltip-placement=\"left\" uib-tooltip=\"Zoom to location\">\r\n            <i class=\"fa fa-lg fa-flag-o\"></i>\r\n         </button>\r\n         <span><placenames-google-anchor item=\"vm.item\"\r\n            link-title=\"View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.\"></placenames-google-anchor></span>\r\n         <span class=\"pull-right\">Record ID: {{vm.item.authorityId}}</span>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\"  title=\"An authority can be a state department or other statutory authority\">Authority</div>\r\n      <div class=\"col-md-8\">{{vm.item.authority}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\" title=\"Features belong to a category and categories belong to a group\">Feature Type</div>\r\n      <div class=\"col-md-8\">{{vm.item.feature}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Category</div>\r\n      <div class=\"col-md-8\">{{vm.item.category}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Group</div>\r\n      <div class=\"col-md-8\">{{vm.item.group}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Supply Date</div>\r\n      <div class=\"col-md-8\" title=\"Date format is dd/mm/yyyy\">{{vm.item.supplyDate | formatDate}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Lat / Lng</div>\r\n      <div class=\"col-md-8\">\r\n         <span class=\"pn-numeric\">\r\n            {{vm.item.location | itemLatitude}}&deg; / {{vm.item.location | itemLongitude}}&deg;\r\n         </span>\r\n      </div>\r\n   </div>\r\n\r\n</div>");
 $templateCache.put("results/results.html","<div class=\"pn-results-heading\" style=\"min-height:25px\" ng-if=\"pr.data.searched\">\r\n   <span ng-if=\"pr.data.searched.item\">\r\n      Showing selected feature\r\n   </span>\r\n   <span ng-if=\"!pr.data.searched.item\">\r\n      Matched {{pr.data.searched.data.response.numFound | number}} features\r\n      <span ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\">, showing {{pr.data.searched.data.response.docs.length | number}}</span>\r\n      <a href \"javascript:void()\" ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\"\r\n         ng-click=\"pr.more()\" tooltip-placement=\"bottom\" uib-tooltip=\"Scroll to the bottom of results or click here to load more matching features\">\r\n         [Load more]\r\n      </a>\r\n   </span>\r\n   <span class=\"pull-right\">\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"pr.showDownload = !pr.showDownload\">\r\n         <span ng-if=\"!pr.showDownload\">Download...</span>\r\n         <span ng-if=\"pr.showDownload\">Hide download details</span>\r\n      </button>\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-if=\"!pr.data.searched.item && !pr.showDownload\" ng-click=\"pr.clear()\">\r\n         Clear results\r\n      </button>\r\n   </span>\r\n</div>\r\n<div class=\"panel panel-default pn-container\" ng-if=\"pr.data.searched\" common-scroller buffer=\"200\" more=\"pr.more()\">\r\n   <div class=\"panel-heading\">\r\n      <placenames-search-filters ng-if=\"pr.data.searched\"></placenames-search-filters>\r\n      <placenames-results-item ng-if=\"pr.data.searched.item\" item=\"pr.data.searched.item\"></placenames-results-item>\r\n      <placenames-results-download data=\"pr.data.searched\" ng-if=\"!pr.data.searched.item && pr.showDownload\"></placenames-results-download>\r\n      <div class=\"pn-results-list\" ng-if=\"!pr.data.searched.item\" ng-repeat=\"doc in pr.data.searched.data.response.docs\">\r\n         <placenames-results-item item=\"doc\"></placenames-results-item>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"panel panel-default pn-container\" ng-if=\"!pr.data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span style=\"font-weight:bold\">\r\n         Need help on how to search?\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-body\">\r\n      Searching is conducted on the current map view. Pan and zoom the map to your area of interest\r\n      <br/>\r\n      <br/>\r\n      <span class=\"padding-left:5px\">You can apply filters for:</span>\r\n      <div class=\"well\">\r\n         Features matching on partial or like name, groups, categories and features.\r\n         <br/> You can restrict results to only authorities of interest.\r\n         <br/>\r\n         <br/> Once you have zoomed, panned and filtered to your desired results hit the search button to list details with the\r\n         option to download in a variety of projections and formats.\r\n         <br/>\r\n         <br/>\r\n         <b title=\"nota bene\">NB</b> Name searching is done on \"fuzzy\" searching which means it isn\'t always an exact match but a match something\r\n         like what is typed.\r\n\r\n      </div>\r\n      <div>\r\n         If you are interested in features in the Antarctic consider using the\r\n         <a href=\"antarctic.html\">search specific to the polar view</a>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("results/summary.html","<span class=\"placenamesSearchSummary\"\r\n      ng-if=\"state.searched.data.response.numFound\">(Found {{state.searched.data.response.numFound | number}} features)</span>");
+$templateCache.put("quicksearch/filteredsummary.html","<span class=\"placenames-filtered-summary-child\">\r\n   <span style=\"font-weight:bold; margin:5px;\">\r\n      Matched {{state.persist.data.response.numFound | number}}\r\n   </span>\r\n   <span ng-if=\"summary.authorities.length\">\r\n      <span style=\"font-weight:bold\">| For authorities:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.authorities\" name=\"code\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n   <span ng-if=\"summary.current.length\">\r\n      <span style=\"font-weight:bold\"> | Filtered by {{summary.filterBy}}:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.current\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n</span>");
+$templateCache.put("quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search></div>\r\n");
+$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
 $templateCache.put("search/quicksearch.html","<div class=\"search-text\">\r\n   <div class=\"input-group input-group-sm\">\r\n      <input type=\"text\" ng-model=\"state.filter\" placeholder=\"Match by feature name...\" placenames-on-enter=\"search()\"\r\n         ng-model-options=\"{ debounce: 300}\" typeahead-on-select=\"select($item, $model, $label)\" typeahead-focus-first=\"false\"\r\n         ng-disabled=\"state.searched\" typeahead-template-url=\"search/typeahead.html\" class=\"form-control\" typeahead-min-length=\"0\"\r\n         uib-typeahead=\"doc as doc.name for doc in loadDocs(state.filter)\" typeahead-loading=\"loadingLocations\" typeahead-no-results=\"noResults\"\r\n         placenames-clear>\r\n\r\n      <span class=\"input-group-btn\">\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"search()\" title=\"Search for all features matching your search criteria\"\r\n         ng-hide=\"state.searched\" id=\"placenamesSearchBtn\">Search</button>\r\n         <button class=\"btn btn-primary\" type=\"button\" ng-click=\"showFilters = !showFilters\" ng-hide=\"state.searched\" title=\"SHow/hide filters such as authority, group, category and feature type\">Filters...</button>\r\n         <button class=\"btn btn-primary\" title=\"Clear the current search and enable discovery\" type=\"button\" ng-click=\"clear()\" ng-show=\"state.searched\">Clear Search Results</button>\r\n      </span>\r\n   </div>\r\n</div>\r\n<div class=\"filters\" ng-show=\"showFilters\" style=\"background-color: white\">\r\n   <div class=\"panel panel-default\" style=\"margin-bottom:5px\">\r\n      <div class=\"panel-heading\">\r\n         <h4 class=\"panel-title\">\r\n            Filter\r\n            <span ng-if=\"summary.current.length\">ing</span> by groups/categories/features...\r\n         </h4>\r\n      </div>\r\n   </div>\r\n   <placenames-tree></placenames-tree>\r\n   <div class=\"panel panel-default\" style=\"margin-bottom:5px\">\r\n      <div class=\"panel-heading\">\r\n         <h4 class=\"panel-title\">\r\n            Filter\r\n            <span ng-if=\"summary.authorities.length\">ing</span> by authority...\r\n         </h4>\r\n      </div>\r\n      <div style=\"max-height: 200px; overflow-y: auto; padding:5px\">\r\n         <placenames-authorities update=\"update()\"></placenames-authorities>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("search/search.html","<placenames-results data=\"state\"></placenames-results>\r\n");
 $templateCache.put("search/searchfilters.html","<div style=\"padding-top:5px; padding-bottom:5px\">\r\n   <span ng-if=\"data.filter && !data.filter.location\">Matching names like \"{{summary.filter}}\"</span>\r\n   <span ng-if=\"summary.current.length\">Filtered by: {{summary.current | quicksummary : \"name\" }}</span>\r\n   <span ng-if=\"summary.authorities.length\">For authorities: {{summary.authorities | quicksummary : \"code\"}}</span>\r\n</div>");
