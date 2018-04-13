@@ -56,7 +56,7 @@
       // Set up all the service providers here.
       .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider',
          function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
-            configServiceProvider.location("placenames/resources/config/antarctic.json?v=4");
+            configServiceProvider.location("placenames/resources/config/antarctic.json?v=5");
             configServiceProvider.dynamicLocation("placenames/resources/config/configclient.json?");
             versionServiceProvider.url("placenames/assets/package.json");
             persistServiceProvider.handler("local");
