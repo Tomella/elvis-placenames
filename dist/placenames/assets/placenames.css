@@ -478,6 +478,24 @@ img.elvis-logo {
   border-radius: 3px;
   margin: 0;
 }
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  position: fixed;
+  z-index: 4;
+  top: 123px;
+  left: 450px;
+  right: 20px;
+}
+
+.placenames-filtered-summary-child {
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 3px;
+  display: inline-block;
+}
 .pn-container {
   overflow-y: auto;
   position: absolute;
@@ -530,24 +548,6 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
-}
-.quickSearch {
-  width: 33em;
-}
-
-.placenames-filtered-summary {
-  position: fixed;
-  z-index: 4;
-  top: 123px;
-  left: 450px;
-  right: 20px;
-}
-
-.placenames-filtered-summary-child {
-  background-color: white;
-  opacity: 0.6;
-  border-radius: 3px;
-  display: inline-block;
 }
 .pn-features {
   max-block-size: 300px;
@@ -723,9 +723,6 @@ img.elvis-logo {
 .aboutHeading {
   font-weight: bold;
   padding-bottom: 5px;
-}
-.cluster-table th {
-  padding-right: 8px;
 }
 body {
   overflow-y: hidden;
@@ -974,6 +971,47 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
+.cluster-table th {
+  padding-right: 8px;
+}
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
+}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -1052,44 +1090,6 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
-}
-
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
 }
 @media print {
 @page {
@@ -1180,6 +1180,22 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
 .leaflet-div-icon {
   background-color: transparent;
   border: none;
@@ -1206,22 +1222,6 @@ input.ng-valid.ng-touched {
   left: 10px;
   border: 10px solid transparent;
   border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;
