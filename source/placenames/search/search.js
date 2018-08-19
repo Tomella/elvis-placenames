@@ -41,7 +41,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       },
 
       get summary() {
-         summary.filter = data.filter;
          return summary;
       },
 
@@ -260,34 +259,30 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       });
    }
 
-   function createParams(authority) {
+   function createParams() {
       return createSummary().then(summary => {
-         return createParamsFromSummary(summary, authority);
+         let params = baseParameters();
+         let bounds = summary.bounds;
+
+         params.fq = getBounds(bounds);
+         params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
+         params.sort = getSort(bounds);
+         params.q = createQText(summary);
+
+         let qs = createCurrentParams();
+         let qas = createAuthorityParams();
+
+         if (qas.length) {
+            params.q += ' AND (' + qas.join(" ") + ')';
+         }
+
+         if (qs.length) {
+            params.q += ' AND (' + qs.join(" ") + ')';
+         }
+         return params;
       });
    }
 
-   function createParamsFromSummary(summary) {
-      let params = baseParameters();
-      let bounds = summary.bounds;
-      let qas;
-
-      params.fq = getBounds(bounds);
-      params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
-      params.sort = getSort(bounds);
-      params.q = createQText(summary);
-
-      let qs = createCurrentParams();
-      qas = createAuthorityParams();
-
-      if (qas.length) {
-         params.q += ' AND (' + qas.join(" ") + ')';
-      }
-
-      if (qs.length) {
-         params.q += ' AND (' + qs.join(" ") + ')';
-      }
-      return params;
-   }
 
    function createQText(summary) {
       let q = summary.filter;
