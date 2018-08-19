@@ -1,0 +1,28 @@
+<div class="row">
+   <div class="col-md-3" style="text-align:center">
+      <img ng-src="{{authority.image}}" ng-attr-style="height:{{authority.height}}px"></img>
+   </div>
+   <div class="col-md-6">
+      <strong ng-bind-html="authority.name"></strong>
+      <div>
+         <a ng-if="authority.metadata" ng-href="{{authority.metadata}}" target="_blank">[metadata]</a>
+         <a ng-if="authority.disclaimer" ng-click="authority.showDisclaimer = !authority.showDisclaimer">[disclaimer]</a>
+      </div>
+   </div>
+   <div class="col-md-3" style="float:right;">
+      ({{authority.count | number:0}} features)
+      <div>
+         <a ng-click="toggle()">[{{showing?'hide':'show'}} list]</a>
+      </div>
+   </div>
+</div>
+<div ng-show="authority.showDisclaimer" class="searched-disclaimer" ng-bind-html="authority.disclaimer"></div>
+<div ng-show="showing">
+   <placenames-feature ng-repeat="feature in features" feature="feature"></placenames-feature>
+   <a ng-show="authority.count > features.length"  ng-click="loadPage()">[more]</a>
+   <span ng-show="authority.count === features.length">(End of features for {{authority.name}})</span>
+   <span class="pull-right">
+      Showing {{features.length}} of {{authority.count}} features
+      <a ng-click="toggle()">[hide]</a>
+   </span>
+</div>

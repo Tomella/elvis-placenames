@@ -1,0 +1,8 @@
+<div ng-if="data.searched">
+   <placenames-search-filters></placenames-search-filters>
+   <placenames-searched-download data="data.searched"></placenames-searched-download>
+   <div ng-repeat="authority in authorities | activeAuthorities" title="{{authority.jurisdiction}}" style="border-bottom: 1px gray solid;padding:3px 0 3px">
+      <placenames-jurisdiction authority="authority"></placenames-jurisdiction>
+   </div>
+</div>
+<div ng-if="!data.searched">We don't have a response</div>

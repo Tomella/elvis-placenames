@@ -24,7 +24,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
    let summary = {};
    let mapListeners = [];
 
-   let results;
    let marker;
 
    let service = {
@@ -42,6 +41,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       },
 
       get summary() {
+         summary.filter = data.filter;
          return summary;
       },
 
@@ -67,6 +67,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          }
       },
 
+      loadPage(summary, authority, start, count) {
+         return loadPage(summary, authority, start, count);
+      },
+
       persist(params, response) {
          data.persist = {
             params,
@@ -88,8 +92,8 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
             marker = L.popup()
                .setLatLng(location)
                .setContent(what.name + "<br/>Lat/Lng: " +
-               location[0] + "&deg;" +
-               location[1] + "&deg;")
+                  location[0] + "&deg;" +
+                  location[1] + "&deg;")
                .openOn(map);
          });
       },
@@ -154,6 +158,39 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          });
       });
    }
+
+   function loadPage(summary, authority, start, rows = 50) {
+      return groupsService.getAll().then(response => {
+         let filterIsObject = typeof data.filter === "object";
+         let filter = filterIsObject ? data.filter.name : data.filter;
+
+         let current = [];
+         response.groups.forEach(group => current = current.concat(group.selections()));
+
+         let params = {
+            rows,
+            wt: "json"
+         };
+         let bounds = summary.bounds;
+         let qas;
+         params.fq = getBounds(bounds);
+         params.sort = getSort(bounds);
+         params.q = filter ? '"' + filter.toLowerCase() + '"' : "*:*";
+
+         let qs = current.map(item => item.label + ':"' + item.name + '"');
+         qas = ['authority:' + authority.code];
+         params.q += ' AND (' + qas.join(" ") + ')';
+
+         if (qs.length) {
+            params.q += ' AND (' + qs.join(" ") + ')';
+         }
+         params.start = start;
+         params.rows = rows;
+
+         return request(params);
+      });
+   }
+
 
    function decorateCounts(facets) {
       groupsService.getAll().then(response => {
@@ -223,28 +260,33 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       });
    }
 
-   function createParams() {
+   function createParams(authority) {
       return createSummary().then(summary => {
-         let params = baseParameters();
-         let bounds = summary.bounds;
-
-         params.fq = getBounds(bounds);
-         params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
-         params.sort = getSort(bounds);
-         params.q = createQText(summary);
-
-         let qs = createCurrentParams();
-         let qas = createAuthorityParams();
-
-         if (qas.length) {
-            params.q += ' AND (' + qas.join(" ") + ')';
-         }
-
-         if (qs.length) {
-            params.q += ' AND (' + qs.join(" ") + ')';
-         }
-         return params;
+         return createParamsFromSummary(summary, authority);
       });
+   }
+
+   function createParamsFromSummary(summary) {
+      let params = baseParameters();
+      let bounds = summary.bounds;
+      let qas;
+
+      params.fq = getBounds(bounds);
+      params["facet.heatmap.geom"] = getHeatmapBounds(bounds);
+      params.sort = getSort(bounds);
+      params.q = createQText(summary);
+
+      let qs = createCurrentParams();
+      qas = createAuthorityParams();
+
+      if (qas.length) {
+         params.q += ' AND (' + qas.join(" ") + ')';
+      }
+
+      if (qs.length) {
+         params.q += ' AND (' + qs.join(" ") + ')';
+      }
+      return params;
    }
 
    function createQText(summary) {

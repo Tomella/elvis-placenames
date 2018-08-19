@@ -1,6 +1,6 @@
 {
   "name": "elvis-placenames",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Elvis Place Names",
   "keywords": [
     "elvis",
@@ -23,7 +23,7 @@
     "explorer-search-components": "https://github.com/Tomella/explorer-search-components.git",
     "leaflet-solr-heatmap": "https://github.com/mejackreed/leaflet-solr-heatmap.git#master",
     "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#master",
-    "angular": "~1.5.7",
+    "angular": "~1.6.9",
     "components-font-awesome": "~4.7.0",
     "bg-splitter": "*",
     "angular-bootstrap": "^1.3.3",
@@ -38,7 +38,7 @@
   },
   "resolutions": {
     "leaflet-draw": "~0.3.2",
-    "angular": "~1.5.7",
+    "angular": "~1.6.9",
     "leaflet": ">= 1.0.3"
   }
 }

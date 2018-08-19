@@ -9,6 +9,32 @@
   height: 14px;
   border: solid 1px black;
 }
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
+}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -89,32 +115,6 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
-}
-.product-invalid {
-  color: red;
-  opacity: 0.6;
-}
-
-.product-valid {
-  color: green;
-}
-
-.download-control {
-  display: block;
-  width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.download-control::placeholder {
-  color: #ccc;
 }
 /* Base for label styling */
 
@@ -496,77 +496,6 @@ img.elvis-logo {
   border-radius: 3px;
   display: inline-block;
 }
-.pn-container {
-  overflow-y: auto;
-  position: absolute;
-  top: 25px;
-  bottom: 0px;
-  left: 0px;
-  right: 7px;
-  margin-bottom: 0;
-}
-
-.pn-results-heading {
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-.pn-results {
-  position: absolute;
-  top: 55px;
-  bottom: 1px;
-  left: 0px;
-  right: 0px;
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.pn-numeric {
-  text-align: right;
-  padding-right: 20px;
-}
-
-.pn-header {
-  font-weight: bold;
-  background-color: #eaeaea;
-  padding: 3px;
-}
-
-.pn-results-list {
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 4px;
-}
-
-.pn-results-list:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-
-.pn-item-footer {
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: #f8f8ff;
-  border-top: 1px solid #f0f0f0;
-}
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
-}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -664,6 +593,77 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
+}
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
+}
+.pn-container {
+  overflow-y: auto;
+  position: absolute;
+  top: 25px;
+  bottom: 0px;
+  left: 0px;
+  right: 7px;
+  margin-bottom: 0;
+}
+
+.pn-results-heading {
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+.pn-results {
+  position: absolute;
+  top: 55px;
+  bottom: 1px;
+  left: 0px;
+  right: 0px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.pn-numeric {
+  text-align: right;
+  padding-right: 20px;
+}
+
+.pn-header {
+  font-weight: bold;
+  background-color: #eaeaea;
+  padding: 3px;
+}
+
+.pn-results-list {
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 4px;
+}
+
+.pn-results-list:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.pn-item-footer {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: #f8f8ff;
+  border-top: 1px solid #f0f0f0;
 }
 .about {
   margin: 2px;
@@ -974,43 +974,10 @@ input.ng-valid.ng-touched {
 .cluster-table th {
   padding-right: 8px;
 }
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
-}
-
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
+.nt-label {
+  text-align: center;
+  font-weight: bold;
+  color: gray;
 }
 .placenamesTabs {
   position: absolute;
@@ -1091,6 +1058,44 @@ input.ng-valid.ng-touched {
   overflow-y: auto;
   overflow-x: hidden;
 }
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
+}
 @media print {
 @page {
     size: landscape;
@@ -1121,6 +1126,12 @@ input.ng-valid.ng-touched {
   .leaflet-control-attribution {
     display: none !important;
   }
+}
+.searched-disclaimer {
+  margin: 3px;
+  padding: 3px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
 }
 .placenames-toolbar {
   position: fixed;
@@ -1180,22 +1191,6 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
 .leaflet-div-icon {
   background-color: transparent;
   border: none;
@@ -1222,6 +1217,22 @@ input.ng-valid.ng-touched {
   left: 10px;
   border: 10px solid transparent;
   border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;

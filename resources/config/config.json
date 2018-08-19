@@ -252,57 +252,90 @@
       {
          "code": "AAD",
          "jurisdiction": "Australian Government",
-         "name": "Australian Antarctic Division"
+         "name": "Australian Antarctic Division",
+         "image": "placenames/resources/img/AAD_EnvEnergy_stacked.png",
+         "height": 68,
+         "metadata": "https://data.aad.gov.au/metadata/records/gaz"
       },
       {
          "code": "AHO",
          "jurisdiction": "Australian Government",
-         "name": "Australian Hydrographic Service"
+         "name": "Australian Hydrographic Service",
+         "image": "placenames/resources/img/logo-hydro.jpg",
+         "height": 64,
+         "metadata": "http://www.hydro.gov.au/prodserv/publications/mga/mga.htm"
       },
       {
          "code": "GA",
          "jurisdiction": "Australian Government",
-         "name": "Geoscience Australia"
+         "name": "Geoscience Australia",
+         "image": "placenames/resources/img/Geoscience Australia.jpg",
+         "height": 46
       },
       {
          "code": "ACT",
          "jurisdiction": "Australian Capital Territory",
-         "name": "ACT Planning and Land Authority"
+         "name": "ACT Planning and Land Authority",
+         "image": "placenames/resources/img/logo-ACT-1.png",
+         "height": 48,
+         "metadata": "http://actmapi-actgov.opendata.arcgis.com/datasets/eed9b03deda94a579aac6853939beffe_8"
       },
       {
          "code": "NSW",
          "jurisdiction": "New South Wales",
-         "name": "Geographical Names Board"
+         "name": "Geographical Names Board",
+         "image": "placenames/resources/img/NSW-1.png",
+         "height": 52,
+         "metadata": "https://sdi.nsw.gov.au/nswsdi/catalog/search/resource/details.page?uuid=%7BB84B8973-78E8-4A6C-B757-E2C5F79A307A%7D",
+         "disclaimer": "<b>Note:</b> Please be aware that the NSW Geographical Names Register is for information purposes only, and due to capture methods of the past, may not reflect an accurate location of a feature. For a representation of the relative position of NSW place names and other points of interest visit  <a href='https://maps.six.nsw.gov.au/' target='_blank'>https://maps.six.nsw.gov.au/</a>"
       },
       {
          "code": "NT",
          "jurisdiction": "Northern Territory",
-         "name": "Department of Planning and Infrastructure"
+         "name": "Department of Planning and Infrastructure",
+         "image": "placenames/resources/img/logo-NT-1.png",
+         "height": 42,
+         "metadata": "https://placenames.nt.gov.au/committee"
       },
       {
          "code": "QLD",
          "jurisdiction": "Queensland",
-         "name": "Department of Natural Resources and Water"
+         "name": "Department of Natural Resources and Water",
+         "image": "placenames/resources/img/Qld-1.png",
+         "height": 64,
+         "metadata": "http://qldspatial.information.qld.gov.au/catalogue/custom/viewMetadataDetails.page?uuid=%7B1B19B980-B171-47C1-9AA6-5B95A7158ADC%7D"
       },
       {
          "code": "SA",
          "jurisdiction": "South Australia",
-         "name": "Department for Transport, Energy and Infrastructure Land Services Group"
+         "name": "Department for Transport, Energy and <br/>Infrastructure Land Services Group",
+         "image": "placenames/resources/img/logo-SA-1.png",
+         "height": 68,
+         "metadata": "http://location.sa.gov.au/lms/Reports/ReportMetadata.aspx?p_no=755&pu=y"
       },
       {
          "code": "TAS",
          "jurisdiction": "Tasmania",
-         "name": "Department of Primary Industries and Water"
+         "name": "Department of Primary Industries and Water",
+         "image": "placenames/resources/img/logo-Tas-1.png",
+         "height": 46,
+         "metadata": "https://www.thelist.tas.gov.au/app/content/data/geo-meta-data-record?profileType=&groupName=&bboxNorth=&bboxWest=&bboxSouth=&bboxEast=&titleSearch=true&query=nomenclature&_keywordCategory=-1&isTasmania=true&custodian=&detailRecordUID=d193cd7a-d93a-4ca8-a0a3-670929ad247a&searchCriteriaURL=query%3Dnomenclature%26perPage%3D10%26sortBy%3DTitle%3AASC%26titleSearch%3Dtrue"
       },
       {
          "code": "VIC",
          "jurisdiction": "Victoria",
-         "name": "Department of Sustainability and Environment"
+         "name": "Department of Sustainability and Environment",
+         "image": "placenames/resources/img/logo-Vic.png",
+         "height": 48,
+         "metadata": "https://www2.delwp.vic.gov.au/__data/assets/pdf_file/0030/49764/Vicmap-FOI-Product-Description.pdf"
       },
       {
          "code": "WA",
          "jurisdiction": "Western Australia",
-         "name": "Landgate"
+         "name": "Landgate",
+         "image": "placenames/resources/img/landgate.png",
+         "height": 52,
+         "metadata": "https://catalogue.data.wa.gov.au/dataset/b8f44a94-430b-4fe3-baa1-0aab3685d137/resource/af93c5ee-b617-42b8-9afe-1cfd76b9ed60/download/geonomadatadictionary.pdf"
       }
    ],
    "zoneQueryTemplate": "select?rows=0&wt=json"

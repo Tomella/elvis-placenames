@@ -1,0 +1,40 @@
+<div ng-mouseenter="vm.enter()" ng-mouseleave="vm.leave()">
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-12 pn-header" >
+               <button type="button" class="undecorated" ng-click="vm.showPan(feature)"
+                      tooltip-append-to-body="true" title="Zoom to location." tooltip-placement="left" uib-tooltip="Zoom to location">
+                  <i class="fa fa-lg fa-flag-o"></i>
+               </button>
+               <span>{{feature.name}}</span>
+               <span class="pull-right">Record ID: {{feature.authorityId}}</span>
+            </div>
+         </div>
+      </div>
+      <div class="container-fluid">
+         <div class="row">
+            <div class="col-md-4" title="Features belong to a category and categories belong to a group">Feature Type</div>
+            <div class="col-md-8">{{feature.feature}}</div>
+         </div>
+         <div class="row" title="Features belong to a category and categories belong to a group">
+            <div class="col-md-4">Category</div>
+            <div class="col-md-8">{{feature.category}}</div>
+         </div>
+         <div class="row" title="Features belong to a category and categories belong to a group">
+            <div class="col-md-4">Group</div>
+            <div class="col-md-8">{{feature.group}}</div>
+         </div>
+         <div class="row">
+            <div class="col-md-4">Supply Date</div>
+            <div class="col-md-8" title="Date format is dd/mm/yyyy">{{feature.supplyDate | formatDate}}</div>
+         </div>
+         <div class="row">
+            <div class="col-md-4">Lat / Lng</div>
+            <div class="col-md-8">
+               <span class="pn-numeric">
+                  {{feature.location | itemLatitude}}&deg; / {{feature.location | itemLongitude}}&deg;
+               </span>
+            </div>
+         </div>
+
+      </div>
