@@ -724,9 +724,6 @@ img.elvis-logo {
   font-weight: bold;
   padding-bottom: 5px;
 }
-.cluster-table th {
-  padding-right: 8px;
-}
 body {
   overflow-y: hidden;
 }
@@ -974,10 +971,8 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
-.nt-label {
-  text-align: center;
-  font-weight: bold;
-  color: gray;
+.cluster-table th {
+  padding-right: 8px;
 }
 .placenamesTabs {
   position: absolute;
@@ -1057,6 +1052,11 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.nt-label {
+  text-align: center;
+  font-weight: bold;
+  color: gray;
 }
 .placenames-popover {
   z-index: 1060;

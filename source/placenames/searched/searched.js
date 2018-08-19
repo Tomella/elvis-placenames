@@ -10,6 +10,10 @@
             link: function (scope) {
                scope.data = searchService.data;
                scope.summary = searchService.summary;
+
+               $rootScope.$on("clear.button.fired", () => {
+                  scope.showDownload = false;
+               });
             }
          };
       }])
@@ -96,6 +100,9 @@
          let service = {
             data: {
                searched: false
+            },
+            scratch: {
+
             }
          };
 
@@ -108,6 +115,7 @@
          });
 
          $rootScope.$on("clear.button.fired", () => {
+            service.scratch = {};
             delete service.data.searched;
          });
 

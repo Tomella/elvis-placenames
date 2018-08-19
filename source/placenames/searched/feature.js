@@ -90,7 +90,9 @@
             showPan(what) {
                return this.show(what).then(details => {
                   let map = details.map;
-                  map.setView(details.location, ZOOM_IN, { animate: true });
+                  let currentZoom = map.getZoom();
+
+                  map.setView(details.location, ZOOM_IN > currentZoom? ZOOM_IN: currentZoom, { animate: true });
 
                   return details;
                });
