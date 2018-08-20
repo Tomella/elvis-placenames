@@ -21,11 +21,18 @@
 <div ng-show="authority.showDisclaimer" class="searched-disclaimer" ng-bind-html="authority.disclaimer"></div>
 <div ng-show="showing">
    <placenames-feature ng-repeat="feature in features" feature="feature"></placenames-feature>
-   <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>
-   <a ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
-   <div ng-show="authority.count === features.length" class="searched-end-of ellipsis">(End of features for {{authority.name}})</div>
-   <span class="pull-right">
-      Showing {{features.length}} of {{authority.count}} features
-      <a ng-click="toggle()">[hide]</a>
-   </span>
+   <div class="row">
+      <div class="col-md-7" ng-show="authority.count > features.length">
+         <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>
+         <a ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
+      </div>
+      <div class="col-md-7" ng-show="authority.count === features.length">
+         <div class="ellipsis">(End of features for {{authority.name}})</div>
+      </div>
+      <div class="col-md-5">
+         <span class="pull-right">
+            Showing {{features.length | number : 0}} of {{authority.count| number : 0}} features
+            <a ng-click="toggle()">[hide]</a>
+         </span>
+      </div>
 </div>
