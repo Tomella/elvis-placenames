@@ -19,7 +19,8 @@
 <div ng-show="authority.showDisclaimer" class="searched-disclaimer" ng-bind-html="authority.disclaimer"></div>
 <div ng-show="showing">
    <placenames-feature ng-repeat="feature in features" feature="feature"></placenames-feature>
-   <a ng-show="authority.count > features.length"  ng-click="loadPage()">[more]</a>
+   <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>
+   <a ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
    <span ng-show="authority.count === features.length">(End of features for {{authority.name}})</span>
    <span class="pull-right">
       Showing {{features.length}} of {{authority.count}} features

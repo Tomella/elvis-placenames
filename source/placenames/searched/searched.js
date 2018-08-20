@@ -82,9 +82,12 @@
 
                scope.loadPage = () => {
                   if (scope.features.length >= scope.authority.count) return;
-
+                  scope.loading = true;
                   searchedService.getPage(scope.authority, scope.features.length).then(({ response }) => {
+                     scope.loading = false;
                      scope.features.push(...response.docs);
+                  }).catch(() => {
+                     scope.loading = false;
                   });
                };
             }
