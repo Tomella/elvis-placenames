@@ -13,3 +13,7 @@
 .searched-end-of {
    max-width: 70%;
 }
+
+.searched-important {
+   font-weight: bold;
+}

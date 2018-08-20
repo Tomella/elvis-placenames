@@ -14,7 +14,7 @@
    <div class="col-md-3" style="float:right;">
       ({{authority.count | number:0}} features)
       <div>
-         <a ng-click="toggle()">[{{showing?'hide':'show'}} list]</a>
+         <a ng-click="toggle()" class="searched-important">[{{showing?'hide':'show'}} list]</a>
       </div>
    </div>
 </div>
@@ -24,7 +24,7 @@
    <div class="row">
       <div class="col-md-7" ng-show="authority.count > features.length">
          <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>
-         <a ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
+         <a class="searched-important" ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
       </div>
       <div class="col-md-7" ng-show="authority.count === features.length">
          <div class="ellipsis">(End of features for {{authority.name}})</div>
@@ -32,7 +32,7 @@
       <div class="col-md-5">
          <span class="pull-right">
             Showing {{features.length | number : 0}} of {{authority.count| number : 0}} features
-            <a ng-click="toggle()">[hide]</a>
+            <a ng-click="toggle()" class="searched-important">[hide]</a>
          </span>
       </div>
 </div>

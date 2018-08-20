@@ -57,6 +57,7 @@
       "placenames.searched",
       "placenames.search.service",
       "placenames.side-panel",
+      'placenames.specification',
       'placenames.splash',
       'placenames.templates',
       'placenames.toolbar',

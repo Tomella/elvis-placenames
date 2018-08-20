@@ -109,6 +109,9 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
    $rootScope.$on("clear.button.fired", () => {
       data.searched = null;
+      $timeout(function () {
+         service.filtered();
+      }, 20);
    });
 
    mapService.getMap().then(map => {
