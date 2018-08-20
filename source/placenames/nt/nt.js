@@ -19,7 +19,7 @@
                         style: {
                            color: "gray",
                            weight: 2,
-                           fillOpacity: 0.6
+                           fillOpacity: 0.8
                        }
                      });
                      map.addLayer(layer);

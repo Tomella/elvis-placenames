@@ -9,32 +9,6 @@
   height: 14px;
   border: solid 1px black;
 }
-.product-invalid {
-  color: red;
-  opacity: 0.6;
-}
-
-.product-valid {
-  color: green;
-}
-
-.download-control {
-  display: block;
-  width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.download-control::placeholder {
-  color: #ccc;
-}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -115,6 +89,32 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
+}
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
 }
 /* Base for label styling */
 
@@ -1204,6 +1204,22 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
 .leaflet-div-icon {
   background-color: transparent;
   border: none;
@@ -1230,22 +1246,6 @@ input.ng-valid.ng-touched {
   left: 10px;
   border: 10px solid transparent;
   border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;

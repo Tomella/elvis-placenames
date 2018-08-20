@@ -101,6 +101,10 @@
                      }, 10);
                   };
 
+                  scope.select = function (item) {
+                     scope.search(item);
+                  };
+
                   scope.search = function search(item) {
                      scope.showFilters = false;
                      searchService.search(item);
@@ -137,10 +141,6 @@
                      if (!scope.state.filter) {
                         searchService.filtered();
                      }
-                  };
-
-                  scope.select = function (item) {
-                     scope.search(item);
                   };
 
                   scope.deselect = function (facet) {

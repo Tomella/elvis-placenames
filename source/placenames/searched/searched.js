@@ -58,6 +58,16 @@
          };
       }])
 
+      .directive("placenamesSearchedItem", [function () {
+         return {
+            templateUrl: "searched/item.html",
+            scope: {
+               authority: "=",
+               feature: "="
+            }
+         };
+      }])
+
       .directive("placenamesSearchedDownload", [function () {
          return {
             template: "<placenames-download data='data' class='searched-download'></placenames-download>",
@@ -72,7 +82,8 @@
             restrict: "AE",
             templateUrl: "searched/jurisdiction.html",
             scope: {
-               authority: "="
+               authority: "=",
+               item: "="
             },
             link: function (scope) {
                scope.features = [];

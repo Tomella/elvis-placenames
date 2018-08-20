@@ -60,7 +60,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       search(item) {
          if (item) {
-            select(item.recordId).then(() => this.searched());
+            select(item.recordId).then(() => {
+               this.searched(item);
+               data.filter = "";
+            });
          } else {
             this.searched();
          }
@@ -78,8 +81,9 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          return mapService.getMap().then(map => data.persist.bounds = map.getBounds());
       },
 
-      searched() {
+      searched(item) {
          data.searched = data.persist;
+         data.searched.item = item;
          data.searched.data.restrict = map.getBounds();
          this.hide();
       },
