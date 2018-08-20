@@ -107,6 +107,10 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       }
    };
 
+   $rootScope.$on("clear.button.fired", () => {
+      data.searched = null;
+   });
+
    mapService.getMap().then(map => {
       let timeout;
       let facets = {

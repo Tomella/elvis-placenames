@@ -1,4 +1,4 @@
-<div class="pn-results-heading" style="min-height:25px" ng-if="data.searched">
+<div class="pn-results-heading" style="min-height:25px" ng-if="data.searched" ng-class="{'searched-download': showDownload}">
    <span ng-if="data.searched.item">
       Showing selected feature
    </span>
@@ -10,7 +10,7 @@
          <span ng-if="!showDownload">Download...</span>
          <span ng-if="showDownload">Hide download details</span>
       </button>
-      <button class="btn btn-primary" style="padding:0 10px" ng-if="!data.searched.item && !showDownload" ng-click="clear()">
+      <button class="btn btn-primary" style="padding:0 10px" ng-if="!data.searched.item" ng-click="clear()">
          Clear results
       </button>
    </span>

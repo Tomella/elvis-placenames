@@ -4,3 +4,8 @@
    border: solid 1px lightgray;
    border-radius: 3px;
 }
+
+.searched-download {
+   border-bottom: 2px solid gray;
+   margin-bottom: 8px;
+}

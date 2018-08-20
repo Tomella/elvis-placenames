@@ -1,6 +1,6 @@
 {
    angular.module("placenames.searched", ["placenames.feature"])
-      .directive('placenamesSearched', ['searchService', function (searchService) {
+      .directive('placenamesSearched', ['$rootScope', 'searchService', function ($rootScope, searchService) {
          return {
             restrict: "AE",
             templateUrl: "searched/searched.html",
@@ -14,6 +14,10 @@
                $rootScope.$on("clear.button.fired", () => {
                   scope.showDownload = false;
                });
+
+               scope.clear = () => {
+                  $rootScope.$broadcast("clear.button.fired");
+               };
             }
          };
       }])
@@ -56,7 +60,7 @@
 
       .directive("placenamesSearchedDownload", [function () {
          return {
-            template: "<placenames-download data='data'></placenames-download>",
+            template: "<placenames-download data='data' class='searched-download'></placenames-download>",
             scope: {
                data: "="
             }
