@@ -1,6 +1,8 @@
 <div class="row">
    <div class="col-md-3" style="text-align:center">
-      <img ng-src="{{authority.image}}" ng-attr-style="height:{{authority.height}}px"></img>
+      <a href="{{authority.href}}" target="_blank">
+         <img ng-src="{{authority.image}}" ng-attr-style="height:{{authority.height}}px"></img>
+      </a>
    </div>
    <div class="col-md-6">
       <strong ng-bind-html="authority.name"></strong>
@@ -21,7 +23,7 @@
    <placenames-feature ng-repeat="feature in features" feature="feature"></placenames-feature>
    <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>
    <a ng-show="authority.count > features.length && !loading" ng-click="loadPage()">[more]</a>
-   <span ng-show="authority.count === features.length">(End of features for {{authority.name}})</span>
+   <div ng-show="authority.count === features.length" class="searched-end-of ellipsis">(End of features for {{authority.name}})</div>
    <span class="pull-right">
       Showing {{features.length}} of {{authority.count}} features
       <a ng-click="toggle()">[hide]</a>

@@ -9,3 +9,7 @@
    border-bottom: 2px solid gray;
    margin-bottom: 8px;
 }
+
+.searched-end-of {
+   max-width: 70%;
+}

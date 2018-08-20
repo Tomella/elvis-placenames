@@ -1239,6 +1239,10 @@ input.ng-valid.ng-touched {
   border-bottom: 2px solid gray;
   margin-bottom: 8px;
 }
+
+.searched-end-of {
+  max-width: 70%;
+}
 .placenames-toolbar {
   position: fixed;
   top: 82px;
