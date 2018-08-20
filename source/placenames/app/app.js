@@ -39,7 +39,6 @@
       'placenames.about',
       'placenames.antarctic',
       'placenames.clusters',
-      'placenames.contributors',
       'placenames.download',
       'placenames.extent',
       'placenames.header',
