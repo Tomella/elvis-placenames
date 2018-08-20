@@ -7,8 +7,10 @@
          placenames-clear>
 
       <span class="input-group-btn">
+         <button class="btn btn-primary" type="button" ng-click="erase()" title="Clear typed text"
+            ng-hide="state.searched" id="placenamesEraseBtn">X</button>
          <button class="btn btn-primary" type="button" ng-click="search()" title="Search for all features matching your search criteria"
-         ng-hide="state.searched" id="placenamesSearchBtn">Search</button>
+            ng-hide="state.searched" id="placenamesSearchBtn">Search</button>
          <button class="btn btn-primary" type="button" ng-click="showFilters = !showFilters" ng-hide="state.searched" title="SHow/hide filters such as authority, group, category and feature type">Filters...</button>
          <button class="btn btn-primary" title="Clear the current search and enable discovery" type="button" ng-click="clear()" ng-show="state.searched">Clear Search Results</button>
       </span>

@@ -9,6 +9,32 @@
   height: 14px;
   border: solid 1px black;
 }
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
+}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -89,32 +115,6 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
-}
-.product-invalid {
-  color: red;
-  opacity: 0.6;
-}
-
-.product-valid {
-  color: green;
-}
-
-.download-control {
-  display: block;
-  width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.download-control::placeholder {
-  color: #ccc;
 }
 /* Base for label styling */
 
@@ -478,6 +478,24 @@ img.elvis-logo {
   border-radius: 3px;
   margin: 0;
 }
+.quickSearch {
+  width: 33em;
+}
+
+.placenames-filtered-summary {
+  position: fixed;
+  z-index: 4;
+  top: 123px;
+  left: 450px;
+  right: 20px;
+}
+
+.placenames-filtered-summary-child {
+  background-color: white;
+  opacity: 0.6;
+  border-radius: 3px;
+  display: inline-block;
+}
 .pn-container {
   overflow-y: auto;
   position: absolute;
@@ -530,24 +548,6 @@ img.elvis-logo {
   padding-bottom: 5px;
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
-}
-.quickSearch {
-  width: 33em;
-}
-
-.placenames-filtered-summary {
-  position: fixed;
-  z-index: 4;
-  top: 123px;
-  left: 450px;
-  right: 20px;
-}
-
-.placenames-filtered-summary-child {
-  background-color: white;
-  opacity: 0.6;
-  border-radius: 3px;
-  display: inline-block;
 }
 .pn-features {
   max-block-size: 300px;
@@ -974,49 +974,6 @@ input.ng-valid.ng-touched {
 .cluster-table th {
   padding-right: 8px;
 }
-.nt-label {
-  text-align: center;
-  font-weight: bold;
-  color: gray;
-}
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
-}
-
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
-}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -1095,6 +1052,49 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.nt-label {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
 }
 @media print {
 @page {

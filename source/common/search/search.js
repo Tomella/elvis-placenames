@@ -73,6 +73,11 @@
                link: function (scope, element) {
                   scope.state = searchService.data;
 
+                  scope.erase = () => {
+                     scope.state.filter = "";
+                     searchService.filtered();
+                  };
+
                   $document.on('keyup', function keyupHandler(keyEvent) {
                      if (keyEvent.which === 27) {
                         keyEvent.stopPropagation();
