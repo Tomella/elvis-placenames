@@ -35,6 +35,85 @@
 .download-control::placeholder {
   color: #ccc;
 }
+/* Base for label styling */
+
+.filters-check:not(:checked),
+.filters-check:checked {
+  margin: 3px;
+}
+
+.filters-check:not(:checked) + label,
+.filters-check:checked + label {
+  position: relative;
+  padding-left: 1.95em;
+  cursor: pointer;
+}
+
+/* checkbox aspect */
+
+.filters-check:not(:checked) + label:before,
+.filters-check:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.25em;
+  height: 1.25em;
+  border: 2px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
+}
+
+/* checked mark aspect */
+
+.filters-check:not(:checked) + label:after,
+.filters-check:checked + label:after {
+  content: '✔';
+  position: absolute;
+  top: .1em;
+  left: .3em;
+  font-size: 1.3em;
+  line-height: 0.8;
+  color: #09ad7e;
+  transition: all .2s;
+}
+
+/* checked mark aspect changes */
+
+.filters-check:not(:checked) + label:after {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.filters-check:checked + label:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* disabled checkbox */
+
+.filters-check:disabled:not(:checked) + label:before,
+.filters-check:disabled:checked + label:before {
+  box-shadow: none;
+  border-color: #bbb;
+  background-color: #ddd;
+}
+
+.filters-check:disabled:checked + label:after {
+  color: #999;
+}
+
+.filters-check:disabled + label {
+  color: #aaa;
+}
+
+/* accessibility */
+
+.filters-check:checked:focus + label:before,
+.filters-check:not(:checked):focus + label:before {
+  border: 2px dotted blue;
+}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -115,85 +194,6 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
-}
-/* Base for label styling */
-
-.filters-check:not(:checked),
-.filters-check:checked {
-  margin: 3px;
-}
-
-.filters-check:not(:checked) + label,
-.filters-check:checked + label {
-  position: relative;
-  padding-left: 1.95em;
-  cursor: pointer;
-}
-
-/* checkbox aspect */
-
-.filters-check:not(:checked) + label:before,
-.filters-check:checked + label:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 1.25em;
-  height: 1.25em;
-  border: 2px solid #ccc;
-  background: #fff;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,.1);
-}
-
-/* checked mark aspect */
-
-.filters-check:not(:checked) + label:after,
-.filters-check:checked + label:after {
-  content: '✔';
-  position: absolute;
-  top: .1em;
-  left: .3em;
-  font-size: 1.3em;
-  line-height: 0.8;
-  color: #09ad7e;
-  transition: all .2s;
-}
-
-/* checked mark aspect changes */
-
-.filters-check:not(:checked) + label:after {
-  opacity: 0;
-  transform: scale(0);
-}
-
-.filters-check:checked + label:after {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* disabled checkbox */
-
-.filters-check:disabled:not(:checked) + label:before,
-.filters-check:disabled:checked + label:before {
-  box-shadow: none;
-  border-color: #bbb;
-  background-color: #ddd;
-}
-
-.filters-check:disabled:checked + label:after {
-  color: #999;
-}
-
-.filters-check:disabled + label {
-  color: #aaa;
-}
-
-/* accessibility */
-
-.filters-check:checked:focus + label:before,
-.filters-check:not(:checked):focus + label:before {
-  border: 2px dotted blue;
 }
 .nav-icons {
   margin-top: 7px !important;
@@ -549,6 +549,24 @@ img.elvis-logo {
   background-color: #f8f8ff;
   border-top: 1px solid #f0f0f0;
 }
+.pn-features {
+  max-block-size: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.pn-search-container {
+  height: 97%;
+}
+
+.tooltip-inner {
+  max-width: 350px;
+}
+
+.pn-pill {
+  color: #fff;
+  margin: 4px;
+}
 /* Side Panel */
 
 /* General styles for all menus */
@@ -646,24 +664,6 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
-}
-.pn-features {
-  max-block-size: 300px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.pn-search-container {
-  height: 97%;
-}
-
-.tooltip-inner {
-  max-width: 350px;
-}
-
-.pn-pill {
-  color: #fff;
-  margin: 4px;
 }
 .about {
   margin: 2px;
@@ -974,6 +974,11 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
+.nt-label {
+  text-align: center;
+  font-weight: bold;
+  color: black;
+}
 .placenamesTabs {
   position: absolute;
   top: 60px;
@@ -1052,11 +1057,6 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-.nt-label {
-  text-align: center;
-  font-weight: bold;
-  color: black;
 }
 .placenames-popover {
   z-index: 1060;
@@ -1304,4 +1304,23 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
+}
+.searched-disclaimer {
+  margin: 3px;
+  padding: 3px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
+
+.searched-download {
+  border-bottom: 2px solid gray;
+  margin-bottom: 8px;
+}
+
+.searched-end-of {
+  max-width: 70%;
+}
+
+.searched-important {
+  font-weight: bold;
 }
