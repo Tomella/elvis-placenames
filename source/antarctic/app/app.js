@@ -15,7 +15,8 @@
       'antarctic.maps',
       'antarctic.panes',
       'antarctic.restrict.pan',
-      "antarctic.search",
+      'antarctic.search',
+      'antarctic.searched',
       'antarctic.templates',
       'antarctic.toolbar',
 
@@ -30,7 +31,6 @@
       'explorer.persist',
       'explorer.version',
 
-      'placenames.contributors',
       'placenames.groups',
       'placenames.header',
       'placenames.help',
@@ -39,7 +39,6 @@
       'placenames.proxy',
       'placenames.quicksearch',
       'placenames.reset',
-      "placenames.results",
       'placenames.search',
       'placenames.side-panel',
       'placenames.tree',

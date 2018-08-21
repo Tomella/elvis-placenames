@@ -14,19 +14,19 @@
          Clear results
       </button>
    </span>
-   <placenames-search-filters></placenames-search-filters>
-   <placenames-searched-download data="data.searched" ng-if="showDownload"></placenames-searched-download>
+   <antarctic-search-filters></antarctic-search-filters>
+   <antarctic-searched-download data="data.searched" ng-if="showDownload"></antarctic-searched-download>
 </div>
 
 <div ng-if="data.searched">
    <div ng-if="!data.searched.item">
       <div ng-repeat="authority in authorities | activeAuthorities" title="{{authority.jurisdiction}}" style="border-bottom: 1px gray solid;padding:3px 0 3px">
-         <placenames-jurisdiction authority="authority"></placenames-jurisdiction>
+         <antarctic-jurisdiction authority="authority"></antarctic-jurisdiction>
       </div>
    </div>
    <div ng-if="data.searched.item">
       <div ng-repeat="authority in authorities | activeAuthorities" title="{{authority.jurisdiction}}" style="border-bottom: 1px gray solid;padding:3px 0 3px">
-         <placenames-searched-item authority="authority" feature="data.searched.item"></placenames-searched-item>
+         <antarctic-searched-item authority="authority" feature="data.searched.item"></antarctic-searched-item>
       </div>
    </div>
 </div>

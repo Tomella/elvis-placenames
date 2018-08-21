@@ -78,6 +78,27 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
          };
       },
 
+
+      loadPage(summary, authority, start, rows = 50) {
+         let persisted = data.persist.params;
+         let params = {
+            fq: persisted.fq,
+            rows,
+            sort: persisted.sort,
+            start,
+            wt:"json"
+         };
+
+         params.q = createQText(summary);
+         let qs = createCurrentParams();
+
+         if (qs.length) {
+            params.q += ' AND (' + qs.join(" ") + ')';
+         }
+         params.q += ' AND authority:' + authority.code;
+         return request(params);
+      },
+
       searched() {
          data.searched = data.persist;
          data.searched.center = map.getCenter();
@@ -109,6 +130,13 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
       }
    };
 
+   $rootScope.$on("clear.button.fired", () => {
+      data.searched = null;
+      $timeout(function () {
+         service.filtered();
+      }, 20);
+   });
+
    mapService.getMap().then(map => {
       let timeout;
       let facets = {
@@ -120,6 +148,7 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 
       map.on('zoomend moveend resize', update);
 
+      update();
       function update() {
          $rootScope.$broadcast('pn.search.start');
          $timeout.cancel(timeout);

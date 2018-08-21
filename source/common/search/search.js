@@ -31,7 +31,7 @@
          };
       })
 
-      .directive('placenamesSearchFilters', ["groupsService", "searchService", function (groupsService, searchService) {
+      .directive('placenamesSearchFilters', ["searchService", function (searchService) {
          const groupMatch = {
             group: "groups",
             category: "categories",

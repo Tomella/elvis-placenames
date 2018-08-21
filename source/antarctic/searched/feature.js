@@ -1,8 +1,8 @@
 {
-   angular.module("placenames.feature", [])
+   angular.module("antarctic.feature", [])
 
-      .directive("placenamesFeature", ['placenamesItemService', 'searchService',
-         function (placenamesItemService, searchService) {
+      .directive("antarcticFeature", ['antarcticItemService', 'searchService',
+         function (antarcticItemService, searchService) {
 
             return {
                templateUrl: "searched/feature.html",
@@ -12,11 +12,11 @@
                controller: function () {
                   console.log("Creating an item scope");
                   this.showPan = function (feature) {
-                     placenamesItemService.showPan(feature);
+                     antarcticItemService.showPan(feature);
                   };
 
                   this.download = function (type) {
-                     placenamesItemService[type](this);
+                     antarcticItemService[type](this);
                   };
 
 
@@ -46,7 +46,7 @@
          };
       })
 
-      .factory('placenamesItemService', ['$http', 'configService', 'mapService', function ($http, configService, mapService) {
+      .factory('antarcticItemService', ['$http', 'configService', 'mapService', function ($http, configService, mapService) {
          const ZOOM_IN = 8;
          let marker;
          let service = {

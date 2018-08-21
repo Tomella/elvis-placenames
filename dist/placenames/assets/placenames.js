@@ -17,48 +17,6 @@ specific language governing permissions and limitations
 under the License.
 */
 
-"use strict";
-
-{
-   angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
-      return {
-         restrict: 'EA',
-         templateUrl: "authorities/authorities.html",
-         link: function link(scope) {
-            groupsService.getAuthorities().then(function (authorities) {
-               return scope.authorities = authorities;
-            });
-            scope.change = function (item) {
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
-      return {
-         templateUrl: "categories/categories.html",
-         link: function link(scope) {
-            groupsService.getCategories().then(function (categories) {
-               return scope.categories = categories;
-            });
-            scope.change = function () {
-               searchService.filtered();
-            };
-         }
-      };
-   }]).directive("placenamesCategoryChildren", [function () {
-      return {
-         templateUrl: "categories/features.html",
-         scope: {
-            features: "="
-         }
-      };
-   }]);
-}
 'use strict';
 
 {
@@ -105,6 +63,48 @@ under the License.
                   }, 30);
                }
             });
+         }
+      };
+   }]);
+}
+"use strict";
+
+{
+   angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "authorities/authorities.html",
+         link: function link(scope) {
+            groupsService.getAuthorities().then(function (authorities) {
+               return scope.authorities = authorities;
+            });
+            scope.change = function (item) {
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
+"use strict";
+
+{
+   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
+      return {
+         templateUrl: "categories/categories.html",
+         link: function link(scope) {
+            groupsService.getCategories().then(function (categories) {
+               return scope.categories = categories;
+            });
+            scope.change = function () {
+               searchService.filtered();
+            };
+         }
+      };
+   }]).directive("placenamesCategoryChildren", [function () {
+      return {
+         templateUrl: "categories/features.html",
+         scope: {
+            features: "="
          }
       };
    }]);
@@ -1022,6 +1022,34 @@ function HelpService($http) {
       return {};
    }]);
 }
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1059,30 +1087,18 @@ function HelpService($http) {
 'use strict';
 
 {
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
       return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
-         scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
-         },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'reset/reset.html',
+         controller: ['$scope', function ($scope) {
+            $scope.reset = function () {
+               $window.location.reload();
             };
-         }
+         }]
       };
-   }]);
+   });
 }
 'use strict';
 
@@ -1109,22 +1125,6 @@ function HelpService($http) {
          }).join(", ");
       };
    }]);
-}
-'use strict';
-
-{
-   angular.module('placenames.reset', []).directive('resetPage', function ($window) {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'reset/reset.html',
-         controller: ['$scope', function ($scope) {
-            $scope.reset = function () {
-               $window.location.reload();
-            };
-         }]
-      };
-   });
 }
 "use strict";
 
@@ -1423,7 +1423,7 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
             }
          });
       };
-   }).directive('placenamesSearchFilters', ["groupsService", "searchService", function (groupsService, searchService) {
+   }).directive('placenamesSearchFilters', ["searchService", function (searchService) {
       var groupMatch = {
          group: "groups",
          category: "categories",
@@ -1578,6 +1578,53 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
          buffer += "Lat " + model.location.split(" ").reverse().join("&deg; Lng ") + "&deg;<br/>Feature type: " + model.feature + "</div>";
 
          return buffer;
+      };
+   }]);
+}
+"use strict";
+
+{
+
+   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
+      var project = "elvis.placenames";
+      return {
+         setGlobalItem: function setGlobalItem(key, value) {
+            this._setItem("_system", key, value);
+         },
+
+         setItem: function setItem(key, value) {
+            this._setItem(project, key, value);
+         },
+
+         _setItem: function _setItem(project, key, value) {
+            $log.debug("Fetching state for key locally" + key);
+            localStorage.setItem(project + "." + key, JSON.stringify(value));
+         },
+
+         getGlobalItem: function getGlobalItem(key) {
+            return this._getItem("_system", key);
+         },
+
+         getItem: function getItem(key) {
+            var deferred = $q.defer();
+            this._getItem(project, key).then(function (response) {
+               deferred.resolve(response);
+            });
+            return deferred.promise;
+         },
+
+         _getItem: function _getItem(project, key) {
+            $log.debug("Fetching state locally for key " + key);
+            var item = localStorage.getItem(project + "." + key);
+            if (item) {
+               try {
+                  item = JSON.parse(item);
+               } catch (e) {
+                  // Do nothing as it will be a string
+               }
+            }
+            return $q.when(item);
+         }
       };
    }]);
 }
@@ -1747,53 +1794,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
             scope.closeLeft = function () {
                panelSideFactory.setLeft(null);
             };
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-
-   angular.module("placenames.storage", []).factory("storageService", ['$log', '$q', function ($log, $q) {
-      var project = "elvis.placenames";
-      return {
-         setGlobalItem: function setGlobalItem(key, value) {
-            this._setItem("_system", key, value);
-         },
-
-         setItem: function setItem(key, value) {
-            this._setItem(project, key, value);
-         },
-
-         _setItem: function _setItem(project, key, value) {
-            $log.debug("Fetching state for key locally" + key);
-            localStorage.setItem(project + "." + key, JSON.stringify(value));
-         },
-
-         getGlobalItem: function getGlobalItem(key) {
-            return this._getItem("_system", key);
-         },
-
-         getItem: function getItem(key) {
-            var deferred = $q.defer();
-            this._getItem(project, key).then(function (response) {
-               deferred.resolve(response);
-            });
-            return deferred.promise;
-         },
-
-         _getItem: function _getItem(project, key) {
-            $log.debug("Fetching state locally for key " + key);
-            var item = localStorage.getItem(project + "." + key);
-            if (item) {
-               try {
-                  item = JSON.parse(item);
-               } catch (e) {
-                  // Do nothing as it will be a string
-               }
-            }
-            return $q.when(item);
          }
       };
    }]);
@@ -2193,6 +2193,67 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 }
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var ExtentService = function ExtentService(mapService, searchService) {
+      _classCallCheck(this, ExtentService);
+
+      var bbox = searchService.getSearchCriteria().bbox;
+
+      if (bbox.fromMap) {
+         enableMapListeners();
+      }
+
+      return {
+         getParameters: function getParameters() {
+            return bbox;
+         }
+      };
+
+      function enableMapListeners() {
+         mapService.getMap().then(function (map) {
+            map.on("moveend", execute);
+            map.on("zoomend", execute);
+            execute();
+         });
+      }
+
+      function disableMapListeners() {
+         return mapService.getMap().then(function (map) {
+            map.off("moveend", execute);
+            map.off("zoomend", execute);
+            return map;
+         });
+      }
+
+      function execute() {
+         mapService.getMap().then(function (map) {
+            var bounds = map.getBounds();
+            bbox.yMin = bounds.getSouth();
+            bbox.xMin = bounds.getWest();
+            bbox.yMax = bounds.getNorth();
+            bbox.xMax = bounds.getEast();
+            searchService.refresh();
+         });
+      }
+   };
+
+   ExtentService.$inject = ['mapService', 'searchService'];
+
+   angular.module("placenames.extent", ["explorer.switch"]).directive("placenamesExtent", ['extentService', function (extentService) {
+      return {
+         restrict: "AE",
+         templateUrl: "extent/extent.html",
+         controller: ['$scope', function ($scope) {
+            $scope.parameters = extentService.getParameters();
+         }],
+         link: function link(scope, element, attrs) {}
+      };
+   }]).factory("extentService", ExtentService);
+}
+"use strict";
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -2530,67 +2591,6 @@ var SolrTransformer = function () {
 
       return service;
    }]);
-}
-"use strict";
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var ExtentService = function ExtentService(mapService, searchService) {
-      _classCallCheck(this, ExtentService);
-
-      var bbox = searchService.getSearchCriteria().bbox;
-
-      if (bbox.fromMap) {
-         enableMapListeners();
-      }
-
-      return {
-         getParameters: function getParameters() {
-            return bbox;
-         }
-      };
-
-      function enableMapListeners() {
-         mapService.getMap().then(function (map) {
-            map.on("moveend", execute);
-            map.on("zoomend", execute);
-            execute();
-         });
-      }
-
-      function disableMapListeners() {
-         return mapService.getMap().then(function (map) {
-            map.off("moveend", execute);
-            map.off("zoomend", execute);
-            return map;
-         });
-      }
-
-      function execute() {
-         mapService.getMap().then(function (map) {
-            var bounds = map.getBounds();
-            bbox.yMin = bounds.getSouth();
-            bbox.xMin = bounds.getWest();
-            bbox.yMax = bounds.getNorth();
-            bbox.xMax = bounds.getEast();
-            searchService.refresh();
-         });
-      }
-   };
-
-   ExtentService.$inject = ['mapService', 'searchService'];
-
-   angular.module("placenames.extent", ["explorer.switch"]).directive("placenamesExtent", ['extentService', function (extentService) {
-      return {
-         restrict: "AE",
-         templateUrl: "extent/extent.html",
-         controller: ['$scope', function ($scope) {
-            $scope.parameters = extentService.getParameters();
-         }],
-         link: function link(scope, element, attrs) {}
-      };
-   }]).factory("extentService", ExtentService);
 }
 'use strict';
 
@@ -3683,7 +3683,7 @@ $templateCache.put("panes/panes.html","<div class=\"mapContainer\" class=\"col-m
 $templateCache.put("popover/popover.html","<div class=\"placenames-popover {{direction}}\" ng-class=\"containerClass\" ng-show=\"show\">\r\n  <div class=\"arrow\"></div>\r\n  <div class=\"placenames-popover-inner\" ng-transclude></div>\r\n</div>");
 $templateCache.put("searched/feature.html","<div ng-mouseenter=\"vm.enter()\" ng-mouseleave=\"vm.leave()\">\r\n      <div class=\"container-fluid\">\r\n         <div class=\"row\">\r\n            <div class=\"col-md-12 pn-header\" >\r\n               <button type=\"button\" class=\"undecorated\" ng-click=\"vm.showPan(feature)\"\r\n                      tooltip-append-to-body=\"true\" title=\"Zoom to location.\" tooltip-placement=\"left\" uib-tooltip=\"Zoom to location\">\r\n                  <i class=\"fa fa-lg fa-flag-o\"></i>\r\n               </button>\r\n               <span>{{feature.name}}</span>\r\n               <span class=\"pull-right\">Record ID: {{feature.authorityId}}</span>\r\n            </div>\r\n         </div>\r\n      </div>\r\n      <div class=\"container-fluid\">\r\n         <div class=\"row\">\r\n            <div class=\"col-md-4\" title=\"Features belong to a category and categories belong to a group\">Feature Type</div>\r\n            <div class=\"col-md-8\">{{feature.feature}}</div>\r\n         </div>\r\n         <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n            <div class=\"col-md-4\">Category</div>\r\n            <div class=\"col-md-8\">{{feature.category}}</div>\r\n         </div>\r\n         <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n            <div class=\"col-md-4\">Group</div>\r\n            <div class=\"col-md-8\">{{feature.group}}</div>\r\n         </div>\r\n         <div class=\"row\">\r\n            <div class=\"col-md-4\">Supply Date</div>\r\n            <div class=\"col-md-8\" title=\"Date format is dd/mm/yyyy\">{{feature.supplyDate | formatDate}}</div>\r\n         </div>\r\n         <div class=\"row\">\r\n            <div class=\"col-md-4\">Lat / Lng</div>\r\n            <div class=\"col-md-8\">\r\n               <span class=\"pn-numeric\">\r\n                  {{feature.location | itemLatitude}}&deg; / {{feature.location | itemLongitude}}&deg;\r\n               </span>\r\n            </div>\r\n         </div>\r\n\r\n      </div>");
 $templateCache.put("searched/item.html","<div class=\"row\">\r\n   <div class=\"col-md-3\" style=\"text-align:center\">\r\n      <a href=\"{{authority.href}}\" target=\"_blank\">\r\n         <img ng-src=\"{{authority.image}}\" ng-attr-style=\"height:{{authority.height}}px\">\r\n      </a>\r\n   </div>\r\n   <div class=\"col-md-9\">\r\n      <strong ng-bind-html=\"authority.name\"></strong>\r\n      <div>\r\n         <a ng-if=\"authority.metadata\" ng-href=\"{{authority.metadata}}\" target=\"_blank\">[metadata]</a>\r\n         <a ng-if=\"authority.disclaimer\" ng-click=\"authority.showDisclaimer = !authority.showDisclaimer\">[disclaimer]</a>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-show=\"authority.showDisclaimer\" class=\"searched-disclaimer\" ng-bind-html=\"authority.disclaimer\"></div>\r\n<placenames-feature feature=\"item\"></placenames-feature>");
-$templateCache.put("searched/jurisdiction.html","<div class=\"row\">\r\n   <div class=\"col-md-3\" style=\"text-align:center\">\r\n      <a href=\"{{authority.href}}\" target=\"_blank\">\r\n         <img ng-src=\"{{authority.image}}\" ng-attr-style=\"height:{{authority.height}}px\">\r\n      </a>\r\n   </div>\r\n   <div class=\"col-md-6\">\r\n      <strong ng-bind-html=\"authority.name\"></strong>\r\n      <div>\r\n         <a ng-if=\"authority.metadata\" ng-href=\"{{authority.metadata}}\" target=\"_blank\">[metadata]</a>\r\n         <a ng-if=\"authority.disclaimer\" ng-click=\"authority.showDisclaimer = !authority.showDisclaimer\">[note]</a>\r\n      </div>\r\n   </div>\r\n   <div class=\"col-md-3\" style=\"float:right;\">\r\n      ({{authority.count | number:0}} features)\r\n      <div>\r\n         <a ng-click=\"toggle()\" class=\"searched-important\">[{{showing?\'hide\':\'show\'}} list]</a>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-show=\"authority.showDisclaimer\" class=\"searched-disclaimer\" ng-bind-html=\"authority.disclaimer\"></div>\r\n<div ng-show=\"showing\">\r\n   <placenames-feature ng-repeat=\"feature in features\" feature=\"feature\"></placenames-feature>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-7\" ng-show=\"authority.count > features.length\">\r\n         <i style=\"padding:10px;\" class=\"fa fa-spinner fa-2x fa-spin\" aria-hidden=\"true\" ng-show=\"loading\"></i>\r\n         <a class=\"searched-important\" ng-show=\"authority.count > features.length && !loading\" ng-click=\"loadPage()\">[more]</a>\r\n      </div>\r\n      <div class=\"col-md-7\" ng-show=\"authority.count === features.length\">\r\n         <div class=\"ellipsis\">(End of features for {{authority.name}})</div>\r\n      </div>\r\n      <div class=\"col-md-5\">\r\n         <span class=\"pull-right\">\r\n            Showing {{features.length | number : 0}} of {{authority.count| number : 0}} features\r\n            <a ng-click=\"toggle()\" class=\"searched-important\">[hide]</a>\r\n         </span>\r\n      </div>\r\n</div>");
+$templateCache.put("searched/jurisdiction.html","<div class=\"row\">\r\n   <div class=\"col-md-3\" style=\"text-align:center\">\r\n      <a href=\"{{authority.href}}\" target=\"_blank\">\r\n         <img ng-src=\"{{authority.image}}\" ng-attr-style=\"height:{{authority.height}}px\">\r\n      </a>\r\n   </div>\r\n   <div class=\"col-md-6\">\r\n      <strong ng-bind-html=\"authority.name\"></strong>\r\n      <div>\r\n         <a ng-if=\"authority.metadata\" ng-href=\"{{authority.metadata}}\" target=\"_blank\">[metadata]</a>\r\n         <a ng-if=\"authority.disclaimer\" ng-click=\"authority.showDisclaimer = !authority.showDisclaimer\">[note]</a>\r\n      </div>\r\n   </div>\r\n   <div class=\"col-md-3\" style=\"float:right;\">\r\n      ({{authority.count | number:0}} features)\r\n      <div>\r\n         <a ng-click=\"toggle()\" class=\"searched-important\">[{{showing?\'hide\':\'show\'}} list]</a>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-show=\"authority.showDisclaimer\" class=\"searched-disclaimer\" ng-bind-html=\"authority.disclaimer\"></div>\r\n<div ng-show=\"showing\">\r\n   <placenames-feature ng-repeat=\"feature in features\" feature=\"feature\"></placenames-feature>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-7\" ng-show=\"authority.count > features.length\">\r\n         <i style=\"padding:10px;\" class=\"fa fa-spinner fa-2x fa-spin\" aria-hidden=\"true\" ng-show=\"loading\"></i>\r\n         <a class=\"searched-important\" ng-show=\"authority.count > features.length && !loading\" ng-click=\"loadPage()\">[more]</a>\r\n      </div>\r\n      <div class=\"col-md-7\" ng-show=\"authority.count === features.length\">\r\n         <div class=\"ellipsis\">(End of features for {{authority.name}})</div>\r\n      </div>\r\n      <div class=\"col-md-5\">\r\n         <span class=\"pull-right\">\r\n            Showing {{features.length | number : 0}} of {{authority.count| number : 0}}\r\n            <a ng-click=\"toggle()\" class=\"searched-important\">[hide]</a>\r\n         </span>\r\n      </div>\r\n</div>");
 $templateCache.put("searched/searched.html","<div class=\"pn-results-heading\" style=\"min-height:25px\" ng-if=\"data.searched\" ng-class=\"{\'searched-download\': showDownload}\">\r\n   <span ng-if=\"data.searched.item\">\r\n      Showing selected feature\r\n   </span>\r\n   <span ng-if=\"!data.searched.item\">\r\n      Matched {{data.searched.data.response.numFound | number}} features\r\n   </span>\r\n   <span class=\"pull-right\">\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"showDownload = !showDownload\">\r\n         <span ng-if=\"!showDownload\">Download...</span>\r\n         <span ng-if=\"showDownload\">Hide download details</span>\r\n      </button>\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"clear()\">\r\n         Clear results\r\n      </button>\r\n   </span>\r\n   <placenames-search-filters></placenames-search-filters>\r\n   <placenames-searched-download data=\"data.searched\" ng-if=\"showDownload\"></placenames-searched-download>\r\n</div>\r\n\r\n<div ng-if=\"data.searched\">\r\n   <div ng-if=\"!data.searched.item\">\r\n      <div ng-repeat=\"authority in authorities | activeAuthorities\" title=\"{{authority.jurisdiction}}\" style=\"border-bottom: 1px gray solid;padding:3px 0 3px\">\r\n         <placenames-jurisdiction authority=\"authority\"></placenames-jurisdiction>\r\n      </div>\r\n   </div>\r\n   <div ng-if=\"data.searched.item\">\r\n      <div ng-repeat=\"authority in authorities | activeAuthorities\" title=\"{{authority.jurisdiction}}\" style=\"border-bottom: 1px gray solid;padding:3px 0 3px\">\r\n         <placenames-searched-item authority=\"authority\" feature=\"data.searched.item\"></placenames-searched-item>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-if=\"!data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span style=\"font-weight:bold\">\r\n         Need help on how to search?\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-body\">\r\n      Searching is conducted on the current map view. Pan and zoom the map to your area of interest\r\n      <br/>\r\n      <br/>\r\n      <span class=\"padding-left:5px\">You can apply filters for:</span>\r\n      <div class=\"well\">\r\n         Features matching on partial or like name, groups, categories and features.\r\n         <br/> You can restrict results to only authorities of interest.\r\n         <br/>\r\n         <br/> Once you have zoomed, panned and filtered to your desired results hit the search button to list details with\r\n         the option to download in a variety of projections and formats.\r\n         <br/>\r\n         <br/>\r\n         <b title=\"nota bene\">NB</b> Name searching is done on \"fuzzy\" searching which means it isn\'t always an exact match\r\n         but a match something like what is typed.\r\n      </div>\r\n      <div>\r\n         If you are interested in features in the Antarctic consider using the\r\n         <a href=\"antarctic.html\">search specific to the polar view</a>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("searched/summary.html","<span class=\"placenamesSearchSummary\"\r\n      ng-if=\"state.searched.data.response.numFound\">(Found {{state.searched.data.response.numFound | number}} features)</span>");
 $templateCache.put("side-panel/side-panel-left.html","<div class=\"cbp-spmenu cbp-spmenu-vertical cbp-spmenu-left\" style=\"width: {{left.width}}px;\" ng-class=\"{\'cbp-spmenu-open\': left.active}\">\r\n    <a href=\"\" title=\"Close panel\" ng-click=\"closeLeft()\" style=\"z-index: 1200\">\r\n        <span class=\"glyphicon glyphicon-chevron-left pull-right\"></span>\r\n    </a>\r\n    <div ng-show=\"left.active === \'legend\'\" class=\"left-side-menu-container\">\r\n        <legend url=\"\'img/AustralianTopogaphyLegend.png\'\" title=\"\'Map Legend\'\"></legend>\r\n    </div>\r\n</div>");
@@ -3706,9 +3706,9 @@ $templateCache.put("help/faqs.html","<p style=\"text-align: left; margin: 10px; 
 $templateCache.put("help/help.html","<p style=\"text-align: left; margin: 10px; font-size: 14px;\">\r\n	<strong>Help</strong>\r\n</p>\r\n\r\n<div class=\"panel-body\" ng-controller=\"HelpCtrl as help\">\r\n	The steps to get data!\r\n	<ol>\r\n		<li>Define area of interest</li>\r\n		<li>Select datasets</li>\r\n		<li>Enter email address</li>\r\n		<li>Start extract</li>\r\n	</ol>\r\n	An email will be sent to you on completion of the data extract with a link to your data.\r\n   <hr>\r\n	<placenames-faqs faqs=\"help.faqs\" ></placenames-faqs>\r\n</div>");
 $templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
 $templateCache.put("pill/pill.html","<span class=\"btn btn-primary pn-pill\" ng-style=\"item.color?{\'background-color\':item.color, \'padding-top\': \'3px\'}: {\'padding-top\': \'3px\'}\">\r\n   <span style=\"max-width:100px;display:inline-block\" title=\"{{label + item[name]}}\" class=\"ellipsis\">{{item[name]}}</span>\r\n   <span class=\"ellipsis\" style=\"max-width:100px;display:inline-block\">\r\n      ({{item.count?item.count:0 | number}})\r\n      <a ng-click=\"deselect()\" href=\"javascript:void(0)\" title=\"Remove from filters\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");
+$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
 $templateCache.put("quicksearch/filteredsummary.html","<span class=\"placenames-filtered-summary-child\">\r\n   <span style=\"font-weight:bold; margin:5px;\">\r\n      Matched {{state.persist.data.response.numFound | number}}\r\n   </span>\r\n   <span ng-if=\"summary.authorities.length\">\r\n      <span style=\"font-weight:bold\">| For authorities:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.authorities\" name=\"code\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n   <span ng-if=\"summary.current.length\">\r\n      <span style=\"font-weight:bold\"> | Filtered by {{summary.filterBy}}:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.current\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n</span>");
 $templateCache.put("quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search></div>\r\n");
-$templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
 $templateCache.put("results/item.html","<div ng-mouseenter=\"vm.enter()\" ng-mouseleave=\"vm.leave()\">\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-12 pn-header\" >\r\n         <button type=\"button\" class=\"undecorated\" ng-click=\"vm.showPan(vm.item)\"\r\n                tooltip-append-to-body=\"true\" title=\"Zoom to location.\" tooltip-placement=\"left\" uib-tooltip=\"Zoom to location\">\r\n            <i class=\"fa fa-lg fa-flag-o\"></i>\r\n         </button>\r\n         <span><placenames-google-anchor item=\"vm.item\"\r\n            link-title=\"View in Google maps. While the location will always be correct, Google will do a best guess at matching the Gazetteer name to its data.\"></placenames-google-anchor></span>\r\n         <span class=\"pull-right\">Record ID: {{vm.item.authorityId}}</span>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\"  title=\"An authority can be a state department or other statutory authority\">Authority</div>\r\n      <div class=\"col-md-8\">{{vm.item.authority}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\" title=\"Features belong to a category and categories belong to a group\">Feature Type</div>\r\n      <div class=\"col-md-8\">{{vm.item.feature}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Category</div>\r\n      <div class=\"col-md-8\">{{vm.item.category}}</div>\r\n   </div>\r\n   <div class=\"row\" title=\"Features belong to a category and categories belong to a group\">\r\n      <div class=\"col-md-4\">Group</div>\r\n      <div class=\"col-md-8\">{{vm.item.group}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Supply Date</div>\r\n      <div class=\"col-md-8\" title=\"Date format is dd/mm/yyyy\">{{vm.item.supplyDate | formatDate}}</div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">Lat / Lng</div>\r\n      <div class=\"col-md-8\">\r\n         <span class=\"pn-numeric\">\r\n            {{vm.item.location | itemLatitude}}&deg; / {{vm.item.location | itemLongitude}}&deg;\r\n         </span>\r\n      </div>\r\n   </div>\r\n\r\n</div>");
 $templateCache.put("results/results.html","<div class=\"pn-results-heading\" style=\"min-height:25px\" ng-if=\"pr.data.searched\">\r\n   <span ng-if=\"pr.data.searched.item\">\r\n      Showing selected feature\r\n   </span>\r\n   <span ng-if=\"!pr.data.searched.item\">\r\n      Matched {{pr.data.searched.data.response.numFound | number}} features\r\n      <span ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\">, showing {{pr.data.searched.data.response.docs.length | number}}</span>\r\n      <a href=\"javascript:void()\" ng-if=\"!pr.data.searched.item && pr.data.searched.data.response.numFound > pr.data.searched.data.response.docs.length\"\r\n         ng-click=\"pr.more()\" tooltip-placement=\"bottom\" uib-tooltip=\"Scroll to the bottom of results or click here to load more matching features\">\r\n         [Load more]\r\n      </a>\r\n   </span>\r\n   <span class=\"pull-right\">\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"pr.showDownload = !pr.showDownload\">\r\n         <span ng-if=\"!pr.showDownload\">Download...</span>\r\n         <span ng-if=\"pr.showDownload\">Hide download details</span>\r\n      </button>\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-if=\"!pr.data.searched.item && !pr.showDownload\" ng-click=\"pr.clear()\">\r\n         Clear results\r\n      </button>\r\n   </span>\r\n</div>\r\n<div class=\"panel panel-default pn-container\" ng-if=\"pr.data.searched\" common-scroller buffer=\"200\" more=\"pr.more()\">\r\n   <div class=\"panel-heading\">\r\n      <placenames-search-filters ng-if=\"pr.data.searched\"></placenames-search-filters>\r\n      <placenames-results-item ng-if=\"pr.data.searched.item\" item=\"pr.data.searched.item\"></placenames-results-item>\r\n      <placenames-results-download data=\"pr.data.searched\" ng-if=\"!pr.data.searched.item && pr.showDownload\"></placenames-results-download>\r\n      <div class=\"pn-results-list\" ng-if=\"!pr.data.searched.item\" ng-repeat=\"doc in pr.data.searched.data.response.docs\">\r\n         <placenames-results-item item=\"doc\"></placenames-results-item>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div class=\"panel panel-default pn-container\" ng-if=\"!pr.data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span style=\"font-weight:bold\">\r\n         Need help on how to search?\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-body\">\r\n      Searching is conducted on the current map view. Pan and zoom the map to your area of interest\r\n      <br/>\r\n      <br/>\r\n      <span class=\"padding-left:5px\">You can apply filters for:</span>\r\n      <div class=\"well\">\r\n         Features matching on partial or like name, groups, categories and features.\r\n         <br/> You can restrict results to only authorities of interest.\r\n         <br/>\r\n         <br/> Once you have zoomed, panned and filtered to your desired results hit the search button to list details with the\r\n         option to download in a variety of projections and formats.\r\n         <br/>\r\n         <br/>\r\n         <b title=\"nota bene\">NB</b> Name searching is done on \"fuzzy\" searching which means it isn\'t always an exact match but a match something\r\n         like what is typed.\r\n\r\n      </div>\r\n      <div>\r\n         If you are interested in features in the Antarctic consider using the\r\n         <a href=\"antarctic.html\">search specific to the polar view</a>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("results/summary.html","<span class=\"placenamesSearchSummary\"\r\n      ng-if=\"state.searched.data.response.numFound\">(Found {{state.searched.data.response.numFound | number}} features)</span>");

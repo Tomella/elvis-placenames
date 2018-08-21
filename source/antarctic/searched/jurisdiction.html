@@ -20,7 +20,7 @@
 </div>
 <div ng-show="authority.showDisclaimer" class="searched-disclaimer" ng-bind-html="authority.disclaimer"></div>
 <div ng-show="showing">
-   <placenames-feature ng-repeat="feature in features" feature="feature"></placenames-feature>
+   <antarctic-feature ng-repeat="feature in features" feature="feature"></antarctic-feature>
    <div class="row">
       <div class="col-md-7" ng-show="authority.count > features.length">
          <i style="padding:10px;" class="fa fa-spinner fa-2x fa-spin" aria-hidden="true" ng-show="loading"></i>

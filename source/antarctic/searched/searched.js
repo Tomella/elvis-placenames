@@ -1,6 +1,6 @@
 {
-   angular.module("placenames.searched", ["placenames.feature"])
-      .directive('placenamesSearched', ['$rootScope', 'searchService', function ($rootScope, searchService) {
+   angular.module("antarctic.searched", ["antarctic.feature", 'placenames.download'])
+      .directive('antarcticSearched', ['$rootScope', 'searchService', function ($rootScope, searchService) {
          return {
             restrict: "AE",
             templateUrl: "searched/searched.html",
@@ -22,7 +22,7 @@
          };
       }])
 
-      .directive("placenamesZoomToAll", ['mapService', function (mapService) {
+      .directive("antarcticZoomToAll", ['mapService', function (mapService) {
          return {
             template: '<button type="button" class="map-tool-toggle-btn" ng-click="zoomToAll()" title="{{text}}">' +
                '<span class="hidden-sm">{{text}}</span> ' +
@@ -49,7 +49,7 @@
          };
       }])
 
-      .directive("placenamesSearchedSummary", [function () {
+      .directive("antarcticSearchedSummary", [function () {
          return {
             templateUrl: "searched/summary.html",
             scope: {
@@ -58,7 +58,7 @@
          };
       }])
 
-      .directive("placenamesSearchedItem", [function () {
+      .directive("antarcticSearchedItem", [function () {
          return {
             templateUrl: "searched/item.html",
             scope: {
@@ -68,7 +68,7 @@
          };
       }])
 
-      .directive("placenamesSearchedDownload", [function () {
+      .directive("antarcticSearchedDownload", [function () {
          return {
             template: "<placenames-download data='data' class='searched-download'></placenames-download>",
             scope: {
@@ -77,7 +77,7 @@
          };
       }])
 
-      .directive('placenamesJurisdiction', ['searchedService', function (searchedService) {
+      .directive('antarcticJurisdiction', ['searchedService', function (searchedService) {
          return {
             restrict: "AE",
             templateUrl: "searched/jurisdiction.html",

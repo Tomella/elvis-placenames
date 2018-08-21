@@ -116,7 +116,7 @@
                               }
 
                               template = template.replace("{size}", size).replace("{value}", cell.length);
-                              return L.marker(cell.weightedLatLng, { icon: L.divIcon({ html: template }) }).on('click', (event) => {
+                              return L.marker(cell.weightedLatLng, { icon: L.divIcon({ html: template }) }).on('click', () => {
                                  map.setZoomAround(cell.weightedLatLng, map.getZoom() + 1);
                               });
                            })).addTo(map);
