@@ -17,24 +17,6 @@ specific language governing permissions and limitations
 under the License.
 */
 
-"use strict";
-
-{
-   angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
-      return {
-         restrict: 'EA',
-         templateUrl: "authorities/authorities.html",
-         link: function link(scope) {
-            groupsService.getAuthorities().then(function (authorities) {
-               return scope.authorities = authorities;
-            });
-            scope.change = function (item) {
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
-}
 'use strict';
 
 {
@@ -88,6 +70,36 @@ under the License.
 "use strict";
 
 {
+   angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "authorities/authorities.html",
+         link: function link(scope) {
+            groupsService.getAuthorities().then(function (authorities) {
+               return scope.authorities = authorities;
+            });
+            scope.change = function (item) {
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
+'use strict';
+
+var declusteredIcon = L.icon({
+   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
+   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
+   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
+   iconSize: [16, 25],
+   iconAnchor: [7, 26],
+   popupAnchor: [1, -22],
+   tooltipAnchor: [10, -18],
+   shadowSize: [25, 25]
+});
+"use strict";
+
+{
    angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
       return {
          templateUrl: "categories/categories.html",
@@ -109,18 +121,6 @@ under the License.
       };
    }]);
 }
-'use strict';
-
-var declusteredIcon = L.icon({
-   iconUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon.png',
-   iconRetinaUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-icon-2x.png',
-   shadowUrl: 'https://unpkg.com/leaflet@1.2.0/dist/images/marker-shadow.png',
-   iconSize: [16, 25],
-   iconAnchor: [7, 26],
-   popupAnchor: [1, -22],
-   tooltipAnchor: [10, -18],
-   shadowSize: [25, 25]
-});
 "use strict";
 
 {
@@ -208,6 +208,23 @@ function ContributorsService($http) {
          return state;
       }
    };
+}
+"use strict";
+
+{
+   angular.module("placenames.feature", []).directive("placenamesFeatures", ['groupsService', "searchService", function (groupsService, searchService) {
+      return {
+         templateUrl: "features/features.html",
+         link: function link(scope) {
+            groupsService.getFeatures().then(function (features) {
+               return scope.features = features;
+            });
+            scope.change = function () {
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
 }
 "use strict";
 
@@ -376,23 +393,6 @@ function ContributorsService($http) {
          });
       };
    });
-}
-"use strict";
-
-{
-   angular.module("placenames.feature", []).directive("placenamesFeatures", ['groupsService', "searchService", function (groupsService, searchService) {
-      return {
-         templateUrl: "features/features.html",
-         link: function link(scope) {
-            groupsService.getFeatures().then(function (features) {
-               return scope.features = features;
-            });
-            scope.change = function () {
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
 }
 "use strict";
 
@@ -813,6 +813,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 "use strict";
 
 {
+   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
+      return {
+         scope: {
+            hover: "="
+         },
+         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
+      };
+   }]);
+}
+"use strict";
+
+{
 	angular.module("placenames.help", []).directive("placenamesHelp", [function () {
 		return {
 			templateUrl: "help/help.html"
@@ -854,46 +866,6 @@ function HelpService($http) {
 			});
 		}
 	};
-}
-"use strict";
-
-{
-   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
-      return {
-         scope: {
-            hover: "="
-         },
-         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
-      return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
-         scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
-         },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
-            };
-         }
-      };
-   }]);
 }
 'use strict';
 
@@ -1050,6 +1022,34 @@ function HelpService($http) {
       return {};
    }]);
 }
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1125,35 +1125,6 @@ function HelpService($http) {
          }]
       };
    });
-}
-"use strict";
-
-{
-
-   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
-      return {
-         scope: {
-            more: "&",
-            buffer: "=?"
-         },
-         link: function link(scope, element, attrs) {
-            var fetching = void 0;
-            if (!scope.buffer) scope.buffer = 100;
-
-            element.on("scroll", function (event) {
-               var target = event.currentTarget;
-               $timeout.cancel(fetching);
-               fetching = $timeout(bouncer, 120);
-
-               function bouncer() {
-                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
-                     scope.more();
-                  }
-               }
-            });
-         }
-      };
-   }]);
 }
 "use strict";
 
@@ -1393,6 +1364,35 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
    };
 
    return service;
+}
+"use strict";
+
+{
+
+   angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
+      return {
+         scope: {
+            more: "&",
+            buffer: "=?"
+         },
+         link: function link(scope, element, attrs) {
+            var fetching = void 0;
+            if (!scope.buffer) scope.buffer = 100;
+
+            element.on("scroll", function (event) {
+               var target = event.currentTarget;
+               $timeout.cancel(fetching);
+               fetching = $timeout(bouncer, 120);
+
+               function bouncer() {
+                  if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
+                     scope.more();
+                  }
+               }
+            });
+         }
+      };
+   }]);
 }
 'use strict';
 
@@ -1751,6 +1751,23 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       };
    }]);
 }
+'use strict';
+
+{
+   angular.module('placenames.specification', []).directive('productSpecification', ['$window', 'configService', function ($window, configService) {
+      return {
+         restrict: 'AE',
+         templateUrl: 'specification/specification.html',
+         link: function link($scope) {
+            $scope.open = function () {
+               configService.getConfig("dataSpecificationUrl").then(function (url) {
+                  $window.open(url, "_blank");
+               });
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1971,7 +1988,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
    RootCtrl.$invoke = ['configService', 'mapService'];
 
-   angular.module("AntarcticApp", ['antarctic.australia', 'antarctic.clusters', 'antarctic.maps', 'antarctic.panes', 'antarctic.restrict.pan', 'antarctic.search', 'antarctic.searched', 'antarctic.templates', 'antarctic.toolbar', 'explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.version', 'placenames.groups', 'placenames.header', 'placenames.help', 'placenames.lock', 'placenames.navigation', 'placenames.proxy', 'placenames.quicksearch', 'placenames.reset', 'placenames.search', 'placenames.side-panel', 'placenames.tree', 'placenames.utils', 'exp.ui.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngSanitize', 'page.footer'])
+   angular.module("AntarcticApp", ['antarctic.australia', 'antarctic.clusters', 'antarctic.maps', 'antarctic.panes', 'antarctic.restrict.pan', 'antarctic.search', 'antarctic.searched', 'antarctic.templates', 'antarctic.toolbar', 'explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.version', 'placenames.groups', 'placenames.header', 'placenames.help', 'placenames.lock', 'placenames.navigation', 'placenames.proxy', 'placenames.quicksearch', 'placenames.reset', 'placenames.search', 'placenames.side-panel', 'placenames.specification', 'placenames.tree', 'placenames.utils', 'exp.ui.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngSanitize', 'page.footer'])
 
    // Set up all the service providers here.
    .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider', function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
@@ -2096,6 +2113,434 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          };
       }();
    }
+}
+"use strict";
+
+{
+   /*
+   Graticule plugin for Leaflet powered maps.
+   */
+   L.Graticule = L.GeoJSON.extend({
+
+      options: {
+         style: {
+            color: '#333',
+            weight: 1
+         },
+         interval: 20
+      },
+
+      initialize: function initialize(options) {
+         L.Util.setOptions(this, options);
+         this._layers = {};
+
+         if (this.options.sphere) {
+            this.addData(this._getFrame());
+         } else {
+            this.addData(this._getGraticule());
+         }
+      },
+
+      _getFrame: function _getFrame() {
+         return {
+            "type": "Polygon",
+            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
+         };
+      },
+
+      _getGraticule: function _getGraticule() {
+         var features = [],
+             interval = this.options.interval;
+
+         // Meridians
+         for (var lng = 0; lng <= 180; lng = lng + interval) {
+            features.push(this._getFeature(this._getMeridian(lng), {
+               "name": lng ? lng.toString() + "° E" : "Prime meridian"
+            }));
+            if (lng !== 0) {
+               features.push(this._getFeature(this._getMeridian(-lng), {
+                  "name": lng.toString() + "° W"
+               }));
+            }
+         }
+
+         // Parallels
+         for (var lat = 0; lat <= 90; lat = lat + interval) {
+            features.push(this._getFeature(this._getParallel(lat), {
+               "name": lat ? lat.toString() + "° N" : "Equator"
+            }));
+            if (lat !== 0) {
+               features.push(this._getFeature(this._getParallel(-lat), {
+                  "name": lat.toString() + "° S"
+               }));
+            }
+         }
+
+         return {
+            "type": "FeatureCollection",
+            "features": features
+         };
+      },
+
+      _getMeridian: function _getMeridian(lng) {
+         lng = this._lngFix(lng);
+         var coords = [];
+         for (var lat = -90; lat <= 90; lat++) {
+            coords.push([lng, lat]);
+         }
+         return coords;
+      },
+
+      _getParallel: function _getParallel(lat) {
+         var coords = [];
+         for (var lng = -180; lng <= 180; lng++) {
+            coords.push([this._lngFix(lng), lat]);
+         }
+         return coords;
+      },
+
+      _getFeature: function _getFeature(coords, prop) {
+         return {
+            "type": "Feature",
+            "geometry": {
+               "type": "LineString",
+               "coordinates": coords
+            },
+            "properties": prop
+         };
+      },
+
+      _lngFix: function _lngFix(lng) {
+         if (lng >= 180) return 179.999999;
+         if (lng <= -180) return -179.999999;
+         return lng;
+      }
+
+   });
+
+   L.graticule = function (options) {
+      return new L.Graticule(options);
+   };
+}
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var MapService = function () {
+      function MapService(p) {
+         _classCallCheck(this, MapService);
+
+         this._promise = p;
+         this._promises = [];
+      }
+
+      _createClass(MapService, [{
+         key: 'getMap',
+         value: function getMap() {
+            if (this.map) {
+               return this._promise.when(this.map);
+            }
+
+            var promise = this._promise.defer();
+            this._promises.push(promise);
+            return promise.promise;
+         }
+      }, {
+         key: 'init',
+         value: function init(div) {
+            // Map resolutions that NASA GIBS specify
+            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
+
+            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
+
+            // The polar projection
+            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
+               resolutions: resolutions,
+               origin: [-30636100, 30636100],
+               bounds: bounds
+            });
+            crs.distance = L.CRS.Earth.distance;
+            crs.R = 6378137;
+            crs.projection.bounds = bounds;
+
+            var map = this.map = L.map(div, {
+               center: [-70, 90],
+               zoom: 2,
+               maxZoom: 8,
+               minZoom: 1,
+               crs: crs
+            });
+
+            // This data is from the "Heroes of the Antarctic"
+            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
+            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
+            var options = {
+               format: "image%2Fpng",
+               tileSize: 256,
+               subdomains: "1234",
+               noWrap: true,
+               continuousWorld: true,
+               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
+            };
+
+            var layer = this.layer = L.tileLayer(template, options);
+
+            // HACK: BEGIN
+            // Leaflet does not yet handle these kind of projections nicely. Monkey
+            // patch the getTileUrl function to ensure requests are within
+            // tile matrix set boundaries.
+            var superGetTileUrl = layer.getTileUrl;
+
+            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
+            var validTiles = {
+               0: { min: 1, max: 2 },
+               1: { min: 3, max: 4 },
+               2: { min: 6, max: 8 },
+               3: { min: 12, max: 16 },
+               4: { min: 24, max: 32 },
+               5: { min: 48, max: 64 },
+               6: { min: 96, max: 129 },
+               7: { min: 192, max: 259 },
+               8: { min: 385, max: 519 }
+            };
+            layer.getTileUrl = function (coords) {
+               var zoom = layer._getZoomForUrl();
+               var max = validTiles[zoom].max;
+               var min = validTiles[zoom].min;
+
+               if (coords.x < min) {
+                  return "";
+               }
+               if (coords.y < min) {
+                  return "";
+               }
+               if (coords.x > max) {
+                  return "";
+               }
+               if (coords.y > max) {
+                  return "";
+               }
+               return superGetTileUrl.call(layer, coords);
+            };
+            // HACK: END
+
+
+            map.addLayer(layer);
+            window.map = map;
+
+            // Module which adds graticule (lat/lng lines)
+            // L.graticule().addTo(map);
+
+            L.control.scale({ imperial: false }).addTo(map);
+
+            L.control.mousePosition({
+               position: "bottomright",
+               emptyString: "",
+               seperator: " ",
+               latFormatter: function latFormatter(lat) {
+                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
+               },
+               lngFormatter: function lngFormatter(lng) {
+                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
+               }
+            }).addTo(map);
+
+            if (this._promises.length) {
+               this._promises.forEach(function (promise) {
+                  return promise.resolve(map);
+               });
+            }
+            this._promises = [];
+         }
+      }]);
+
+      return MapService;
+   }();
+
+   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
+      return {
+         restict: "AE",
+         template: "<div id='mappo'></div>",
+         link: function link(scope) {
+            scope.map = mapService.init("mappo");
+         }
+      };
+   }]).service("mapService", ['$q', function ($q) {
+      var service = new MapService($q);
+      return service;
+   }]);
+}
+'use strict';
+
+{
+   L.Control.MousePosition = L.Control.extend({
+      options: {
+         position: 'bottomleft',
+         separator: ' : ',
+         emptyString: 'Unavailable',
+         lngFirst: false,
+         numDigits: 5,
+         elevGetter: undefined,
+         lngFormatter: undefined,
+         latFormatter: undefined,
+         prefix: ""
+      },
+
+      onAdd: function onAdd(map) {
+         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
+         L.DomEvent.disableClickPropagation(this._container);
+         map.on('mousemove', this._onMouseMove, this);
+         this._container.innerHTML = this.options.emptyString;
+         return this._container;
+      },
+
+      onRemove: function onRemove(map) {
+         map.off('mousemove', this._onMouseMove);
+      },
+
+      _onMouseHover: function _onMouseHover() {
+         var info = this._hoverInfo;
+         this._hoverInfo = undefined;
+         this.options.elevGetter(info).then(function (elevStr) {
+            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
+            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
+         }.bind(this));
+      },
+
+      _onMouseMove: function _onMouseMove(e) {
+         var w = e.latlng.wrap();
+         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
+         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
+
+         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
+
+         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
+         if (this.options.elevGetter) {
+            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
+            this._hoverInfo = {
+               lat: w.lat,
+               lng: w.lng,
+               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
+            };
+         }
+         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
+      }
+
+   });
+
+   L.Map.mergeOptions({
+      positionControl: false
+   });
+
+   L.Map.addInitHook(function () {
+      if (this.options.positionControl) {
+         this.positionControl = new L.Control.MousePosition();
+         this.addControl(this.positionControl);
+      }
+   });
+
+   L.control.mousePosition = function (options) {
+      return new L.Control.MousePosition(options);
+   };
+}
+"use strict";
+
+{
+
+   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
+      return {
+         restrict: "AE",
+         scope: {
+            latitude: "="
+         },
+         link: function link(scope) {
+            mapService.getMap().then(function (map) {
+               map.on('zoomend moveend resize', function (e, d) {
+                  console.log("drag/zoom", e, d);
+               });
+            });
+         }
+      };
+   }]);
+}
+'use strict';
+
+{
+   angular.module('antarctic.australia', []).directive('australiaView', function () {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'australia/australia.html',
+         controller: ['$scope', function ($scope) {
+            $scope.go = function () {
+               window.location = "index.html";
+            };
+         }]
+      };
+   });
+}
+"use strict";
+
+{
+   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
+      return {
+         templateUrl: "panes/panes.html",
+         scope: {
+            defaultItem: "@",
+            data: "="
+         },
+         controller: ['$scope', function ($scope) {
+            var changeSize = false;
+
+            $scope.view = $scope.defaultItem;
+
+            $rootScope.$on('side.panel.change', function (event) {
+               emitter();
+               $timeout(emitter, 100);
+               $timeout(emitter, 200);
+               $timeout(emitter, 300);
+               $timeout(emitter, 500);
+               function emitter() {
+                  var evt = document.createEvent("HTMLEvents");
+                  evt.initEvent("resize", false, true);
+                  window.dispatchEvent(evt);
+               }
+            });
+
+            $scope.setView = function (what) {
+               var oldView = $scope.view;
+               var delay = 0;
+
+               if ($scope.view === what) {
+                  if (what) {
+                     changeSize = true;
+                     delay = 1000;
+                  }
+                  $scope.view = "";
+               } else {
+                  if (!what) {
+                     changeSize = true;
+                  }
+                  $scope.view = what;
+               }
+
+               $rootScope.$broadcast("view.changed", $scope.view, oldView);
+
+               if (changeSize) {
+                  mapService.getMap().then(function (map) {
+                     map._onResize();
+                  });
+               }
+            };
+            $timeout(function () {
+               $rootScope.$broadcast("view.changed", $scope.view, null);
+            }, 50);
+         }]
+      };
+   }]);
 }
 "use strict";
 
@@ -2531,374 +2976,6 @@ var PolarPoint = function () {
 }();
 'use strict';
 
-{
-   angular.module('antarctic.australia', []).directive('australiaView', function () {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'australia/australia.html',
-         controller: ['$scope', function ($scope) {
-            $scope.go = function () {
-               window.location = "index.html";
-            };
-         }]
-      };
-   });
-}
-"use strict";
-
-{
-   /*
-   Graticule plugin for Leaflet powered maps.
-   */
-   L.Graticule = L.GeoJSON.extend({
-
-      options: {
-         style: {
-            color: '#333',
-            weight: 1
-         },
-         interval: 20
-      },
-
-      initialize: function initialize(options) {
-         L.Util.setOptions(this, options);
-         this._layers = {};
-
-         if (this.options.sphere) {
-            this.addData(this._getFrame());
-         } else {
-            this.addData(this._getGraticule());
-         }
-      },
-
-      _getFrame: function _getFrame() {
-         return {
-            "type": "Polygon",
-            "coordinates": [this._getMeridian(-180).concat(this._getMeridian(180).reverse())]
-         };
-      },
-
-      _getGraticule: function _getGraticule() {
-         var features = [],
-             interval = this.options.interval;
-
-         // Meridians
-         for (var lng = 0; lng <= 180; lng = lng + interval) {
-            features.push(this._getFeature(this._getMeridian(lng), {
-               "name": lng ? lng.toString() + "° E" : "Prime meridian"
-            }));
-            if (lng !== 0) {
-               features.push(this._getFeature(this._getMeridian(-lng), {
-                  "name": lng.toString() + "° W"
-               }));
-            }
-         }
-
-         // Parallels
-         for (var lat = 0; lat <= 90; lat = lat + interval) {
-            features.push(this._getFeature(this._getParallel(lat), {
-               "name": lat ? lat.toString() + "° N" : "Equator"
-            }));
-            if (lat !== 0) {
-               features.push(this._getFeature(this._getParallel(-lat), {
-                  "name": lat.toString() + "° S"
-               }));
-            }
-         }
-
-         return {
-            "type": "FeatureCollection",
-            "features": features
-         };
-      },
-
-      _getMeridian: function _getMeridian(lng) {
-         lng = this._lngFix(lng);
-         var coords = [];
-         for (var lat = -90; lat <= 90; lat++) {
-            coords.push([lng, lat]);
-         }
-         return coords;
-      },
-
-      _getParallel: function _getParallel(lat) {
-         var coords = [];
-         for (var lng = -180; lng <= 180; lng++) {
-            coords.push([this._lngFix(lng), lat]);
-         }
-         return coords;
-      },
-
-      _getFeature: function _getFeature(coords, prop) {
-         return {
-            "type": "Feature",
-            "geometry": {
-               "type": "LineString",
-               "coordinates": coords
-            },
-            "properties": prop
-         };
-      },
-
-      _lngFix: function _lngFix(lng) {
-         if (lng >= 180) return 179.999999;
-         if (lng <= -180) return -179.999999;
-         return lng;
-      }
-
-   });
-
-   L.graticule = function (options) {
-      return new L.Graticule(options);
-   };
-}
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var MapService = function () {
-      function MapService(p) {
-         _classCallCheck(this, MapService);
-
-         this._promise = p;
-         this._promises = [];
-      }
-
-      _createClass(MapService, [{
-         key: 'getMap',
-         value: function getMap() {
-            if (this.map) {
-               return this._promise.when(this.map);
-            }
-
-            var promise = this._promise.defer();
-            this._promises.push(promise);
-            return promise.promise;
-         }
-      }, {
-         key: 'init',
-         value: function init(div) {
-            // Map resolutions that NASA GIBS specify
-            var resolutions = [67733.46880027094, 33866.73440013547, 16933.367200067736, 8466.683600033868, 4233.341800016934, 2116.670900008467, 1058.3354500042335, 529.16772500211675, 264.583862501058375];
-
-            var bounds = L.bounds([-24925916.518499706, -11159088.984844638], [24925916.518499706, 11159088.984844638]);
-
-            // The polar projection
-            var crs = new L.Proj.CRS('EPSG:3031', '+proj=stere +lat_0=-90 +lat_ts=-71 +lon_0=0 +k=1 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs', {
-               resolutions: resolutions,
-               origin: [-30636100, 30636100],
-               bounds: bounds
-            });
-            crs.distance = L.CRS.Earth.distance;
-            crs.R = 6378137;
-            crs.projection.bounds = bounds;
-
-            var map = this.map = L.map(div, {
-               center: [-70, 90],
-               zoom: 2,
-               maxZoom: 8,
-               minZoom: 1,
-               crs: crs
-            });
-
-            // This data is from the "Heroes of the Antarctic"
-            // http://geoscience-au.maps.arcgis.com/apps/OnePane/storytelling_basic/index.html?appid=bb956e835f44421da9160b7557ba64a6
-            var template = "https://tiles{s}.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/" + "Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer/tile/{z}/{y}/{x}";
-            var options = {
-               format: "image%2Fpng",
-               tileSize: 256,
-               subdomains: "1234",
-               noWrap: true,
-               continuousWorld: true,
-               attribution: "<a href='http://www.ga.gov.au'>" + "Geoscience Australia</a>"
-            };
-
-            var layer = this.layer = L.tileLayer(template, options);
-
-            // HACK: BEGIN
-            // Leaflet does not yet handle these kind of projections nicely. Monkey
-            // patch the getTileUrl function to ensure requests are within
-            // tile matrix set boundaries.
-            var superGetTileUrl = layer.getTileUrl;
-
-            // From the metadata https://tiles.arcgis.com/tiles/wfNKYeHsOyaFyPw3/arcgis/rest/services/Antarctic_Hillshade_and_Bathymetric_Base_Map_SSP/MapServer
-            var validTiles = {
-               0: { min: 1, max: 2 },
-               1: { min: 3, max: 4 },
-               2: { min: 6, max: 8 },
-               3: { min: 12, max: 16 },
-               4: { min: 24, max: 32 },
-               5: { min: 48, max: 64 },
-               6: { min: 96, max: 129 },
-               7: { min: 192, max: 259 },
-               8: { min: 385, max: 519 }
-            };
-            layer.getTileUrl = function (coords) {
-               var zoom = layer._getZoomForUrl();
-               var max = validTiles[zoom].max;
-               var min = validTiles[zoom].min;
-
-               if (coords.x < min) {
-                  return "";
-               }
-               if (coords.y < min) {
-                  return "";
-               }
-               if (coords.x > max) {
-                  return "";
-               }
-               if (coords.y > max) {
-                  return "";
-               }
-               return superGetTileUrl.call(layer, coords);
-            };
-            // HACK: END
-
-
-            map.addLayer(layer);
-            window.map = map;
-
-            // Module which adds graticule (lat/lng lines)
-            // L.graticule().addTo(map);
-
-            L.control.scale({ imperial: false }).addTo(map);
-
-            L.control.mousePosition({
-               position: "bottomright",
-               emptyString: "",
-               seperator: " ",
-               latFormatter: function latFormatter(lat) {
-                  return "Lat " + L.Util.formatNum(lat, 5) + "°";
-               },
-               lngFormatter: function lngFormatter(lng) {
-                  return "Lng " + L.Util.formatNum(lng % 180, 5) + "°";
-               }
-            }).addTo(map);
-
-            if (this._promises.length) {
-               this._promises.forEach(function (promise) {
-                  return promise.resolve(map);
-               });
-            }
-            this._promises = [];
-         }
-      }]);
-
-      return MapService;
-   }();
-
-   angular.module("antarctic.maps", []).directive("antarcticMaps", ["mapService", function (mapService) {
-      return {
-         restict: "AE",
-         template: "<div id='mappo'></div>",
-         link: function link(scope) {
-            scope.map = mapService.init("mappo");
-         }
-      };
-   }]).service("mapService", ['$q', function ($q) {
-      var service = new MapService($q);
-      return service;
-   }]);
-}
-'use strict';
-
-{
-   L.Control.MousePosition = L.Control.extend({
-      options: {
-         position: 'bottomleft',
-         separator: ' : ',
-         emptyString: 'Unavailable',
-         lngFirst: false,
-         numDigits: 5,
-         elevGetter: undefined,
-         lngFormatter: undefined,
-         latFormatter: undefined,
-         prefix: ""
-      },
-
-      onAdd: function onAdd(map) {
-         this._container = L.DomUtil.create('div', 'leaflet-control-mouseposition');
-         L.DomEvent.disableClickPropagation(this._container);
-         map.on('mousemove', this._onMouseMove, this);
-         this._container.innerHTML = this.options.emptyString;
-         return this._container;
-      },
-
-      onRemove: function onRemove(map) {
-         map.off('mousemove', this._onMouseMove);
-      },
-
-      _onMouseHover: function _onMouseHover() {
-         var info = this._hoverInfo;
-         this._hoverInfo = undefined;
-         this.options.elevGetter(info).then(function (elevStr) {
-            if (this._hoverInfo) return; // a new _hoverInfo was created => mouse has moved meanwhile
-            this._container.innerHTML = this.options.prefix + ' ' + elevStr + ' ' + this._latLngValue;
-         }.bind(this));
-      },
-
-      _onMouseMove: function _onMouseMove(e) {
-         var w = e.latlng.wrap();
-         var lng = this.options.lngFormatter ? this.options.lngFormatter(w.lng) : L.Util.formatNum(w.lng, this.options.numDigits);
-         var lat = this.options.latFormatter ? this.options.latFormatter(w.lat) : L.Util.formatNum(w.lat, this.options.numDigits);
-
-         var sw = proj4("EPSG:4326", "EPSG:3031", [w.lng, w.lat]);
-
-         this._latLngValue = this.options.lngFirst ? lng + this.options.separator + lat : lat + this.options.separator + lng;
-         if (this.options.elevGetter) {
-            if (this._hoverInfo) window.clearTimeout(this._hoverInfo.timeout);
-            this._hoverInfo = {
-               lat: w.lat,
-               lng: w.lng,
-               timeout: window.setTimeout(this._onMouseHover.bind(this), 400)
-            };
-         }
-         this._container.innerHTML = this.options.prefix + ' ' + this._latLngValue; // + " " + sw[1].toFixed(0) + "m, " + sw[0].toFixed(0) + "m";
-      }
-
-   });
-
-   L.Map.mergeOptions({
-      positionControl: false
-   });
-
-   L.Map.addInitHook(function () {
-      if (this.options.positionControl) {
-         this.positionControl = new L.Control.MousePosition();
-         this.addControl(this.positionControl);
-      }
-   });
-
-   L.control.mousePosition = function (options) {
-      return new L.Control.MousePosition(options);
-   };
-}
-"use strict";
-
-{
-
-   angular.module("antarctic.restrict.pan", []).directive("restrictPanLatitude", ['mapService', function (mapService) {
-      return {
-         restrict: "AE",
-         scope: {
-            latitude: "="
-         },
-         link: function link(scope) {
-            mapService.getMap().then(function (map) {
-               map.on('zoomend moveend resize', function (e, d) {
-                  console.log("drag/zoom", e, d);
-               });
-            });
-         }
-      };
-   }]);
-}
-'use strict';
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 /**
@@ -3324,66 +3401,6 @@ function SearchService($http, $rootScope, $timeout, configService, groupsService
 "use strict";
 
 {
-   angular.module("antarctic.panes", []).directive("antarcticPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
-      return {
-         templateUrl: "panes/panes.html",
-         scope: {
-            defaultItem: "@",
-            data: "="
-         },
-         controller: ['$scope', function ($scope) {
-            var changeSize = false;
-
-            $scope.view = $scope.defaultItem;
-
-            $rootScope.$on('side.panel.change', function (event) {
-               emitter();
-               $timeout(emitter, 100);
-               $timeout(emitter, 200);
-               $timeout(emitter, 300);
-               $timeout(emitter, 500);
-               function emitter() {
-                  var evt = document.createEvent("HTMLEvents");
-                  evt.initEvent("resize", false, true);
-                  window.dispatchEvent(evt);
-               }
-            });
-
-            $scope.setView = function (what) {
-               var oldView = $scope.view;
-               var delay = 0;
-
-               if ($scope.view === what) {
-                  if (what) {
-                     changeSize = true;
-                     delay = 1000;
-                  }
-                  $scope.view = "";
-               } else {
-                  if (!what) {
-                     changeSize = true;
-                  }
-                  $scope.view = what;
-               }
-
-               $rootScope.$broadcast("view.changed", $scope.view, oldView);
-
-               if (changeSize) {
-                  mapService.getMap().then(function (map) {
-                     map._onResize();
-                  });
-               }
-            };
-            $timeout(function () {
-               $rootScope.$broadcast("view.changed", $scope.view, null);
-            }, 50);
-         }]
-      };
-   }]);
-}
-"use strict";
-
-{
    angular.module("antarctic.feature", []).directive("antarcticFeature", ['antarcticItemService', 'searchService', function (antarcticItemService, searchService) {
 
       return {
@@ -3718,22 +3735,22 @@ $templateCache.put("searched/item.html","<div class=\"row\">\r\n   <div class=\"
 $templateCache.put("searched/jurisdiction.html","<div class=\"row\">\r\n   <div class=\"col-md-3\" style=\"text-align:center\">\r\n      <a href=\"{{authority.href}}\" target=\"_blank\">\r\n         <img ng-src=\"{{authority.image}}\" ng-attr-style=\"height:{{authority.height}}px\">\r\n      </a>\r\n   </div>\r\n   <div class=\"col-md-6\">\r\n      <strong ng-bind-html=\"authority.name\"></strong>\r\n      <div>\r\n         <a ng-if=\"authority.metadata\" ng-href=\"{{authority.metadata}}\" target=\"_blank\">[metadata]</a>\r\n         <a ng-if=\"authority.disclaimer\" ng-click=\"authority.showDisclaimer = !authority.showDisclaimer\">[disclaimer]</a>\r\n      </div>\r\n   </div>\r\n   <div class=\"col-md-3\" style=\"float:right;\">\r\n      ({{authority.count | number:0}} features)\r\n      <div>\r\n         <a ng-click=\"toggle()\" class=\"searched-important\">[{{showing?\'hide\':\'show\'}} list]</a>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-show=\"authority.showDisclaimer\" class=\"searched-disclaimer\" ng-bind-html=\"authority.disclaimer\"></div>\r\n<div ng-show=\"showing\">\r\n   <antarctic-feature ng-repeat=\"feature in features\" feature=\"feature\"></antarctic-feature>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-7\" ng-show=\"authority.count > features.length\">\r\n         <i style=\"padding:10px;\" class=\"fa fa-spinner fa-2x fa-spin\" aria-hidden=\"true\" ng-show=\"loading\"></i>\r\n         <a class=\"searched-important\" ng-show=\"authority.count > features.length && !loading\" ng-click=\"loadPage()\">[more]</a>\r\n      </div>\r\n      <div class=\"col-md-7\" ng-show=\"authority.count === features.length\">\r\n         <div class=\"ellipsis\">(End of features for {{authority.name}})</div>\r\n      </div>\r\n      <div class=\"col-md-5\">\r\n         <span class=\"pull-right\">\r\n            Showing {{features.length | number : 0}} of {{authority.count| number : 0}} features\r\n            <a ng-click=\"toggle()\" class=\"searched-important\">[hide]</a>\r\n         </span>\r\n      </div>\r\n</div>");
 $templateCache.put("searched/searched.html","<div class=\"pn-results-heading\" style=\"min-height:25px\" ng-if=\"data.searched\" ng-class=\"{\'searched-download\': showDownload}\">\r\n   <span ng-if=\"data.searched.item\">\r\n      Showing selected feature\r\n   </span>\r\n   <span ng-if=\"!data.searched.item\">\r\n      Matched {{data.searched.data.response.numFound | number}} features\r\n   </span>\r\n   <span class=\"pull-right\">\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"showDownload = !showDownload\">\r\n         <span ng-if=\"!showDownload\">Download...</span>\r\n         <span ng-if=\"showDownload\">Hide download details</span>\r\n      </button>\r\n      <button class=\"btn btn-primary\" style=\"padding:0 10px\" ng-click=\"clear()\">\r\n         Clear results\r\n      </button>\r\n   </span>\r\n   <antarctic-search-filters></antarctic-search-filters>\r\n   <div style=\"padding-top:10px\" antarctic-searched-download data=\"data.searched\" ng-if=\"showDownload\"></div>\r\n</div>\r\n\r\n<div ng-if=\"data.searched\">\r\n   <div ng-if=\"!data.searched.item\">\r\n      <div ng-repeat=\"authority in authorities | activeAuthorities\" title=\"{{authority.jurisdiction}}\" style=\"border-bottom: 1px gray solid;padding:3px 0 3px\">\r\n         <antarctic-jurisdiction authority=\"authority\"></antarctic-jurisdiction>\r\n      </div>\r\n   </div>\r\n   <div ng-if=\"data.searched.item\">\r\n      <div ng-repeat=\"authority in authorities | activeAuthorities\" title=\"{{authority.jurisdiction}}\" style=\"border-bottom: 1px gray solid;padding:3px 0 3px\">\r\n         <antarctic-searched-item authority=\"authority\" feature=\"data.searched.item\"></antarctic-searched-item>\r\n      </div>\r\n   </div>\r\n</div>\r\n<div ng-if=\"!data.searched\">\r\n   <div class=\"panel-heading\" style=\"min-height:25px\">\r\n      <span style=\"font-weight:bold\">\r\n         Need help on how to search?\r\n      </span>\r\n   </div>\r\n   <div class=\"panel-body\">\r\n      Searching is conducted on the current map view. Pan and zoom the map to your area of interest\r\n      <br/>\r\n      <br/>\r\n      <span class=\"padding-left:5px\">You can apply filters for:</span>\r\n      <div class=\"well\">\r\n         Features matching on partial or like name, groups, categories and features.\r\n         <br/> You can restrict results to only authorities of interest.\r\n         <br/>\r\n         <br/> Once you have zoomed, panned and filtered to your desired results hit the search button to list details with\r\n         the option to download in a variety of projections and formats.\r\n         <br/>\r\n         <br/>\r\n         <b title=\"nota bene\">NB</b> Name searching is done on \"fuzzy\" searching which means it isn\'t always an exact match\r\n         but a match something like what is typed.\r\n      </div>\r\n      <div>\r\n         If you are interested in features in the Antarctic consider using the\r\n         <a href=\"antarctic.html\">search specific to the polar view</a>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("searched/summary.html","<span class=\"placenamesSearchSummary\"\r\n      ng-if=\"state.searched.data.response.numFound\">(Found {{state.searched.data.response.numFound | number}} features)</span>");
-$templateCache.put("toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\">\r\n               <li>\r\n                  <australia-view></australia-view>\r\n               </li>\r\n            </ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Search Results\" icon-class=\"fa-list\" title=\"When a search has completed this allows the showing and hiding of the results\">\r\n                        <placenames-results-summary state=\"state\"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li ng-if=\"state.searched.data.response.numFound\">\r\n                   <placenames-zoom-to-all center=\"state.searched.center\" zoom=\"state.searched.zoom\" bounds=\"state.searched.bounds\" text=\"Show searched area\" icon=\"fa-object-group\"></placenames-zoom-to-all>\r\n                </li>\r\n                <li reset-page></li>\r\n                <li>\r\n                  <panel-trigger panel-id=\"help\" panel-width=\"540px\" name=\"Help\" icon-class=\"fa-question-circle-o\" title=\"Show help\"></panel-trigger>\r\n               </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");
+$templateCache.put("toolbar/toolbar.html","<div class=\"placenames-toolbar noPrint\">\r\n    <div class=\"toolBarContainer\">\r\n        <div>\r\n            <ul class=\"left-toolbar-items\">\r\n               <li>\r\n                  <australia-view></australia-view>\r\n               </li>\r\n            </ul>\r\n            <ul class=\"right-toolbar-items\">\r\n                <li>\r\n                    <panel-trigger panel-id=\"search\" panel-width=\"540px\" name=\"Search Results\" icon-class=\"fa-list\" title=\"When a search has completed this allows the showing and hiding of the results\">\r\n                        <placenames-results-summary state=\"state\"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li ng-if=\"state.searched.data.response.numFound\">\r\n                   <placenames-zoom-to-all center=\"state.searched.center\" zoom=\"state.searched.zoom\" bounds=\"state.searched.bounds\" text=\"Show searched area\" icon=\"fa-object-group\"></placenames-zoom-to-all>\r\n                </li>\r\n                <li reset-page></li>\r\n                <li product-specification></li>\r\n                <li>\r\n                  <panel-trigger panel-id=\"help\" panel-width=\"540px\" name=\"Help\" icon-class=\"fa-question-circle-o\" title=\"Show help\"></panel-trigger>\r\n               </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>");
 $templateCache.put("authorities/authorities.html","<div ng-repeat=\"item in authorities\" style=\"width:49%; display:inline-block\">\r\n   <div class=\"ellipsis\" title=\'Jurisdiction: {{item.jurisdiction}}, Authority name: {{item.name}}\'>\r\n      <input type=\"checkbox\" ng-click=\"update()\" ng-model=\"item.selected\" ng-change=\"change()\">\r\n      <span>\r\n         <a target=\"_blank\" href=\"http://www.google.com/search?q={{item.name}}\">{{item.code}}</a>\r\n         ({{(item.allCount | number) + (item.allCount || item.allCount == 0?\' of \':\'\')}}{{item.total | number}})\r\n      </span>\r\n   </div>\r\n</div>");
 $templateCache.put("categories/categories.html","<div>\r\n   <div ng-repeat=\"category in categories | orderBy: \'name\'\" ng-attr-title=\"{{category.definition}}\">\r\n      <input type=\"checkbox\" ng-model=\"category.selected\" ng-change=\"change()\">\r\n      <span title=\"[Group: {{category.parent.name}}], {{category.definition}}\">\r\n         {{category.name}}\r\n         ({{(category.allCount | number) + (category.allCount || category.allCount == 0?\' of \':\'\')}}{{category.total}})\r\n      </span>\r\n      <button class=\"undecorated\" ng-click=\"category.showChildren = !category.showChildren\">\r\n         <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!category.showChildren, \'fa-minus-square-o\': category.showChildren}\"></i>\r\n      </button>\r\n      <div ng-show=\"category.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n         <div>[Group: {{category.parent.name}}]\r\n         <div ng-if=\"category.definition\">{{category.definition}}</div>\r\n         It includes the following feature types:\r\n         <placenames-category-children features=\"category.features\"></placenames-category-children>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("categories/features.html","<div>\n   <div ng-repeat=\"feature in features\" style=\"padding-left:10px\" title=\"{{feature.definition}}\">\n      - {{feature.name}} ({{feature.total}})\n   </div>\n</div>");
 $templateCache.put("contributors/contributors.html","<span class=\"contributors\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" style=\"z-index:1500\"\r\n      ng-class=\"(contributors.show || contributors.ingroup || contributors.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated contributors-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div ng-repeat=\"contributor in contributors.orgs | activeContributors\" style=\"text-align:cnter\">\r\n      <a ng-href=\"{{contributor.href}}\" name=\"contributors{{$index}}\" title=\"{{contributor.title}}\" target=\"_blank\">\r\n         <img ng-src=\"{{contributor.image}}\"  alt=\"{{contributor.title}}\" class=\"elvis-logo\" ng-class=\"contributor.class\"></img>\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("contributors/show.html","<a ng-mouseenter=\"over()\" ng-mouseleave=\"out()\" class=\"contributors-link\" title=\"Click to lock/unlock contributors list.\"\r\n      ng-click=\"toggleStick()\" href=\"#contributors0\">Contributors</a>");
-$templateCache.put("download/download.html","<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutCoordSys\">\r\n            Coordinate System\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outCoordSys\" id=\"geoprocessOutCoordSys\"\r\n            ng-options=\"opt.value for opt in outCoordSys\"></select>\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Output Format\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outFormat\" id=\"geoprocessOutputFormat\" ng-options=\"opt.value for opt in processing.config.outFormat\"></select>\r\n      </div>\r\n   </div>\r\n\r\n\r\n   <div class=\"row\" title=\"You can elect to get common data across the authorities or for each authority receive the authorities data per feature\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessDataFieldsCommon\">\r\n            Data fields\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <label for=\"geoprocessDataFieldsCommon\">Common fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"common\" id=\"geoprocessDataFieldsCommon\" name=\"dataFields\" checked=\"checked\">\r\n         <label for=\"geoprocessDataFields\">Authorities\' fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"authorities\" id=\"geoprocessDataFields\" name=\"dataFields\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            File name\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input type=\"text\" ng-model=\"processing.filename\" class=\"download-control\" placeholder=\"Optional filename\" title=\"Alphanumeric, hyphen or dash characters, maximium of 16 characters\">\r\n      </div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Email\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input required=\"required\" type=\"email\" ng-model=\"processing.email\" class=\"download-control\" placeholder=\"Email address to send download link\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <div class=\"progress\">\r\n            <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{{processing.percentComplete}}\" aria-valuemin=\"0\" aria-valuemax=\"100\"\r\n               style=\"width: {{processing.percentComplete}}%;\">\r\n               <span class=\"sr-only\"></span>\r\n            </div>\r\n         </div>\r\n      </div>\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid coordinate system for area.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-file-video-o fa-2x\" ng-class=\"{\'product-valid\': processing.validProjection, \'product-invalid\': !processing.validProjection}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid download format.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-files-o fa-2x\" ng-class=\"{\'product-valid\': processing.validFormat, \'product-invalid\': !processing.validFormat}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Optional custom filename (alphanumeric, max length 8 characters)\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-save fa-2x\" ng-class=\"{\'product-valid\': processing.validFilename, \'product-invalid\': !processing.validFilename}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Provide an email address.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-envelope fa-2x\" ng-class=\"{\'product-valid\': processing.validEmail, \'product-invalid\': !processing.validEmail}\"></i>\r\n         </span>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n         <button class=\"btn btn-primary pull-right\" ng-disabled=\"!processing.valid\" ng-click=\"submit()\">Submit</button>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("features/features.html","<div>\r\n      <div ng-repeat=\"feature in features | orderBy: \'name\'\" title=\"{{feature.definition}}\">\r\n         <input type=\"checkbox\" ng-model=\"feature.selected\" ng-change=\"change()\">\r\n         <span title=\"[Group/category: {{feature.parent.parent.name}}/{{feature.parent.name}}], {{feature.definition}}\">\r\n            {{feature.name}} ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?\' of \':\'\')}}{{feature.total}})\r\n         </span>\r\n         <button class=\"undecorated\" ng-click=\"feature.showChildren = !feature.showChildren\">\r\n            <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!feature.showChildren, \'fa-minus-square-o\': feature.showChildren}\"></i>\r\n         </button>\r\n         <div ng-show=\"feature.showChildren\" style=\"padding-left: 8px; border-bottom: solid 1px lightgray\">\r\n            <div ng-if=\"feature.definition\">{{feature.definition}}</div>\r\n            [Group/Category: {{feature.parent.parent.name}}/{{feature.parent.name}}]\r\n         </div>\r\n      </div>\r\n   </div>");
+$templateCache.put("download/download.html","<div class=\"container-fluid\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutCoordSys\">\r\n            Coordinate System\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outCoordSys\" id=\"geoprocessOutCoordSys\"\r\n            ng-options=\"opt.value for opt in outCoordSys\"></select>\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Output Format\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <select style=\"width:95%\" ng-model=\"processing.outFormat\" id=\"geoprocessOutputFormat\" ng-options=\"opt.value for opt in processing.config.outFormat\"></select>\r\n      </div>\r\n   </div>\r\n\r\n\r\n   <div class=\"row\" title=\"You can elect to get common data across the authorities or for each authority receive the authorities data per feature\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessDataFieldsCommon\">\r\n            Data fields\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <label for=\"geoprocessDataFieldsCommon\">Common fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"common\" id=\"geoprocessDataFieldsCommon\" name=\"dataFields\" checked=\"checked\">\r\n         <label for=\"geoprocessDataFields\">Authorities\' fields</label>\r\n         <input type=\"radio\" ng-model=\"processing.dataFields\" value=\"authorities\" id=\"geoprocessDataFields\" name=\"dataFields\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            File name\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input type=\"text\" ng-model=\"processing.filename\" class=\"download-control\" placeholder=\"Optional filename\" title=\"Alphanumeric, hyphen or dash characters, maximium of 16 characters\">\r\n      </div>\r\n   </div>\r\n   <div class=\"row\">\r\n      <div class=\"col-md-4\">\r\n         <label for=\"geoprocessOutputFormat\">\r\n            Email\r\n         </label>\r\n      </div>\r\n      <div class=\"col-md-8\">\r\n         <input required=\"required\" type=\"email\" ng-model=\"processing.email\" class=\"download-control\" placeholder=\"Email address to send download link\">\r\n      </div>\r\n   </div>\r\n\r\n   <div class=\"row\">\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <div class=\"progress\">\r\n            <div class=\"progress-bar\" role=\"progressbar\" aria-valuenow=\"{{processing.percentComplete}}\" aria-valuemin=\"0\" aria-valuemax=\"100\"\r\n               style=\"width: {{processing.percentComplete}}%;\">\r\n               <span class=\"sr-only\"></span>\r\n            </div>\r\n         </div>\r\n      </div>\r\n      <div class=\"col-md-5\" style=\"padding-top:7px\">\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid coordinate system for area.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-file-video-o fa-2x\" ng-class=\"{\'product-valid\': processing.validProjection, \'product-invalid\': !processing.validProjection}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Select a valid download format.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-files-o fa-2x\" ng-class=\"{\'product-valid\': processing.validFormat, \'product-invalid\': !processing.validFormat}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Optional custom filename (alphanumeric, max length 8 characters)\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-save fa-2x\" ng-class=\"{\'product-valid\': processing.validFilename, \'product-invalid\': !processing.validFilename}\"></i>\r\n         </span>\r\n         <span style=\"padding-right:10px\" uib-tooltip=\"Provide an email address.\" tooltip-placement=\"top\">\r\n            <i class=\"fa fa-envelope fa-2x\" ng-class=\"{\'product-valid\': processing.validEmail, \'product-invalid\': !processing.validEmail}\"></i>\r\n         </span>\r\n      </div>\r\n      <div class=\"col-md-2\">\r\n         <button class=\"btn btn-primary pull-right\" ng-disabled=\"!processing.valid\" ng-click=\"submit()\">Submit</button>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("groups/category.html","\r\n<div style=\"padding-left:10px\">\r\n   - <span ng-attr-title=\"{{category.definition}}\">{{category.name}}</span>\r\n   <div ng-repeat=\"feature in category.features | orderBy:\'name\'\" style=\"padding-left:10px\">\r\n      - <span ng-attr-title=\"{{feature.definition}}\">{{feature.name}}</span>\r\n   </div>\r\n</div>\r\n");
 $templateCache.put("groups/groups.html","<div>\r\n   <div ng-repeat=\"group in data.groups\">\r\n      <input type=\"checkbox\" ng-model=\"group.selected\" ng-change=\"change()\"><span title=\"{{group.definition}}\">\r\n         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?\' of \':\'\')}}{{group.total | number}})\r\n      <button class=\"undecorated\" ng-click=\"group.showChildren = !group.showChildren\">\r\n         <i class=\"fa fa-lg\" ng-class=\"{\'fa-question-circle-o\':!group.showChildren, \'fa-minus-square-o\': group.showChildren}\"></i>\r\n      </button>\r\n      <div ng-show=\"group.showChildren\" style=\"padding-left:8px\">\r\n         {{group.definition}}<br/><br/>\r\n         This group is made up of the following categories and feature types:\r\n         <div ng-repeat=\"category in group.categories\" style=\"padding-left:8px\">\r\n            <placenames-group-children category=\"category\"></placenames-group-children>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("filters/tree.html","<div style=\"max-height:300px; overflow-y:auto;padding-left:10px\">\r\n   <div ng-repeat=\"group in groups | withTotals\">\r\n      <button class=\"undecorated\" ng-click=\"group.expanded = !group.expanded\" ng-style=\"{color:group.color}\">\r\n         <i class=\"fa\" ng-class=\"{\'fa-plus\':!group.expanded, \'fa-minus\':group.expanded}\"></i>\r\n      </button>\r\n      <input type=\"checkbox\" class=\"filters-check\" ng-model=\"group.selectExpand\" ng-change=\"change(group)\" ng-style=\"{color:group.color}\">\r\n      <span title=\"{{group.definition}}\">\r\n         {{group.name}} ({{(group.allCount | number) + (group.allCount || group.allCount == 0?\' of \':\'\')}}{{group.total | number}})\r\n      </span>\r\n      <div style=\"padding-left:10px\" ng-show=\"group.expanded\">\r\n         <div ng-repeat=\"category in group.categories | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{category.definition}}\">\r\n            <button class=\"undecorated\" ng-click=\"category.expanded = !category.expanded\" ng-style=\"{color:category.color}\">\r\n               <i class=\"fa\" ng-class=\"{\'fa-plus\':!category.expanded, \'fa-minus\':category.expanded}\"></i>\r\n            </button>\r\n            <input class=\"filters-check\" type=\"checkbox\" ng-model=\"category.selectExpand\" ng-change=\"change()\" ng-style=\"{color:category.color}\">\r\n            <span title=\"{{category.definition}}\">\r\n               {{category.name}}\r\n               ({{(category.allCount | number) + (category.allCount || category.allCount == 0?\' of \':\'\')}}{{category.total}})\r\n            </span>\r\n            <div ng-show=\"category.expanded\" style=\"padding-left:20px\">\r\n               <div ng-repeat=\"feature in category.features | withTotals | orderBy: \'name\'\"  ng-attr-title=\"{{feature.definition}}\">\r\n                  <i class=\"fa fa-hand-o-right\" aria-hidden=\"true\" ng-style=\"{color:feature.color}\"></i>\r\n                  <input class=\"filters-check\" type=\"checkbox\" ng-model=\"feature.selected\" ng-change=\"change()\" ng-style=\"{color:feature.color}\">\r\n                  <span>\r\n                     {{feature.name}}\r\n                     ({{(feature.allCount | number) + (feature.allCount || feature.allCount == 0?\' of \':\'\')}}{{feature.total}})\r\n                  </span>\r\n               </div>\r\n            </div>\r\n         </div>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n   <div class=\"navbar-header\">\r\n\r\n      <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n         <span class=\"sr-only\">Toggle navigation</span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n         <span class=\"icon-bar\"></span>\r\n      </button>\r\n\r\n      <a href=\"/\" class=\"appTitle visible-xs\">\r\n         <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n      </a>\r\n   </div>\r\n   <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n      <ul class=\"nav navbar-nav\">\r\n         <li class=\"hidden-xs\">\r\n            <a href=\"/\" style=\"margin-top:8px; padding:5px\">\r\n               <h1 class=\"applicationTitle\">{{heading}}</h1>\r\n               <h3 ng-if=\"subheading\" class=\"sub-heading\">{{subheading}}</h3>\r\n            </a>\r\n         </li>\r\n      </ul>\r\n      <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n         <li role=\"menuitem\" style=\"padding-right:10px;position: relative;top: -3px;\">\r\n            <span class=\"altthemes-container\">\r\n               <span>\r\n                  <a title=\"Location INformation Knowledge platform (LINK)\" href=\"http://fsdf.org.au/\" target=\"_blank\">\r\n                     <img alt=\"FSDF\" src=\"placenames/resources/img/FSDFimagev4.0.png\" style=\"height: 66px\">\r\n                  </a>\r\n               </span>\r\n            </span>\r\n         </li>\r\n         <li placenames-navigation role=\"menuitem\" current=\"current\" style=\"padding-right:10px\"></li>\r\n         <li mars-version-display role=\"menuitem\"></li>\r\n         <li style=\"width:10px\"></li>\r\n      </ul>\r\n   </div>\r\n   <!--/.nav-collapse -->\r\n</div>\r\n<div class=\"contributorsLink\" style=\"position: absolute; right:7px; bottom:25px\">\r\n   <placenames-contributors-link></placenames-contributors-link>\r\n</div>\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n   <div class=\"col-md-12\">\r\n      <div class=\"strap-blue\">\r\n      </div>\r\n      <div class=\"strap-white\">\r\n      </div>\r\n      <div class=\"strap-red\">\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("help/faqs.html","<p style=\"text-align: left; margin: 10px; font-size: 14px;\">\r\n   <strong>FAQS</strong>\r\n</p>\r\n\r\n<h5 ng-repeat=\"faq in faqs\"><button type=\"button\" class=\"undecorated\" ng-click=\"focus(faq.key)\">{{faq.question}}</button></h5>\r\n<hr/>\r\n<div class=\"row\" ng-repeat=\"faq in faqs\">\r\n   <div class=\"col-md-12\">\r\n      <h5 tabindex=\"0\" id=\"faqs_{{faq.key}}\">{{faq.question}}</h5>\r\n      <span ng-bind-html=\"faq.answer\"></span>\r\n      <hr/>\r\n   </div>\r\n</div>");
 $templateCache.put("help/help.html","<p style=\"text-align: left; margin: 10px; font-size: 14px;\">\r\n	<strong>Help</strong>\r\n</p>\r\n\r\n<div class=\"panel-body\" ng-controller=\"HelpCtrl as help\">\r\n	The steps to get data!\r\n	<ol>\r\n		<li>Define area of interest</li>\r\n		<li>Select datasets</li>\r\n		<li>Enter email address</li>\r\n		<li>Start extract</li>\r\n	</ol>\r\n	An email will be sent to you on completion of the data extract with a link to your data.\r\n   <hr>\r\n	<placenames-faqs faqs=\"help.faqs\" ></placenames-faqs>\r\n</div>");
-$templateCache.put("pill/pill.html","<span class=\"btn btn-primary pn-pill\" ng-style=\"item.color?{\'background-color\':item.color, \'padding-top\': \'3px\'}: {\'padding-top\': \'3px\'}\">\r\n   <span style=\"max-width:100px;display:inline-block\" title=\"{{label + item[name]}}\" class=\"ellipsis\">{{item[name]}}</span>\r\n   <span class=\"ellipsis\" style=\"max-width:100px;display:inline-block\">\r\n      ({{item.count?item.count:0 | number}})\r\n      <a ng-click=\"deselect()\" href=\"javascript:void(0)\" title=\"Remove from filters\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");
 $templateCache.put("navigation/altthemes.html","<span class=\"altthemes-container\">\r\n	<span ng-repeat=\"item in themes | altthemesMatchCurrent : current\">\r\n       <a title=\"{{item.label}}\" ng-href=\"{{item.url}}\" class=\"altthemesItemCompact\" target=\"_blank\">\r\n         <span class=\"altthemes-icon\" ng-class=\"item.className\"></span>\r\n       </a>\r\n    </li>\r\n</span>");
+$templateCache.put("pill/pill.html","<span class=\"btn btn-primary pn-pill\" ng-style=\"item.color?{\'background-color\':item.color, \'padding-top\': \'3px\'}: {\'padding-top\': \'3px\'}\">\r\n   <span style=\"max-width:100px;display:inline-block\" title=\"{{label + item[name]}}\" class=\"ellipsis\">{{item[name]}}</span>\r\n   <span class=\"ellipsis\" style=\"max-width:100px;display:inline-block\">\r\n      ({{item.count?item.count:0 | number}})\r\n      <a ng-click=\"deselect()\" href=\"javascript:void(0)\" title=\"Remove from filters\">\r\n         <i class=\"fa fa-close fa-xs\" style=\"color: white\"></i>\r\n      </a>\r\n   </span>\r\n</span>");
 $templateCache.put("quicksearch/filteredsummary.html","<span class=\"placenames-filtered-summary-child\">\r\n   <span style=\"font-weight:bold; margin:5px;\">\r\n      Matched {{state.persist.data.response.numFound | number}}\r\n   </span>\r\n   <span ng-if=\"summary.authorities.length\">\r\n      <span style=\"font-weight:bold\">| For authorities:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.authorities\" name=\"code\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n   <span ng-if=\"summary.current.length\">\r\n      <span style=\"font-weight:bold\"> | Filtered by {{summary.filterBy}}:</span>\r\n      <placenames-pill ng-repeat=\"item in summary.current\" item=\"item\" update=\"update()\"></placenames-pill>\r\n   </span>\r\n</span>");
 $templateCache.put("quicksearch/quicksearch.html","<div class=\"quickSearch\" placenames-quick-search></div>\r\n");
 $templateCache.put("reset/reset.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"reset()\" title=\"Reset page\">\r\n   <span class=\"hidden-sm\">Reset</span>\r\n   <i class=\"fa fa-lg fa-refresh\"></i>\r\n</button>");
@@ -3744,4 +3761,5 @@ $templateCache.put("search/quicksearch.html","<div class=\"search-text\">\r\n   
 $templateCache.put("search/search.html","<placenames-results data=\"state\"></placenames-results>\r\n");
 $templateCache.put("search/searchfilters.html","<div style=\"padding-top:5px; padding-bottom:5px\">\r\n   <span ng-if=\"data.filter && !data.filter.location\">Matching names like \"{{summary.filter}}\"</span>\r\n   <span ng-if=\"summary.current.length\">Filtered by: {{summary.current | quicksummary : \"name\" }}</span>\r\n   <span ng-if=\"summary.authorities.length\">For authorities: {{summary.authorities | quicksummary : \"code\"}}</span>\r\n</div>");
 $templateCache.put("search/typeahead.html","<a placenames-options ng-mouseenter=\"enter()\" ng-mouseleave=\"leave()\"  tooltip-append-to-body=\"true\"\r\n               tooltip-placement=\"bottom\" uib-tooltip-html=\"match.model | placenamesTooltip\">\r\n   <span ng-bind-html=\"match.model.name | uibTypeaheadHighlight:query\"></span>\r\n   (<span ng-bind-html=\"match.model.authorityId\"></span>)\r\n</a>");
-$templateCache.put("side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <ng-transclude></ng-transclude>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");}]);
+$templateCache.put("side-panel/trigger.html","<button ng-click=\"toggle()\" type=\"button\" class=\"map-tool-toggle-btn\">\r\n   <span class=\"hidden-sm\">{{name}}</span>\r\n   <ng-transclude></ng-transclude>\r\n   <i class=\"fa fa-lg\" ng-class=\"iconClass\"></i>\r\n</button>");
+$templateCache.put("specification/specification.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"open()\" title=\"View data product specification (opens new page)\">\r\n      <span class=\"hidden-sm\">Data Product Specification</span>\r\n      <i class=\"fa fa-lg fa-book\"></i>\r\n   </button>");}]);

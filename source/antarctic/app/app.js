@@ -41,6 +41,7 @@
       'placenames.reset',
       'placenames.search',
       'placenames.side-panel',
+      'placenames.specification',
       'placenames.tree',
       'placenames.utils',
 
