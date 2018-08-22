@@ -22,7 +22,7 @@
          };
       }])
 
-      .directive("antarcticZoomToAll", ['mapService', function (mapService) {
+      .directive("placenamesZoomToAll", ['mapService', function (mapService) {
          return {
             template: '<button type="button" class="map-tool-toggle-btn" ng-click="zoomToAll()" title="{{text}}">' +
                '<span class="hidden-sm">{{text}}</span> ' +
