@@ -67,7 +67,7 @@
 
       <!-- END: Page Content -->
       <antarctic-clusters></antarctic-clusters>
-      <div placenames-quicksearch class="placenames-quicksearch"></div>
+      <div placenames-quicksearch class="placenames-quicksearch" style="z-index: 401"></div>
       <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
       <div ng-if="state.searched" class="placenames-lock"><placenames-lock></placenames-lock></div>
       <div placenames-contributors style="z-index:3"></div>
@@ -79,7 +79,10 @@
       <!-- BEGIN: Sticky Footer -->
       <div page-footer style="z-index:5; " class="noPrint"></div>
       <!-- END: Sticky Footer -->
-
+      <script>
+         if(/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+            document.write('<script src="placenames/resources/js/polyfill.min.js"><\/script>');
+      </script>
       <script src="placenames/resources/antarctic/proj4.js"></script>
 
       <script>
