@@ -51,6 +51,10 @@ gulp.task('antarcticScripts', function() {
    return prepareAntarcticScripts();
 });
 
+gulp.task('antarcticViewerScripts', function() {
+   return prepareAntarcticViewerScripts();
+});
+
 function prepareAntarcticScripts() {
    return gulp.src([directories.source + '/common/**/*.js', directories.source + '/antarctic/**/*.js'])
       .pipe(babel({
@@ -60,6 +64,20 @@ function prepareAntarcticScripts() {
       }))
 	   .pipe(addStream.obj(prepareNamedTemplates("antarctic")))
       .pipe(concat('antarctic.js'))
+      .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
+      .pipe(gulp.dest(directories.assets));
+}
+
+
+function prepareAntarcticViewerScripts() {
+   return gulp.src([directories.source + '/common/**/*.js', directories.source + '/antarcticviewer/**/*.js'])
+      .pipe(babel({
+            compact: false,
+            comments: true,
+            presets: ['es2015', 'es2016', 'es2017']
+      }))
+	   .pipe(addStream.obj(prepareNamedTemplates("antarcticviewer")))
+      .pipe(concat('antarcticviewer.js'))
       .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
       .pipe(gulp.dest(directories.assets));
 }
@@ -87,6 +105,10 @@ gulp.task('squashAntarctic', function() {
 	return squashJs('antarctic');
 });
 
+gulp.task('squashAntarcticViewer', function() {
+	return squashJs('antarcticviewer');
+});
+
 function squashJs(name) {
 	return gulp.src(directories.assets + '/' + name + '.js')
 		.pipe(uglify())
@@ -99,9 +121,11 @@ gulp.task('watch', function() {
     gulp.watch(directories.source + '/**/*(*.js|*.html)', ['lint']);
     gulp.watch(directories.source + '/placenames/**/*(*.js|*.html)', ['placenamesScripts']);
     gulp.watch(directories.source + '/antarctic/**/*(*.js|*.html)', ['antarcticScripts']);
+    gulp.watch(directories.source + '/antarctic/**/*(*.js|*.html)', ['antarcticViewerScripts']);
     gulp.watch(directories.source + '/common/**/*(*.js|*.html)', ['antarcticScripts', 'placenamesScripts']);
     gulp.watch(directories.source + '/**/*.css', ['concatCss']);
     gulp.watch(directories.assets + '/antarctic.js', ['squashAntarctic']);
+    gulp.watch(directories.assets + '/antarcticviewer.js', ['squashAntarcticViewer']);
     gulp.watch(directories.assets + '/placenames.js', ['squashPlacenames']);
     gulp.watch(directories.views +  '/*', ['views']);
     gulp.watch(directories.resources + '/**/*', ['resources']);
