@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en-us" id="ng-app" ng-app="AntarcticViewerApp">
+
+<head>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <title>ELVIS - Antarctic Searched Area Place Names - Foundation Spatial Data</title>
+   <meta charset="utf-8">
+   <link rel="icon" type="image/png" href="resources/img/SiteFavIcon.png" />
+
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="author" content="Geoscience Australia">
+   <meta name="version" content="BUILD-VERSION">
+
+   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin="" />
+   <link href="placenames/resources/css/app.header.footer.css?v=VERSION_NO" rel="stylesheet" />
+   <link href="placenames/resources/css/mars.css?v=VERSION_NO" rel="stylesheet" />
+
+   <link href="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.css" rel="stylesheet" />
+
+   <link href="placenames/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+   <link href="placenames/bower_components/ga-explorer-map-components/dist/ga-explorer-map.css" rel="stylesheet" />
+   <link href="placenames/assets/placenames.css?v=4" rel="stylesheet" />
+
+</head>
+
+<body ng-controller="RootCtrl as root">
+
+   <!-- BEGIN: Sticky Header -->
+   <div placenames-header style="z-index:1" class="navbar navbar-default navbar-fixed-top" heading="'ELVIS - Antarctic Place Names - Foundation Spatial Data'"
+      subheading="'Composite Gazetteer of Australia'" headingtitle="'ELVIS - Antarctic Searched Area Place Names - Foundation Spatial Data'"
+      current="'sign'" breadcrumbs="[{name:'ELVIS - Antarctic Searched Area Place Names - Foundation Spatial Data', title: 'Reload ELVIS - Antarctic Searched Area Place Names - Foundation Spatial Data', url: '.'}]"
+      helptitle="'Get help about ELVIS - Antarctic Place Names - Foundation Spatial Data'" helpalttext="'Get help about ELVIS - Antarctic Searched Area Place Names - Foundation Spatial Data'">
+   </div>
+   <!-- END: Sticky Header -->
+
+   <!-- Messages go here. They are fixed to the tab bar. -->
+
+   <!-- BEGIN: Page Content -->
+   <div explorer-messages class="marsMessages noPrint"></div>
+   <antarctic-toolbar></antarctic-toolbar>
+
+   <div class="mapContainer" class="col-md-12" style="padding-right:0">
+      <antarctic-maps></antarctic-maps>
+   </div>
+
+   <!-- END: Page Content -->
+   <div placenames-quicksearch class="placenames-quicksearch" style="z-index: 401"></div>
+   <div placenames-filtered-summary ng-if="!state.searched" state="state" class="placenames-filtered-summary"></div>
+   <div ng-if="state.searched" class="placenames-lock">
+      <placenames-lock></placenames-lock>
+   </div>
+   <restrict-pan-latitude latitude="60"></restrict-pan-latitude>
+
+   <div explorer-flash class="noPrint" style="z-index:1500"></div>
+   <!-- BEGIN: Sticky Footer -->
+   <div page-footer style="z-index:5; " class="noPrint"></div>
+   <!-- END: Sticky Footer -->
+   <script>
+      if (/MSIE \d|Trident.*rv:/.test(navigator.userAgent))
+         document.write('<script src="placenames/resources/js/polyfill.min.js"><\/script>');
+   </script>
+   <script src="placenames/resources/antarctic/proj4.js"></script>
+
+   <script>
+      var d3 = {}; // Just to keep a script happy
+   </script>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+   <!--[if IE 9 ]>    <script src="assets/placeholder/placeholders.jquery.min.js"></script> <![endif]-->
+
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+   <script src="placenames/bower_components/leaflet/dist/leaflet-src.js"></script>
+   <script src="placenames/resources/antarctic/proj4leaflet.js"></script>
+   <style>
+      /* A work around for an annoying little white box on my Google tiles. */
+
+      .leaflet-google-layer img {
+         transform: scale(1.005);
+      }
+   </style>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.min.js"></script>
+
+   <script src="placenames/bower_components/ngAutocomplete/src/ngAutocomplete.js"></script>
+
+   <script src="placenames/bower_components/explorer-ui-components/dist/ga-explorer-ui.js"></script>
+
+   <!-- These are the "antarctic" specific includes of modules -->
+   <script src="placenames/assets/antarcticviewer.js?v=1"></script>
+
+</body>
+
+</html>

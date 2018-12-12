@@ -12,7 +12,7 @@
    },
 
    "download": {
-      "serviceUrl": "https://elvis-ga.fmecloud.com/fmejobsubmitter/fsdf_placenames/Placenames_ClipZipShip_Master.fmw?opt_responseformat=json&opt_showresult=false&opt_servicemode=sync",
+      "serviceUrl": "https://elvis2018-ga.fmecloud.com/fmejobsubmitter/fsdf_placenames/Placenames_ClipZipShip_Master.fmw?opt_responseformat=json&opt_showresult=false&opt_servicemode=sync",
       "outFormat": [
          {
             "value": "Bentley MicroStation Design V8",

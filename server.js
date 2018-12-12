@@ -55,7 +55,7 @@ var validHosts = [
     "qldspatial.information.qld.gov.au",
     ".ga.gov.au",
     ".motogp.com",
-    "elvis-ga.fmecloud.com",
+    "elvis2018-ga.fmecloud.com",
     "s3-ap-southeast-2.amazonaws.com"
 ];
 var upstreamProxy = argv['upstream-proxy'];
