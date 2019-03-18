@@ -46,7 +46,6 @@
       'placenames.lock',
       'placenames.maps',
       'placenames.navigation',
-      'placenames.nt',
       'placenames.panes',
       'placenames.popover',
       'placenames.proxy',
