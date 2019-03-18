@@ -855,18 +855,6 @@ function HelpService($http) {
 		}
 	};
 }
-"use strict";
-
-{
-   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
-      return {
-         scope: {
-            hover: "="
-         },
-         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
-      };
-   }]);
-}
 'use strict';
 
 {
@@ -1022,31 +1010,15 @@ function HelpService($http) {
       return {};
    }]);
 }
-'use strict';
+"use strict";
 
 {
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
       return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
          scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
+            hover: "="
          },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
-            };
-         }
+         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
       };
    }]);
 }
@@ -1083,6 +1055,34 @@ function HelpService($http) {
          };
       }];
    });
+}
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
 }
 'use strict';
 
@@ -1970,6 +1970,22 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       };
    }]);
 }
+'use strict';
+
+{
+   angular.module('placenames.antarctic', []).directive('antarcticView', function () {
+      return {
+         restrict: 'AE',
+         scope: {},
+         templateUrl: 'antarctic/antarctic.html',
+         controller: ['$scope', function ($scope) {
+            $scope.go = function () {
+               window.location = "antarctic.html";
+            };
+         }]
+      };
+   });
+}
 "use strict";
 
 {
@@ -2047,22 +2063,6 @@ function AboutService(configService) {
          return state;
       }
    };
-}
-'use strict';
-
-{
-   angular.module('placenames.antarctic', []).directive('antarcticView', function () {
-      return {
-         restrict: 'AE',
-         scope: {},
-         templateUrl: 'antarctic/antarctic.html',
-         controller: ['$scope', function ($scope) {
-            $scope.go = function () {
-               window.location = "antarctic.html";
-            };
-         }]
-      };
-   });
 }
 'use strict';
 
@@ -3641,9 +3641,9 @@ function getBounds(bounds, restrictTo) {
    }
    return fq;
 }
-angular.module("placenames.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("about/about.html","<span class=\"about\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\"\r\n      ng-class=\"(about.show || about.ingroup || about.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated about-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div class=\"aboutHeading\">About Composite Gazetteer of Australia</div>\r\n   <div ng-repeat=\"item in about.items\">\r\n      <a ng-href=\"{{item.link}}\" name=\"about{{$index}}\" title=\"{{item.heading}}\" target=\"_blank\">\r\n         {{item.heading}}\r\n      </a>\r\n   </div>\r\n</span>");
+angular.module("placenames.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("antarctic/antarctic.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"go()\" title=\"Change to Antarctic view\">\r\n   <span>Go to Antarctic view</span>\r\n</button>");
+$templateCache.put("about/about.html","<span class=\"about\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\"\r\n      ng-class=\"(about.show || about.ingroup || about.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated about-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div class=\"aboutHeading\">About Composite Gazetteer of Australia</div>\r\n   <div ng-repeat=\"item in about.items\">\r\n      <a ng-href=\"{{item.link}}\" name=\"about{{$index}}\" title=\"{{item.heading}}\" target=\"_blank\">\r\n         {{item.heading}}\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("about/button.html","<button ng-mouseenter=\"over()\" ng-mouseleave=\"out()\"\r\n      ng-click=\"toggleStick()\" tooltip-placement=\"left\" uib-tooltip=\"About Composite Gazetteer of Australia\"\r\n      class=\"btn btn-primary btn-default\">About</button>");
-$templateCache.put("antarctic/antarctic.html","<button type=\"button\" class=\"map-tool-toggle-btn\" ng-click=\"go()\" title=\"Change to Antarctic view\">\r\n   <span>Go to Antarctic view</span>\r\n</button>");
 $templateCache.put("extent/extent.html","<div class=\"row\" style=\"border-top: 1px solid gray; padding-top:5px\">\r\n	<div class=\"col-md-5\">\r\n		<div class=\"form-inline\">\r\n			<label>\r\n				<input id=\"extentEnable\" type=\"checkbox\" ng-model=\"parameters.fromMap\" ng-click=\"change()\"></input> \r\n				Restrict area to map\r\n			</label>\r\n		</div>\r\n	</div>\r\n	 \r\n	<div class=\"col-md-7\" ng-show=\"parameters.fromMap\">\r\n		<div class=\"container-fluid\">\r\n			<div class=\"row\">\r\n				<div class=\"col-md-offset-3 col-md-8\">\r\n					<strong>Y Max:</strong> \r\n					<span>{{parameters.yMax | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n			<div class=\"row\">\r\n				<div class=\"col-md-6\">\r\n					<strong>X Min:</strong>\r\n					<span>{{parameters.xMin | number : 4}}</span> \r\n				</div>\r\n				<div class=\"col-md-6\">\r\n					<strong>X Max:</strong>\r\n					<span>{{parameters.xMax | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n			<div class=\"row\">\r\n				<div class=\"col-md-offset-3 col-md-8\">\r\n					<strong>Y Min:</strong>\r\n					<span>{{parameters.yMin | number : 4}}</span> \r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
 $templateCache.put("maps/maps.html","<div  ng-controller=\"MapsCtrl as maps\">\r\n	<div style=\"position:relative;padding:5px;padding-left:10px;\" >\r\n		<div class=\"panel panel-default\" style=\"padding:5px;\" >\r\n			<div class=\"panel-heading\">\r\n				<h3 class=\"panel-title\">Layers</h3>\r\n			</div>\r\n			<div class=\"panel-body\">\r\n				<div class=\"container-fluid\">\r\n					<div class=\"row\" ng-repeat=\"layer in layersTab.layers\" \r\n							style=\"padding:7px;padding-left:10px;position:relative\" ng-class-even=\"\'even\'\" ng-class-odd=\"\'odd\'\">\r\n						<div style=\"position:relative;left:6px;\">\r\n							<a href=\"{{layer.metadata}}\" target=\"_blank\" \r\n									class=\"featureLink\" title=\'View metadata related to \"{{layer.name}}\". (Opens new window.)\'>\r\n								{{layer.name}}\r\n							</a>\r\n							<div class=\"pull-right\" style=\"width:270px;\" tooltip=\"Show on map. {{layer.help}}\">\r\n								<span style=\"padding-left:10px;width:240px;\" class=\"pull-left\"><explorer-layer-slider layer=\"layer.layer\"></explorer-layer-slider></span>\r\n								<button style=\"padding:2px 8px 2px 2px;\" type=\"button\" class=\"undecorated featureLink pull-right\" href=\"javascript:;\" \r\n										ng-click=\"maps.toggleLayer(layer)\" >\r\n									<i class=\"fa\" ng-class=\"{\'fa-eye-slash\':(!layer.displayed), \'fa-eye active\':layer.displayed}\"></i>\r\n								</button>\r\n							</div>						\r\n						</div>\r\n					</div>\r\n				</div>\r\n			</div>\r\n		</div>\r\n	</div>\r\n</div>");
 $templateCache.put("panes/panes.html","<div class=\"mapContainer\" class=\"col-md-12\" style=\"padding-right:0\">\r\n   <div class=\"panesMapContainer\" geo-map configuration=\"data.map\"></div>\r\n   <div class=\"base-layer-controller\">\r\n       <div geo-draw data=\"data.map.drawOptions\" line-event=\"elevation.plot.data\" rectangle-event=\"bounds.drawn\"></div>\r\n       <placenames-nt></placenames-nt>\r\n   </div>\r\n   <restrict-pan bounds=\"data.map.position.bounds\"></restrict-pan>\r\n</div>");

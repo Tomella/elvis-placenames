@@ -855,18 +855,6 @@ function HelpService($http) {
 		}
 	};
 }
-"use strict";
-
-{
-   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
-      return {
-         scope: {
-            hover: "="
-         },
-         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
-      };
-   }]);
-}
 'use strict';
 
 {
@@ -1022,31 +1010,15 @@ function HelpService($http) {
       return {};
    }]);
 }
-'use strict';
+"use strict";
 
 {
-   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+   angular.module("placenames.lock", []).directive("placenamesLock", [function () {
       return {
-         restrict: 'EA',
-         templateUrl: "pill/pill.html",
          scope: {
-            item: "=",
-            update: "&",
-            name: "@?"
+            hover: "="
          },
-         link: function link(scope) {
-            if (scope.item.label) {
-               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-            }
-
-            if (!scope.name) {
-               scope.name = "name";
-            }
-            scope.deselect = function () {
-               scope.item.selected = false;
-               searchService.filtered();
-            };
-         }
+         template: '<i class="fa fa-lock" aria-hidden="true" title="The features shown on the map are locked to the current search results. Clear your search results to show more features"></i>'
       };
    }]);
 }
@@ -1083,6 +1055,34 @@ function HelpService($http) {
          };
       }];
    });
+}
+'use strict';
+
+{
+   angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+      return {
+         restrict: 'EA',
+         templateUrl: "pill/pill.html",
+         scope: {
+            item: "=",
+            update: "&",
+            name: "@?"
+         },
+         link: function link(scope) {
+            if (scope.item.label) {
+               scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+            }
+
+            if (!scope.name) {
+               scope.name = "name";
+            }
+            scope.deselect = function () {
+               scope.item.selected = false;
+               searchService.filtered();
+            };
+         }
+      };
+   }]);
 }
 'use strict';
 
