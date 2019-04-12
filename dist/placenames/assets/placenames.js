@@ -35,6 +35,30 @@ under the License.
       };
    }]);
 }
+"use strict";
+
+{
+   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
+      return {
+         templateUrl: "categories/categories.html",
+         link: function link(scope) {
+            groupsService.getCategories().then(function (categories) {
+               return scope.categories = categories;
+            });
+            scope.change = function () {
+               searchService.filtered();
+            };
+         }
+      };
+   }]).directive("placenamesCategoryChildren", [function () {
+      return {
+         templateUrl: "categories/features.html",
+         scope: {
+            features: "="
+         }
+      };
+   }]);
+}
 'use strict';
 
 {
@@ -81,30 +105,6 @@ under the License.
                   }, 30);
                }
             });
-         }
-      };
-   }]);
-}
-"use strict";
-
-{
-   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
-      return {
-         templateUrl: "categories/categories.html",
-         link: function link(scope) {
-            groupsService.getCategories().then(function (categories) {
-               return scope.categories = categories;
-            });
-            scope.change = function () {
-               searchService.filtered();
-            };
-         }
-      };
-   }]).directive("placenamesCategoryChildren", [function () {
-      return {
-         templateUrl: "categories/features.html",
-         scope: {
-            features: "="
          }
       };
    }]);
@@ -1757,6 +1757,23 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       };
    }]);
 }
+'use strict';
+
+{
+   angular.module('placenames.specification', []).directive('productSpecification', ['$window', 'configService', function ($window, configService) {
+      return {
+         restrict: 'AE',
+         templateUrl: 'specification/specification.html',
+         link: function link($scope) {
+            $scope.open = function () {
+               configService.getConfig("dataSpecificationUrl").then(function (url) {
+                  $window.open(url, "_blank");
+               });
+            };
+         }
+      };
+   }]);
+}
 "use strict";
 
 {
@@ -1800,101 +1817,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
                }
             }
             return $q.when(item);
-         }
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module('placenames.specification', []).directive('productSpecification', ['$window', 'configService', function ($window, configService) {
-      return {
-         restrict: 'AE',
-         templateUrl: 'specification/specification.html',
-         link: function link($scope) {
-            $scope.open = function () {
-               configService.getConfig("dataSpecificationUrl").then(function (url) {
-                  $window.open(url, "_blank");
-               });
-            };
-         }
-      };
-   }]);
-}
-'use strict';
-
-{
-   angular.module("placenames.zone", []).factory('zoneService', ['$http', '$q', 'configService', function ($http, $q, configService) {
-      return {
-         counts: function counts(searched) {
-            var _this = this;
-
-            return configService.getConfig("download").then(function (_ref) {
-               var outCoordSys = _ref.outCoordSys;
-
-               return _this.intersections(searched).then(function (results) {
-                  var map = {};
-                  results.forEach(function (container) {
-                     map[container.zone.code] = container.intersections.response.numFound;
-                  });
-
-                  outCoordSys.forEach(function (sys) {
-                     if (sys.extent) {
-                        sys.intersects = map[sys.code] ? map[sys.code] : 0;
-                     }
-                  });
-                  return outCoordSys.filter(function (sys) {
-                     return !sys.extent || sys.intersects;
-                  });
-               });
-            });
-         },
-         intersections: function intersections(searched) {
-            return configService.getConfig().then(function (config) {
-               var outCoordSys = config.download.outCoordSys;
-
-               var zones = outCoordSys.filter(function (sys) {
-                  return sys.extent;
-               });
-               var bounds = searched.bounds;
-               var q = searched.params.q;
-               var xMin = bounds.getWest();
-               var xMax = bounds.getEast();
-               var yMin = bounds.getSouth();
-               var yMax = bounds.getNorth();
-
-               var responses = zones.filter(function (zone) {
-                  return xMin <= zone.extent.xMax && xMax >= zone.extent.xMin && yMin <= zone.extent.yMax && yMax >= zone.extent.yMin;
-               }).map(function (zone) {
-                  return {
-                     zone: zone,
-                     get bounds() {
-                        return {
-                           xMin: xMin > zone.extent.xMin ? xMin : zone.extent.xMin,
-                           xMax: xMax < zone.extent.xMax ? xMax : zone.extent.xMax,
-                           yMin: yMin > zone.extent.yMin ? yMin : zone.extent.yMin,
-                           yMax: yMax < zone.extent.yMax ? yMax : zone.extent.yMax
-                        };
-                     },
-
-                     get location() {
-                        var bounds = this.bounds;
-                        return "location:[" + bounds.yMin + "," + bounds.xMin + " TO " + bounds.yMax + "," + bounds.xMax + "]";
-                     }
-                  };
-               });
-
-               var template = config.zoneQueryTemplate + "&q=" + q;
-
-               return $q.all(responses.map(function (response) {
-                  return $http.get(template + "&fq=" + response.location).then(function (_ref2) {
-                     var data = _ref2.data;
-
-                     response.intersections = data;
-                     return response;
-                  });
-               }));
-            });
          }
       };
    }]);
@@ -1974,6 +1896,84 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
       var service = {};
 
       return service;
+   }]);
+}
+'use strict';
+
+{
+   angular.module("placenames.zone", []).factory('zoneService', ['$http', '$q', 'configService', function ($http, $q, configService) {
+      return {
+         counts: function counts(searched) {
+            var _this = this;
+
+            return configService.getConfig("download").then(function (_ref) {
+               var outCoordSys = _ref.outCoordSys;
+
+               return _this.intersections(searched).then(function (results) {
+                  var map = {};
+                  results.forEach(function (container) {
+                     map[container.zone.code] = container.intersections.response.numFound;
+                  });
+
+                  outCoordSys.forEach(function (sys) {
+                     if (sys.extent) {
+                        sys.intersects = map[sys.code] ? map[sys.code] : 0;
+                     }
+                  });
+                  return outCoordSys.filter(function (sys) {
+                     return !sys.extent || sys.intersects;
+                  });
+               });
+            });
+         },
+         intersections: function intersections(searched) {
+            return configService.getConfig().then(function (config) {
+               var outCoordSys = config.download.outCoordSys;
+
+               var zones = outCoordSys.filter(function (sys) {
+                  return sys.extent;
+               });
+               var bounds = searched.bounds;
+               var q = searched.params.q;
+               var xMin = bounds.getWest();
+               var xMax = bounds.getEast();
+               var yMin = bounds.getSouth();
+               var yMax = bounds.getNorth();
+
+               var responses = zones.filter(function (zone) {
+                  return xMin <= zone.extent.xMax && xMax >= zone.extent.xMin && yMin <= zone.extent.yMax && yMax >= zone.extent.yMin;
+               }).map(function (zone) {
+                  return {
+                     zone: zone,
+                     get bounds() {
+                        return {
+                           xMin: xMin > zone.extent.xMin ? xMin : zone.extent.xMin,
+                           xMax: xMax < zone.extent.xMax ? xMax : zone.extent.xMax,
+                           yMin: yMin > zone.extent.yMin ? yMin : zone.extent.yMin,
+                           yMax: yMax < zone.extent.yMax ? yMax : zone.extent.yMax
+                        };
+                     },
+
+                     get location() {
+                        var bounds = this.bounds;
+                        return "location:[" + bounds.yMin + "," + bounds.xMin + " TO " + bounds.yMax + "," + bounds.xMax + "]";
+                     }
+                  };
+               });
+
+               var template = config.zoneQueryTemplate + "&q=" + q;
+
+               return $q.all(responses.map(function (response) {
+                  return $http.get(template + "&fq=" + response.location).then(function (_ref2) {
+                     var data = _ref2.data;
+
+                     response.intersections = data;
+                     return response;
+                  });
+               }));
+            });
+         }
+      };
    }]);
 }
 "use strict";
@@ -2069,6 +2069,150 @@ function AboutService(configService) {
          }]
       };
    });
+}
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var RootCtrl = function RootCtrl(configService, mapService) {
+      var _this = this;
+
+      _classCallCheck(this, RootCtrl);
+
+      mapService.getMap().then(function (map) {
+         // TODO: Remove this hack when we rewrite the map library.
+         map.fitBounds([[-9.622414142924805, 196.61132812500003], [-55.57834467218206, 67.06054687500001]]);
+         _this.map = map;
+      });
+      configService.getConfig().then(function (data) {
+         _this.data = data;
+      });
+   };
+
+   RootCtrl.$invoke = ['configService', 'mapService'];
+
+   angular.module("PlacenamesApp", ['explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.version', 'exp.ui.templates', 'explorer.map.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngSanitize', 'page.footer', 'geo.map', 'geo.maphelper', 'placenames.about', 'placenames.antarctic', 'placenames.clusters', 'placenames.download', 'placenames.extent', 'placenames.header', 'placenames.help', 'placenames.lock', 'placenames.maps', 'placenames.navigation', 'placenames.panes', 'placenames.popover', 'placenames.proxy', 'placenames.quicksearch', 'placenames.reset', "placenames.search", "placenames.searched", "placenames.search.service", "placenames.side-panel", 'placenames.specification', 'placenames.splash', 'placenames.templates', 'placenames.toolbar', 'placenames.tree', 'placenames.utils'])
+
+   // Set up all the service providers here.
+   .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider', function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
+      configServiceProvider.location("placenames/resources/config/config.json?v=5");
+      configServiceProvider.dynamicLocation("placenames/resources/config/configclient.json?");
+      versionServiceProvider.url("placenames/assets/package.json");
+      persistServiceProvider.handler("local");
+      projectsServiceProvider.setProject("placenames");
+   }]).controller("RootCtrl", RootCtrl).filter('bytes', function () {
+      return function (bytes, precision) {
+         if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
+         if (typeof precision === 'undefined') precision = 0;
+         var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
+             number = Math.floor(Math.log(bytes) / Math.log(1024));
+         return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
+      };
+   }).factory("userService", [function () {
+      return {
+         login: noop,
+         hasAcceptedTerms: noop,
+         setAcceptedTerms: noop,
+         getUsername: function getUsername() {
+            return "anon";
+         }
+      };
+      function noop() {
+         return true;
+      }
+   }]);
+
+   // A couple of polyfills for ie11
+   if (!('every' in Array.prototype)) {
+      Array.prototype.every = function (tester, that /*opt*/) {
+         for (var i = 0, n = this.length; i < n; i++) {
+            if (i in this && !tester.call(that, this[i], i, this)) return false;
+         }return true;
+      };
+   }
+
+   if (!Array.from) {
+      Array.from = function () {
+         var toStr = Object.prototype.toString;
+         var isCallable = function isCallable(fn) {
+            return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+         };
+         var toInteger = function toInteger(value) {
+            var number = Number(value);
+            if (isNaN(number)) {
+               return 0;
+            }
+            if (number === 0 || !isFinite(number)) {
+               return number;
+            }
+            return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+         };
+         var maxSafeInteger = Math.pow(2, 53) - 1;
+         var toLength = function toLength(value) {
+            var len = toInteger(value);
+            return Math.min(Math.max(len, 0), maxSafeInteger);
+         };
+
+         // The length property of the from method is 1.
+         return function from(arrayLike /*, mapFn, thisArg */) {
+            // 1. Let C be the this value.
+            var C = this;
+
+            // 2. Let items be ToObject(arrayLike).
+            var items = Object(arrayLike);
+
+            // 3. ReturnIfAbrupt(items).
+            if (arrayLike === null) {
+               throw new TypeError('Array.from requires an array-like object - not null or undefined');
+            }
+
+            // 4. If mapfn is undefined, then let mapping be false.
+            var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+            var T = void 0;
+            if (typeof mapFn !== 'undefined') {
+               // 5. else
+               // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+               if (!isCallable(mapFn)) {
+                  throw new TypeError('Array.from: when provided, the second argument must be a function');
+               }
+
+               // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+               if (arguments.length > 2) {
+                  T = arguments[2];
+               }
+            }
+
+            // 10. Let lenValue be Get(items, "length").
+            // 11. Let len be ToLength(lenValue).
+            var len = toLength(items.length);
+
+            // 13. If IsConstructor(C) is true, then
+            // 13. a. Let A be the result of calling the [[Construct]] internal method
+            // of C with an argument list containing the single item len.
+            // 14. a. Else, Let A be ArrayCreate(len).
+            var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+            // 16. Let k be 0.
+            var k = 0;
+            // 17. Repeat, while k < len… (also steps a - h)
+            var kValue = void 0;
+            while (k < len) {
+               kValue = items[k];
+               if (mapFn) {
+                  A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+               } else {
+                  A[k] = kValue;
+               }
+               k += 1;
+            }
+            // 18. Let putStatus be Put(A, "length", len, true).
+            A.length = len;
+            // 20. Return A.
+            return A;
+         };
+      }();
+   }
 }
 "use strict";
 
@@ -2409,150 +2553,6 @@ var SolrTransformer = function () {
 
       return service;
    }]);
-}
-'use strict';
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var RootCtrl = function RootCtrl(configService, mapService) {
-      var _this = this;
-
-      _classCallCheck(this, RootCtrl);
-
-      mapService.getMap().then(function (map) {
-         // TODO: Remove this hack when we rewrite the map library.
-         map.fitBounds([[-9.622414142924805, 196.61132812500003], [-55.57834467218206, 67.06054687500001]]);
-         _this.map = map;
-      });
-      configService.getConfig().then(function (data) {
-         _this.data = data;
-      });
-   };
-
-   RootCtrl.$invoke = ['configService', 'mapService'];
-
-   angular.module("PlacenamesApp", ['explorer.config', 'explorer.confirm', 'explorer.enter', 'explorer.flasher', 'explorer.googleanalytics', 'explorer.info', 'explorer.message', 'explorer.modal', 'explorer.persist', 'explorer.version', 'exp.ui.templates', 'explorer.map.templates', 'ui.bootstrap', 'ngAutocomplete', 'ngSanitize', 'page.footer', 'geo.map', 'geo.maphelper', 'placenames.about', 'placenames.antarctic', 'placenames.clusters', 'placenames.download', 'placenames.extent', 'placenames.header', 'placenames.help', 'placenames.lock', 'placenames.maps', 'placenames.navigation', 'placenames.panes', 'placenames.popover', 'placenames.proxy', 'placenames.quicksearch', 'placenames.reset', "placenames.search", "placenames.searched", "placenames.search.service", "placenames.side-panel", 'placenames.specification', 'placenames.splash', 'placenames.templates', 'placenames.toolbar', 'placenames.tree', 'placenames.utils'])
-
-   // Set up all the service providers here.
-   .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider', function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
-      configServiceProvider.location("placenames/resources/config/config.json?v=5");
-      configServiceProvider.dynamicLocation("placenames/resources/config/configclient.json?");
-      versionServiceProvider.url("placenames/assets/package.json");
-      persistServiceProvider.handler("local");
-      projectsServiceProvider.setProject("placenames");
-   }]).controller("RootCtrl", RootCtrl).filter('bytes', function () {
-      return function (bytes, precision) {
-         if (isNaN(parseFloat(bytes)) || !isFinite(bytes)) return '-';
-         if (typeof precision === 'undefined') precision = 0;
-         var units = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'],
-             number = Math.floor(Math.log(bytes) / Math.log(1024));
-         return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
-      };
-   }).factory("userService", [function () {
-      return {
-         login: noop,
-         hasAcceptedTerms: noop,
-         setAcceptedTerms: noop,
-         getUsername: function getUsername() {
-            return "anon";
-         }
-      };
-      function noop() {
-         return true;
-      }
-   }]);
-
-   // A couple of polyfills for ie11
-   if (!('every' in Array.prototype)) {
-      Array.prototype.every = function (tester, that /*opt*/) {
-         for (var i = 0, n = this.length; i < n; i++) {
-            if (i in this && !tester.call(that, this[i], i, this)) return false;
-         }return true;
-      };
-   }
-
-   if (!Array.from) {
-      Array.from = function () {
-         var toStr = Object.prototype.toString;
-         var isCallable = function isCallable(fn) {
-            return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
-         };
-         var toInteger = function toInteger(value) {
-            var number = Number(value);
-            if (isNaN(number)) {
-               return 0;
-            }
-            if (number === 0 || !isFinite(number)) {
-               return number;
-            }
-            return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
-         };
-         var maxSafeInteger = Math.pow(2, 53) - 1;
-         var toLength = function toLength(value) {
-            var len = toInteger(value);
-            return Math.min(Math.max(len, 0), maxSafeInteger);
-         };
-
-         // The length property of the from method is 1.
-         return function from(arrayLike /*, mapFn, thisArg */) {
-            // 1. Let C be the this value.
-            var C = this;
-
-            // 2. Let items be ToObject(arrayLike).
-            var items = Object(arrayLike);
-
-            // 3. ReturnIfAbrupt(items).
-            if (arrayLike === null) {
-               throw new TypeError('Array.from requires an array-like object - not null or undefined');
-            }
-
-            // 4. If mapfn is undefined, then let mapping be false.
-            var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
-            var T = void 0;
-            if (typeof mapFn !== 'undefined') {
-               // 5. else
-               // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
-               if (!isCallable(mapFn)) {
-                  throw new TypeError('Array.from: when provided, the second argument must be a function');
-               }
-
-               // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
-               if (arguments.length > 2) {
-                  T = arguments[2];
-               }
-            }
-
-            // 10. Let lenValue be Get(items, "length").
-            // 11. Let len be ToLength(lenValue).
-            var len = toLength(items.length);
-
-            // 13. If IsConstructor(C) is true, then
-            // 13. a. Let A be the result of calling the [[Construct]] internal method
-            // of C with an argument list containing the single item len.
-            // 14. a. Else, Let A be ArrayCreate(len).
-            var A = isCallable(C) ? Object(new C(len)) : new Array(len);
-
-            // 16. Let k be 0.
-            var k = 0;
-            // 17. Repeat, while k < len… (also steps a - h)
-            var kValue = void 0;
-            while (k < len) {
-               kValue = items[k];
-               if (mapFn) {
-                  A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
-               } else {
-                  A[k] = kValue;
-               }
-               k += 1;
-            }
-            // 18. Let putStatus be Put(A, "length", len, true).
-            A.length = len;
-            // 20. Return A.
-            return A;
-         };
-      }();
-   }
 }
 "use strict";
 
@@ -3609,24 +3609,6 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 }
 "use strict";
 
-function getBounds(bounds, restrictTo) {
-   var fq = void 0;
-
-   if (restrictTo) {
-
-      var left = Math.max(bounds.getWest(), -180, restrictTo.getWest());
-      var right = Math.min(bounds.getEast(), 180, restrictTo.getEast());
-      var top = Math.min(bounds.getNorth(), 90, restrictTo.getNorth());
-      var bottom = Math.max(bounds.getSouth(), -90, restrictTo.getSouth());
-
-      fq = "location:[" + (bottom > top ? top : bottom) + "," + (left > right ? right : left) + " TO " + top + "," + right + "]";
-   } else {
-      fq = "location:[" + Math.max(bounds.getSouth(), -90) + "," + Math.max(bounds.getWest(), -180) + " TO " + Math.min(bounds.getNorth(), 90) + "," + Math.min(bounds.getEast(), 180) + "]";
-   }
-   return fq;
-}
-"use strict";
-
 {
 
    angular.module("placenames.toolbar", []).directive("placenamesToolbar", [function () {
@@ -3646,6 +3628,24 @@ function getBounds(bounds, restrictTo) {
          $scope.item = $scope.item === item ? "" : item;
       };
    }]);
+}
+"use strict";
+
+function getBounds(bounds, restrictTo) {
+   var fq = void 0;
+
+   if (restrictTo) {
+
+      var left = Math.max(bounds.getWest(), -180, restrictTo.getWest());
+      var right = Math.min(bounds.getEast(), 180, restrictTo.getEast());
+      var top = Math.min(bounds.getNorth(), 90, restrictTo.getNorth());
+      var bottom = Math.max(bounds.getSouth(), -90, restrictTo.getSouth());
+
+      fq = "location:[" + (bottom > top ? top : bottom) + "," + (left > right ? right : left) + " TO " + top + "," + right + "]";
+   } else {
+      fq = "location:[" + Math.max(bounds.getSouth(), -90) + "," + Math.max(bounds.getWest(), -180) + " TO " + Math.min(bounds.getNorth(), 90) + "," + Math.min(bounds.getEast(), 180) + "]";
+   }
+   return fq;
 }
 angular.module("placenames.templates", []).run(["$templateCache", function($templateCache) {$templateCache.put("about/about.html","<span class=\"about\" ng-mouseenter=\"over()\" ng-mouseleave=\"out()\"\r\n      ng-class=\"(about.show || about.ingroup || about.stick) ? \'transitioned-down\' : \'transitioned-up\'\">\r\n   <button class=\"undecorated about-unstick\" ng-click=\"unstick()\" style=\"float:right\">X</button>\r\n   <div class=\"aboutHeading\">About Composite Gazetteer of Australia</div>\r\n   <div ng-repeat=\"item in about.items\">\r\n      <a ng-href=\"{{item.link}}\" name=\"about{{$index}}\" title=\"{{item.heading}}\" target=\"_blank\">\r\n         {{item.heading}}\r\n      </a>\r\n   </div>\r\n</span>");
 $templateCache.put("about/button.html","<button ng-mouseenter=\"over()\" ng-mouseleave=\"out()\"\r\n      ng-click=\"toggleStick()\" tooltip-placement=\"left\" uib-tooltip=\"About Composite Gazetteer of Australia\"\r\n      class=\"btn btn-primary btn-default\">About</button>");

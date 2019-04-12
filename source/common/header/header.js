@@ -17,7 +17,7 @@
             transclude: true,
             restrict: "EA",
             templateUrl: "header/beta.html"
-         }
+         };
       }])
 
       .directive('placenamesHeader', [function () {
