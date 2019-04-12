@@ -724,9 +724,6 @@ img.elvis-logo {
   font-weight: bold;
   padding-bottom: 5px;
 }
-.cluster-table th {
-  padding-right: 8px;
-}
 body {
   overflow-y: hidden;
 }
@@ -973,6 +970,9 @@ input.ng-valid.ng-touched {
 .placenames-lock i.fa {
   color: #337ab7;
   font-size: 3em;
+}
+.cluster-table th {
+  padding-right: 8px;
 }
 .placenamesTabs {
   position: absolute;
@@ -1319,22 +1319,6 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
 .placenames-toolbar {
   position: fixed;
   top: 82px;
@@ -1392,4 +1376,20 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
 }
