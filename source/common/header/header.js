@@ -12,6 +12,14 @@
          });
       }])
 
+      .directive('placenamesBeta', [function () {
+         return {
+            transclude: true,
+            restrict: "EA",
+            templateUrl: "header/beta.html"
+         }
+      }])
+
       .directive('placenamesHeader', [function () {
          let defaults = {
             current: "none",
