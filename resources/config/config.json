@@ -229,6 +229,16 @@
             }
          },
          {
+            "code": "EPSG:7844",
+            "value": "Geocentric Datum of Australia 2020, Latitude-Longitude, Degrees (EPSG:7844)",
+            "extent": {
+               "xMax": 173.35,
+               "xMin": 93.41,
+               "yMax": -8.47,
+               "yMin": -60.56
+            }
+         },
+         {
             "code": "LL-GDA94",
             "value": "Geodetic Datum of Australia 1994 (EPSG:4283)",
             "extent": {
