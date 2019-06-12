@@ -20,7 +20,7 @@
     "geostats": "^1.5.0",
     "ga-explorer-map-components": "https://github.com/Tomella/explorer-map-components.git#master",
     "explorer-ui-components": "https://github.com/Tomella/explorer-ui-components.git#master",
-    "explorer-search-components": "https://github.com/Tomella/explorer-search-components.git",
+    "explorer-search-components": "https://github.com/Tomella/explorer-search-components.git#master",
     "leaflet-solr-heatmap": "https://github.com/mejackreed/leaflet-solr-heatmap.git#master",
     "leaflet.markercluster": "https://github.com/Leaflet/Leaflet.markercluster.git#master",
     "angular": "~1.6.9",
