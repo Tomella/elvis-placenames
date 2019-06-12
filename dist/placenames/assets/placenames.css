@@ -1,3 +1,197 @@
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+}
+
+.cluster-icon {
+  display: block;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  max-width: 150px;
+  opacity: 0.7;
+}
+
+.clusster-icon:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 10px;
+  border: 10px solid transparent;
+  border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
+.searched-disclaimer {
+  margin: 3px;
+  padding: 3px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
+
+.searched-download {
+  border-bottom: 2px solid gray;
+  margin-bottom: 8px;
+}
+
+.searched-end-of {
+  max-width: 70%;
+}
+
+.searched-important {
+  font-weight: bold;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
 .pn-authorities-pills span.btn-primary {
   background-color: red;
 }
@@ -8,32 +202,6 @@
   width: 14px;
   height: 14px;
   border: solid 1px black;
-}
-.product-invalid {
-  color: red;
-  opacity: 0.6;
-}
-
-.product-valid {
-  color: green;
-}
-
-.download-control {
-  display: block;
-  width: 100%;
-  height: 23px;
-  padding: 2px 10px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.download-control::placeholder {
-  color: #ccc;
 }
 .contributors {
   margin: 2px;
@@ -115,6 +283,32 @@ img.elvis-logo {
   position: absolute;
   right: 7px;
   bottom: 15px;
+}
+.product-invalid {
+  color: red;
+  opacity: 0.6;
+}
+
+.product-valid {
+  color: green;
+}
+
+.download-control {
+  display: block;
+  width: 100%;
+  height: 23px;
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.download-control::placeholder {
+  color: #ccc;
 }
 /* Base for label styling */
 
@@ -214,7 +408,13 @@ img.elvis-logo {
 }
 
 .header-logo {
-  padding-right: 20px;
+  width: 80px;
+}
+
+@media only screen and (max-width:900px) {
+  .icsm-logo {
+    display: none !important;
+  }
 }
 
 .applicationTitle {
@@ -247,236 +447,236 @@ img.elvis-logo {
   padding-left: 15px;
   margin: 5px;
 }
-.altthemes-icon {
-  background: url("../resources/img/dbl_sprites.svg") no-repeat;
-  display: inline-block;
-  width: 40px;
-  height: 62px;
-  margin: 0 auto 0 auto;
-}
-
-.altthemes-pin {
-  background-position: 0px;
-}
-
-.altthemes-map {
-  background-position: -40px;
-}
-
-.altthemes-crosshair {
-  background-position: -80px;
-}
-
-.altthemes-sign {
-  background-position: -120px;
-}
-
-.altthemes-parcel {
-  background-position: -160px;
-}
-
-.altthemes-satellite {
-  background-position: -200px;
-}
-
-.altthemes-ship {
-  background-position: -240px;
-}
-
-.altthemes-water {
-  background-position: -280px;
-}
-
-.altthemes-shore {
-  background-position: -320px;
-}
-
-.altthemes-land {
-  background-position: -360px;
-}
-
-@media only screen and (max-width:1200px) {
-  .altthemes-icon {
-    background: url("../resources/img/alt-sprites.svg") no-repeat;
-    display: inline-block;
-    width: 25px;
-    height: 40px;
-    margin: 0 auto 0 auto;
-  }
-
-  .altthemes-pin {
-    background-position: 0px;
-  }
-
-  .altthemes-map {
-    background-position: -25px;
-  }
-
-  .altthemes-crosshair {
-    background-position: -50px;
-  }
-
-  .altthemes-sign {
-    background-position: -75px;
-  }
-
-  .altthemes-parcel {
-    background-position: -100px;
-  }
-
-  .altthemes-satellite {
-    background-position: -125px;
-  }
-
-  .altthemes-ship {
-    background-position: -150px;
-  }
-
-  .altthemes-water {
-    background-position: -175px;
-  }
-
-  .altthemes-shore {
-    background-position: -200px;
-  }
-
-  .altthemes-land {
-    background-position: -225px;
-  }
-}
-
-.altthemesItemCompact {
-  margin-top: 0px !important;
-}
-
-.altthemesdropdown {
-  margin-top: -8px;
-  padding-right: 20px;
-  z-index: 100000;
-}
-
-.altthemesdropdown .altthemescurrent {
-  color: #fff;
-  background-color: #777;
-}
-.altthemes-icon {
-  background: url("../resources/img/dbl_sprites.svg") no-repeat;
-  display: inline-block;
-  width: 40px;
-  height: 62px;
-  margin: 0 auto 0 auto;
-}
-
-.altthemes-pin {
-  background-position: 0px;
-}
-
-.altthemes-map {
-  background-position: -40px;
-}
-
-.altthemes-crosshair {
-  background-position: -80px;
-}
-
-.altthemes-sign {
-  background-position: -120px;
-}
-
-.altthemes-parcel {
-  background-position: -160px;
-}
-
-.altthemes-satellite {
-  background-position: -200px;
-}
-
-.altthemes-ship {
-  background-position: -240px;
-}
-
-.altthemes-water {
-  background-position: -280px;
-}
-
-.altthemes-shore {
-  background-position: -320px;
-}
-
-.altthemes-land {
-  background-position: -360px;
-}
-
-@media only screen and (max-width:1200px) {
-  .altthemes-icon {
-    background: url("../resources/img/alt-sprites.svg") no-repeat;
-    display: inline-block;
-    width: 25px;
-    height: 40px;
-    margin: 0 auto 0 auto;
-  }
-
-  .altthemes-pin {
-    background-position: 0px;
-  }
-
-  .altthemes-map {
-    background-position: -25px;
-  }
-
-  .altthemes-crosshair {
-    background-position: -50px;
-  }
-
-  .altthemes-sign {
-    background-position: -75px;
-  }
-
-  .altthemes-parcel {
-    background-position: -100px;
-  }
-
-  .altthemes-satellite {
-    background-position: -125px;
-  }
-
-  .altthemes-ship {
-    background-position: -150px;
-  }
-
-  .altthemes-water {
-    background-position: -175px;
-  }
-
-  .altthemes-shore {
-    background-position: -200px;
-  }
-
-  .altthemes-land {
-    background-position: -225px;
-  }
-}
-
-.altthemesItemCompact {
-  margin-top: 0px !important;
-}
-
-.altthemesdropdown {
-  margin-top: -8px;
-  padding-right: 20px;
-  z-index: 100000;
-}
-
-.altthemesdropdown .altthemescurrent {
-  color: #fff;
-  background-color: #777;
-}
 .pn-pill {
   padding: 0px 2px;
   font-size: 12px;
   line-height: 1.5;
   border-radius: 3px;
   margin: 0;
+}
+.altthemes-icon {
+  background: url("../resources/img/dbl_sprites.svg") no-repeat;
+  display: inline-block;
+  width: 40px;
+  height: 62px;
+  margin: 0 auto 0 auto;
+}
+
+.altthemes-pin {
+  background-position: 0px;
+}
+
+.altthemes-map {
+  background-position: -40px;
+}
+
+.altthemes-crosshair {
+  background-position: -80px;
+}
+
+.altthemes-sign {
+  background-position: -120px;
+}
+
+.altthemes-parcel {
+  background-position: -160px;
+}
+
+.altthemes-satellite {
+  background-position: -200px;
+}
+
+.altthemes-ship {
+  background-position: -240px;
+}
+
+.altthemes-water {
+  background-position: -280px;
+}
+
+.altthemes-shore {
+  background-position: -320px;
+}
+
+.altthemes-land {
+  background-position: -360px;
+}
+
+@media only screen and (max-width:1200px) {
+  .altthemes-icon {
+    background: url("../resources/img/alt-sprites.svg") no-repeat;
+    display: inline-block;
+    width: 25px;
+    height: 40px;
+    margin: 0 auto 0 auto;
+  }
+
+  .altthemes-pin {
+    background-position: 0px;
+  }
+
+  .altthemes-map {
+    background-position: -25px;
+  }
+
+  .altthemes-crosshair {
+    background-position: -50px;
+  }
+
+  .altthemes-sign {
+    background-position: -75px;
+  }
+
+  .altthemes-parcel {
+    background-position: -100px;
+  }
+
+  .altthemes-satellite {
+    background-position: -125px;
+  }
+
+  .altthemes-ship {
+    background-position: -150px;
+  }
+
+  .altthemes-water {
+    background-position: -175px;
+  }
+
+  .altthemes-shore {
+    background-position: -200px;
+  }
+
+  .altthemes-land {
+    background-position: -225px;
+  }
+}
+
+.altthemesItemCompact {
+  margin-top: 0px !important;
+}
+
+.altthemesdropdown {
+  margin-top: -8px;
+  padding-right: 20px;
+  z-index: 100000;
+}
+
+.altthemesdropdown .altthemescurrent {
+  color: #fff;
+  background-color: #777;
+}
+.altthemes-icon {
+  background: url("../resources/img/dbl_sprites.svg") no-repeat;
+  display: inline-block;
+  width: 40px;
+  height: 62px;
+  margin: 0 auto 0 auto;
+}
+
+.altthemes-pin {
+  background-position: 0px;
+}
+
+.altthemes-map {
+  background-position: -40px;
+}
+
+.altthemes-crosshair {
+  background-position: -80px;
+}
+
+.altthemes-sign {
+  background-position: -120px;
+}
+
+.altthemes-parcel {
+  background-position: -160px;
+}
+
+.altthemes-satellite {
+  background-position: -200px;
+}
+
+.altthemes-ship {
+  background-position: -240px;
+}
+
+.altthemes-water {
+  background-position: -280px;
+}
+
+.altthemes-shore {
+  background-position: -320px;
+}
+
+.altthemes-land {
+  background-position: -360px;
+}
+
+@media only screen and (max-width:1200px) {
+  .altthemes-icon {
+    background: url("../resources/img/alt-sprites.svg") no-repeat;
+    display: inline-block;
+    width: 25px;
+    height: 40px;
+    margin: 0 auto 0 auto;
+  }
+
+  .altthemes-pin {
+    background-position: 0px;
+  }
+
+  .altthemes-map {
+    background-position: -25px;
+  }
+
+  .altthemes-crosshair {
+    background-position: -50px;
+  }
+
+  .altthemes-sign {
+    background-position: -75px;
+  }
+
+  .altthemes-parcel {
+    background-position: -100px;
+  }
+
+  .altthemes-satellite {
+    background-position: -125px;
+  }
+
+  .altthemes-ship {
+    background-position: -150px;
+  }
+
+  .altthemes-water {
+    background-position: -175px;
+  }
+
+  .altthemes-shore {
+    background-position: -200px;
+  }
+
+  .altthemes-land {
+    background-position: -225px;
+  }
+}
+
+.altthemesItemCompact {
+  margin-top: 0px !important;
+}
+
+.altthemesdropdown {
+  margin-top: -8px;
+  padding-right: 20px;
+  z-index: 100000;
+}
+
+.altthemesdropdown .altthemescurrent {
+  color: #fff;
+  background-color: #777;
 }
 .quickSearch {
   width: 33em;
@@ -566,65 +766,6 @@ img.elvis-logo {
 .pn-pill {
   color: #fff;
   margin: 4px;
-}
-.about {
-  margin: 2px;
-  padding: 10px;
-  padding-left: 8px;
-  position: fixed;
-  top: 178px;
-  right: 12px;
-  opacity: 0.95;
-  z-index: 6;
-  background-color: white;
-  white-space: nowrap;
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about div {
-  -webkit-transition: height 1s;
-  /* Safari */
-  transition: height 1s;
-}
-
-.about.transitioned-up div {
-  height: 0;
-}
-
-.about.transitioned-up .about-unstick {
-  display: none;
-}
-
-.about.transitioned-down {
-  border: 1px solid gray;
-  border-radius: 3px;
-}
-
-.transitioned-up {
-  height: 0px;
-  border: 0 none;
-  margin: 0;
-  padding: 0;
-}
-
-.about.transitioned-up div {
-  display: none;
-}
-
-.about-unstick {
-  vertical-align: top;
-  font-weight: bold;
-}
-
-.about-link {
-  font-weight: bold;
-}
-
-.aboutHeading {
-  font-weight: bold;
-  padding-bottom: 5px;
 }
 /* Side Panel */
 
@@ -723,6 +864,65 @@ img.elvis-logo {
 .cbp-spmenu-open .left-side-menu-container,
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
+}
+.about {
+  margin: 2px;
+  padding: 10px;
+  padding-left: 8px;
+  position: fixed;
+  top: 178px;
+  right: 12px;
+  opacity: 0.95;
+  z-index: 6;
+  background-color: white;
+  white-space: nowrap;
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about div {
+  -webkit-transition: height 1s;
+  /* Safari */
+  transition: height 1s;
+}
+
+.about.transitioned-up div {
+  height: 0;
+}
+
+.about.transitioned-up .about-unstick {
+  display: none;
+}
+
+.about.transitioned-down {
+  border: 1px solid gray;
+  border-radius: 3px;
+}
+
+.transitioned-up {
+  height: 0px;
+  border: 0 none;
+  margin: 0;
+  padding: 0;
+}
+
+.about.transitioned-up div {
+  display: none;
+}
+
+.about-unstick {
+  vertical-align: top;
+  font-weight: bold;
+}
+
+.about-link {
+  font-weight: bold;
+}
+
+.aboutHeading {
+  font-weight: bold;
+  padding-bottom: 5px;
 }
 body {
   overflow-y: hidden;
@@ -1198,198 +1398,4 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
-}
-.leaflet-div-icon {
-  background-color: transparent;
-  border: none;
-}
-
-.cluster-icon {
-  display: block;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 3px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 5px;
-  max-width: 150px;
-  opacity: 0.7;
-}
-
-.clusster-icon:before {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  left: 10px;
-  border: 10px solid transparent;
-  border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
-.searched-disclaimer {
-  margin: 3px;
-  padding: 3px;
-  border: solid 1px lightgray;
-  border-radius: 3px;
-}
-
-.searched-download {
-  border-bottom: 2px solid gray;
-  margin-bottom: 8px;
-}
-
-.searched-end-of {
-  max-width: 70%;
-}
-
-.searched-important {
-  font-weight: bold;
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
 }

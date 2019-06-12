@@ -15,22 +15,19 @@
    <div class="navbar-collapse collapse ga-header-collapse">
       <ul class="nav navbar-nav">
          <li class="hidden-xs">
-            <a href="/" style="margin-top:8px; padding:5px">
-               <h1 class="applicationTitle">{{heading}} <placenames-beta></placenames-beta></elvis-beta></h1>
+            <a href="https://www.icsm.gov.au/" target="_blank" class="icsm-logo" style="margin-top: -4px;display:inline-block;">
+               <img alt="ICSM - ANZLIC Committee on Surveying &amp; Mapping" class="header-logo"
+                  src="placenames/resources/img/icsm-logo-sml.gif">
+            </a>
+            <a href="/" style="margin-top:8px; padding:5px;display:inline-block">
+               <h1 class="applicationTitle">{{heading}} <placenames-beta></placenames-beta>
+                  </elvis-beta>
+               </h1>
                <h3 ng-if="subheading" class="sub-heading">{{subheading}}</h3>
             </a>
          </li>
       </ul>
       <ul class="nav navbar-nav navbar-right nav-icons">
-         <li role="menuitem" style="padding-right:10px;position: relative;top: -3px;">
-            <span class="altthemes-container">
-               <span>
-                  <a title="Location INformation Knowledge platform (LINK)" href="http://fsdf.org.au/" target="_blank">
-                     <img alt="FSDF" src="placenames/resources/img/FSDFimagev4.0.png" style="height: 66px">
-                  </a>
-               </span>
-            </span>
-         </li>
          <li placenames-navigation role="menuitem" current="current" style="padding-right:10px"></li>
          <li mars-version-display role="menuitem"></li>
          <li style="width:10px"></li>

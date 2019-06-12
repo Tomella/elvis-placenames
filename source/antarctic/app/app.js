@@ -31,6 +31,7 @@
       'explorer.persist',
       'explorer.version',
 
+      'placenames.feedback',
       'placenames.groups',
       'placenames.header',
       'placenames.help',

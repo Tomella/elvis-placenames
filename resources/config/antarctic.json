@@ -131,5 +131,6 @@
    "filters": {
       "referenceDataUrl": "placenames/resources/config/groupCatalogFeatures.json"
    },
-   "dataSpecificationUrl": "https://s3-ap-southeast-2.amazonaws.com/fsdf.placenames/DPS/Composite+Gazetteer+DPS.pdf"
+   "dataSpecificationUrl": "https://s3-ap-southeast-2.amazonaws.com/fsdf.placenames/DPS/Composite+Gazetteer+DPS.pdf",
+   "feedbackUrl": "http://www.ga.gov.au/contact-us"
 }
