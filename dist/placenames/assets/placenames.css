@@ -1,197 +1,3 @@
-.leaflet-div-icon {
-  background-color: transparent;
-  border: none;
-}
-
-.cluster-icon {
-  display: block;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 3px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 5px;
-  max-width: 150px;
-  opacity: 0.7;
-}
-
-.clusster-icon:before {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  left: 10px;
-  border: 10px solid transparent;
-  border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
-.searched-disclaimer {
-  margin: 3px;
-  padding: 3px;
-  border: solid 1px lightgray;
-  border-radius: 3px;
-}
-
-.searched-download {
-  border-bottom: 2px solid gray;
-  margin-bottom: 8px;
-}
-
-.searched-end-of {
-  max-width: 70%;
-}
-
-.searched-important {
-  font-weight: bold;
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
 .pn-authorities-pills span.btn-primary {
   background-color: red;
 }
@@ -1340,6 +1146,200 @@ input.ng-valid.ng-touched {
 
 .searched-important {
   font-weight: bold;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+}
+
+.cluster-icon {
+  display: block;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  max-width: 150px;
+  opacity: 0.7;
+}
+
+.clusster-icon:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 10px;
+  border: 10px solid transparent;
+  border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
+.searched-disclaimer {
+  margin: 3px;
+  padding: 3px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
+
+.searched-download {
+  border-bottom: 2px solid gray;
+  margin-bottom: 8px;
+}
+
+.searched-end-of {
+  max-width: 70%;
+}
+
+.searched-important {
+  font-weight: bold;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
 }
 .placenames-toolbar {
   position: fixed;

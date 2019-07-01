@@ -6,7 +6,7 @@
             restrict: 'AE',
             templateUrl: 'specification/specification.html',
             link: function ($scope) {
-               $scope.open = () => {
+               $scope.openSpec = () => {
                   configService.getConfig("dataSpecificationUrl").then(url => {
                      $window.open(url, "_blank");
                   });
