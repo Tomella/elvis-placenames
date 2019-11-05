@@ -1,3 +1,14 @@
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
+  display: inline-block;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
+}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -104,17 +115,6 @@ img.elvis-logo {
 
 .download-control::placeholder {
   color: #ccc;
-}
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
-
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
 }
 /* Base for label styling */
 
@@ -1325,6 +1325,22 @@ input.ng-valid.ng-touched {
   height: 30px;
   font-size: 13px;
 }
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
 .placenames-toolbar {
   position: fixed;
   top: 82px;
@@ -1382,20 +1398,4 @@ input.ng-valid.ng-touched {
   border: none;
   height: 30px;
   font-size: 13px;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
 }
