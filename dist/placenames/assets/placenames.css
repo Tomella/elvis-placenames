@@ -1,14 +1,3 @@
-.pn-authorities-pills span.btn-primary {
-  background-color: red;
-}
-
-.pn-authorities-swathe {
-  display: inline-block;
-  background-color: red;
-  width: 14px;
-  height: 14px;
-  border: solid 1px black;
-}
 .contributors {
   margin: 2px;
   padding: 10px;
@@ -115,6 +104,17 @@ img.elvis-logo {
 
 .download-control::placeholder {
   color: #ccc;
+}
+.pn-authorities-pills span.btn-primary {
+  background-color: red;
+}
+
+.pn-authorities-swathe {
+  display: inline-block;
+  background-color: red;
+  width: 14px;
+  height: 14px;
+  border: solid 1px black;
 }
 /* Base for label styling */
 
