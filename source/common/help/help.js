@@ -3,14 +3,14 @@
 
 		.directive("placenamesHelp", [function () {
 			return {
-				templateUrl: "help/help.html"
+				templateUrl: "/help/help.html"
 			};
 		}])
 
 		.directive("placenamesFaqs", [function () {
 			return {
 				restrict: "AE",
-				templateUrl: "help/faqs.html",
+				templateUrl: "/help/faqs.html",
 				scope: {
 					faqs: "="
 				},

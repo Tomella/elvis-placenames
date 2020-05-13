@@ -48,7 +48,7 @@
       .directive("placenamesExtent", ['extentService', function (extentService) {
          return {
             restrict: "AE",
-            templateUrl: "extent/extent.html",
+            templateUrl: "/extent/extent.html",
             controller: ['$scope', function ($scope) {
                $scope.parameters = extentService.getParameters();
             }],

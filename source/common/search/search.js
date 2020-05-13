@@ -39,7 +39,7 @@
          };
 
          return {
-            templateUrl: "search/searchfilters.html",
+            templateUrl: "/search/searchfilters.html",
             link: function (scope) {
                scope.summary = searchService.summary;
                scope.data = searchService.data;
@@ -68,7 +68,7 @@
       .directive("placenamesQuickSearch", ['$document', '$rootScope', '$timeout', 'groupsService', 'searchService',
          function ($document, $rootScope, $timeout, groupsService, searchService) {
             return {
-               templateUrl: 'search/quicksearch.html',
+               templateUrl: '/search/quicksearch.html',
                restrict: 'AE',
                link: function (scope, element) {
                   scope.state = searchService.data;
@@ -120,7 +120,7 @@
       .directive("placenamesSearch", ['$timeout', 'groupsService', 'searchService',
          function ($timeout, groupsService, searchService) {
             return {
-               templateUrl: 'search/search.html',
+               templateUrl: '/search/search.html',
                restrict: 'AE',
                link: function (scope) {
                   scope.state = searchService.data;

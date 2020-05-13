@@ -16,7 +16,7 @@
          return {
             transclude: true,
             restrict: "EA",
-            templateUrl: "header/beta.html"
+            templateUrl: "/header/beta.html"
          };
       }])
 
@@ -36,7 +36,7 @@
          return {
             transclude: true,
             restrict: 'EA',
-            templateUrl: "header/header.html",
+            templateUrl: "/header/header.html",
             scope: {
                current: "=",
                breadcrumbs: "=",

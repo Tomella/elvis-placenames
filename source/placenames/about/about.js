@@ -4,7 +4,7 @@
    angular.module('placenames.about', [])
       .directive("placenamesAbout", ["$interval", "aboutService", function ($interval, aboutService) {
          return {
-            templateUrl: "about/about.html",
+            templateUrl: "/about/about.html",
             scope: {
             },
             link: function (scope, element) {
@@ -34,7 +34,7 @@
       .directive("placenamesAboutLink", ["$interval", "aboutService", function ($interval, aboutService) {
          return {
             restrict: "AE",
-            templateUrl: "about/button.html",
+            templateUrl: "/about/button.html",
             scope: {
             },
             link: function (scope) {

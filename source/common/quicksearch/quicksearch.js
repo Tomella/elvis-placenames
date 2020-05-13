@@ -5,7 +5,7 @@
       return {
          link: function(scope) {
          },
-         templateUrl: "quicksearch/quicksearch.html"
+         templateUrl: "/quicksearch/quicksearch.html"
       };
    }])
 
@@ -14,7 +14,7 @@
          scope: {
             state: "="
          },
-         templateUrl: "quicksearch/filteredsummary.html",
+         templateUrl: "/quicksearch/filteredsummary.html",
          link: function(scope) {
             scope.summary = searchService.summary;
          }

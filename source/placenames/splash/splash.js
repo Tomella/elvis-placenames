@@ -19,7 +19,7 @@
                   scope.$watch("acceptedTerms", function (value) {
                      if (value === false) {
                         modalInstance = $uibModal.open({
-                           templateUrl: 'splash/splash.html',
+                           templateUrl: '/splash/splash.html',
                            size: "lg",
                            backdrop: "static",
                            keyboard: false,

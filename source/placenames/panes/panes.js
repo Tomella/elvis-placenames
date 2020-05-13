@@ -3,7 +3,7 @@
 
       .directive("placenamesPanes", ['$rootScope', '$timeout', 'mapService', function ($rootScope, $timeout, mapService) {
          return {
-            templateUrl: "panes/panes.html",
+            templateUrl: "/panes/panes.html",
             scope: {
                defaultItem: "@",
                data: "="

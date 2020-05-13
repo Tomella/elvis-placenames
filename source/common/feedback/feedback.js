@@ -4,7 +4,7 @@
       .directive('feedback', ['$window', 'configService', function ($window, configService) {
          return {
             restrict: 'AE',
-            templateUrl: 'feedback/feedback.html',
+            templateUrl: '/feedback/feedback.html',
             link: function ($scope) {
                $scope.open = () => {
                   configService.getConfig("feedbackUrl").then(url => {

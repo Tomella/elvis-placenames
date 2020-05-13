@@ -30,7 +30,7 @@
 
       .directive("placenamesResultsSummary", [function () {
          return {
-            templateUrl: "results/summary.html",
+            templateUrl: "/results/summary.html",
             scope: {
                state: "="
             }
@@ -48,7 +48,7 @@
 
       .directive("placenamesResults", ['placenamesResultsService', function (placenamesResultsService) {
          return {
-            templateUrl: 'results/results.html',
+            templateUrl: '/results/results.html',
             restrict: "AE",
             bindToController: {
                data: "="

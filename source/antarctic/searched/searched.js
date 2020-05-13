@@ -3,7 +3,7 @@
       .directive('antarcticSearched', ['$rootScope', 'searchService', function ($rootScope, searchService) {
          return {
             restrict: "AE",
-            templateUrl: "searched/searched.html",
+            templateUrl: "/searched/searched.html",
             scope: {
                authorities: "="
             },
@@ -51,7 +51,7 @@
 
       .directive("antarcticSearchedSummary", [function () {
          return {
-            templateUrl: "searched/summary.html",
+            templateUrl: "/searched/summary.html",
             scope: {
                state: "="
             }
@@ -60,7 +60,7 @@
 
       .directive("antarcticSearchedItem", [function () {
          return {
-            templateUrl: "searched/item.html",
+            templateUrl: "/searched/item.html",
             scope: {
                authority: "=",
                feature: "="
@@ -80,7 +80,7 @@
       .directive('antarcticJurisdiction', ['searchedService', function (searchedService) {
          return {
             restrict: "AE",
-            templateUrl: "searched/jurisdiction.html",
+            templateUrl: "/searched/jurisdiction.html",
             scope: {
                authority: "=",
                item: "="

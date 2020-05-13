@@ -66,7 +66,7 @@
          return {
             restrict: 'E',
             transclude: true,
-            templateUrl: 'side-panel/side-panel-right.html',
+            templateUrl: '/side-panel/side-panel-right.html',
             link: function (scope) {
                scope.right = panelSideFactory.state.right;
 
@@ -81,7 +81,7 @@
          return {
             restrict: 'E',
             transclude: true,
-            templateUrl: 'side-panel/trigger.html',
+            templateUrl: '/side-panel/trigger.html',
             scope: {
                default: "@?",
                panelWidth: "@",
@@ -172,7 +172,7 @@
          return {
             restrict: 'E',
             transclude: true,
-            templateUrl: 'side-panel/side-panel-left.html',
+            templateUrl: '/side-panel/side-panel-left.html',
             link: function (scope) {
                scope.left = panelSideFactory.state.left;
 

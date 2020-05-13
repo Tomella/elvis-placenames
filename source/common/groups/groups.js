@@ -122,7 +122,7 @@
 
       .directive("placenamesGroups", ['groupsService', "searchService", function (groupsService, searchService) {
          return {
-            templateUrl: "groups/groups.html",
+            templateUrl: "/groups/groups.html",
             link: function (scope) {
                groupsService._loadGroups().then(data => {
                   scope.data = data;
@@ -138,7 +138,7 @@
 
       .directive("placenamesGroupChildren", ['groupsService', function (groupsService) {
          return {
-            templateUrl: "groups/category.html",
+            templateUrl: "/groups/category.html",
             scope: {
                category: "="
             }

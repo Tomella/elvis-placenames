@@ -42,7 +42,7 @@
 
       .directive("placenamesMaps", ["mapsService", function (mapsService) {
          return {
-            templateUrl: "maps/maps.html",
+            templateUrl: "/maps/maps.html",
             link: function (scope) {
                mapsService.getConfig().then(function (data) {
                   scope.layersTab = data;

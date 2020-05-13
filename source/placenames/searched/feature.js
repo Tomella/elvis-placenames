@@ -5,7 +5,7 @@
          function (placenamesItemService, searchService) {
 
             return {
-               templateUrl: "searched/feature.html",
+               templateUrl: "/searched/feature.html",
                bindToController: {
                   feature: "="
                },

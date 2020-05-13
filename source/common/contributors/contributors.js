@@ -4,7 +4,7 @@
 
       .directive("placenamesContributors", ["$interval", "contributorsService", function ($interval, contributorsService) {
          return {
-            templateUrl: "contributors/contributors.html",
+            templateUrl: "/contributors/contributors.html",
             scope: {
             },
             link: function (scope, element) {
@@ -34,7 +34,7 @@
       .directive("placenamesContributorsLink", ["$interval",  "contributorsService", function ($interval, contributorsService) {
          return {
             restrict: "AE",
-            templateUrl: "contributors/show.html",
+            templateUrl: "/contributors/show.html",
             scope: {
             },
             link: function (scope) {

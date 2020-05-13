@@ -4,7 +4,7 @@
       .directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", "zoneService",
                function (flashService, messageService, placenamesDownloadService, zoneService) {
          return {
-            templateUrl: "download/download.html",
+            templateUrl: "/download/download.html",
             scope: {
                data: "="
             },

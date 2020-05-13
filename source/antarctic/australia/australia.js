@@ -5,7 +5,7 @@
          return {
             restrict: 'AE',
             scope: {},
-            templateUrl: 'australia/australia.html',
+            templateUrl: '/australia/australia.html',
             controller: ['$scope', function ($scope) {
                $scope.go = function () {
                   window.location = "index.html";

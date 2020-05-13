@@ -4,7 +4,7 @@
 
       .directive("antarcticToolbar", [function () {
          return {
-            templateUrl: "toolbar/toolbar.html",
+            templateUrl: "/toolbar/toolbar.html",
             controller: 'toolbarLinksCtrl',
             transclude: true
          };

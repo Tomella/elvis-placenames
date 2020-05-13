@@ -14,6 +14,8 @@
    RootCtrl.$invoke = ['configService', 'mapService'];
 
    angular.module("PlacenamesApp", [
+      'placenames.templates',
+
       'explorer.config',
       'explorer.confirm',
       'explorer.enter',
@@ -57,11 +59,15 @@
       "placenames.search.service",
       "placenames.side-panel",
       'placenames.specification',
-      'placenames.templates',
       'placenames.toolbar',
       'placenames.tree',
       'placenames.utils'
    ])
+
+
+   .run(function ($templateCache) {
+      console.log("Running");
+   })
 
       // Set up all the service providers here.
       .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider',
