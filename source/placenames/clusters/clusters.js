@@ -4,13 +4,18 @@ class SolrTransformer {
          let response = {};
 
          let lastField = null;
-         data.forEach(function (element, idx) {
-            if (idx % 2) {
-               response[lastField] = element;
-            } else {
-               lastField = element;
-            }
-         });
+         if (Array.isArray(data)) {
+            data.forEach(function (element, idx) {
+               if (idx % 2) {
+                  response[lastField] = element;
+               } else {
+                  lastField = element;
+               }
+            });
+         } else {
+            // Newer versions of Solr do it properly
+            response = data;
+         }
 
          this.data = response;
          this.dx = (response.maxX - response.minX) / response.columns;
