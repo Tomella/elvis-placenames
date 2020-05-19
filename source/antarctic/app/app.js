@@ -43,6 +43,7 @@
       'placenames.search',
       'placenames.side-panel',
       'placenames.specification',
+      "placenames.survey",
       'placenames.tree',
       'placenames.utils',
 

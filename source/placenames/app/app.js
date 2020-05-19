@@ -58,6 +58,7 @@
       "placenames.searched",
       "placenames.search.service",
       "placenames.side-panel",
+      "placenames.survey",
       'placenames.specification',
       'placenames.toolbar',
       'placenames.tree',

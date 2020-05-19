@@ -29,6 +29,7 @@
       'placenames.navigation',
       'placenames.proxy',
       'placenames.specification',
+      "placenames.survey",
       'placenames.utils',
 
       'exp.ui.templates',
