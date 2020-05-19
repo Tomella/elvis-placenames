@@ -1,3 +1,123 @@
+.leaflet-div-icon {
+  background-color: transparent;
+  border: none;
+}
+
+.cluster-icon {
+  display: block;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 3px;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  padding: 5px;
+  max-width: 150px;
+  opacity: 0.7;
+}
+
+.clusster-icon:before {
+  content: ' ';
+  height: 0;
+  position: absolute;
+  width: 0;
+  left: 10px;
+  border: 10px solid transparent;
+  border-right-color: #DA362A;
+}
+.leaflet-container .leaflet-control-mouseposition {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 5px #bbb;
+  padding: 0 5px;
+  margin: 0;
+  color: #333;
+  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.leaflet-pane {
+  z-index: 400;
+}
+
+#mappo {
+  height: 100%;
+}
+.searched-disclaimer {
+  margin: 3px;
+  padding: 3px;
+  border: solid 1px lightgray;
+  border-radius: 3px;
+}
+
+.searched-download {
+  border-bottom: 2px solid gray;
+  margin-bottom: 8px;
+}
+
+.searched-end-of {
+  max-width: 70%;
+}
+
+.searched-important {
+  font-weight: bold;
+}
+.placenames-toolbar {
+  position: fixed;
+  top: 82px;
+  background-color: #006983;
+  left: 0;
+  right: 0;
+  height: 30px;
+}
+
+.map-tool-toggle-btn {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.toolBarContainer>div>ul {
+  list-style: none;
+}
+
+.left-toolbar-items {
+  float: left;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+  width: 25%;
+  white-space: nowrap;
+}
+
+.right-toolbar-items {
+  float: right;
+  padding-left: 0;
+  margin-left: 10px;
+  margin-bottom: 0;
+  color: #fff;
+  font-style: normal;
+  font-weight: 400;
+  height: 30px;
+}
+
+.right-toolbar-items div,
+.right-toolbar-items li {
+  display: inline;
+}
+
+.toolbarButton {
+  background-color: #006983;
+  border: none;
+  height: 30px;
+  font-size: 13px;
+}
 .leaflet-container .leaflet-control-mouseposition {
   background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 0 0 5px #bbb;
@@ -745,126 +865,6 @@ img.elvis-logo {
 .cbp-spmenu-open .right-side-menu-container {
   overflow-y: auto;
 }
-.leaflet-div-icon {
-  background-color: transparent;
-  border: none;
-}
-
-.cluster-icon {
-  display: block;
-  background-color: white;
-  border: 1px solid gray;
-  border-radius: 3px;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  padding: 5px;
-  max-width: 150px;
-  opacity: 0.7;
-}
-
-.clusster-icon:before {
-  content: ' ';
-  height: 0;
-  position: absolute;
-  width: 0;
-  left: 10px;
-  border: 10px solid transparent;
-  border-right-color: #DA362A;
-}
-.leaflet-container .leaflet-control-mouseposition {
-  background-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 0 5px #bbb;
-  padding: 0 5px;
-  margin: 0;
-  color: #333;
-  font: 11px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
-}
-
-.leaflet-pane {
-  z-index: 400;
-}
-
-#mappo {
-  height: 100%;
-}
-.searched-disclaimer {
-  margin: 3px;
-  padding: 3px;
-  border: solid 1px lightgray;
-  border-radius: 3px;
-}
-
-.searched-download {
-  border-bottom: 2px solid gray;
-  margin-bottom: 8px;
-}
-
-.searched-end-of {
-  max-width: 70%;
-}
-
-.searched-important {
-  font-weight: bold;
-}
-.placenames-toolbar {
-  position: fixed;
-  top: 82px;
-  background-color: #006983;
-  left: 0;
-  right: 0;
-  height: 30px;
-}
-
-.map-tool-toggle-btn {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.toolBarContainer>div>ul {
-  list-style: none;
-}
-
-.left-toolbar-items {
-  float: left;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-  width: 25%;
-  white-space: nowrap;
-}
-
-.right-toolbar-items {
-  float: right;
-  padding-left: 0;
-  margin-left: 10px;
-  margin-bottom: 0;
-  color: #fff;
-  font-style: normal;
-  font-weight: 400;
-  height: 30px;
-}
-
-.right-toolbar-items div,
-.right-toolbar-items li {
-  display: inline;
-}
-
-.toolbarButton {
-  background-color: #006983;
-  border: none;
-  height: 30px;
-  font-size: 13px;
-}
 .about {
   margin: 2px;
   padding: 10px;
@@ -923,6 +923,9 @@ img.elvis-logo {
 .aboutHeading {
   font-weight: bold;
   padding-bottom: 5px;
+}
+.cluster-table th {
+  padding-right: 8px;
 }
 body {
   overflow-y: hidden;
@@ -1171,8 +1174,43 @@ input.ng-valid.ng-touched {
   color: #337ab7;
   font-size: 3em;
 }
-.cluster-table th {
-  padding-right: 8px;
+.placenames-popover {
+  z-index: 1060;
+  max-width: 600px;
+  padding: 5px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
+  line-break: auto;
+}
+
+.placenames-popover.bottom > .arrow {
+  top: -11px;
+  left: 50%;
+  margin-left: -11px;
+  border-top-width: 0;
+  border-bottom-color: #999;
+  border-bottom-color: rgba(0, 0, 0, .25);
 }
 .placenamesTabs {
   position: absolute;
@@ -1252,44 +1290,6 @@ input.ng-valid.ng-touched {
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-}
-.placenames-popover {
-  z-index: 1060;
-  max-width: 600px;
-  padding: 5px;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: left;
-  text-align: start;
-  text-decoration: none;
-  text-shadow: none;
-  text-transform: none;
-  letter-spacing: normal;
-  word-break: normal;
-  word-spacing: normal;
-  word-wrap: normal;
-  white-space: normal;
-  background-color: #fff;
-  -webkit-background-clip: padding-box;
-  background-clip: padding-box;
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, .2);
-  border-radius: 6px;
-  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, .2);
-  line-break: auto;
-}
-
-.placenames-popover.bottom > .arrow {
-  top: -11px;
-  left: 50%;
-  margin-left: -11px;
-  border-top-width: 0;
-  border-bottom-color: #999;
-  border-bottom-color: rgba(0, 0, 0, .25);
 }
 @media print {
 @page {
