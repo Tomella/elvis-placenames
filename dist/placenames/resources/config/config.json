@@ -23,7 +23,7 @@
             "type":["TileLayer"],
             "key":"topography",
             "parameters":[
-               "//services.ga.gov.au/site_7/rest/services/NationalMap_Colour_Topographic_Base_World_WM/MapServer/tile/{z}/{y}/{x}",
+               "//services.ga.gov.au/gis/rest/services/NationalBaseMap/MapServer/tile/{z}/{y}/{x}",
                 {
                    "minZoom:": 8,
                    "maxZoom": 16,
