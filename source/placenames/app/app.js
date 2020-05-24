@@ -73,7 +73,7 @@
       // Set up all the service providers here.
       .config(['configServiceProvider', 'persistServiceProvider', 'projectsServiceProvider', 'versionServiceProvider',
          function (configServiceProvider, persistServiceProvider, projectsServiceProvider, versionServiceProvider) {
-            configServiceProvider.location("placenames/resources/config/config.json?v=5");
+            configServiceProvider.location("placenames/resources/config/config.json?v=6");
             configServiceProvider.dynamicLocation("placenames/resources/config/configclient.json?");
             versionServiceProvider.url("placenames/assets/package.json");
             persistServiceProvider.handler("local");
