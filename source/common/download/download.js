@@ -49,7 +49,7 @@
          };
       }])
 
-      .factory("placenamesDownloadService", ["$http", "configService", "storageService", function ($http, configService, storageService) {
+      .factory("placenamesDownloadService", ["$http", "$q", "configService", "storageService", function ($http, $q, configService, storageService) {
          const EMAIL_KEY = "download_email";
 
          let service = {
@@ -99,17 +99,28 @@
                   postData.file_name = this.data.fileName;
                }
 
-               return $http({
-                  url: this.data.config.serviceUrl,
-                  method: 'POST',
-                  //assign content-type as undefined, the browser
-                  //will assign the correct boundary for us
-                  //prevents serializing payload.  don't do it.
-                  headers: {
-                     "Content-Type": "application/json"
-                  },
-                  data: postData
+               let url = this.data.config.serviceUrl;
+               return $q(function(resolve, reject) {
+                  $http.get("/token").then(function(response) {
+                     let token = response.data;
+
+                     return $http({
+                        url: url,
+                        method: 'POST',
+                        //assign content-type as undefined, the browser
+                        //will assign the correct boundary for us
+                        //prevents serializing payload.  don't do it.
+                        headers: {
+                           "Content-Type": "application/json",
+                           'Authorization': "fmetoken token=" + token
+                        },
+                        data: postData
+                     }).then(function(response) {
+                        resolve(response);
+                     });
+                  });
                });
+
             },
 
             setEmail: function (email) {

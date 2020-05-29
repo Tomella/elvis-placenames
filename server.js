@@ -8,24 +8,25 @@
 
 process.env.NO_PROXY = "localhost";
 
-var SERVICES_ROOT = "http://www.ga.gov.au/elvis";
-var NSW_METADATA_TEMPLATE = "https://s3-ap-southeast-2.amazonaws.com/nsw.elvis/z5${zone}/Metadata/";
+const SERVICES_ROOT = "http://www.ga.gov.au/elvis";
+const NSW_METADATA_TEMPLATE = "https://s3-ap-southeast-2.amazonaws.com/nsw.elvis/z5${zone}/Metadata/";
+const tokenUrl = "https://elevation-dev.fsdf.org.au/token";
 
-var START_ABSTRACT_SENTINEL = "<h3>Abstract:</h3>";
-var START_ABSTRACT_SENTINEL_LENGTH = START_ABSTRACT_SENTINEL.length;
-var END_ABSTRACT_SENTINEL = "<p>";
+const START_ABSTRACT_SENTINEL = "<h3>Abstract:</h3>";
+const START_ABSTRACT_SENTINEL_LENGTH = START_ABSTRACT_SENTINEL.length;
+const END_ABSTRACT_SENTINEL = "<p>";
 
-var express = require("express");
-var request = require('request');
+const express = require("express");
+const request = require('request');
 request.gzip = false;
 
 //var httpProxy = require('http-proxy');
-var app = express();
-var url = require('url');
-var X2JS = require('x2js');
+const app = express();
+const url = require('url');
+const X2JS = require('x2js');
 
-var StringDecoder = require('string_decoder').StringDecoder;
-var yargs = require('yargs').options({
+const StringDecoder = require('string_decoder').StringDecoder;
+const yargs = require('yargs').options({
     'port': {
         'default': 3000,
         'description': 'Port to listen on.'
@@ -46,22 +47,22 @@ var yargs = require('yargs').options({
         'description': 'Show this help.'
     }
 });
-var argv = yargs.argv;
-var port = process.env.PORT || argv.port;
-var dontProxyHeaderRegex = /^(?:Host|Proxy-Connection|Accept-Encoding|Connection|Keep-Alive|Transfer-Encoding|TE|Trailer|Proxy-Authorization|Proxy-Authenticate|Upgrade)$/i;
+const argv = yargs.argv;
+const port = process.env.PORT || argv.port;
+const dontProxyHeaderRegex = /^(?:Host|Proxy-Connection|Accept-Encoding|Connection|Keep-Alive|Transfer-Encoding|TE|Trailer|Proxy-Authorization|Proxy-Authenticate|Upgrade)$/i;
 // There should only ever be a couple. We do a contains on the requested host.
-var validHosts = [
+const validHosts = [
     "localhost",
     "qldspatial.information.qld.gov.au",
     ".ga.gov.au",
     "elvis2018-ga.fmecloud.com",
     "s3-ap-southeast-2.amazonaws.com"
 ];
-var upstreamProxy = argv['upstream-proxy'];
+const upstreamProxy = argv['upstream-proxy'];
 
 // eventually this mime type configuration will need to change
 // https://github.com/visionmedia/send/commit/d2cb54658ce65948b0ed6e5fb5de69d022bef941
-var mime = express.static.mime;
+const mime = express.static.mime;
 mime.define({
     'application/json': ['czml', 'json', 'geojson', 'topojson'],
     'model/vnd.gltf+json': ['gltf'],
@@ -202,6 +203,13 @@ app.get('/select', function(req, res, next) {
     });
 });
 
+app.get('/token', async (req,res) => {
+    request.get(tokenUrl, async (error, response, body) => {
+        code = response.statusCode;
+        res.status(code).send(body);
+    });
+});
+
 app.get('/proxy/*', function (req, res, next) {
     // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
 
@@ -253,6 +261,8 @@ app.get('/proxy/*', function (req, res, next) {
         res.status(code).send(body);
     });
 });
+
+
 
 app.listen(port, function (err) {
     console.log("running server on port " + port);
