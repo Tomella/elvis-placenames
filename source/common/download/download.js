@@ -2,52 +2,52 @@
    angular.module("placenames.download", ['placenames.zone'])
 
       .directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", "zoneService",
-               function (flashService, messageService, placenamesDownloadService, zoneService) {
-         return {
-            templateUrl: "/download/download.html",
-            scope: {
-               data: "="
-            },
-            link: function (scope) {
-               scope.processing = placenamesDownloadService.data;
-               // Gets the counts per zone but they can be a bit iffy so we use them for a guide only
-               zoneService.counts(scope.data).then(results => {
-                  scope.outCoordSys = results;
-               });
-
-               scope.$watch("processing.filename", testFilename);
-
-               scope.submit = function () {
-                  let flasher = flashService.add("Submitting your job for processing", null, true);
-                  if (scope.processing.outFormat.restrictCoordSys) {
-                     scope.processing.outCoordSys = scope.processing.config.outCoordSys.find(coord => coord.code === scope.processing.outFormat.restrictCoordSys);
-                     messageService.warn(scope.processing.outFormat.restrictMessage);
-                  }
-
-                  placenamesDownloadService.submit(scope.data.params).then(({data}) => {
-                     flasher.remove();
-                     if (data.serviceResponse.statusInfo.status === "success") {
-                        messageService.success("Your job has successfuly been queued for processing.");
-                     } else {
-                        messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
-                     }
-                  }).catch(() => {
-                     flasher.remove();
-                     messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
+         function (flashService, messageService, placenamesDownloadService, zoneService) {
+            return {
+               templateUrl: "/download/download.html",
+               scope: {
+                  data: "="
+               },
+               link: function (scope) {
+                  scope.processing = placenamesDownloadService.data;
+                  // Gets the counts per zone but they can be a bit iffy so we use them for a guide only
+                  zoneService.counts(scope.data).then(results => {
+                     scope.outCoordSys = results;
                   });
-               };
 
-               testFilename();
+                  scope.$watch("processing.filename", testFilename);
 
-               function testFilename(value) {
-                  if(scope.processing.filename && scope.processing.filename.length > 16) {
-                     scope.processing.filename = scope.processing.filename.substr(0, 16);
+                  scope.submit = function () {
+                     let flasher = flashService.add("Submitting your job for processing", null, true);
+                     if (scope.processing.outFormat.restrictCoordSys) {
+                        scope.processing.outCoordSys = scope.processing.config.outCoordSys.find(coord => coord.code === scope.processing.outFormat.restrictCoordSys);
+                        messageService.warn(scope.processing.outFormat.restrictMessage);
+                     }
+
+                     placenamesDownloadService.submit(scope.data.params).then(({ data }) => {
+                        flasher.remove();
+                        if (data.serviceResponse.statusInfo.status === "success") {
+                           messageService.success("Your job has successfuly been queued for processing.");
+                        } else {
+                           messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
+                        }
+                     }).catch(() => {
+                        flasher.remove();
+                        messageService.warn("The request has failed. Please try again later and if problems persist please contact us");
+                     });
+                  };
+
+                  testFilename();
+
+                  function testFilename(value) {
+                     if (scope.processing.filename && scope.processing.filename.length > 16) {
+                        scope.processing.filename = scope.processing.filename.substr(0, 16);
+                     }
+                     scope.processing.validFilename = !scope.processing.filename || scope.processing.filename.match(/^[a-zA-Z0-9\_\-]+$/);
                   }
-                  scope.processing.validFilename = !scope.processing.filename || scope.processing.filename.match(/^[a-zA-Z0-9\_\-]+$/);
                }
-            }
-         };
-      }])
+            };
+         }])
 
       .factory("placenamesDownloadService", ["$http", "$q", "configService", "storageService", function ($http, $q, configService, storageService) {
          const EMAIL_KEY = "download_email";
@@ -100,27 +100,18 @@
                }
 
                let url = this.data.config.serviceUrl;
-               return $q(function(resolve, reject) {
-                  $http.get("/token").then(function(response) {
-                     let token = response.data;
-
-                     return $http({
-                        url: url,
-                        method: 'POST',
-                        //assign content-type as undefined, the browser
-                        //will assign the correct boundary for us
-                        //prevents serializing payload.  don't do it.
-                        headers: {
-                           "Content-Type": "application/json",
-                           'Authorization': "fmetoken token=" + token
-                        },
-                        data: postData
-                     }).then(function(response) {
-                        resolve(response);
-                     });
+               return $q(function (resolve, reject) {
+                  return $http({
+                     url: url,
+                     method: 'POST',
+                     headers: {
+                        "Content-Type": "application/json"
+                     },
+                     data: postData
+                  }).then(function (response) {
+                     resolve(response);
                   });
                });
-
             },
 
             setEmail: function (email) {
@@ -159,7 +150,7 @@
                   response;
                try {
                   response = extent.intersects([[yMin, xMin], [yMax, xMax]]);
-               } catch(e) {
+               } catch (e) {
                   console.error("Couldn't test for intersects", e);
                   return false;
                }

@@ -20,25 +20,6 @@ under the License.
 "use strict";
 
 {
-  angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
-    return {
-      restrict: 'EA',
-      templateUrl: "/authorities/authorities.html",
-      link: function link(scope) {
-        groupsService.getAuthorities().then(function (authorities) {
-          return scope.authorities = authorities;
-        });
-
-        scope.change = function (item) {
-          searchService.filtered();
-        };
-      }
-    };
-  }]);
-}
-"use strict";
-
-{
   angular.module('placenames.autoscroll', []).directive('autoScroll', ['$timeout', '$rootScope', function ($timeout, $rootScope) {
     return {
       scope: {
@@ -90,6 +71,25 @@ under the License.
 "use strict";
 
 {
+  angular.module("placenames.authorities", []).directive('placenamesAuthorities', ["groupsService", "searchService", function (groupsService, searchService) {
+    return {
+      restrict: 'EA',
+      templateUrl: "/authorities/authorities.html",
+      link: function link(scope) {
+        groupsService.getAuthorities().then(function (authorities) {
+          return scope.authorities = authorities;
+        });
+
+        scope.change = function (item) {
+          searchService.filtered();
+        };
+      }
+    };
+  }]);
+}
+"use strict";
+
+{
   angular.module("placenames.categories", []).directive("placenamesCategories", ['groupsService', "searchService", function (groupsService, searchService) {
     return {
       templateUrl: "/categories/categories.html",
@@ -125,10 +125,6 @@ var declusteredIcon = L.icon({
   shadowSize: [25, 25]
 });
 "use strict";
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 {
   angular.module("placenames.download", ['placenames.zone']).directive("placenamesDownload", ["flashService", "messageService", "placenamesDownloadService", "zoneService", function (flashService, messageService, placenamesDownloadService, zoneService) {
@@ -231,44 +227,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           postData.file_name = this.data.fileName;
         }
 
+        var url = this.data.config.serviceUrl;
         return $q(function (resolve, reject) {
-          var _this = this;
-
-          $http.get("/token").then( /*#__PURE__*/function () {
-            var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
-              var token;
-              return regeneratorRuntime.wrap(function _callee$(_context) {
-                while (1) {
-                  switch (_context.prev = _context.next) {
-                    case 0:
-                      token = response.data;
-                      return _context.abrupt("return", $http({
-                        url: _this.data.config.serviceUrl,
-                        method: 'POST',
-                        //assign content-type as undefined, the browser
-                        //will assign the correct boundary for us
-                        //prevents serializing payload.  don't do it.
-                        headers: {
-                          "Content-Type": "application/json",
-                          'Authorization': "fmetoken token=" + token
-                        },
-                        data: postData
-                      }).then(function (reponse) {
-                        resolve(response.data);
-                      }));
-
-                    case 2:
-                    case "end":
-                      return _context.stop();
-                  }
-                }
-              }, _callee);
-            }));
-
-            return function (_x) {
-              return _ref3.apply(this, arguments);
-            };
-          }());
+          $http.get("/token").then(function (response) {
+            var token = response.data;
+            return $http({
+              url: url,
+              method: 'POST',
+              //assign content-type as undefined, the browser
+              //will assign the correct boundary for us
+              //prevents serializing payload.  don't do it.
+              headers: {
+                "Content-Type": "application/json",
+                'Authorization': "fmetoken token=" + token
+              },
+              data: postData
+            }).then(function (response) {
+              resolve(response);
+            });
+          });
         });
       },
       setEmail: function setEmail(email) {
@@ -1098,6 +1075,35 @@ function HelpService($http) {
 "use strict";
 
 {
+  angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
+    return {
+      restrict: 'EA',
+      templateUrl: "/pill/pill.html",
+      scope: {
+        item: "=",
+        update: "&",
+        name: "@?"
+      },
+      link: function link(scope) {
+        if (scope.item.label) {
+          scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
+        }
+
+        if (!scope.name) {
+          scope.name = "name";
+        }
+
+        scope.deselect = function () {
+          scope.item.selected = false;
+          searchService.filtered();
+        };
+      }
+    };
+  }]);
+}
+"use strict";
+
+{
   angular.module("placenames.proxy", []).provider("proxy", function () {
     this.$get = ['$http', '$q', function ($http, $q) {
       var base = "proxy/";
@@ -1124,35 +1130,6 @@ function HelpService($http) {
       };
     }];
   });
-}
-"use strict";
-
-{
-  angular.module("placenames.pill", []).directive('placenamesPill', ['searchService', function (searchService) {
-    return {
-      restrict: 'EA',
-      templateUrl: "/pill/pill.html",
-      scope: {
-        item: "=",
-        update: "&",
-        name: "@?"
-      },
-      link: function link(scope) {
-        if (scope.item.label) {
-          scope.label = scope.item.label.charAt(0).toUpperCase() + scope.item.label.slice(1) + ": ";
-        }
-
-        if (!scope.name) {
-          scope.name = "name";
-        }
-
-        scope.deselect = function () {
-          scope.item.selected = false;
-          searchService.filtered();
-        };
-      }
-    };
-  }]);
 }
 "use strict";
 
@@ -1195,6 +1172,33 @@ function HelpService($http) {
       }]
     };
   });
+}
+"use strict";
+
+{
+  angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
+    return {
+      scope: {
+        more: "&",
+        buffer: "=?"
+      },
+      link: function link(scope, element, attrs) {
+        var fetching;
+        if (!scope.buffer) scope.buffer = 100;
+        element.on("scroll", function (event) {
+          var target = event.currentTarget;
+          $timeout.cancel(fetching);
+          fetching = $timeout(bouncer, 120);
+
+          function bouncer() {
+            if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
+              scope.more();
+            }
+          }
+        });
+      }
+    };
+  }]);
 }
 "use strict";
 
@@ -1637,33 +1641,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
 "use strict";
 
 {
-  angular.module("placenames.scroll", []).directive("commonScroller", ['$timeout', function ($timeout) {
-    return {
-      scope: {
-        more: "&",
-        buffer: "=?"
-      },
-      link: function link(scope, element, attrs) {
-        var fetching;
-        if (!scope.buffer) scope.buffer = 100;
-        element.on("scroll", function (event) {
-          var target = event.currentTarget;
-          $timeout.cancel(fetching);
-          fetching = $timeout(bouncer, 120);
-
-          function bouncer() {
-            if (scope.more && target.scrollHeight - target.scrollTop <= target.clientHeight + scope.buffer) {
-              scope.more();
-            }
-          }
-        });
-      }
-    };
-  }]);
-}
-"use strict";
-
-{
   angular.module("placenames.side-panel", []).factory('panelSideFactory', ['$rootScope', '$timeout', function ($rootScope, $timeout) {
     var state = {
       left: {
@@ -1904,23 +1881,6 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
 "use strict";
 
 {
-  angular.module('placenames.survey', []).directive('survey', ['$window', 'configService', function ($window, configService) {
-    return {
-      restrict: 'AE',
-      templateUrl: '/survey/survey.html',
-      link: function link($scope) {
-        $scope.openSurvey = function () {
-          configService.getConfig("surveyUrl").then(function (url) {
-            $window.open(url, "_blank");
-          });
-        };
-      }
-    };
-  }]);
-}
-"use strict";
-
-{
   angular.module("placenames.restrict.pan", []).directive("restrictPan", ['mapService', function (mapService) {
     return {
       restrict: "AE",
@@ -1989,6 +1949,23 @@ function ResultsService(proxy, $http, $rootScope, $timeout, configService, mapSe
   }]).factory('placenamesUtilsService', ['configService', function (configService) {
     var service = {};
     return service;
+  }]);
+}
+"use strict";
+
+{
+  angular.module('placenames.survey', []).directive('survey', ['$window', 'configService', function ($window, configService) {
+    return {
+      restrict: 'AE',
+      templateUrl: '/survey/survey.html',
+      link: function link($scope) {
+        $scope.openSurvey = function () {
+          configService.getConfig("surveyUrl").then(function (url) {
+            $window.open(url, "_blank");
+          });
+        };
+      }
+    };
   }]);
 }
 "use strict";
@@ -2234,27 +2211,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }]
     };
   });
-}
-"use strict";
-
-{
-  angular.module("antarctic.toolbar", []).directive("antarcticToolbar", [function () {
-    return {
-      templateUrl: "/toolbar/toolbar.html",
-      controller: 'toolbarLinksCtrl',
-      transclude: true
-    };
-  }]).controller("toolbarLinksCtrl", ["$scope", "configService", function ($scope, configService) {
-    var self = this;
-    configService.getConfig().then(function (config) {
-      self.links = config.toolbarLinks;
-    });
-    $scope.item = "";
-
-    $scope.toggleItem = function (item) {
-      $scope.item = $scope.item === item ? "" : item;
-    };
-  }]);
 }
 "use strict";
 
@@ -2681,6 +2637,27 @@ function getBounds(map, restrictTo) {
     var acc = Math.abs(value);
     return sign * (acc < limit ? acc : limit);
   }
+}
+"use strict";
+
+{
+  angular.module("antarctic.toolbar", []).directive("antarcticToolbar", [function () {
+    return {
+      templateUrl: "/toolbar/toolbar.html",
+      controller: 'toolbarLinksCtrl',
+      transclude: true
+    };
+  }]).controller("toolbarLinksCtrl", ["$scope", "configService", function ($scope, configService) {
+    var self = this;
+    configService.getConfig().then(function (config) {
+      self.links = config.toolbarLinks;
+    });
+    $scope.item = "";
+
+    $scope.toggleItem = function (item) {
+      $scope.item = $scope.item === item ? "" : item;
+    };
+  }]);
 }
 angular.module('antarcticviewer.templates', []).run(['$templateCache', function($templateCache) {$templateCache.put('/australia/australia.html','<button type="button" class="map-tool-toggle-btn" ng-click="go()" title="Change to the view of greater Australia">\r\n   <span>Go to Australia View</span>\r\n</button>');
 $templateCache.put('/toolbar/toolbar.html','<div class="placenames-toolbar noPrint">\r\n    <div class="toolBarContainer">\r\n        <div>\r\n            <ul class="left-toolbar-items">\r\n               <li>\r\n                  <australia-view></australia-view>\r\n               </li>\r\n            </ul>\r\n            <ul class="right-toolbar-items">\r\n                <li>\r\n                    <panel-trigger panel-id="search" panel-width="540px" name="Search Results" icon-class="fa-list" title="When a search has completed this allows the showing and hiding of the results">\r\n                        <placenames-results-summary state="state"></placenames-results-summary>\r\n                    </panel-trigger>\r\n                </li>\r\n                <li ng-if="state.searched.data.response.numFound">\r\n                   <placenames-zoom-to-all center="state.searched.center" zoom="state.searched.zoom" bounds="state.searched.bounds" text="Show searched area" icon="fa-object-group"></placenames-zoom-to-all>\r\n                </li>\r\n                <li reset-page></li>\r\n                <li product-specification></li>\r\n                <li survey></li>\r\n                <li>\r\n                  <panel-trigger panel-id="help" panel-width="540px" name="Help" icon-class="fa-question-circle-o" title="Show help"></panel-trigger>\r\n               </li>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n</div>');

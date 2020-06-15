@@ -10,7 +10,6 @@ process.env.NO_PROXY = "localhost";
 
 const SERVICES_ROOT = "http://www.ga.gov.au/elvis";
 const NSW_METADATA_TEMPLATE = "https://s3-ap-southeast-2.amazonaws.com/nsw.elvis/z5${zone}/Metadata/";
-const tokenUrl = "https://elevation-dev.fsdf.org.au/token";
 
 const START_ABSTRACT_SENTINEL = "<h3>Abstract:</h3>";
 const START_ABSTRACT_SENTINEL_LENGTH = START_ABSTRACT_SENTINEL.length;
@@ -203,12 +202,12 @@ app.get('/select', function(req, res, next) {
     });
 });
 
-app.get('/token', async (req,res) => {
-    request.get(tokenUrl, async (error, response, body) => {
-        code = response.statusCode;
-        res.status(code).send(body);
-    });
+// TODO: Need to change this to proxy elsewhere once we have a valid service somewhere.
+app.post('/placenames/download', async (req, res) => {
+    console.log(req);
+    res.status(200).send("OK");
 });
+
 
 app.get('/proxy/*', function (req, res, next) {
     // look for request like http://localhost:8080/proxy/http://example.com/file?query=1
@@ -226,7 +225,7 @@ app.get('/proxy/*', function (req, res, next) {
         return res.status(400).send('No url specified.');
     }
 
-    // We only want a very few requests to get through. Via the whitelist.
+    // We only want a very few requests  get through. Via the whitelist.
     var host = remoteUrl.host;
     if (!validHosts.some((valid) => {
         return host.indexOf(valid) > -1;
