@@ -17,7 +17,7 @@
     "url": "https://github.com/Tomella/elvis-placenames"
   },
   "dependencies": {
-    "aws-sdk": "^2.673.0",
+    "aws-sdk": "^2.814.0",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.0",
     "pg": "^8.1.0",
